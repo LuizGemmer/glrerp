@@ -4,6 +4,8 @@
  */
 package glrerp;
 
+import view.telaPrincipal;
+
 /**
  *
  * @author rg
@@ -19,6 +21,8 @@ public class Glrerp {
         //agora vai
         //poraaaa!!!
         // Pull from upstream
+        
+        new telaPrincipal().setVisible(true);
     }
     
 }
