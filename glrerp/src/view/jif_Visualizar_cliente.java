@@ -4,17 +4,29 @@
  */
 package view;
 
+import dao.ClienteDAO;
+import entidade.Cliente;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ruang
  */
 public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
 
+    private final ClienteDAO clienteDAO = new ClienteDAO();
+    private ArrayList<Cliente> clientes = clienteDAO.consultarTodos("cliente");
+    
+    private DefaultTableModel tableModel;
+    
     /**
      * Creates new form jif_Visualizar_cliente
      */
     public jif_Visualizar_cliente() {
         initComponents();
+        this.tableModel = (DefaultTableModel) jTable1.getModel();
+        this.getTableItems("");
     }
 
     /**
@@ -105,6 +117,32 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void getTableItems(String termoBusca) {
+        // Remove os itens da tabela
+        this.tableModel.getDataVector().removeAllElements();
+        this.tableModel.fireTableDataChanged();
+        
+        // filtra os novos itens
+        ArrayList<String[]> newData = new ArrayList();
+        for(Cliente cliente : clientes) {
+            String[] data = {
+                Integer.toString(cliente.getId()), 
+                cliente.getNome(), 
+                cliente.getCpf()
+            };
+            
+            if(termoBusca.equals("")) {
+                newData.add(data);
+            } else if (data[2].contains(termoBusca)) {
+                newData.add(data);
+            }
+        }
+        
+        for(String[] data : newData) {
+            this.tableModel.addRow(data);
+        }
+    }
+    
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
         this.dispose();
 
