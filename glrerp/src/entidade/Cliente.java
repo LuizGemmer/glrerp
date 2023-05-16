@@ -7,12 +7,12 @@ package entidade;
  */
 public class Cliente {
     private int id;
-    private String tipo;
     private String nome;
     private String cpf;
     private String email;
     private String telefone;
     private String endereco;
+    private String tipo;
 
     public int getId() {
         return id;
