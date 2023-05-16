@@ -1,6 +1,8 @@
-
 package glrerp;
 
+import apoio.ConexaoBD;
+import javax.swing.JOptionPane;
+import view.telaLoggin;
 import view.telaPrincipal;
 
 /**
@@ -13,13 +15,14 @@ public class Glrerp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        // Pull from upstream
-        //teste
-        //teste2
-        //teste3
-        
-        new telaPrincipal().setVisible(true);
+
+        //Testa se tem conexão com o banco de dados PostgreSQL
+        if (ConexaoBD.getInstance().getConnection() != null) {
+            new telaLoggin().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de Dados!", "ERRO BANCO DE DADOS", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
-    
+
 }
