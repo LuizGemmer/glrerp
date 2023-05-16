@@ -25,29 +25,29 @@ public class telaPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem15 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
-        jMenu7 = new javax.swing.JMenu();
-        jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
-        jMenu8 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jm_cliente = new javax.swing.JMenu();
+        jm_cliente_visualizar = new javax.swing.JMenuItem();
+        jm_cliente_cadastro = new javax.swing.JMenuItem();
+        jm_fornecedor = new javax.swing.JMenu();
+        jm_fornecedor_visualizar = new javax.swing.JMenuItem();
+        jm_fornecedor_cadastro = new javax.swing.JMenuItem();
+        jm_item = new javax.swing.JMenu();
+        jm_item_visualizar = new javax.swing.JMenuItem();
+        jm_item_cadastro = new javax.swing.JMenuItem();
+        jm_producao = new javax.swing.JMenu();
+        jm_producao_visualizar = new javax.swing.JMenuItem();
+        jm_producao_cadastro = new javax.swing.JMenuItem();
+        jm_vendas = new javax.swing.JMenu();
+        jm_vendas_visualizar = new javax.swing.JMenuItem();
+        jm_vendas_cadastro = new javax.swing.JMenuItem();
+        jm_almox = new javax.swing.JMenu();
+        jm_almox_visualizar = new javax.swing.JMenuItem();
+        jm_almox_cadastro = new javax.swing.JMenuItem();
+        jm_user = new javax.swing.JMenu();
+        jm_user_visualizar = new javax.swing.JMenuItem();
+        jm_user_cadastro = new javax.swing.JMenuItem();
+        jm_ajuda = new javax.swing.JMenu();
+        jm_ajuda_sair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -86,142 +86,142 @@ public class telaPrincipal extends javax.swing.JFrame {
         jMenuBar2.setMinimumSize(new java.awt.Dimension(434, 35));
         jMenuBar2.setPreferredSize(new java.awt.Dimension(434, 35));
 
-        jMenu3.setBackground(new java.awt.Color(250, 250, 250));
-        jMenu3.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu3.setText("Cliente");
+        jm_cliente.setBackground(new java.awt.Color(250, 250, 250));
+        jm_cliente.setForeground(new java.awt.Color(255, 255, 255));
+        jm_cliente.setText("Cliente");
 
-        jMenuItem1.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem1.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem1.setText("Visualizar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jm_cliente_visualizar.setBackground(new java.awt.Color(13, 71, 161));
+        jm_cliente_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_cliente_visualizar.setText("Visualizar");
+        jm_cliente_visualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jm_cliente_visualizarActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem1);
+        jm_cliente.add(jm_cliente_visualizar);
 
-        jMenuItem15.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem15.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem15.setText("Cadastro");
-        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+        jm_cliente_cadastro.setBackground(new java.awt.Color(13, 71, 161));
+        jm_cliente_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_cliente_cadastro.setText("Cadastro");
+        jm_cliente_cadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem15ActionPerformed(evt);
+                jm_cliente_cadastroActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem15);
+        jm_cliente.add(jm_cliente_cadastro);
 
-        jMenuBar2.add(jMenu3);
+        jMenuBar2.add(jm_cliente);
 
-        jMenu4.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu4.setText("Fornecedor");
+        jm_fornecedor.setForeground(new java.awt.Color(255, 255, 255));
+        jm_fornecedor.setText("Fornecedor");
 
-        jMenuItem3.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem3.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem3.setText("Visualizar");
-        jMenu4.add(jMenuItem3);
+        jm_fornecedor_visualizar.setBackground(new java.awt.Color(13, 71, 161));
+        jm_fornecedor_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_fornecedor_visualizar.setText("Visualizar");
+        jm_fornecedor.add(jm_fornecedor_visualizar);
 
-        jMenuItem4.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem4.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem4.setText("Cadastro");
-        jMenu4.add(jMenuItem4);
+        jm_fornecedor_cadastro.setBackground(new java.awt.Color(13, 71, 161));
+        jm_fornecedor_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_fornecedor_cadastro.setText("Cadastro");
+        jm_fornecedor.add(jm_fornecedor_cadastro);
 
-        jMenuBar2.add(jMenu4);
+        jMenuBar2.add(jm_fornecedor);
 
-        jMenu1.setBackground(new java.awt.Color(13, 71, 161));
-        jMenu1.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu1.setText("Item");
+        jm_item.setBackground(new java.awt.Color(13, 71, 161));
+        jm_item.setForeground(new java.awt.Color(255, 255, 255));
+        jm_item.setText("Item");
 
-        jMenuItem5.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem5.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem5.setText("Visualizar");
-        jMenu1.add(jMenuItem5);
+        jm_item_visualizar.setBackground(new java.awt.Color(13, 71, 161));
+        jm_item_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_item_visualizar.setText("Visualizar");
+        jm_item.add(jm_item_visualizar);
 
-        jMenuItem6.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem6.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem6.setText("Cadastro");
-        jMenu1.add(jMenuItem6);
+        jm_item_cadastro.setBackground(new java.awt.Color(13, 71, 161));
+        jm_item_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_item_cadastro.setText("Cadastro");
+        jm_item.add(jm_item_cadastro);
 
-        jMenuBar2.add(jMenu1);
+        jMenuBar2.add(jm_item);
 
-        jMenu2.setBackground(new java.awt.Color(13, 71, 161));
-        jMenu2.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu2.setText("Produção");
+        jm_producao.setBackground(new java.awt.Color(13, 71, 161));
+        jm_producao.setForeground(new java.awt.Color(255, 255, 255));
+        jm_producao.setText("Produção");
 
-        jMenuItem7.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem7.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem7.setText("Visualizar");
-        jMenu2.add(jMenuItem7);
+        jm_producao_visualizar.setBackground(new java.awt.Color(13, 71, 161));
+        jm_producao_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_producao_visualizar.setText("Visualizar");
+        jm_producao.add(jm_producao_visualizar);
 
-        jMenuItem8.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem8.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem8.setText("Cadastro");
-        jMenu2.add(jMenuItem8);
+        jm_producao_cadastro.setBackground(new java.awt.Color(13, 71, 161));
+        jm_producao_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_producao_cadastro.setText("Cadastro");
+        jm_producao.add(jm_producao_cadastro);
 
-        jMenuBar2.add(jMenu2);
+        jMenuBar2.add(jm_producao);
 
-        jMenu5.setBackground(new java.awt.Color(13, 71, 161));
-        jMenu5.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu5.setText("Vendas");
+        jm_vendas.setBackground(new java.awt.Color(13, 71, 161));
+        jm_vendas.setForeground(new java.awt.Color(255, 255, 255));
+        jm_vendas.setText("Vendas");
 
-        jMenuItem9.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem9.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem9.setText("Visualizar");
-        jMenu5.add(jMenuItem9);
+        jm_vendas_visualizar.setBackground(new java.awt.Color(13, 71, 161));
+        jm_vendas_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_vendas_visualizar.setText("Visualizar");
+        jm_vendas.add(jm_vendas_visualizar);
 
-        jMenuItem10.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem10.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem10.setText("Cadastro");
-        jMenu5.add(jMenuItem10);
+        jm_vendas_cadastro.setBackground(new java.awt.Color(13, 71, 161));
+        jm_vendas_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_vendas_cadastro.setText("Cadastro");
+        jm_vendas.add(jm_vendas_cadastro);
 
-        jMenuBar2.add(jMenu5);
+        jMenuBar2.add(jm_vendas);
 
-        jMenu6.setBackground(new java.awt.Color(13, 71, 161));
-        jMenu6.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu6.setText("Almoxarifado");
+        jm_almox.setBackground(new java.awt.Color(13, 71, 161));
+        jm_almox.setForeground(new java.awt.Color(255, 255, 255));
+        jm_almox.setText("Almoxarifado");
 
-        jMenuItem11.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem11.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem11.setText("Visualizar");
-        jMenu6.add(jMenuItem11);
+        jm_almox_visualizar.setBackground(new java.awt.Color(13, 71, 161));
+        jm_almox_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_almox_visualizar.setText("Visualizar");
+        jm_almox.add(jm_almox_visualizar);
 
-        jMenuItem12.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem12.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem12.setText("Cadastro");
-        jMenu6.add(jMenuItem12);
+        jm_almox_cadastro.setBackground(new java.awt.Color(13, 71, 161));
+        jm_almox_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_almox_cadastro.setText("Cadastro");
+        jm_almox.add(jm_almox_cadastro);
 
-        jMenuBar2.add(jMenu6);
+        jMenuBar2.add(jm_almox);
 
-        jMenu7.setBackground(new java.awt.Color(13, 71, 161));
-        jMenu7.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu7.setText("Usuário");
+        jm_user.setBackground(new java.awt.Color(13, 71, 161));
+        jm_user.setForeground(new java.awt.Color(255, 255, 255));
+        jm_user.setText("Usuário");
 
-        jMenuItem13.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem13.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem13.setText("Visualizar");
-        jMenu7.add(jMenuItem13);
+        jm_user_visualizar.setBackground(new java.awt.Color(13, 71, 161));
+        jm_user_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_user_visualizar.setText("Visualizar");
+        jm_user.add(jm_user_visualizar);
 
-        jMenuItem14.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem14.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem14.setText("Cadastro");
-        jMenu7.add(jMenuItem14);
+        jm_user_cadastro.setBackground(new java.awt.Color(13, 71, 161));
+        jm_user_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_user_cadastro.setText("Cadastro");
+        jm_user.add(jm_user_cadastro);
 
-        jMenuBar2.add(jMenu7);
+        jMenuBar2.add(jm_user);
 
-        jMenu8.setBackground(new java.awt.Color(13, 71, 161));
-        jMenu8.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu8.setText("Ajuda");
+        jm_ajuda.setBackground(new java.awt.Color(13, 71, 161));
+        jm_ajuda.setForeground(new java.awt.Color(255, 255, 255));
+        jm_ajuda.setText("Ajuda");
 
-        jMenuItem2.setBackground(new java.awt.Color(13, 71, 161));
-        jMenuItem2.setForeground(new java.awt.Color(255, 255, 255));
-        jMenuItem2.setText("Sair");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jm_ajuda_sair.setBackground(new java.awt.Color(13, 71, 161));
+        jm_ajuda_sair.setForeground(new java.awt.Color(255, 255, 255));
+        jm_ajuda_sair.setText("Sair");
+        jm_ajuda_sair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jm_ajuda_sairActionPerformed(evt);
             }
         });
-        jMenu8.add(jMenuItem2);
+        jm_ajuda.add(jm_ajuda_sair);
 
-        jMenuBar2.add(jMenu8);
+        jMenuBar2.add(jm_ajuda);
 
         setJMenuBar(jMenuBar2);
 
@@ -239,19 +239,21 @@ public class telaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jm_cliente_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_cliente_visualizarActionPerformed
         jif_Visualizar_cliente jifVis_cliente = new jif_Visualizar_cliente();
         jDesktopPane1.add(jifVis_cliente);
         jifVis_cliente.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jm_cliente_visualizarActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void jm_ajuda_sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_ajuda_sairActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_jm_ajuda_sairActionPerformed
 
-    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem15ActionPerformed
+    private void jm_cliente_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_cliente_cadastroActionPerformed
+        jif_Cadastro_cliente jif_cad_cliente = new jif_Cadastro_cliente();
+        jDesktopPane1.add(jif_cad_cliente);
+        jif_cad_cliente.setVisible(true);
+    }//GEN-LAST:event_jm_cliente_cadastroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -290,30 +292,30 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
-    private javax.swing.JMenuItem jMenuItem15;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu jm_ajuda;
+    private javax.swing.JMenuItem jm_ajuda_sair;
+    private javax.swing.JMenu jm_almox;
+    private javax.swing.JMenuItem jm_almox_cadastro;
+    private javax.swing.JMenuItem jm_almox_visualizar;
+    private javax.swing.JMenu jm_cliente;
+    private javax.swing.JMenuItem jm_cliente_cadastro;
+    private javax.swing.JMenuItem jm_cliente_visualizar;
+    private javax.swing.JMenu jm_fornecedor;
+    private javax.swing.JMenuItem jm_fornecedor_cadastro;
+    private javax.swing.JMenuItem jm_fornecedor_visualizar;
+    private javax.swing.JMenu jm_item;
+    private javax.swing.JMenuItem jm_item_cadastro;
+    private javax.swing.JMenuItem jm_item_visualizar;
+    private javax.swing.JMenu jm_producao;
+    private javax.swing.JMenuItem jm_producao_cadastro;
+    private javax.swing.JMenuItem jm_producao_visualizar;
+    private javax.swing.JMenu jm_user;
+    private javax.swing.JMenuItem jm_user_cadastro;
+    private javax.swing.JMenuItem jm_user_visualizar;
+    private javax.swing.JMenu jm_vendas;
+    private javax.swing.JMenuItem jm_vendas_cadastro;
+    private javax.swing.JMenuItem jm_vendas_visualizar;
     // End of variables declaration//GEN-END:variables
 }

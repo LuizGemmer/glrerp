@@ -137,7 +137,6 @@ public class telaLoggin extends javax.swing.JFrame {
         //Verifica se algum usuario e senha batem com o que o usuario digitou
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getNome().equals(user) && users.get(i).getSenha().equals(passwd)) {
-                System.out.println("Usuario e senhas corretas");
                 this.dispose();
                 new telaPrincipal().setVisible(true);
             } else {

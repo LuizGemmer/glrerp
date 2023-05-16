@@ -29,9 +29,9 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jbt_Acessar = new javax.swing.JButton();
-        jbt_Acessar1 = new javax.swing.JButton();
+        jtf_Buscar = new javax.swing.JTextField();
+        jbt_fechar = new javax.swing.JButton();
+        jbt_visualizar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
@@ -40,42 +40,33 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
 
         jTable1.setBackground(new java.awt.Color(250, 250, 250));
         jTable1.setForeground(new java.awt.Color(51, 51, 51));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jLabel1.setBackground(new java.awt.Color(250, 250, 250));
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Busca:");
 
-        jTextField1.setEditable(false);
-        jTextField1.setBackground(new java.awt.Color(250, 250, 250));
-        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Buscar.setEditable(false);
+        jtf_Buscar.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Buscar.setForeground(new java.awt.Color(0, 0, 0));
 
-        jbt_Acessar.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_Acessar.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_Acessar.setText("Fechar");
-        jbt_Acessar.addActionListener(new java.awt.event.ActionListener() {
+        jbt_fechar.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_fechar.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_fechar.setText("Fechar");
+        jbt_fechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_AcessarActionPerformed(evt);
+                jbt_fecharActionPerformed(evt);
             }
         });
 
-        jbt_Acessar1.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_Acessar1.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_Acessar1.setText("Visualizar");
-        jbt_Acessar1.addActionListener(new java.awt.event.ActionListener() {
+        jbt_visualizar.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_visualizar.setText("Visualizar");
+        jbt_visualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_Acessar1ActionPerformed(evt);
+                jbt_visualizarActionPerformed(evt);
             }
         });
 
@@ -89,11 +80,11 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jtf_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jbt_Acessar1))
+                        .addComponent(jbt_visualizar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbt_Acessar, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jbt_fechar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -102,34 +93,34 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbt_Acessar1, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
+                    .addComponent(jtf_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbt_visualizar, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
-                .addComponent(jbt_Acessar)
+                .addComponent(jbt_fechar)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbt_AcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_AcessarActionPerformed
+    private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
         this.dispose();
 
-    }//GEN-LAST:event_jbt_AcessarActionPerformed
+    }//GEN-LAST:event_jbt_fecharActionPerformed
 
-    private void jbt_Acessar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_Acessar1ActionPerformed
+    private void jbt_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_visualizarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbt_Acessar1ActionPerformed
+    }//GEN-LAST:event_jbt_visualizarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton jbt_Acessar;
-    private javax.swing.JButton jbt_Acessar1;
+    private javax.swing.JButton jbt_fechar;
+    private javax.swing.JButton jbt_visualizar;
+    private javax.swing.JTextField jtf_Buscar;
     // End of variables declaration//GEN-END:variables
 }
