@@ -27,7 +27,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
                     + "'" + o.getEmail() + "', "
                     + "'" + o.getTelefone() + "', "
                     + "'" + o.getEndereco() + "', "
-                    + "'cliente')";
+                    + "'" + o.getTipo() + "')";
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
