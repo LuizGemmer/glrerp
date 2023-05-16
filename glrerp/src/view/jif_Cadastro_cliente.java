@@ -4,6 +4,10 @@
  */
 package view;
 
+import dao.ClienteDAO;
+import entidade.Cliente;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ruang
@@ -40,6 +44,8 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
         jbt_fechar = new javax.swing.JButton();
         jbt_limpar = new javax.swing.JButton();
         jbt_cadastrar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jtf_email = new javax.swing.JTextField();
 
         jbt_Acessar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_Acessar.setForeground(new java.awt.Color(255, 255, 255));
@@ -111,6 +117,12 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("*E-mail");
+
+        jtf_email.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_email.setForeground(new java.awt.Color(0, 0, 0));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -118,23 +130,32 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(100, 100, 100)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jbt_cadastrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbt_limpar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbt_fechar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jbt_cadastrar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbt_limpar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jbt_fechar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtf_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtf_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtf_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtf_End, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 142, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -152,13 +173,17 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
                     .addComponent(jtf_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jtf_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jtf_End, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addGap(64, 64, 64)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbt_fechar)
@@ -197,11 +222,36 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
         jtf_Tel.setText("");
         jtf_Cpf.setText("");
         jtf_End.setText("");
+        jtf_email.setText("");
         jtf_Nome.requestFocus();
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
-        // TODO add your handling code here:
+        String nomeCliente = jtf_Nome.getText();
+        String telCliente = jtf_Tel.getText();
+        String cpfCliente = jtf_Cpf.getText();
+        String emailCliente = jtf_email.getText();
+        String endCliente = jtf_End.getText();
+
+        Cliente cliente = new Cliente();
+        cliente.setNome(nomeCliente);
+        cliente.setCpf(cpfCliente);
+        cliente.setEmail(emailCliente);
+        cliente.setTelefone(telCliente);
+        
+        ClienteDAO clienteDAO = new ClienteDAO();
+        
+        if (clienteDAO.salvar(cliente) == null){
+            JOptionPane.showMessageDialog(this, "Novo cliente salvo com sucesso!", "CLIENTE CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+            jifCliente_jtfNome.setText("");
+            jifCliente_jtfTel.setText("");
+            jifCliente_jtfCPF.setText("");
+            jifCliente_jtfEmail.setText("");
+            
+            jifCliente_jtfNome.requestFocus();
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo cliente!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
 
@@ -211,6 +261,7 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbt_Acessar;
     private javax.swing.JButton jbt_cadastrar;
@@ -220,5 +271,6 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtf_End;
     private javax.swing.JTextField jtf_Nome;
     private javax.swing.JTextField jtf_Tel;
+    private javax.swing.JTextField jtf_email;
     // End of variables declaration//GEN-END:variables
 }
