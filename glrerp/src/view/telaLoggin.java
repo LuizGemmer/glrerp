@@ -136,20 +136,12 @@ public class telaLoggin extends javax.swing.JFrame {
 
         //Verifica se algum usuario e senha batem com o que o usuario digitou
         for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getNome().equals(user)) {
-
-                if (users.get(i).getSenha().equals(passwd)) {
-                    System.out.println("Usuario e senhas corretas");
-                    this.dispose();
-                    jtf_user.setText("");
-                    jpf_passwd.setText("");
-                    new telaPrincipal().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Usuario ou Senha incorreto", "ERRO BANCO DE DADOS", JOptionPane.ERROR_MESSAGE);
-                    jpf_passwd.setText("");
-                }
+            if (users.get(i).getNome().equals(user) && users.get(i).getSenha().equals(passwd)) {
+                System.out.println("Usuario e senhas corretas");
+                this.dispose();
+                new telaPrincipal().setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(null, "Usuario ou Senha incorreto", "ERRO BANCO DE DADOS", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Usuario ou Senha incorreto", "ERRO BANCO DE DADOS", JOptionPane.ERROR_MESSAGE);
                 jpf_passwd.setText("");
             }
         }
