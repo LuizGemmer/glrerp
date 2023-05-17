@@ -72,7 +72,29 @@ public class ItemDAO implements IDAOT<Item> {
 
     @Override
     public Item consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Item item = new Item();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = ""
+                    + "SELECT * "
+                    + "FROM item "
+                    + "WHERE id=" + id + " AND ativo=true";
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+            while (retorno.next()) {
+                item.setId(retorno.getInt("id"));
+                item.setDescricao(retorno.getString("descricao").toUpperCase());
+                item.setId_grupo(retorno.getInt("id_grupo"));
+                item.setQtde_estoque(retorno.getDouble("qtde_estoque"));
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de Cliente/Fornecedor " + e);
+        }
+
+        return item;
     }
 
     @Override
