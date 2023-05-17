@@ -147,6 +147,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_item_cadastro.setBackground(new java.awt.Color(13, 71, 161));
         jm_item_cadastro.setForeground(new java.awt.Color(255, 255, 255));
         jm_item_cadastro.setText("Cadastro");
+        jm_item_cadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_item_cadastroActionPerformed(evt);
+            }
+        });
         jm_item.add(jm_item_cadastro);
 
         jMenuBar2.add(jm_item);
@@ -274,6 +279,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jifVis_item.setVisible(true);
     }//GEN-LAST:event_jm_item_visualizarActionPerformed
 
+
     private void jm_user_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_user_cadastroActionPerformed
 
         jif_Cadastro_user jif_cad_user = new jif_Cadastro_user();
@@ -281,6 +287,13 @@ public class telaPrincipal extends javax.swing.JFrame {
         jif_cad_user.setVisible(true);
           // TODO add your handling code here:
     }//GEN-LAST:event_jm_user_cadastroActionPerformed
+
+    private void jm_item_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_item_cadastroActionPerformed
+        jif_Cadastro_item jif_cad_item = new jif_Cadastro_item();
+        jDesktopPane1.add(jif_cad_item);
+        jif_cad_item.setVisible(true);
+    }//GEN-LAST:event_jm_item_cadastroActionPerformed
+
 
     /**
      * @param args the command line arguments

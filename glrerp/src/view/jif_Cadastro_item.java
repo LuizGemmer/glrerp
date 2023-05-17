@@ -1,9 +1,10 @@
 package view;
 
-import dao.ClienteDAO;
+import dao.GrupoDAO;
 import dao.ItemDAO;
-import entidade.Cliente;
+import entidade.Grupo;
 import entidade.Item;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,8 +13,14 @@ import javax.swing.JOptionPane;
  */
 public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
+    private DefaultComboBoxModel model;
+    
+    
     public jif_Cadastro_item() {
-        initComponents();
+        Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
+        this.model = new DefaultComboBoxModel(grupoComboBox);
+        System.out.println(grupoComboBox);
+        initComponents();                    
     }
 
     @SuppressWarnings("unchecked")
@@ -31,7 +38,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jbt_cadastrar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jtf_estoque_inicial = new javax.swing.JTextField();
-        jcb_Grupo = new javax.swing.JComboBox<>();
+        jcb_Grupo = new javax.swing.JComboBox<Grupo>();
 
         jbt_Acessar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_Acessar.setForeground(new java.awt.Color(255, 255, 255));
@@ -97,11 +104,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jcb_Grupo.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Grupo.setMaximumRowCount(150);
-        jcb_Grupo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jcb_GrupoMouseClicked(evt);
-            }
-        });
+        jcb_Grupo.setModel(this.model);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -200,13 +203,13 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         //Cadastro de Item
         //Atribuir dados inseridos pelo usuario a variaveis
         String descItem = jtf_Descricao.getText();
-//String grupoItem = jcb_Grupo.getSelectedItem().toString();
+        int grupoItem = ((Grupo)jcb_Grupo.getSelectedItem()).getId();
         double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText());
 
         //Setar nomes das variaveis para o objeto Item
         Item item = new Item();
         item.setDescricao(descItem);
-//item.setId_grupo(grupoItem);
+        item.setId_grupo(grupoItem);
         item.setQtde_estoque(estoqueItem);
 
         //Chamar classe ItemDAO para salvar dados no Banco de dados
@@ -220,16 +223,11 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             jtf_estoque_inicial.setText("");
             jtf_Descricao.requestFocus();
 
-            jtf_Descricao.requestFocus();
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao inserir dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
-
-    private void jcb_GrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcb_GrupoMouseClicked
-        //this.keyPressed = true;
-    }//GEN-LAST:event_jcb_GrupoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -242,7 +240,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbt_cadastrar;
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_limpar;
-    private javax.swing.JComboBox<String> jcb_Grupo;
+    private javax.swing.JComboBox<Grupo> jcb_Grupo;
     private javax.swing.JTextField jtf_Descricao;
     private javax.swing.JTextField jtf_estoque_inicial;
     // End of variables declaration//GEN-END:variables

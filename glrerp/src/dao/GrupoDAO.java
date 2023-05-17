@@ -72,7 +72,30 @@ public class GrupoDAO implements IDAOT<Grupo> {
 
     @Override
     public Grupo consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Grupo grupo = new Grupo();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = ""
+                    + "SELECT * "
+                    + "FROM grupo "
+                    + "WHERE id=" + id + " AND ativo=true";
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+            while (retorno.next()) {
+
+                grupo.setId(retorno.getInt("id"));
+                grupo.setDescricao(retorno.getString("descricao").toUpperCase());
+                grupo.setTipo(retorno.getString("tipo"));
+
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de Cliente/Fornecedor " + e);
+        }
+
+        return grupo;
     }
 
     @Override
