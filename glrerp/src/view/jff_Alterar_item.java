@@ -31,12 +31,8 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     
     private DefaultComboBoxModel model;
     
-    private DefaultComboBoxModel model;
     
     public jff_Alterar_item() {
-        Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
-        this.model = new DefaultComboBoxModel(grupoComboBox);
-        initComponents();                    
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
         initComponents();                    
@@ -318,7 +314,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         //Alterar cadastro de Item
         //Atribuir dados inseridos pelo usuario a variaveis
         String descItem = jtf_Descricao.getText();
-//String grupoItem = jcb_Grupo.getSelectedItem().toString();
+        int grupoItem = ((Grupo) jcb_Grupo.getSelectedItem()).getId();
         double estoqueItem = Double.parseDouble(jtf_estoque.getText());
         
 
@@ -326,7 +322,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         Item item = new Item();
         item.setId(Integer.parseInt(jll_id.getText()));
         item.setDescricao(descItem);
-        //item.setId_grupo(grupoItem);
+        item.setId_grupo(grupoItem);
         //item.setId_grupo(grupoItem);
         item.setQtde_estoque(estoqueItem);
         
@@ -436,7 +432,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_limpar;
     private javax.swing.JButton jbt_salvar_alteracao;
-    private javax.swing.JComboBox<Grupo> jcb_Grupo;
     private javax.swing.JComboBox<Grupo> jcb_Grupo;
     private javax.swing.JLabel jll_id;
     private javax.swing.JTextField jtf_Descricao;
