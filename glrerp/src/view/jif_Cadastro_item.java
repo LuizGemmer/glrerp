@@ -1,4 +1,3 @@
-
 package view;
 
 import dao.ClienteDAO;
@@ -13,7 +12,6 @@ import javax.swing.JOptionPane;
  */
 public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
-   
     public jif_Cadastro_item() {
         initComponents();
     }
@@ -190,7 +188,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
-        
+
         //Botão de limpar campos de TextField
         jtf_Descricao.setText("");
         jcb_Grupo.setSelectedIndex(0);
@@ -199,35 +197,34 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
-        /*
-        //Alterar cadastro de Item
+        //Cadastro de Item
         //Atribuir dados inseridos pelo usuario a variaveis
         String descItem = jtf_Descricao.getText();
 //String grupoItem = jcb_Grupo.getSelectedItem().toString();
-        double estoqueItem = Double.parseDouble(jtf_estoque.getText());
-        
+        double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText());
 
         //Setar nomes das variaveis para o objeto Item
         Item item = new Item();
-        item.setId(Integer.parseInt(jll_id.getText()));
         item.setDescricao(descItem);
 //item.setId_grupo(grupoItem);
         item.setQtde_estoque(estoqueItem);
-        
+
         //Chamar classe ItemDAO para salvar dados no Banco de dados
         ItemDAO itemDAO = new ItemDAO();
 
         //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (itemDAO.atualizar(item) == null) {
-            JOptionPane.showMessageDialog(this, "Cadastro alterado com sucesso!", "CADASTRADO ALTERADO", JOptionPane.INFORMATION_MESSAGE);
-            this.parente.setTableItems("");
-            this.dispose();
+        if (itemDAO.salvar(item) == null) {
+            JOptionPane.showMessageDialog(this, "Novo item salvo com sucesso!", "ITEM CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+            jtf_Descricao.setText("");
+            jcb_Grupo.setSelectedIndex(0);
+            jtf_estoque_inicial.setText("");
+            jtf_Descricao.requestFocus();
+
+            jtf_Descricao.requestFocus();
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Erro ao inserir dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
         }
-*/
-        
-      
+
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
     private void jcb_GrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcb_GrupoMouseClicked
