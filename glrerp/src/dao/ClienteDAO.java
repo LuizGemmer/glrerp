@@ -23,14 +23,15 @@ public class ClienteDAO implements IDAOT<Cliente> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "insert into cliente values "
+            String sql = "INSERT INTO cliente VALUES "
                     + "(default, "
                     + "'" + o.getNome() + "', "
                     + "'" + o.getCpf() + "', "
                     + "'" + o.getEmail() + "', "
                     + "'" + o.getTelefone() + "', "
                     + "'" + o.getEndereco() + "', "
-                    + "'" + o.getTipo() + "')";
+                    + "'" + o.getTipo() + "', "
+                    + "'true')";
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
@@ -44,11 +45,11 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
     @Override
     public String atualizar(Cliente o) {
-        
+
         //Atualizar um cliente/Fornecedor
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-            
+
             String sql = "UPDATE cliente SET "
                     + "nome='" + o.getNome() + "', "
                     + "cpf='" + o.getCpf() + "', "
@@ -56,7 +57,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
                     + "telefone='" + o.getTelefone() + "', "
                     + "endereco='" + o.getEndereco() + "' "
                     + "WHERE id='" + o.getId() + "'";
-            
+
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
             return null;
@@ -69,7 +70,21 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
     @Override
     public String excluir(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE cliente SET "
+                    + "situacao=false', "
+                    + "WHERE id=" + id;
+
+            int retorno = st.executeUpdate(sql);
+            System.out.println("SQL: " + sql);
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir Cliente/Fornecedor " + e);
+            return e.toString();
+        }
     }
 
     public ArrayList<Cliente> consultarTodos(String tipo) {
@@ -83,7 +98,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
             String sql = ""
                     + "SELECT * "
                     + "FROM cliente "
-                    + "WHERE TIPO LIKE'" + tipo + "' "
+                    + "WHERE TIPO LIKE'" + tipo + "' AND situacao=true "
                     + "ORDER BY nome";
 
             ResultSet retorno = st.executeQuery(sql);
@@ -117,19 +132,19 @@ public class ClienteDAO implements IDAOT<Cliente> {
     @Override
     public Cliente consultarId(int id) {
         Cliente cliente = new Cliente();
-        
+
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = ""
                     + "SELECT * "
                     + "FROM cliente "
-                    + "WHERE id=" + id;
-            
+                    + "WHERE id=" + id + " AND situacao=true";
+
             ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);
             while (retorno.next()) {
-               
+
                 cliente.setId(retorno.getInt("id"));
                 cliente.setNome(retorno.getString("nome"));
                 cliente.setCpf(retorno.getString("cpf"));
@@ -142,7 +157,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
         } catch (Exception e) {
             System.out.println("Erro ao consultar cadastro de Cliente/Fornecedor " + e);
         }
-        
+
         return cliente;
     }
 
@@ -154,7 +169,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
     @Override
     public ArrayList<String[]> paraListagemTabela(String filtro) {
         ArrayList<Cliente> clientes = consultarTodos("cliente");
-        
+
         ArrayList<String[]> tableData = new ArrayList();
         for (Cliente cliente : clientes) {
             String[] data = {
@@ -170,13 +185,13 @@ public class ClienteDAO implements IDAOT<Cliente> {
                 tableData.add(data);
             }
         }
-        
+
         return tableData;
     }
 
     @Override
     public String[] getTableColumns() {
-        return new String[] {"Id", "Nome", "CPF/CNPJ"};
+        return new String[]{"Id", "Nome", "CPF/CNPJ"};
     }
 
 }
