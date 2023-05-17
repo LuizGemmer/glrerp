@@ -165,7 +165,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
     @Override
     public ArrayList<String[]> paraListagemTabela(String filtro) {
-        ArrayList<Cliente> clientes = consultarTodos(filtro);
+        ArrayList<Cliente> clientes = consultarTodos("cliente");
 
         ArrayList<String[]> tableData = new ArrayList();
         for (Cliente cliente : clientes) {
