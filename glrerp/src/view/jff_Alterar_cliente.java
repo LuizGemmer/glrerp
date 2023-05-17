@@ -12,10 +12,14 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
 
     private jif_Visualizar_cliente tela;
 
-    public jff_Alterar_cliente(Cliente c, jif_Visualizar_cliente tela) {
+    private boolean inativarCampos;
+
+    private boolean keyPressed;
+
+    public jff_Alterar_cliente(Cliente c, jif_Visualizar_cliente tela, boolean inativar) {
         initComponents();
         this.tela = tela;
-
+        this.setVisible(true);
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + c.getId());
         jtf_Nome.setText(c.getNome());
@@ -23,6 +27,19 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
         jtf_Cpf.setText(c.getCpf());
         jtf_End.setText(c.getEndereco());
         jtf_Tel.setText(c.getTelefone());
+
+        //Quando clicar no botão DETALHAR na tela de visualização os campos não são editáveis
+        if (inativar) {
+            jInternalFrame1.setTitle("Detalhar Cadastro");
+            jtf_Nome.setEnabled(false);
+            jtf_email.setEnabled(false);
+            jtf_Cpf.setEnabled(false);
+            jtf_End.setEnabled(false);
+            jtf_Tel.setEnabled(false);
+            jbt_excluir.setEnabled(false);
+            jbt_limpar.setEnabled(false);
+            jbt_salvar_alteracao.setEnabled(false);
+        }
 
     }
 
@@ -74,15 +91,40 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
 
         jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Nome.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        jtf_Nome.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        jtf_Nome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtf_NomeKeyPressed(evt);
+            }
+        });
 
         jtf_Tel.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Tel.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Tel.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        jtf_Tel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtf_TelKeyPressed(evt);
+            }
+        });
 
         jtf_Cpf.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Cpf.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Cpf.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        jtf_Cpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtf_CpfKeyPressed(evt);
+            }
+        });
 
         jtf_End.setBackground(new java.awt.Color(250, 250, 250));
         jtf_End.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_End.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        jtf_End.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtf_EndKeyPressed(evt);
+            }
+        });
 
         jbt_fechar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_fechar.setForeground(new java.awt.Color(255, 255, 255));
@@ -116,6 +158,12 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
 
         jtf_email.setBackground(new java.awt.Color(250, 250, 250));
         jtf_email.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_email.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        jtf_email.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtf_emailKeyPressed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(238, 238, 238));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -273,7 +321,26 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
 
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
         //Botão de fechar
-        this.dispose();
+        if (keyPressed) {
+            Object[] options = {"Sim",
+                "Não"};
+            int n = JOptionPane.showOptionDialog(this,
+                    "Você tem alterações não salvas. Tem certeza que deseja sair?",
+                    "ALTERAÇÕES NÃO SALVAS",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            if (n == 0) {
+                this.dispose();
+            }else{
+                jtf_Nome.requestFocus(true);
+            }
+        } else {
+            this.dispose();
+        }
+
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
@@ -322,6 +389,26 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbt_excluirActionPerformed
+
+    private void jtf_NomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_NomeKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_NomeKeyPressed
+
+    private void jtf_TelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_TelKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_TelKeyPressed
+
+    private void jtf_emailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_emailKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_emailKeyPressed
+
+    private void jtf_CpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_CpfKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_CpfKeyPressed
+
+    private void jtf_EndKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_EndKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_EndKeyPressed
 
     /**
      * @param args the command line arguments
