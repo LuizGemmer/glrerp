@@ -17,9 +17,9 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
     private ArrayList<Cliente> clientes = clienteDAO.consultarTodos("cliente");
-    
+
     private DefaultTableModel tableModel;
-    
+
     /**
      * Creates new form jif_Visualizar_cliente
      */
@@ -41,9 +41,9 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jtf_Buscar = new javax.swing.JTextField();
         jbt_fechar = new javax.swing.JButton();
         jbt_visualizar = new javax.swing.JButton();
+        jtf_Buscar = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
@@ -83,10 +83,6 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Busca:");
 
-        jtf_Buscar.setEditable(false);
-        jtf_Buscar.setBackground(new java.awt.Color(250, 250, 250));
-        jtf_Buscar.setForeground(new java.awt.Color(0, 0, 0));
-
         jbt_fechar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_fechar.setForeground(new java.awt.Color(255, 255, 255));
         jbt_fechar.setText("Fechar");
@@ -104,6 +100,9 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
                 jbt_visualizarActionPerformed(evt);
             }
         });
+
+        jtf_Buscar.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Buscar.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,9 +127,9 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jtf_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbt_visualizar, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                    .addComponent(jbt_visualizar, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                    .addComponent(jtf_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
                 .addComponent(jbt_fechar)
@@ -144,35 +143,36 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
         // Remove os itens da tabela
         this.tableModel.getDataVector().removeAllElements();
         this.tableModel.fireTableDataChanged();
-        
+
         // filtra os novos itens
         ArrayList<String[]> newData = new ArrayList();
-        for(Cliente cliente : clientes) {
+        for (Cliente cliente : clientes) {
             String[] data = {
-                Integer.toString(cliente.getId()), 
-                cliente.getNome(), 
+                Integer.toString(cliente.getId()),
+                cliente.getNome(),
                 cliente.getCpf()
             };
-            
-            if(termoBusca.equals("")) {
+
+            if (termoBusca.equals("")) {
                 newData.add(data);
-            } else if (data[2].contains(termoBusca)) {
+            } else if (data[1].toLowerCase().contains(termoBusca.toLowerCase())
+                    || data[2].toLowerCase().contains(termoBusca.toLowerCase())) {
                 newData.add(data);
             }
         }
-        
-        for(String[] data : newData) {
+
+        for (String[] data : newData) {
             this.tableModel.addRow(data);
         }
     }
-    
+
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
         this.dispose();
 
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_visualizarActionPerformed
-        // TODO add your handling code here:
+        this.getTableItems(jtf_Buscar.getText());
     }//GEN-LAST:event_jbt_visualizarActionPerformed
 
 
