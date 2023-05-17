@@ -13,13 +13,13 @@ import javax.swing.table.DefaultTableModel;
 public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
 
     private final IDAOT DAOObject;
-    private final Class DAOType;
-
+    private final jff_ITelaAlterarCadastro telaAlterar;
+    
     private final DefaultTableModel tableModel;
 
-    public jif_Listagem_DAO(IDAOT dao) {
+    public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar) {
         this.DAOObject = dao;
-        this.DAOType = dao.getClass();
+        this.telaAlterar = telaAlterar;
         
         initComponents();
         this.tableModel = (DefaultTableModel) jTable1.getModel();
@@ -179,19 +179,20 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     private void jbt_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_alterarActionPerformed
         //Abrir tela de alteração e exclusão de cadastro
         int id = this.buscarNaTabela();
-        if (true) {
-            new jff_Alterar_cliente((Cliente)DAOObject.consultarId(id), this, false);
-        }
+        this.telaAlterar.setDAO((IDAOT) DAOObject.consultarId(id));
+        this.telaAlterar.setDetalhamento(true);
+        this.telaAlterar.setTelaParente(this);
+        this.telaAlterar.show(true);
         
     }//GEN-LAST:event_jbt_alterarActionPerformed
    
-    
     private void jbt_detalharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_detalharActionPerformed
         //Abrir tela de detalhamento de cadastro
         int id = this.buscarNaTabela();
-        if (true) {
-            new jff_Alterar_cliente((Cliente)DAOObject.consultarId(id), this, true);
-        }
+        this.telaAlterar.setDAO((IDAOT) DAOObject.consultarId(id));
+        this.telaAlterar.setDetalhamento(false);
+        this.telaAlterar.setTelaParente(this);
+        this.telaAlterar.show(true);
     }//GEN-LAST:event_jbt_detalharActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked

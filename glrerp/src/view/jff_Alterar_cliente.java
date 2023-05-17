@@ -12,39 +12,16 @@ import javax.swing.JOptionPane;
  */
 public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITelaAlterarCadastro {
 
-    private final jif_Listagem_DAO parente;
+    private jif_Listagem_DAO parente;
 
-    private final Cliente cliente;
+    private Cliente cliente;
 
     private boolean keyPressed;
 
-    public jff_Alterar_cliente(Cliente c, jif_Listagem_DAO tela, boolean inativar) {
-        cliente = (Cliente) c;
-
+    private boolean inativarControles;
+    
+    public jff_Alterar_cliente() {
         initComponents();
-        this.parente = tela;
-        
-        //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
-        jll_id.setText("" + this.cliente.getId());
-        jtf_Nome.setText(this.cliente.getNome());
-        jtf_email.setText(this.cliente.getEmail());
-        jtf_Cpf.setText(this.cliente.getCpf());
-        jtf_End.setText(this.cliente.getEndereco());
-        jtf_Tel.setText(this.cliente.getTelefone());
-
-        //Quando clicar no botão DETALHAR na tela de visualização os campos não são editáveis
-        if (inativar) {
-            jInternalFrame1.setTitle("Detalhar Cadastro");
-            jtf_Nome.setEnabled(false);
-            jtf_email.setEnabled(false);
-            jtf_Cpf.setEnabled(false);
-            jtf_End.setEnabled(false);
-            jtf_Tel.setEnabled(false);
-            jbt_excluir.setEnabled(false);
-            jbt_limpar.setEnabled(false);
-            jbt_salvar_alteracao.setEnabled(false);
-        }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -502,16 +479,42 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
 
     @Override
     public void setDAO(IDAOT dao) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.cliente = (Cliente) dao;
+        
+        //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
+        jll_id.setText("" + this.cliente.getId());
+        jtf_Nome.setText(this.cliente.getNome());
+        jtf_email.setText(this.cliente.getEmail());
+        jtf_Cpf.setText(this.cliente.getCpf());
+        jtf_End.setText(this.cliente.getEndereco());
+        jtf_Tel.setText(this.cliente.getTelefone());
+
     }
 
     @Override
     public void setDetalhamento(boolean inativarControles) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.inativarControles = inativarControles;
+        if (this.inativarControles) {
+            jInternalFrame1.setTitle("Detalhar Cadastro");
+            jtf_Nome.setEnabled(false);
+            jtf_email.setEnabled(false);
+            jtf_Cpf.setEnabled(false);
+            jtf_End.setEnabled(false);
+            jtf_Tel.setEnabled(false);
+            jbt_excluir.setEnabled(false);
+            jbt_limpar.setEnabled(false);
+            jbt_salvar_alteracao.setEnabled(false);
+        }
     }
 
     @Override
-    public void setTelaParente(JFrame tela) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setTelaParente(jif_Listagem_DAO tela) {
+        this.parente = tela;
     }
+    
+    @Override
+    public void show(boolean show) {
+        this.setVisible(show);
+    }
+    
 }

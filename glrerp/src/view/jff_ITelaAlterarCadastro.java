@@ -5,7 +5,6 @@
 package view;
 
 import apoio.IDAOT;
-import javax.swing.JFrame;
 
 /**
  *
@@ -16,5 +15,7 @@ public interface jff_ITelaAlterarCadastro {
     
     public void setDetalhamento(boolean inativarControles);
     
-    public void setTelaParente(JFrame tela);
+    public void setTelaParente(jif_Listagem_DAO tela);
+    
+    public void show(boolean show);
 }
