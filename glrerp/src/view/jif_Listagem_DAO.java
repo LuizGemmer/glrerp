@@ -179,7 +179,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     private void jbt_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_alterarActionPerformed
         //Abrir tela de alteração e exclusão de cadastro
         int id = this.buscarNaTabela();
-        if (this.DAOType == Cliente.class) {
+        if (true) {
             new jff_Alterar_cliente((Cliente)DAOObject.consultarId(id), this, false);
         }
         
@@ -192,7 +192,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     private void jbt_detalharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_detalharActionPerformed
         //Abrir tela de detalhamento de cadastro
         int id = this.buscarNaTabela();
-        if (this.DAOType == Cliente.class) {
+        if (true) {
             new jff_Alterar_cliente((Cliente)DAOObject.consultarId(id), this, true);
         }
     }//GEN-LAST:event_jbt_detalharActionPerformed
