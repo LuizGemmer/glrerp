@@ -309,7 +309,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         //Atribuir dados inseridos pelo usuario a variaveis
         String descItem = jtf_Descricao.getText();
         int grupoItem = ((Grupo) jcb_Grupo.getSelectedItem()).getId();
-        double estoqueItem = Double.parseDouble(jtf_estoque.getText());
+        double estoqueItem = Double.parseDouble(jtf_estoque.getText().replace(',', '.'));
         
 
         //Setar nomes das variaveis para o objeto Item
@@ -317,7 +317,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         item.setId(Integer.parseInt(jll_id.getText()));
         item.setDescricao(descItem);
         item.setId_grupo(grupoItem);
-        //item.setId_grupo(grupoItem);
         item.setQtde_estoque(estoqueItem);
         
         //Chamar classe ItemDAO para salvar dados no Banco de dados

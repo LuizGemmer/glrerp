@@ -51,7 +51,7 @@ public class ItemDAO implements IDAOT<Item> {
                     + "id_grupo=" + o.getId_grupo() + ", "
                     + "descricao='" + o.getDescricao().toUpperCase() + "', "
                     + "qtde_estoque=" + o.getQtde_estoque()
-                    + "WHERE id=" + o.getId();
+                    + " WHERE id=" + o.getId();
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);

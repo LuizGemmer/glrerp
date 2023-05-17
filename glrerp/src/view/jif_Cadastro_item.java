@@ -53,7 +53,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
-        setTitle("Cadastro - Cliente");
+        setTitle("Cadastro - Item");
         setPreferredSize(new java.awt.Dimension(960, 500));
 
         jPanel1.setBackground(new java.awt.Color(238, 238, 238));
@@ -125,16 +125,15 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                                 .addComponent(jbt_fechar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(40, 40, 40)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 297, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(27, 27, 27)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbt_cadastrar)
-                            .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jbt_cadastrar)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
