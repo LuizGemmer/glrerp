@@ -184,10 +184,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         }
         
     }//GEN-LAST:event_jbt_alterarActionPerformed
-    
-    private void abrirTelaAlterar() {
-        return;
-    }
+   
     
     private void jbt_detalharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_detalharActionPerformed
         //Abrir tela de detalhamento de cadastro
