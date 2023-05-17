@@ -2,25 +2,24 @@ package view;
 
 import apoio.IDAOT;
 import entidade.Cliente;
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author ruang
  */
-public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
+public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
 
     private final IDAOT DAOObject;
-    private ArrayList<IDAOT> DAOresults;
+    private final Class DAOType;
 
-    private DefaultTableModel tableModel;
+    private final DefaultTableModel tableModel;
 
-    public jif_Visualizar_cliente(IDAOT dao) {
+    public jif_Listagem_DAO(IDAOT dao) {
         this.DAOObject = dao;
+        this.DAOType = dao.getClass();
         
         initComponents();
         this.tableModel = (DefaultTableModel) jTable1.getModel();
@@ -179,12 +178,23 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
 
     private void jbt_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_alterarActionPerformed
         //Abrir tela de alteração e exclusão de cadastro
-        new jff_Alterar_cliente((Cliente)DAOObject.consultarId(this.buscarNaTabela()), this, false);
+        int id = this.buscarNaTabela();
+        if (this.DAOType == Cliente.class) {
+            new jff_Alterar_cliente((Cliente)DAOObject.consultarId(id), this, false);
+        }
+        
     }//GEN-LAST:event_jbt_alterarActionPerformed
-
+    
+    private void abrirTelaAlterar() {
+        return;
+    }
+    
     private void jbt_detalharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_detalharActionPerformed
         //Abrir tela de detalhamento de cadastro
-        new jff_Alterar_cliente((Cliente)DAOObject.consultarId(this.buscarNaTabela()), this, true);
+        int id = this.buscarNaTabela();
+        if (this.DAOType == Cliente.class) {
+            new jff_Alterar_cliente((Cliente)DAOObject.consultarId(id), this, true);
+        }
     }//GEN-LAST:event_jbt_detalharActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
