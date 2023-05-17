@@ -4,11 +4,8 @@ import apoio.ConexaoBD;
 import apoio.IDAOT;
 import entidade.Cliente;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
