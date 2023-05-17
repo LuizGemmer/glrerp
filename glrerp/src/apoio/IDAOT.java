@@ -27,4 +27,8 @@ public interface IDAOT <T> {
     public ArrayList<T> consultar(String criterio);
 
     public T consultarId(int id);
+    
+    public ArrayList<String[]> paraListagemTabela(String filtro);
+    
+    public String[] getTableColumns();
 }
