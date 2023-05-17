@@ -19,7 +19,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
 
     public jff_Alterar_cliente(Cliente c, jif_Listagem_DAO tela, boolean inativar) {
         cliente = (Cliente) c;
-        
+
         initComponents();
         this.parente = tela;
         this.setVisible(true);
@@ -337,7 +337,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
                     options[0]);
             if (n == 0) {
                 this.dispose();
-            }else{
+            } else {
                 jtf_Nome.requestFocus(true);
             }
         } else {
@@ -359,7 +359,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
 
-        //Cadastrar novo Cliente
+        //Alterar cadastro de Cliente
         //Atribuir dados inseridos pelo usuario a variaveis
         String nomeCliente = jtf_Nome.getText();
         String telCliente = jtf_Tel.getText();
@@ -390,7 +390,36 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
-        // TODO add your handling code here:
+        Object[] options = {"Sim",
+            "Não"};
+        int n = JOptionPane.showOptionDialog(this,
+                "Essa exclusão é IRREVERSÍVEL. Deseja continuar?",
+                "EXCLUSÃO DE CADASTRO",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                options,
+                options[0]);
+        if (n == 0) {
+            //Excluir cadastro de Cliente
+            //Setar SITUAÇÃO=FALSE o objeto Cliente
+            Cliente cliente = new Cliente();
+            cliente.setId(Integer.parseInt(jll_id.getText()));
+            cliente.setSituacao(false);
+
+            //Chamar classe ClienteDAO para salvar dados no Banco de dados
+            ClienteDAO clienteDAO = new ClienteDAO();
+
+            //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
+            if (clienteDAO.excluir(Integer.parseInt(jll_id.getText())) == null) {
+                JOptionPane.showMessageDialog(this, "Cadastro excluido com sucesso!", "CADASTRADO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
+                this.parente.setTableItems("");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
     }//GEN-LAST:event_jbt_excluirActionPerformed
 
     private void jtf_NomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_NomeKeyPressed

@@ -74,7 +74,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE cliente SET "
-                    + "situacao=false', "
+                    + "situacao=false "
                     + "WHERE id=" + id;
 
             int retorno = st.executeUpdate(sql);
@@ -98,7 +98,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
             String sql = ""
                     + "SELECT * "
                     + "FROM cliente "
-                    + "WHERE TIPO LIKE'" + tipo + "' AND situacao=true "
+                    + "WHERE TIPO LIKE '" + tipo + "' AND situacao=true "
                     + "ORDER BY nome";
 
             ResultSet retorno = st.executeQuery(sql);

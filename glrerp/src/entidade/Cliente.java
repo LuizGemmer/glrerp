@@ -13,7 +13,9 @@ public class Cliente {
     private String telefone;
     private String endereco;
     private String tipo;
+    private boolean situacao;
 
+    
     public int getId() {
         return id;
     }
@@ -68,6 +70,14 @@ public class Cliente {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public boolean isSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(boolean situacao) {
+        this.situacao = situacao;
     }
     
     
