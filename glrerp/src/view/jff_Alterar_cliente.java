@@ -383,7 +383,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
             //Setar SITUAÇÃO=FALSE o objeto Cliente
             Cliente cliente = new Cliente();
             cliente.setId(Integer.parseInt(jll_id.getText()));
-            cliente.setSituacao(false);
+            cliente.setAtivo(false);
 
             //Chamar classe ClienteDAO para salvar dados no Banco de dados
             ClienteDAO clienteDAO = new ClienteDAO();

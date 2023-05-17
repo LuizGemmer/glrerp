@@ -13,7 +13,7 @@ public class Cliente {
     private String telefone;
     private String endereco;
     private String tipo;
-    private boolean situacao;
+    private boolean ativo;
 
     
     public int getId() {
@@ -72,13 +72,13 @@ public class Cliente {
         this.endereco = endereco;
     }
 
-    public boolean isSituacao() {
-        return situacao;
+    public boolean isAtivo() {
+        return ativo;
     }
 
-    public void setSituacao(boolean situacao) {
-        this.situacao = situacao;
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
-    
+  
     
 }
