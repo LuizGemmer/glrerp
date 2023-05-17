@@ -1,9 +1,7 @@
 package view;
 
-import dao.ClienteDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
-import entidade.Cliente;
 import entidade.Grupo;
 import entidade.Item;
 import javax.swing.DefaultComboBoxModel;
@@ -21,6 +19,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     public jif_Cadastro_item() {
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
+        System.out.println(grupoComboBox);
         initComponents();                    
     }
 
@@ -39,7 +38,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jbt_cadastrar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jtf_estoque_inicial = new javax.swing.JTextField();
-        jcb_Grupo = new javax.swing.JComboBox<>();
+        jcb_Grupo = new javax.swing.JComboBox<Grupo>();
 
         jbt_Acessar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_Acessar.setForeground(new java.awt.Color(255, 255, 255));
@@ -105,6 +104,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jcb_Grupo.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Grupo.setMaximumRowCount(150);
+        jcb_Grupo.setModel(this.model);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -240,7 +240,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbt_cadastrar;
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_limpar;
-    private javax.swing.JComboBox<String> jcb_Grupo;
+    private javax.swing.JComboBox<Grupo> jcb_Grupo;
     private javax.swing.JTextField jtf_Descricao;
     private javax.swing.JTextField jtf_estoque_inicial;
     // End of variables declaration//GEN-END:variables
