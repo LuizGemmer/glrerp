@@ -21,9 +21,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     private boolean inativarControles;
     
     public jff_Alterar_cliente() {
-        initComponents();
-        
-                      
+        initComponents();                      
     }
 
     @SuppressWarnings("unchecked")
