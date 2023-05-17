@@ -3,13 +3,14 @@ package view;
 import apoio.IDAOT;
 import dao.ClienteDAO;
 import entidade.Cliente;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author ruang
  */
-public class jff_Alterar_cliente extends javax.swing.JFrame {
+public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITelaAlterarCadastro {
 
     private final jif_Listagem_DAO parente;
 
@@ -22,7 +23,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
 
         initComponents();
         this.parente = tela;
-        this.setVisible(true);
+        
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.cliente.getId());
         jtf_Nome.setText(this.cliente.getNome());
@@ -498,4 +499,19 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
     private javax.swing.JTextField jtf_Tel;
     private javax.swing.JTextField jtf_email;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void setDAO(IDAOT dao) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void setDetalhamento(boolean inativarControles) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void setTelaParente(JFrame tela) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
