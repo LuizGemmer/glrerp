@@ -2,7 +2,9 @@ package view;
 
 import apoio.IDAOT;
 import dao.GrupoDAO;
+import dao.GrupoDAO;
 import dao.ItemDAO;
+import entidade.Grupo;
 import entidade.Grupo;
 import entidade.Item;
 import java.text.DecimalFormat;
@@ -10,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 import java.text.DecimalFormat;
+import javax.swing.ComboBoxModel;
 import javax.swing.ComboBoxModel;
 
 /**
@@ -28,7 +31,12 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     
     private DefaultComboBoxModel model;
     
+    private DefaultComboBoxModel model;
+    
     public jff_Alterar_item() {
+        Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
+        this.model = new DefaultComboBoxModel(grupoComboBox);
+        initComponents();                    
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
         initComponents();                    
@@ -52,6 +60,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel7 = new javax.swing.JLabel();
         jll_id = new javax.swing.JLabel();
         jbt_excluir = new javax.swing.JButton();
+        jcb_Grupo = new javax.swing.JComboBox<Grupo>();
         jcb_Grupo = new javax.swing.JComboBox<Grupo>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -195,6 +204,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                                 .addComponent(jbt_limpar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 6, Short.MAX_VALUE)
+                                .addGap(0, 6, Short.MAX_VALUE)
                                 .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(54, 54, 54)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -223,6 +233,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                             .addComponent(jLabel2)
                             .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -315,6 +326,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         Item item = new Item();
         item.setId(Integer.parseInt(jll_id.getText()));
         item.setDescricao(descItem);
+        //item.setId_grupo(grupoItem);
         //item.setId_grupo(grupoItem);
         item.setQtde_estoque(estoqueItem);
         
@@ -425,6 +437,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JButton jbt_limpar;
     private javax.swing.JButton jbt_salvar_alteracao;
     private javax.swing.JComboBox<Grupo> jcb_Grupo;
+    private javax.swing.JComboBox<Grupo> jcb_Grupo;
     private javax.swing.JLabel jll_id;
     private javax.swing.JTextField jtf_Descricao;
     private javax.swing.JTextField jtf_estoque;
@@ -437,6 +450,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.item.getId());
         jtf_Descricao.setText(this.item.getDescricao());
+        jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()));
         jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()));
 //jcb_Grupo.setText
        

@@ -71,7 +71,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE cliente SET "
-                    + "situacao=false "
+                    + "ativo=false "
                     + "WHERE id=" + id;
 
             int retorno = st.executeUpdate(sql);
@@ -165,7 +165,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
     @Override
     public ArrayList<String[]> paraListagemTabela(String filtro) {
-        ArrayList<Cliente> clientes = consultarTodos("cliente");
+        ArrayList<Cliente> clientes = consultarTodos(filtro);
 
         ArrayList<String[]> tableData = new ArrayList();
         for (Cliente cliente : clientes) {
