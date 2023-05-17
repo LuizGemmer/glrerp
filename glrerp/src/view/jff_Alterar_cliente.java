@@ -22,6 +22,8 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     
     public jff_Alterar_cliente() {
         initComponents();
+        
+                      
     }
 
     @SuppressWarnings("unchecked")
@@ -208,14 +210,11 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
                                 .addComponent(jbt_salvar_alteracao)
                                 .addGap(18, 18, 18)
                                 .addComponent(jbt_excluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 290, Short.MAX_VALUE)
                                 .addComponent(jbt_limpar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbt_fechar)
-                        .addContainerGap())
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -229,8 +228,11 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
                                     .addComponent(jtf_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jtf_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 304, Short.MAX_VALUE))
-                            .addComponent(jtf_End)))))
+                                .addGap(0, 214, Short.MAX_VALUE))
+                            .addComponent(jtf_End))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbt_fechar)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,6 +513,8 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     
     @Override
     public void showWindow(boolean s) {
+        //Abrir novo JFrame na mesma localização do JFrame anterior
+        this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
     }
     
