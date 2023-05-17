@@ -104,6 +104,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jcb_Grupo.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Grupo.setMaximumRowCount(150);
+        jcb_Grupo.setModel(this.model);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
