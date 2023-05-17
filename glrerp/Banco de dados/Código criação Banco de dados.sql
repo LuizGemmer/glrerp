@@ -6,7 +6,7 @@ id serial not null,
 	email varchar(150) not null,
 	telefone varchar (45) not null,
 	endereco varchar(250),
-	situacao boolean not null,
+	ativo boolean not null,
 	primary key (id)
 );
 
@@ -15,6 +15,7 @@ id serial not null,
 	nome varchar(150) not null,
 	senha varchar (45) not null,
 	hierarquia varchar (45) not null,
+	ativo boolean not null,
 	primary key (id)
 );
 
@@ -22,6 +23,7 @@ create table grupo (
 id serial not null,
 	descricao varchar (100) not null,
 	tipo varchar (45) not null,
+	ativo boolean not null,
 	primary key (id)
 );
 
@@ -30,6 +32,7 @@ id serial not null,
 	id_grupo int not null,
 	descricao varchar (150) not null,
 	qtde_estoque double precision not null,
+	ativo boolean not null,
 	primary key(id),
 	constraint fk_id_grupo foreign key (id_grupo) references grupo (id)
 );
@@ -39,6 +42,7 @@ id serial not null,
 	item_id int not null,
 	insumo_id int not null,
 	qtde_insumo double precision not null,
+	ativo boolean not null,
 	primary key (id),
 	constraint fk_item_id foreign key (item_id) references item (id),
 	constraint fk_insumo_id foreign key (insumo_id) references item (id)

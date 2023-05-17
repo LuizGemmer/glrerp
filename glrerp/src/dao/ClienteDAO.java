@@ -98,7 +98,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
             String sql = ""
                     + "SELECT * "
                     + "FROM cliente "
-                    + "WHERE TIPO LIKE '" + tipo + "' AND situacao=true "
+                    + "WHERE TIPO LIKE '" + tipo + "' AND ativo=true "
                     + "ORDER BY nome";
 
             ResultSet retorno = st.executeQuery(sql);
@@ -139,7 +139,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
             String sql = ""
                     + "SELECT * "
                     + "FROM cliente "
-                    + "WHERE id=" + id + " AND situacao=true";
+                    + "WHERE id=" + id + " AND ativo=true";
 
             ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);
