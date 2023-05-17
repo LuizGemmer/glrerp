@@ -1,6 +1,6 @@
 package view;
 
-import dao.UserDAO;
+import dao.userDAO;
 import entidade.User;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -132,7 +132,7 @@ public class telaLoggin extends javax.swing.JFrame {
         String passwd = String.valueOf(password);
 
         ArrayList<User> users = new ArrayList();
-        users = new UserDAO().consultarTodos();
+        users = new userDAO().consultarTodos();
 
         //Verifica se algum usuario e senha batem com o que o usuario digitou
         for (int i = 0; i < users.size(); i++) {
