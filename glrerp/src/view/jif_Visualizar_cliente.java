@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package view;
 
-import dao.ClienteDAO;
+import apoio.IDAOT;
 import entidade.Cliente;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -18,15 +14,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
 
-    private final ClienteDAO clienteDAO = new ClienteDAO();
-    private ArrayList<Cliente> clientes = clienteDAO.consultarTodos("cliente");
+    private final IDAOT DAOObject;
+    private ArrayList<IDAOT> DAOresults;
 
     private DefaultTableModel tableModel;
 
-    public jif_Visualizar_cliente() {
+    public jif_Visualizar_cliente(IDAOT dao) {
+        this.DAOObject = dao;
+        
         initComponents();
         this.tableModel = (DefaultTableModel) jTable1.getModel();
-        this.getTableItems("");
+        this.setTableColumns();
+        this.setTableItems("");
     }
 
     @SuppressWarnings("unchecked")
@@ -49,29 +48,6 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
 
         jTable1.setBackground(new java.awt.Color(250, 250, 250));
         jTable1.setForeground(new java.awt.Color(51, 51, 51));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nome", "CPF/CNPJ"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
         jTable1.setColumnSelectionAllowed(true);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -79,7 +55,7 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         jLabel1.setBackground(new java.awt.Color(250, 250, 250));
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -169,32 +145,21 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void getTableItems(String termoBusca) {
+    public void setTableColumns() {
+       String[] colunasTabela = DAOObject.getTableColumns();
+       for(String coluna : colunasTabela) {
+           tableModel.addColumn(coluna);
+       }
+    }
+    
+    public void setTableItems(String termoBusca) {
         // Remove os itens da tabela
         this.tableModel.getDataVector().removeAllElements();
         this.tableModel.fireTableDataChanged();
-
-        this.clientes = clienteDAO.consultarTodos("cliente");
-
-        // filtra os novos itens
-        ArrayList<String[]> newData = new ArrayList();
-        for (Cliente cliente : clientes) {
-            String[] data = {
-                Integer.toString(cliente.getId()),
-                cliente.getNome(),
-                cliente.getCpf()
-            };
-
-            if (termoBusca.equals("")) {
-                newData.add(data);
-            } else if (data[1].toLowerCase().contains(termoBusca.toLowerCase())
-                    || data[2].toLowerCase().contains(termoBusca.toLowerCase())) {
-                newData.add(data);
-            }
-        }
-
-        for (String[] data : newData) {
-            this.tableModel.addRow(data);
+        
+        ArrayList<String[]> novosDados = this.DAOObject.paraListagemTabela(termoBusca);
+        for (String[] row : novosDados) {
+            this.tableModel.addRow(row);
         }
 
         tableModel.fireTableDataChanged();
@@ -207,19 +172,19 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_visualizarActionPerformed
-        this.getTableItems(jtf_Buscar.getText());
+        this.setTableItems(jtf_Buscar.getText());
         jbt_alterar.setEnabled(false);
         jbt_detalhar.setEnabled(false);
     }//GEN-LAST:event_jbt_visualizarActionPerformed
 
     private void jbt_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_alterarActionPerformed
         //Abrir tela de alteração e exclusão de cadastro
-        new jff_Alterar_cliente(this.buscarNaTabela(), this, false);
+        new jff_Alterar_cliente((Cliente)DAOObject.consultarId(this.buscarNaTabela()), this, false);
     }//GEN-LAST:event_jbt_alterarActionPerformed
 
     private void jbt_detalharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_detalharActionPerformed
         //Abrir tela de detalhamento de cadastro
-        new jff_Alterar_cliente(this.buscarNaTabela(), this, true);
+        new jff_Alterar_cliente((Cliente)DAOObject.consultarId(this.buscarNaTabela()), this, true);
     }//GEN-LAST:event_jbt_detalharActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -228,17 +193,11 @@ public class jif_Visualizar_cliente extends javax.swing.JInternalFrame {
         jbt_detalhar.setEnabled(true);
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private Cliente buscarNaTabela() {
+    private int buscarNaTabela() {
         //Buscar o cliente de acordo com a linha selecionada na tabela de visualização
         int rowIndex = jTable1.getSelectedRow();
-        String clienteId = ((Vector) this.tableModel.getDataVector().elementAt(rowIndex)).elementAt(0).toString();
-
-        for (Cliente c : clientes) {
-            if (("" + c.getId()).equals(clienteId)) {
-                return c;
-            }
-        }
-        return null;
+        int IDAOTid = Integer.parseInt(((Vector) this.tableModel.getDataVector().elementAt(rowIndex)).elementAt(0).toString());
+        return IDAOTid;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

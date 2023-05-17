@@ -379,7 +379,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
         //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
         if (clienteDAO.atualizar(cliente) == null) {
             JOptionPane.showMessageDialog(this, "Cadastro alterado com sucesso!", "CADASTRADO ALTERADO", JOptionPane.INFORMATION_MESSAGE);
-            this.tela.getTableItems("");
+            this.tela.setTableItems("");
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);

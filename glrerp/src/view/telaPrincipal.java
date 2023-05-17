@@ -1,5 +1,7 @@
 package view;
 
+import dao.ClienteDAO;
+
 /**
  *
  * @author ruang
@@ -134,6 +136,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_item_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_item_visualizar.setForeground(new java.awt.Color(255, 255, 255));
         jm_item_visualizar.setText("Visualizar");
+        jm_item_visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_item_visualizarActionPerformed(evt);
+            }
+        });
         jm_item.add(jm_item_visualizar);
 
         jm_item_cadastro.setBackground(new java.awt.Color(13, 71, 161));
@@ -240,7 +247,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jm_cliente_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_cliente_visualizarActionPerformed
-        jif_Visualizar_cliente jifVis_cliente = new jif_Visualizar_cliente();
+        jif_Visualizar_cliente jifVis_cliente = new jif_Visualizar_cliente(new ClienteDAO());
         jDesktopPane1.add(jifVis_cliente);
         jifVis_cliente.setVisible(true);
     }//GEN-LAST:event_jm_cliente_visualizarActionPerformed
@@ -254,6 +261,12 @@ public class telaPrincipal extends javax.swing.JFrame {
         jDesktopPane1.add(jif_cad_cliente);
         jif_cad_cliente.setVisible(true);
     }//GEN-LAST:event_jm_cliente_cadastroActionPerformed
+
+    private void jm_item_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_item_visualizarActionPerformed
+        jif_Cadastro_cliente jif_cad_cliente = new jif_Cadastro_cliente();
+        jDesktopPane1.add(jif_cad_cliente);
+        jif_cad_cliente.setVisible(true);
+    }//GEN-LAST:event_jm_item_visualizarActionPerformed
 
     /**
      * @param args the command line arguments
