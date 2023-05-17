@@ -199,7 +199,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
-        
+        /*
         //Alterar cadastro de Item
         //Atribuir dados inseridos pelo usuario a variaveis
         String descItem = jtf_Descricao.getText();
@@ -225,13 +225,13 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
         }
-
+*/
         
       
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
     private void jcb_GrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcb_GrupoMouseClicked
-        this.keyPressed = true;
+        //this.keyPressed = true;
     }//GEN-LAST:event_jcb_GrupoMouseClicked
 
 

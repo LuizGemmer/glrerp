@@ -7,6 +7,10 @@ package dao;
 import apoio.IDAOT;
 import entidade.Grupo;
 import java.util.ArrayList;
+import apoio.ConexaoBD;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.sql.Statement;
 
 /**
  *
@@ -31,7 +35,34 @@ public class GrupoDAO implements IDAOT<Grupo> {
 
     @Override
     public ArrayList<Grupo> consultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Grupo> grupos = new ArrayList();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = ""
+                    + "SELECT * "
+                    + "FROM grupo "
+                    + "WHERE ativo=true "
+                    + "ORDER BY descricao";
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+            while (retorno.next()) {
+                Grupo grupo = new Grupo();
+                
+                grupo.setId(retorno.getInt("id"));
+                grupo.setDescricao(retorno.getString("descricao").toUpperCase());
+                grupo.setTipo(retorno.getString("tipo"));
+
+                grupos.add(grupo);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de Cliente/Fornecedor " + e);
+        }
+
+        return grupos;
     }
 
     @Override
