@@ -247,7 +247,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jm_cliente_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_cliente_visualizarActionPerformed
-        jif_Visualizar_cliente jifVis_cliente = new jif_Visualizar_cliente(new ClienteDAO());
+        jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO());
         jDesktopPane1.add(jifVis_cliente);
         jifVis_cliente.setVisible(true);
     }//GEN-LAST:event_jm_cliente_visualizarActionPerformed

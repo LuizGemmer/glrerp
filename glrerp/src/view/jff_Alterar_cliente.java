@@ -1,5 +1,6 @@
 package view;
 
+import apoio.IDAOT;
 import dao.ClienteDAO;
 import entidade.Cliente;
 import javax.swing.JOptionPane;
@@ -10,23 +11,25 @@ import javax.swing.JOptionPane;
  */
 public class jff_Alterar_cliente extends javax.swing.JFrame {
 
-    private jif_Visualizar_cliente tela;
+    private final jif_Listagem_DAO parente;
 
-    private boolean inativarCampos;
+    private final Cliente cliente;
 
     private boolean keyPressed;
 
-    public jff_Alterar_cliente(Cliente c, jif_Visualizar_cliente tela, boolean inativar) {
+    public jff_Alterar_cliente(Cliente c, jif_Listagem_DAO tela, boolean inativar) {
+        cliente = (Cliente) c;
+        
         initComponents();
-        this.tela = tela;
+        this.parente = tela;
         this.setVisible(true);
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
-        jll_id.setText("" + c.getId());
-        jtf_Nome.setText(c.getNome());
-        jtf_email.setText(c.getEmail());
-        jtf_Cpf.setText(c.getCpf());
-        jtf_End.setText(c.getEndereco());
-        jtf_Tel.setText(c.getTelefone());
+        jll_id.setText("" + this.cliente.getId());
+        jtf_Nome.setText(this.cliente.getNome());
+        jtf_email.setText(this.cliente.getEmail());
+        jtf_Cpf.setText(this.cliente.getCpf());
+        jtf_End.setText(this.cliente.getEndereco());
+        jtf_Tel.setText(this.cliente.getTelefone());
 
         //Quando clicar no botão DETALHAR na tela de visualização os campos não são editáveis
         if (inativar) {
@@ -379,7 +382,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame {
         //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
         if (clienteDAO.atualizar(cliente) == null) {
             JOptionPane.showMessageDialog(this, "Cadastro alterado com sucesso!", "CADASTRADO ALTERADO", JOptionPane.INFORMATION_MESSAGE);
-            this.tela.setTableItems("");
+            this.parente.setTableItems("");
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
