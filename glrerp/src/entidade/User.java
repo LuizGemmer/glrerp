@@ -10,7 +10,8 @@ public class User {
     private String nome;
     private String senha;
     private String hierarquia;
-
+    private boolean ativo;
+    
     public int getId() {
         return id;
     }
@@ -41,6 +42,14 @@ public class User {
 
     public void setHierarquia(String hierarquia) {
         this.hierarquia = hierarquia;
+    }
+    
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
     
