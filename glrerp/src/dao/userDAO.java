@@ -26,8 +26,8 @@ public class userDAO implements IDAOT<User> {
                     + "'" + o.getHierarquia() + "', "
                     + "'true')";
 
-            int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
+            int retorno = st.executeUpdate(sql);
             return null;
 
         } catch (Exception e) {
