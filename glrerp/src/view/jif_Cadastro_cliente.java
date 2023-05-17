@@ -182,6 +182,8 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel6, jtf_Cpf, jtf_End, jtf_Nome, jtf_Tel, jtf_email});
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

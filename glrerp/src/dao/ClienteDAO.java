@@ -34,14 +34,34 @@ public class ClienteDAO implements IDAOT<Cliente> {
             return null;
 
         } catch (Exception e) {
-            System.out.println("Erro ao inserir cadastro de Cliente " + e);
+            System.out.println("Erro ao inserir cadastro de Cliente/Fornecedor " + e);
             return e.toString();
         }
     }
 
     @Override
     public String atualizar(Cliente o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        //Atualizar um cliente/Fornecedor
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "UPDATE cliente SET "
+                    + "nome='" + o.getNome() + "', "
+                    + "cpf='" + o.getCpf() + "', "
+                    + "email='" + o.getEmail() + "', "
+                    + "telefone='" + o.getTelefone() + "', "
+                    + "endereco='" + o.getEndereco() + "' "
+                    + "WHERE id='" + o.getId() + "'";
+            
+            int retorno = st.executeUpdate(sql);
+            System.out.println("SQL: " + sql);
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar Cliente/Fornecedor " + e);
+            return e.toString();
+        }
     }
 
     @Override
@@ -80,7 +100,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
             }
 
         } catch (Exception e) {
-            System.out.println("Erro ao consultar cadastro de Cliente " + e);
+            System.out.println("Erro ao consultar cadastro de Cliente/Fornecedor " + e);
         }
 
         return clientes;
