@@ -11,11 +11,11 @@ import apoio.IDAOT;
  * @author rg
  */
 public interface jff_ITelaAlterarCadastro {
-    public void setDAO(IDAOT dao);
+    public void setDAO(Object dao);
     
     public void setDetalhamento(boolean inativarControles);
     
     public void setTelaParente(jif_Listagem_DAO tela);
     
-    public void show(boolean show);
+    public void showWindow(boolean show);
 }

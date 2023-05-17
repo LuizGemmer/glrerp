@@ -478,7 +478,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void setDAO(IDAOT dao) {
+    public void setDAO(Object dao) {
         this.cliente = (Cliente) dao;
         
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
@@ -493,18 +493,15 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
 
     @Override
     public void setDetalhamento(boolean inativarControles) {
-        this.inativarControles = inativarControles;
-        if (this.inativarControles) {
-            jInternalFrame1.setTitle("Detalhar Cadastro");
-            jtf_Nome.setEnabled(false);
-            jtf_email.setEnabled(false);
-            jtf_Cpf.setEnabled(false);
-            jtf_End.setEnabled(false);
-            jtf_Tel.setEnabled(false);
-            jbt_excluir.setEnabled(false);
-            jbt_limpar.setEnabled(false);
-            jbt_salvar_alteracao.setEnabled(false);
-        }
+        jInternalFrame1.setTitle("Detalhar Cadastro");
+        jtf_Nome.setEnabled(!inativarControles);
+        jtf_email.setEnabled(!inativarControles);
+        jtf_Cpf.setEnabled(!inativarControles);
+        jtf_End.setEnabled(!inativarControles);
+        jtf_Tel.setEnabled(!inativarControles);
+        jbt_excluir.setEnabled(!inativarControles);
+        jbt_limpar.setEnabled(!inativarControles);
+        jbt_salvar_alteracao.setEnabled(!inativarControles);
     }
 
     @Override
@@ -513,8 +510,8 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     }
     
     @Override
-    public void show(boolean show) {
-        this.setVisible(show);
+    public void showWindow(boolean s) {
+        this.setVisible(s);
     }
     
 }
