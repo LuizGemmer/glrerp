@@ -161,7 +161,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Grupo.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Grupo.setMaximumRowCount(150);
-        jcb_Grupo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcb_Grupo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jcb_GrupoMouseClicked(evt);
