@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 
-
 /**
  *
  * @author rg
@@ -24,13 +23,14 @@ public class ItemDAO implements IDAOT<Item> {
 
             String sql = "INSERT INTO item VALUES "
                     + "(default, "
+                    + o.getId_grupo() + ", "
                     + "'" + o.getDescricao().toUpperCase() + "', "
-                    + "'" + o.getId_grupo() + "', "
-                    + "'" + o.getQtde_estoque() + "', "
+                    + o.getQtde_estoque() + ", "
                     + "'true')";
 
-            int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
+            int retorno = st.executeUpdate(sql);
+
             return null;
 
         } catch (Exception e) {
@@ -42,16 +42,16 @@ public class ItemDAO implements IDAOT<Item> {
 
     @Override
     public String atualizar(Item o) {
-        
+
         //Atualizar um Item
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE item SET "
+                    + "id_grupo=" + o.getId_grupo() + ", "
                     + "descricao='" + o.getDescricao().toUpperCase() + "', "
-                    + "id_grupo='" + o.getId_grupo()+ "', "
-                    + "qtde_estoque='" + o.getQtde_estoque()+ "' "
-                    + "WHERE id='" + o.getId() + "'";
+                    + "qtde_estoque=" + o.getQtde_estoque()
+                    + "WHERE id=" + o.getId();
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
@@ -65,7 +65,7 @@ public class ItemDAO implements IDAOT<Item> {
 
     @Override
     public String excluir(int id) {
-        
+
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
@@ -157,8 +157,7 @@ public class ItemDAO implements IDAOT<Item> {
                 Integer.toString(item.getId()),
                 item.getDescricao(),
                 new DecimalFormat("#.####").format(item.getQtde_estoque()),
-                new GrupoDAO().consultarId(item.getId_grupo()).toString(),
-            };
+                new GrupoDAO().consultarId(item.getId_grupo()).toString(),};
 
             if (filtro.equals("")) {
                 tableData.add(data);
