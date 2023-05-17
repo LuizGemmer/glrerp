@@ -8,12 +8,9 @@ import entidade.Grupo;
 import entidade.Grupo;
 import entidade.Item;
 import java.text.DecimalFormat;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 import java.text.DecimalFormat;
-import javax.swing.ComboBoxModel;
-import javax.swing.ComboBoxModel;
 
 /**
  *
@@ -446,7 +443,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jll_id.setText("" + this.item.getId());
         jtf_Descricao.setText(this.item.getDescricao());
         jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()));
-        jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()));
 //jcb_Grupo.setText
        
     }
@@ -457,6 +453,9 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Descricao.setEnabled(!inativarControles);
         jtf_estoque.setEnabled(!inativarControles);
         jcb_Grupo.setEnabled(!inativarControles);
+        jbt_excluir.setEnabled(!inativarControles);
+        jbt_limpar.setEnabled(!inativarControles);
+        jbt_salvar_alteracao.setEnabled(!inativarControles);
     }
 
     @Override

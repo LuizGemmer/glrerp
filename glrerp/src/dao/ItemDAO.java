@@ -10,6 +10,8 @@ import apoio.IDAOT;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+
 
 /**
  *
@@ -60,9 +62,9 @@ public class ItemDAO implements IDAOT<Item> {
 
             String sql = ""
                     + "SELECT * "
-                    + "FROM cliente "
+                    + "FROM item "
                     + "WHERE ativo=true "
-                    + "ORDER BY nome";
+                    + "ORDER BY descricao";
 
             ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);
@@ -118,11 +120,26 @@ public class ItemDAO implements IDAOT<Item> {
 
     @Override
     public ArrayList<String[]> paraListagemTabela(String filtro) {
-        ArrayList<String[]> returnValue = new ArrayList();
-        for (int i = 0; i < 20; i++) {
-            returnValue.add(new String[]{"" + i, "" + i, "" + i, "" + i});
+        ArrayList<Item> items = consultarTodos();
+
+        ArrayList<String[]> tableData = new ArrayList();
+        for (Item item : items) {
+            String[] data = {
+                Integer.toString(item.getId()),
+                item.getDescricao(),
+                new DecimalFormat("#.####").format(item.getQtde_estoque()),
+                new GrupoDAO().consultarId(item.getId_grupo()).toString(),
+            };
+
+            if (filtro.equals("")) {
+                tableData.add(data);
+            } else if (data[1].toUpperCase().contains(filtro.toUpperCase())
+                    || data[4].toUpperCase().contains(filtro.toUpperCase())) {
+                tableData.add(data);
+            }
         }
-        return returnValue;
+
+        return tableData;
     }
 
     @Override
