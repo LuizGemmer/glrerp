@@ -11,9 +11,12 @@ import javax.swing.JOptionPane;
  */
 public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
 
-   
+    private boolean isCliente;
+    
+       
     public jif_Cadastro_cliente() {
         initComponents();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -238,14 +241,22 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
         cliente.setEmail(emailCliente);
         cliente.setTelefone(telCliente);
         cliente.setEndereco(endCliente);
-        cliente.setTipo("cliente");
+        String cliente_fornecedor;
+        
+        if(this.isCliente){
+            cliente_fornecedor = "cliente";
+        }else{
+            cliente_fornecedor = "fornecedor";
+        }
+                    
+        cliente.setTipo(cliente_fornecedor);
         
         //Chamar classe ClienteDAO para salvar dados no Banco de dados
         ClienteDAO clienteDAO = new ClienteDAO();
         
         //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
         if (clienteDAO.salvar(cliente) == null){
-            JOptionPane.showMessageDialog(this, "Novo cliente salvo com sucesso!", "CLIENTE CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Novo cadastro salvo com sucesso!", "NOVO CADASTRO", JOptionPane.INFORMATION_MESSAGE);
             jtf_Nome.setText("");
             jtf_Tel.setText("");
             jtf_Cpf.setText("");
@@ -254,10 +265,18 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
             
             jtf_Nome.requestFocus();
         }else{
-            JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo cliente!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo cadastro!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
+    public void setIsCliente(boolean t) {
+        this.isCliente = t;
+        if(t){
+            setTitle("Cadastro - Cliente");
+        }else{
+            setTitle("Cadastro - Fornecedor");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -277,4 +296,6 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtf_Tel;
     private javax.swing.JTextField jtf_email;
     // End of variables declaration//GEN-END:variables
+
+   
 }
