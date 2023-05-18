@@ -44,9 +44,8 @@ public class userDAO implements IDAOT<User> {
 
             String sql = "UPDATE usuario SET "
                     + "nome='" + o.getNome().toUpperCase() + "', "
-                    + "senha='" + o.getSenha() + "', "
-                    + "hierarquia='" + o.getHierarquia() + "', " 
-                    + "WHERE id='" + o.getId() + "'";
+                    + "hierarquia='" + o.getHierarquia() + "' " 
+                    + "WHERE id=" + o.getId();
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
@@ -89,6 +88,7 @@ public class userDAO implements IDAOT<User> {
             String sql = ""
                     + "select * "
                     + "from usuario "
+                    + "WHERE ativo = true "
                     + "order by nome";
 
             ResultSet retorno = st.executeQuery(sql);

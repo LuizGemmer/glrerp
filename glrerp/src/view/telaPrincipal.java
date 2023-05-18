@@ -2,6 +2,7 @@ package view;
 
 import dao.ClienteDAO;
 import dao.ItemDAO;
+import dao.userDAO;
 
 /**
  *
@@ -211,6 +212,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_user_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_user_visualizar.setForeground(new java.awt.Color(255, 255, 255));
         jm_user_visualizar.setText("Visualizar");
+        jm_user_visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_user_visualizarActionPerformed(evt);
+            }
+        });
         jm_user.add(jm_user_visualizar);
 
         jm_user_cadastro.setBackground(new java.awt.Color(13, 71, 161));
@@ -293,6 +299,12 @@ public class telaPrincipal extends javax.swing.JFrame {
         jDesktopPane1.add(jif_cad_item);
         jif_cad_item.setVisible(true);
     }//GEN-LAST:event_jm_item_cadastroActionPerformed
+
+    private void jm_user_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_user_visualizarActionPerformed
+        jif_Listagem_DAO jif_listagem_user = new jif_Listagem_DAO(new userDAO(), new jff_Alterar_User());
+        jDesktopPane1.add(jif_listagem_user);
+        jif_listagem_user.setVisible(true);
+    }//GEN-LAST:event_jm_user_visualizarActionPerformed
 
 
     /**
