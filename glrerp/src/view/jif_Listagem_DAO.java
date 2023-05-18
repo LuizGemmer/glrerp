@@ -15,6 +15,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     private final IDAOT DAOObject;
     private final jff_ITelaAlterarCadastro telaAlterar;
     
+        
     private final DefaultTableModel tableModel;
 
     public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar) {

@@ -19,9 +19,9 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     private boolean keyPressed;
 
     private boolean inativarControles;
-    
+
     public jff_Alterar_cliente() {
-        initComponents();                      
+        initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -302,11 +302,11 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
 
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
         //Botão de fechar
-        if (keyPressed) {
+        if (inativarControles == false && keyPressed) {
             Object[] options = {"Sim",
                 "Não"};
             int n = JOptionPane.showOptionDialog(this,
-                    "Você tem alterações não salvas. Tem certeza que deseja sair?",
+                    "Você pode ter alterações não salvas. Tem certeza que deseja sair?",
                     "ALTERAÇÕES NÃO SALVAS",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
@@ -315,6 +315,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
                     options[0]);
             if (n == 0) {
                 this.dispose();
+                keyPressed = false;
             } else {
                 jtf_Nome.requestFocus(true);
             }
@@ -480,7 +481,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     @Override
     public void setDAO(Object dao) {
         this.cliente = (Cliente) dao;
-        
+
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.cliente.getId());
         jtf_Nome.setText(this.cliente.getNome());
@@ -493,6 +494,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
 
     @Override
     public void setDetalhamento(boolean inativarControles) {
+        this.inativarControles = inativarControles;
         jInternalFrame1.setTitle("Detalhar Cadastro");
         jtf_Nome.setEnabled(!inativarControles);
         jtf_email.setEnabled(!inativarControles);
@@ -502,18 +504,19 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);
+        keyPressed = false;
     }
 
     @Override
     public void setTelaParente(jif_Listagem_DAO tela) {
         this.parente = tela;
     }
-    
+
     @Override
     public void showWindow(boolean s) {
         //Abrir novo JFrame na mesma localização do JFrame anterior
         this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
     }
-    
+
 }

@@ -22,14 +22,13 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     private boolean keyPressed;
 
     private boolean inativarControles;
-    
+
     private DefaultComboBoxModel model;
-    
-    
+
     public jff_Alterar_User() {
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
-        initComponents();                    
+        initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -278,11 +277,11 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
 
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
         //Botão de fechar
-        if (keyPressed) {
+        if (inativarControles == false && keyPressed) {
             Object[] options = {"Sim",
                 "Não"};
             int n = JOptionPane.showOptionDialog(this,
-                    "Você tem alterações não salvas. Tem certeza que deseja sair?",
+                   "Você pode ter alterações não salvas. Tem certeza que deseja sair?",
                     "ALTERAÇÕES NÃO SALVAS",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
@@ -291,6 +290,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
                     options[0]);
             if (n == 0) {
                 this.dispose();
+                keyPressed = false;
             } else {
                 jtf_Nome.requestFocus(true);
             }
@@ -303,7 +303,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
 
         //Botão de limpar campos de TextField
-         //Botão de limpar campos de TextField
+        //Botão de limpar campos de TextField
         jtf_Nome.setText("");
         jpf_Senha.setText("");
         jcb_Hierarquia.setSelectedIndex(0);
@@ -312,8 +312,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
 
-        //Alterar cadastro de Item
-        //Atribuir dados inseridos pelo usuario a variaveis
+        //Alterar cadastro de Usuario
         //Atribuir dados inseridos pelo usuario a variaveis
         String nomeUser = jtf_Nome.getText();
         char[] senhaUser = jpf_Senha.getPassword();
@@ -325,12 +324,12 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         user.setNome(nomeUser);
         user.setSenha(this.user.getSenha());
         user.setHierarquia(hierarquiaUser);
-        
-        //Chamar classe ItemDAO para salvar dados no Banco de dados
+
+        //Chamar classe userDAO para salvar dados no Banco de dados
         userDAO aDAO = new userDAO();
 
         //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (aDAO.atualizar(user) == null){
+        if (aDAO.atualizar(user) == null) {
             JOptionPane.showMessageDialog(this, "Novo Usuário salvo com sucesso!", "USUÁRIO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
             this.parente.setTableItems("");
             this.dispose();
@@ -340,6 +339,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
+
         Object[] options = {"Sim",
             "Não"};
         int n = JOptionPane.showOptionDialog(this,
@@ -357,7 +357,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
             user.setId(Integer.parseInt(jll_id.getText()));
             user.setAtivo(false);
 
-            //Chamar classe ItemDAO para salvar dados no Banco de dados
+            //Chamar classe userDAO para salvar dados no Banco de dados
             userDAO aDAO = new userDAO();
 
             //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
@@ -378,6 +378,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
 
     private void jcb_HierarquiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcb_HierarquiaMouseClicked
         this.keyPressed = true;
+
     }//GEN-LAST:event_jcb_HierarquiaMouseClicked
 
     private void jtf_NomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_NomeActionPerformed
@@ -451,16 +452,16 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     @Override
     public void setDAO(Object dao) {
         this.user = (User) dao;
-        
+
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.user.getId());
         jtf_Nome.setText(this.user.getNome());
-        jpf_Senha.setText(this.user.getSenha());
-       
+
     }
 
     @Override
     public void setDetalhamento(boolean inativarControles) {
+        this.inativarControles = inativarControles;
         jInternalFrame1.setTitle("Detalhar Cadastro");
         jtf_Nome.setEnabled(!inativarControles);
         jpf_Senha.setEnabled(false);
@@ -468,18 +469,19 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);
+        keyPressed = false;
     }
 
     @Override
     public void setTelaParente(jif_Listagem_DAO tela) {
         this.parente = tela;
     }
-    
+
     @Override
     public void showWindow(boolean s) {
         //Abrir novo JFrame na mesma localização do JFrame anterior
         this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
     }
-    
+
 }

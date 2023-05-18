@@ -272,11 +272,11 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
         //Botão de fechar
-        if (keyPressed) {
+        if (inativarControles == false && keyPressed) {
             Object[] options = {"Sim",
                 "Não"};
             int n = JOptionPane.showOptionDialog(this,
-                    "Você tem alterações não salvas. Tem certeza que deseja sair?",
+                    "Você pode ter alterações não salvas. Tem certeza que deseja sair?",
                     "ALTERAÇÕES NÃO SALVAS",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
@@ -285,6 +285,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                     options[0]);
             if (n == 0) {
                 this.dispose();
+                keyPressed = false;
             } else {
                 jtf_Descricao.requestFocus(true);
             }
@@ -445,6 +446,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
     @Override
     public void setDetalhamento(boolean inativarControles) {
+        this.inativarControles = inativarControles;
         jInternalFrame1.setTitle("Detalhar Cadastro");
         jtf_Descricao.setEnabled(!inativarControles);
         jtf_estoque.setEnabled(!inativarControles);
@@ -452,6 +454,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);
+        keyPressed = false;
     }
 
     @Override
