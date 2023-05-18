@@ -57,45 +57,52 @@ public class telaPrincipal extends javax.swing.JFrame {
         setBackground(new java.awt.Color(13, 71, 161));
 
         jPanel1.setBackground(new java.awt.Color(250, 250, 250));
-        jPanel1.setPreferredSize(new java.awt.Dimension(960, 540));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1366, 768));
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 972, Short.MAX_VALUE)
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 519, Short.MAX_VALUE)
-        );
+        jDesktopPane1.setLayout(new java.awt.BorderLayout());
+        jPanel1.add(jDesktopPane1, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
-        );
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jMenuBar2.setBackground(new java.awt.Color(13, 71, 161));
+        jMenuBar2.setBorder(null);
         jMenuBar2.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuBar2.setAutoscrolls(true);
         jMenuBar2.setBorderPainted(false);
         jMenuBar2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuBar2.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
-        jMenuBar2.setMinimumSize(new java.awt.Dimension(434, 35));
-        jMenuBar2.setPreferredSize(new java.awt.Dimension(434, 35));
+        jMenuBar2.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        jMenuBar2.setMargin(new java.awt.Insets(30, 30, 30, 30));
+        jMenuBar2.setMinimumSize(new java.awt.Dimension(434, 50));
+        jMenuBar2.setOpaque(true);
+        jMenuBar2.setPreferredSize(new java.awt.Dimension(500, 40));
 
-        jm_cliente.setBackground(new java.awt.Color(250, 250, 250));
+        jm_cliente.setBackground(new java.awt.Color(13, 71, 161));
+        jm_cliente.setBorder(null);
         jm_cliente.setForeground(new java.awt.Color(255, 255, 255));
-        jm_cliente.setText("Cliente");
+        jm_cliente.setText("CLIENTE");
+        jm_cliente.setAlignmentX(1.0F);
+        jm_cliente.setAlignmentY(1.0F);
+        jm_cliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_cliente.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_cliente.setHideActionText(true);
+        jm_cliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_cliente.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_cliente.setIconTextGap(20);
+        jm_cliente.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_cliente.setOpaque(true);
 
         jm_cliente_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_cliente_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_cliente_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_cliente_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_cliente_visualizar.setText("Visualizar");
+        jm_cliente_visualizar.setBorder(null);
+        jm_cliente_visualizar.setBorderPainted(false);
+        jm_cliente_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_cliente_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_cliente_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_cliente_visualizar.setIconTextGap(10);
+        jm_cliente_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_cliente_visualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jm_cliente_visualizarActionPerformed(evt);
@@ -104,8 +111,18 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_cliente.add(jm_cliente_visualizar);
 
         jm_cliente_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_cliente_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_cliente_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_cliente_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_cliente_cadastro.setText("Cadastro");
+        jm_cliente_cadastro.setBorder(null);
+        jm_cliente_cadastro.setBorderPainted(false);
+        jm_cliente_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_cliente_cadastro.setFocusPainted(true);
+        jm_cliente_cadastro.setFocusable(true);
+        jm_cliente_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_cliente_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_cliente_cadastro.setIconTextGap(10);
+        jm_cliente_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_cliente_cadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jm_cliente_cadastroActionPerformed(evt);
@@ -115,22 +132,47 @@ public class telaPrincipal extends javax.swing.JFrame {
 
         jMenuBar2.add(jm_cliente);
 
+        jm_fornecedor.setBackground(new java.awt.Color(13, 71, 161));
+        jm_fornecedor.setBorder(null);
         jm_fornecedor.setForeground(new java.awt.Color(255, 255, 255));
-        jm_fornecedor.setText("Fornecedor");
+        jm_fornecedor.setText("FORNECEDOR");
+        jm_fornecedor.setAlignmentX(1.0F);
+        jm_fornecedor.setAlignmentY(1.0F);
+        jm_fornecedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_fornecedor.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_fornecedor.setHideActionText(true);
+        jm_fornecedor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_fornecedor.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_fornecedor.setIconTextGap(20);
+        jm_fornecedor.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_fornecedor.setOpaque(true);
 
         jm_fornecedor_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_fornecedor_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_fornecedor_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_fornecedor_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_fornecedor_visualizar.setText("Visualizar");
-        jm_fornecedor_visualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jm_fornecedor_visualizarActionPerformed(evt);
-            }
-        });
+        jm_fornecedor_visualizar.setBorder(null);
+        jm_fornecedor_visualizar.setBorderPainted(false);
+        jm_fornecedor_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_fornecedor_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_fornecedor_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_fornecedor_visualizar.setIconTextGap(10);
+        jm_fornecedor_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_fornecedor.add(jm_fornecedor_visualizar);
 
         jm_fornecedor_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_fornecedor_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_fornecedor_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_fornecedor_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_fornecedor_cadastro.setText("Cadastro");
+        jm_fornecedor_cadastro.setBorder(null);
+        jm_fornecedor_cadastro.setBorderPainted(false);
+        jm_fornecedor_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_fornecedor_cadastro.setFocusPainted(true);
+        jm_fornecedor_cadastro.setFocusable(true);
+        jm_fornecedor_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_fornecedor_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_fornecedor_cadastro.setIconTextGap(10);
+        jm_fornecedor_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_fornecedor_cadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jm_fornecedor_cadastroActionPerformed(evt);
@@ -141,12 +183,31 @@ public class telaPrincipal extends javax.swing.JFrame {
         jMenuBar2.add(jm_fornecedor);
 
         jm_item.setBackground(new java.awt.Color(13, 71, 161));
+        jm_item.setBorder(null);
         jm_item.setForeground(new java.awt.Color(255, 255, 255));
-        jm_item.setText("Item");
+        jm_item.setText("ITEM");
+        jm_item.setAlignmentX(1.0F);
+        jm_item.setAlignmentY(1.0F);
+        jm_item.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_item.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_item.setHideActionText(true);
+        jm_item.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_item.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_item.setIconTextGap(20);
+        jm_item.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_item.setOpaque(true);
 
         jm_item_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_item_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_item_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_item_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_item_visualizar.setText("Visualizar");
+        jm_item_visualizar.setBorder(null);
+        jm_item_visualizar.setBorderPainted(false);
+        jm_item_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_item_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_item_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_item_visualizar.setIconTextGap(10);
+        jm_item_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_item_visualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jm_item_visualizarActionPerformed(evt);
@@ -155,8 +216,18 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_item.add(jm_item_visualizar);
 
         jm_item_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_item_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_item_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_item_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_item_cadastro.setText("Cadastro");
+        jm_item_cadastro.setBorder(null);
+        jm_item_cadastro.setBorderPainted(false);
+        jm_item_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_item_cadastro.setFocusPainted(true);
+        jm_item_cadastro.setFocusable(true);
+        jm_item_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_item_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_item_cadastro.setIconTextGap(10);
+        jm_item_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_item_cadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jm_item_cadastroActionPerformed(evt);
@@ -167,76 +238,214 @@ public class telaPrincipal extends javax.swing.JFrame {
         jMenuBar2.add(jm_item);
 
         jm_grupo.setBackground(new java.awt.Color(13, 71, 161));
+        jm_grupo.setBorder(null);
         jm_grupo.setForeground(new java.awt.Color(255, 255, 255));
-        jm_grupo.setText("Grupo de Itens");
+        jm_grupo.setText("GRUPO");
+        jm_grupo.setAlignmentX(1.0F);
+        jm_grupo.setAlignmentY(1.0F);
+        jm_grupo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_grupo.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_grupo.setHideActionText(true);
+        jm_grupo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_grupo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_grupo.setIconTextGap(20);
+        jm_grupo.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_grupo.setOpaque(true);
 
         jm_grupo_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_grupo_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_grupo_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_grupo_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_grupo_visualizar.setText("Visualizar");
+        jm_grupo_visualizar.setBorder(null);
+        jm_grupo_visualizar.setBorderPainted(false);
+        jm_grupo_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_grupo_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_grupo_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_grupo_visualizar.setIconTextGap(10);
+        jm_grupo_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_grupo.add(jm_grupo_visualizar);
 
         jm_grupo_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_grupo_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_grupo_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_grupo_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_grupo_cadastro.setText("Cadastro");
+        jm_grupo_cadastro.setBorder(null);
+        jm_grupo_cadastro.setBorderPainted(false);
+        jm_grupo_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_grupo_cadastro.setFocusPainted(true);
+        jm_grupo_cadastro.setFocusable(true);
+        jm_grupo_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_grupo_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_grupo_cadastro.setIconTextGap(10);
+        jm_grupo_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_grupo.add(jm_grupo_cadastro);
 
         jMenuBar2.add(jm_grupo);
 
         jm_producao.setBackground(new java.awt.Color(13, 71, 161));
+        jm_producao.setBorder(null);
         jm_producao.setForeground(new java.awt.Color(255, 255, 255));
-        jm_producao.setText("Produção");
+        jm_producao.setText("PRODUÇÃO");
+        jm_producao.setAlignmentX(1.0F);
+        jm_producao.setAlignmentY(1.0F);
+        jm_producao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_producao.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_producao.setHideActionText(true);
+        jm_producao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_producao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_producao.setIconTextGap(20);
+        jm_producao.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_producao.setOpaque(true);
 
         jm_producao_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_producao_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_producao_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_producao_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_producao_visualizar.setText("Visualizar");
+        jm_producao_visualizar.setBorder(null);
+        jm_producao_visualizar.setBorderPainted(false);
+        jm_producao_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_producao_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_producao_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_producao_visualizar.setIconTextGap(10);
+        jm_producao_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_producao.add(jm_producao_visualizar);
 
         jm_producao_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_producao_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_producao_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_producao_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_producao_cadastro.setText("Cadastro");
+        jm_producao_cadastro.setBorder(null);
+        jm_producao_cadastro.setBorderPainted(false);
+        jm_producao_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_producao_cadastro.setFocusPainted(true);
+        jm_producao_cadastro.setFocusable(true);
+        jm_producao_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_producao_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_producao_cadastro.setIconTextGap(10);
+        jm_producao_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_producao.add(jm_producao_cadastro);
 
         jMenuBar2.add(jm_producao);
 
         jm_vendas.setBackground(new java.awt.Color(13, 71, 161));
+        jm_vendas.setBorder(null);
         jm_vendas.setForeground(new java.awt.Color(255, 255, 255));
-        jm_vendas.setText("Vendas");
+        jm_vendas.setText("VENDAS");
+        jm_vendas.setAlignmentX(1.0F);
+        jm_vendas.setAlignmentY(1.0F);
+        jm_vendas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_vendas.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_vendas.setHideActionText(true);
+        jm_vendas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_vendas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_vendas.setIconTextGap(20);
+        jm_vendas.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_vendas.setOpaque(true);
 
         jm_vendas_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_vendas_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_vendas_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_vendas_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_vendas_visualizar.setText("Visualizar");
+        jm_vendas_visualizar.setBorder(null);
+        jm_vendas_visualizar.setBorderPainted(false);
+        jm_vendas_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_vendas_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_vendas_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_vendas_visualizar.setIconTextGap(10);
+        jm_vendas_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_vendas.add(jm_vendas_visualizar);
 
         jm_vendas_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_vendas_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_vendas_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_vendas_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_vendas_cadastro.setText("Cadastro");
+        jm_vendas_cadastro.setBorder(null);
+        jm_vendas_cadastro.setBorderPainted(false);
+        jm_vendas_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_vendas_cadastro.setFocusPainted(true);
+        jm_vendas_cadastro.setFocusable(true);
+        jm_vendas_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_vendas_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_vendas_cadastro.setIconTextGap(10);
+        jm_vendas_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_vendas.add(jm_vendas_cadastro);
 
         jMenuBar2.add(jm_vendas);
 
         jm_almox.setBackground(new java.awt.Color(13, 71, 161));
+        jm_almox.setBorder(null);
         jm_almox.setForeground(new java.awt.Color(255, 255, 255));
-        jm_almox.setText("Almoxarifado");
+        jm_almox.setText("ESTOQUE");
+        jm_almox.setAlignmentX(1.0F);
+        jm_almox.setAlignmentY(1.0F);
+        jm_almox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_almox.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_almox.setHideActionText(true);
+        jm_almox.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_almox.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_almox.setIconTextGap(20);
+        jm_almox.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_almox.setOpaque(true);
 
         jm_almox_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_almox_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_almox_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_almox_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_almox_visualizar.setText("Visualizar");
+        jm_almox_visualizar.setBorder(null);
+        jm_almox_visualizar.setBorderPainted(false);
+        jm_almox_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_almox_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_almox_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_almox_visualizar.setIconTextGap(10);
+        jm_almox_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
+        jm_almox_visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_almox_visualizarActionPerformed(evt);
+            }
+        });
         jm_almox.add(jm_almox_visualizar);
 
         jm_almox_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_almox_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_almox_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_almox_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_almox_cadastro.setText("Cadastro");
+        jm_almox_cadastro.setBorder(null);
+        jm_almox_cadastro.setBorderPainted(false);
+        jm_almox_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_almox_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_almox_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_almox_cadastro.setIconTextGap(10);
+        jm_almox_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_almox.add(jm_almox_cadastro);
 
         jMenuBar2.add(jm_almox);
 
         jm_user.setBackground(new java.awt.Color(13, 71, 161));
+        jm_user.setBorder(null);
         jm_user.setForeground(new java.awt.Color(255, 255, 255));
-        jm_user.setText("Usuário");
+        jm_user.setText("USUÁRIO");
+        jm_user.setAlignmentX(1.0F);
+        jm_user.setAlignmentY(1.0F);
+        jm_user.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_user.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_user.setHideActionText(true);
+        jm_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_user.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_user.setIconTextGap(20);
+        jm_user.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_user.setOpaque(true);
 
         jm_user_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_user_visualizar.setForeground(new java.awt.Color(255, 255, 255));
+        jm_user_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_user_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_user_visualizar.setText("Visualizar");
+        jm_user_visualizar.setBorder(null);
+        jm_user_visualizar.setBorderPainted(false);
+        jm_user_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_user_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_user_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_user_visualizar.setIconTextGap(10);
+        jm_user_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_user_visualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jm_user_visualizarActionPerformed(evt);
@@ -245,8 +454,18 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_user.add(jm_user_visualizar);
 
         jm_user_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_user_cadastro.setForeground(new java.awt.Color(255, 255, 255));
+        jm_user_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_user_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_user_cadastro.setText("Cadastro");
+        jm_user_cadastro.setBorder(null);
+        jm_user_cadastro.setBorderPainted(false);
+        jm_user_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_user_cadastro.setFocusPainted(true);
+        jm_user_cadastro.setFocusable(true);
+        jm_user_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_user_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_user_cadastro.setIconTextGap(10);
+        jm_user_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_user_cadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jm_user_cadastroActionPerformed(evt);
@@ -257,12 +476,33 @@ public class telaPrincipal extends javax.swing.JFrame {
         jMenuBar2.add(jm_user);
 
         jm_ajuda.setBackground(new java.awt.Color(13, 71, 161));
+        jm_ajuda.setBorder(null);
         jm_ajuda.setForeground(new java.awt.Color(255, 255, 255));
-        jm_ajuda.setText("Ajuda");
+        jm_ajuda.setText("AJUDA");
+        jm_ajuda.setAlignmentX(1.0F);
+        jm_ajuda.setAlignmentY(1.0F);
+        jm_ajuda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_ajuda.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_ajuda.setHideActionText(true);
+        jm_ajuda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_ajuda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_ajuda.setIconTextGap(20);
+        jm_ajuda.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_ajuda.setOpaque(true);
 
         jm_ajuda_sair.setBackground(new java.awt.Color(13, 71, 161));
-        jm_ajuda_sair.setForeground(new java.awt.Color(255, 255, 255));
+        jm_ajuda_sair.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_ajuda_sair.setForeground(new java.awt.Color(250, 250, 250));
         jm_ajuda_sair.setText("Sair");
+        jm_ajuda_sair.setBorder(null);
+        jm_ajuda_sair.setBorderPainted(false);
+        jm_ajuda_sair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_ajuda_sair.setFocusPainted(true);
+        jm_ajuda_sair.setFocusable(true);
+        jm_ajuda_sair.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_ajuda_sair.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_ajuda_sair.setIconTextGap(10);
+        jm_ajuda_sair.setPreferredSize(new java.awt.Dimension(100, 35));
         jm_ajuda_sair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jm_ajuda_sairActionPerformed(evt);
@@ -274,25 +514,8 @@ public class telaPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar2);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jm_cliente_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_cliente_visualizarActionPerformed
-        jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO("cliente"), new jff_Alterar_cliente());
-        jDesktopPane1.add(jifVis_cliente);
-        jifVis_cliente.setVisible(true);
-    }//GEN-LAST:event_jm_cliente_visualizarActionPerformed
 
     private void jm_ajuda_sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_ajuda_sairActionPerformed
         this.dispose();
@@ -337,13 +560,15 @@ public class telaPrincipal extends javax.swing.JFrame {
         jif_cad_cliente.setVisible(true);
     }//GEN-LAST:event_jm_fornecedor_cadastroActionPerformed
 
-    private void jm_fornecedor_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_fornecedor_visualizarActionPerformed
-        jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO("fornecedor"), new jff_Alterar_cliente());
+    private void jm_cliente_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_cliente_visualizarActionPerformed
+        jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO("cliente"), new jff_Alterar_cliente());
         jDesktopPane1.add(jifVis_cliente);
-        jifVis_cliente.setTitle("Visualizar - Fornecedor");
         jifVis_cliente.setVisible(true);
-        
-    }//GEN-LAST:event_jm_fornecedor_visualizarActionPerformed
+    }//GEN-LAST:event_jm_cliente_visualizarActionPerformed
+
+    private void jm_almox_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_almox_visualizarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jm_almox_visualizarActionPerformed
 
     /**
      * @param args the command line arguments

@@ -23,8 +23,6 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jbt_Acessar = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -40,21 +38,15 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jtf_email = new javax.swing.JTextField();
 
-        jbt_Acessar.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_Acessar.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_Acessar.setText("Fechar");
-        jbt_Acessar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_AcessarActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("jLabel5");
-
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Cadastro - Cliente");
         setPreferredSize(new java.awt.Dimension(960, 500));
+        getContentPane().setLayout(new java.awt.FlowLayout());
 
         jPanel1.setBackground(new java.awt.Color(238, 238, 238));
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -187,26 +179,10 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel6, jtf_Cpf, jtf_End, jtf_Nome, jtf_Tel, jtf_email});
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jbt_AcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_AcessarActionPerformed
-        this.dispose();
-
-    }//GEN-LAST:event_jbt_AcessarActionPerformed
 
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
         //Botão de fechar
@@ -283,10 +259,8 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton jbt_Acessar;
     private javax.swing.JButton jbt_cadastrar;
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_limpar;
