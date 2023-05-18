@@ -21,7 +21,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
 
     private boolean keyPressed;
 
-    private boolean inativarControles;
+    private boolean inativarControles = false;
 
     private DefaultComboBoxModel model;
 
@@ -71,11 +71,6 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
         jtf_Nome.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Nome.setSelectedTextColor(new java.awt.Color(0, 0, 0));
-        jtf_Nome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtf_NomeActionPerformed(evt);
-            }
-        });
         jtf_Nome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtf_NomeKeyPressed(evt);
@@ -161,11 +156,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Hierarquia.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Hierarquia.setMaximumRowCount(150);
         jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "usuario", "admin" }));
-        jcb_Hierarquia.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jcb_HierarquiaMouseClicked(evt);
-            }
-        });
+        jcb_Hierarquia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jcb_Hierarquia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcb_HierarquiaActionPerformed(evt);
@@ -174,11 +165,6 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
 
         jpf_Senha.setBackground(new java.awt.Color(250, 250, 250));
         jpf_Senha.setForeground(new java.awt.Color(0, 0, 0));
-        jpf_Senha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jpf_SenhaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -225,11 +211,9 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
                         .addGap(28, 28, 28)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jpf_Senha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)))
+                            .addComponent(jpf_Senha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jcb_Hierarquia, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -281,7 +265,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
             Object[] options = {"Sim",
                 "Não"};
             int n = JOptionPane.showOptionDialog(this,
-                   "Você pode ter alterações não salvas. Tem certeza que deseja sair?",
+                    "Você pode ter alterações não salvas. Tem certeza que deseja sair?",
                     "ALTERAÇÕES NÃO SALVAS",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
@@ -376,21 +360,8 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         this.keyPressed = true;
     }//GEN-LAST:event_jtf_NomeKeyPressed
 
-    private void jcb_HierarquiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcb_HierarquiaMouseClicked
-        this.keyPressed = true;
-
-    }//GEN-LAST:event_jcb_HierarquiaMouseClicked
-
-    private void jtf_NomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_NomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtf_NomeActionPerformed
-
-    private void jpf_SenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jpf_SenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jpf_SenhaActionPerformed
-
     private void jcb_HierarquiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_HierarquiaActionPerformed
-        // TODO add your handling code here:
+        this.keyPressed = true;
     }//GEN-LAST:event_jcb_HierarquiaActionPerformed
 
     /**
@@ -462,7 +433,11 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     @Override
     public void setDetalhamento(boolean inativarControles) {
         this.inativarControles = inativarControles;
-        jInternalFrame1.setTitle("Detalhar Cadastro");
+        if (inativarControles) {
+            jInternalFrame1.setTitle("Detalhar Cadastro");
+        } else {
+            jInternalFrame1.setTitle("Alterar/Excluir");
+        }
         jtf_Nome.setEnabled(!inativarControles);
         jpf_Senha.setEnabled(false);
         jcb_Hierarquia.setEnabled(!inativarControles);

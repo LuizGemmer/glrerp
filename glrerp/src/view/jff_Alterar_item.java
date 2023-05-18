@@ -25,14 +25,13 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private boolean keyPressed;
 
     private boolean inativarControles;
-    
+
     private DefaultComboBoxModel model;
-    
-    
+
     public jff_Alterar_item() {
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
-        initComponents();                    
+        initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -169,9 +168,10 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Grupo.setMaximumRowCount(150);
         jcb_Grupo.setModel(this.model);
-        jcb_Grupo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jcb_GrupoMouseClicked(evt);
+        jcb_Grupo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jcb_Grupo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_GrupoActionPerformed(evt);
             }
         });
 
@@ -183,7 +183,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 .addGap(100, 100, 100)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -224,7 +224,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                             .addComponent(jLabel2)
                             .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jtf_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -311,7 +311,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         String descItem = jtf_Descricao.getText();
         int grupoItem = ((Grupo) jcb_Grupo.getSelectedItem()).getId();
         double estoqueItem = Double.parseDouble(jtf_estoque.getText().replace(',', '.'));
-        
 
         //Setar nomes das variaveis para o objeto Item
         Item item = new Item();
@@ -319,7 +318,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         item.setDescricao(descItem);
         item.setId_grupo(grupoItem);
         item.setQtde_estoque(estoqueItem);
-        
+
         //Chamar classe ItemDAO para salvar dados no Banco de dados
         ItemDAO itemDAO = new ItemDAO();
 
@@ -374,9 +373,9 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         this.keyPressed = true;
     }//GEN-LAST:event_jtf_estoqueKeyPressed
 
-    private void jcb_GrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcb_GrupoMouseClicked
+    private void jcb_GrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_GrupoActionPerformed
         this.keyPressed = true;
-    }//GEN-LAST:event_jcb_GrupoMouseClicked
+    }//GEN-LAST:event_jcb_GrupoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -435,19 +434,23 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     @Override
     public void setDAO(Object dao) {
         this.item = (Item) dao;
-        
+
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.item.getId());
         jtf_Descricao.setText(this.item.getDescricao());
         jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()));
 //jcb_Grupo.setText
-       
+
     }
 
     @Override
     public void setDetalhamento(boolean inativarControles) {
         this.inativarControles = inativarControles;
-        jInternalFrame1.setTitle("Detalhar Cadastro");
+        if (inativarControles) {
+            jInternalFrame1.setTitle("Detalhar Cadastro");
+        } else {
+            jInternalFrame1.setTitle("Alterar/Excluir");
+        }
         jtf_Descricao.setEnabled(!inativarControles);
         jtf_estoque.setEnabled(!inativarControles);
         jcb_Grupo.setEnabled(!inativarControles);
@@ -455,18 +458,19 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);
         keyPressed = false;
+
     }
 
     @Override
     public void setTelaParente(jif_Listagem_DAO tela) {
         this.parente = tela;
     }
-    
+
     @Override
     public void showWindow(boolean s) {
         //Abrir novo JFrame na mesma localização do JFrame anterior
         this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
     }
-    
+
 }

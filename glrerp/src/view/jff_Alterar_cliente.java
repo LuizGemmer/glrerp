@@ -495,7 +495,11 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     @Override
     public void setDetalhamento(boolean inativarControles) {
         this.inativarControles = inativarControles;
-        jInternalFrame1.setTitle("Detalhar Cadastro");
+        if (inativarControles) {
+            jInternalFrame1.setTitle("Detalhar Cadastro");
+        } else {
+            jInternalFrame1.setTitle("Alterar/Excluir");
+        }
         jtf_Nome.setEnabled(!inativarControles);
         jtf_email.setEnabled(!inativarControles);
         jtf_Cpf.setEnabled(!inativarControles);
@@ -505,6 +509,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);
         keyPressed = false;
+        
     }
 
     @Override
