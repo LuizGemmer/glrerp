@@ -1,5 +1,5 @@
 
-package view;
+package view.Cliente;
 
 import dao.ClienteDAO;
 import entidade.Cliente;

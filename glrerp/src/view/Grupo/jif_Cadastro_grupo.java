@@ -1,26 +1,19 @@
-package view;
+
+package view.Grupo;
 
 import dao.GrupoDAO;
-import dao.ItemDAO;
 import entidade.Grupo;
-import entidade.Item;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author ruang
  */
-public class jif_Cadastro_item extends javax.swing.JInternalFrame {
+public class jif_Cadastro_grupo extends javax.swing.JInternalFrame {
 
-    private DefaultComboBoxModel model;
-    
-    
-    public jif_Cadastro_item() {
-        Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
-        this.model = new DefaultComboBoxModel(grupoComboBox);
-        System.out.println(grupoComboBox);
-        initComponents();                    
+   
+    public jif_Cadastro_grupo() {
+        initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -29,18 +22,20 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jtf_Descricao = new javax.swing.JTextField();
         jbt_fechar = new javax.swing.JButton();
         jbt_limpar = new javax.swing.JButton();
         jbt_cadastrar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jtf_estoque_inicial = new javax.swing.JTextField();
-        jcb_Grupo = new javax.swing.JComboBox<Grupo>();
+        jcb_Tipo = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
-        setTitle("Cadastro - Item");
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Cadastro - Grupo");
         setPreferredSize(new java.awt.Dimension(960, 500));
         getContentPane().setLayout(new java.awt.FlowLayout());
 
@@ -49,9 +44,6 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("*Descrição");
-
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("*Grupo");
 
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
@@ -84,15 +76,11 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         });
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("*Estoque Inicial");
+        jLabel6.setText("*Tipo");
 
-        jtf_estoque_inicial.setBackground(new java.awt.Color(250, 250, 250));
-        jtf_estoque_inicial.setForeground(new java.awt.Color(0, 0, 0));
-
-        jcb_Grupo.setBackground(new java.awt.Color(250, 250, 250));
-        jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
-        jcb_Grupo.setMaximumRowCount(150);
-        jcb_Grupo.setModel(this.model);
+        jcb_Tipo.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_Tipo.setForeground(new java.awt.Color(0, 0, 0));
+        jcb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MATERIA-PRIMA", "PRODUTO ACABADO", "FERRAMENTA", "OUTRO" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -101,55 +89,44 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(100, 100, 100)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, Short.MAX_VALUE)
-                                .addComponent(jbt_limpar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jbt_fechar))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 297, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(27, 27, 27)
                         .addComponent(jbt_cadastrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 520, Short.MAX_VALUE)
+                        .addComponent(jbt_limpar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbt_fechar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcb_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
+                .addGap(81, 81, 81)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                    .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(114, 114, 114)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
+                    .addComponent(jcb_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbt_fechar)
                         .addComponent(jbt_limpar))
                     .addComponent(jbt_cadastrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel6, jtf_Descricao, jtf_estoque_inicial});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel6, jtf_Descricao});
 
         getContentPane().add(jPanel1);
 
@@ -162,55 +139,48 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
-
+        
         //Botão de limpar campos de TextField
         jtf_Descricao.setText("");
-        jcb_Grupo.setSelectedIndex(0);
-        jtf_estoque_inicial.setText("");
+        jcb_Tipo.setSelectedIndex(0);
         jtf_Descricao.requestFocus();
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
-        //Cadastro de Item
+        
+        //Cadastrar novo grupo
         //Atribuir dados inseridos pelo usuario a variaveis
-        String descItem = jtf_Descricao.getText();
-        int grupoItem = ((Grupo)jcb_Grupo.getSelectedItem()).getId();
-        double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText());
+        String descGrupo = jtf_Descricao.getText();
+        String tipoGrupo = jcb_Tipo.getSelectedItem().toString();
 
-        //Setar nomes das variaveis para o objeto Item
-        Item item = new Item();
-        item.setDescricao(descItem);
-        item.setId_grupo(grupoItem);
-        item.setQtde_estoque(estoqueItem);
-
-        //Chamar classe ItemDAO para salvar dados no Banco de dados
-        ItemDAO itemDAO = new ItemDAO();
-
+        //Setar nomes das variaveis para o objeto grupo
+        Grupo grupo = new Grupo();
+        grupo.setDescricao(descGrupo);
+        grupo.setTipo(tipoGrupo);
+        
+        //Chamar classe GrupoDAO para salvar dados no Banco de dados
+        GrupoDAO grupoDAO = new GrupoDAO();
+        
         //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (itemDAO.salvar(item) == null) {
-            JOptionPane.showMessageDialog(this, "Novo item salvo com sucesso!", "ITEM CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+        if (grupoDAO.salvar(grupo) == null){
+            JOptionPane.showMessageDialog(this, "Novo Grupo salvo com sucesso!", "GRUPO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
             jtf_Descricao.setText("");
-            jcb_Grupo.setSelectedIndex(0);
-            jtf_estoque_inicial.setText("");
+            jcb_Tipo.setSelectedIndex(0);
             jtf_Descricao.requestFocus();
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao inserir dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo grupo", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbt_cadastrar;
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_limpar;
-    private javax.swing.JComboBox<Grupo> jcb_Grupo;
+    private javax.swing.JComboBox<String> jcb_Tipo;
     private javax.swing.JTextField jtf_Descricao;
-    private javax.swing.JTextField jtf_estoque_inicial;
     // End of variables declaration//GEN-END:variables
 }

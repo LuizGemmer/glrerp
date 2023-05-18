@@ -1,34 +1,33 @@
-package view;
+package view.Usuario;
 
-import apoio.IDAOT;
 import dao.GrupoDAO;
-import dao.GrupoDAO;
-import dao.ItemDAO;
-import entidade.Grupo;
+import dao.userDAO;
 import entidade.Grupo;
 import entidade.Item;
-import java.text.DecimalFormat;
+import entidade.User;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 import java.text.DecimalFormat;
+import view.jff_ITelaAlterarCadastro;
+import view.jif_Listagem_DAO;
 
 /**
  *
  * @author ruang
  */
-public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlterarCadastro {
+public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlterarCadastro {
 
     private jif_Listagem_DAO parente;
 
-    private Item item;
+    private User user;
 
     private boolean keyPressed;
 
-    private boolean inativarControles;
+    private boolean inativarControles = false;
 
     private DefaultComboBoxModel model;
 
-    public jff_Alterar_item() {
+    public jff_Alterar_User() {
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
         initComponents();
@@ -42,17 +41,17 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jtf_Descricao = new javax.swing.JTextField();
+        jtf_Nome = new javax.swing.JTextField();
         jbt_fechar = new javax.swing.JButton();
         jbt_limpar = new javax.swing.JButton();
         jbt_salvar_alteracao = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jtf_estoque = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jll_id = new javax.swing.JLabel();
         jbt_excluir = new javax.swing.JButton();
-        jcb_Grupo = new javax.swing.JComboBox<Grupo>();
+        jcb_Hierarquia = new javax.swing.JComboBox<>();
+        jpf_Senha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -70,18 +69,18 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("*Descrição");
+        jLabel1.setText("*Nome");
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("*Grupo");
+        jLabel2.setText("*Senha");
 
-        jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
-        jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
-        jtf_Descricao.setDisabledTextColor(new java.awt.Color(102, 102, 102));
-        jtf_Descricao.setSelectedTextColor(new java.awt.Color(0, 0, 0));
-        jtf_Descricao.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Nome.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+        jtf_Nome.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        jtf_Nome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtf_DescricaoKeyPressed(evt);
+                jtf_NomeKeyPressed(evt);
             }
         });
 
@@ -113,16 +112,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         });
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("*Estoque");
-
-        jtf_estoque.setBackground(new java.awt.Color(250, 250, 250));
-        jtf_estoque.setForeground(new java.awt.Color(0, 0, 0));
-        jtf_estoque.setDisabledTextColor(new java.awt.Color(102, 102, 102));
-        jtf_estoque.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtf_estoqueKeyPressed(evt);
-            }
-        });
+        jLabel6.setText("*Hierarquia");
 
         jPanel2.setBackground(new java.awt.Color(238, 238, 238));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -169,16 +159,19 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             }
         });
 
-        jcb_Grupo.setBackground(new java.awt.Color(250, 250, 250));
-        jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
-        jcb_Grupo.setMaximumRowCount(150);
-        jcb_Grupo.setModel(this.model);
-        jcb_Grupo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jcb_Grupo.addActionListener(new java.awt.event.ActionListener() {
+        jcb_Hierarquia.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_Hierarquia.setForeground(new java.awt.Color(0, 0, 0));
+        jcb_Hierarquia.setMaximumRowCount(150);
+        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "usuario", "admin" }));
+        jcb_Hierarquia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jcb_Hierarquia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcb_GrupoActionPerformed(evt);
+                jcb_HierarquiaActionPerformed(evt);
             }
         });
+
+        jpf_Senha.setBackground(new java.awt.Color(250, 250, 250));
+        jpf_Senha.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -190,9 +183,9 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jbt_salvar_alteracao)
@@ -201,18 +194,16 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
                                 .addComponent(jbt_limpar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jpf_Senha)
+                                    .addComponent(jtf_Nome))
+                                .addGap(61, 61, 61)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbt_fechar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jtf_estoque, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
-                                .addComponent(jtf_Descricao, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)))
-                        .addGap(0, 211, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbt_fechar)
+                        .addComponent(jcb_Hierarquia, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -223,17 +214,17 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(28, 28, 28)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jpf_Senha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jtf_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(192, 192, 192)
+                    .addComponent(jcb_Hierarquia, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(191, 191, 191)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbt_fechar)
@@ -279,7 +270,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 this.dispose();
                 keyPressed = false;
             } else {
-                jtf_Descricao.requestFocus(true);
+                jtf_Nome.requestFocus(true);
             }
         } else {
             this.dispose();
@@ -290,33 +281,34 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
 
         //Botão de limpar campos de TextField
-        jtf_Descricao.setText("");
-        jcb_Grupo.setSelectedIndex(0);
-        jtf_estoque.setText("");
-        jtf_Descricao.requestFocus();
+        //Botão de limpar campos de TextField
+        jtf_Nome.setText("");
+        jpf_Senha.setText("");
+        jcb_Hierarquia.setSelectedIndex(0);
+        jtf_Nome.requestFocus();
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
 
-        //Alterar cadastro de Item
+        //Alterar cadastro de Usuario
         //Atribuir dados inseridos pelo usuario a variaveis
-        String descItem = jtf_Descricao.getText();
-        int grupoItem = ((Grupo) jcb_Grupo.getSelectedItem()).getId();
-        double estoqueItem = Double.parseDouble(jtf_estoque.getText().replace(',', '.'));
+        String nomeUser = jtf_Nome.getText();
+        char[] senhaUser = jpf_Senha.getPassword();
+        String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString();
 
-        //Setar nomes das variaveis para o objeto Item
-        Item item = new Item();
-        item.setId(Integer.parseInt(jll_id.getText()));
-        item.setDescricao(descItem);
-        item.setId_grupo(grupoItem);
-        item.setQtde_estoque(estoqueItem);
+        //Setar nomes das variaveis para o objeto User
+        User user = new User();
+        user.setId(this.user.getId());
+        user.setNome(nomeUser);
+        user.setSenha(this.user.getSenha());
+        user.setHierarquia(hierarquiaUser);
 
-        //Chamar classe ItemDAO para salvar dados no Banco de dados
-        ItemDAO itemDAO = new ItemDAO();
+        //Chamar classe userDAO para salvar dados no Banco de dados
+        userDAO aDAO = new userDAO();
 
         //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (itemDAO.atualizar(item) == null) {
-            JOptionPane.showMessageDialog(this, "Cadastro alterado com sucesso!", "CADASTRADO ALTERADO", JOptionPane.INFORMATION_MESSAGE);
+        if (aDAO.atualizar(user) == null) {
+            JOptionPane.showMessageDialog(this, "Novo Usuário salvo com sucesso!", "USUÁRIO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
             this.parente.setTableItems("");
             this.dispose();
         } else {
@@ -325,6 +317,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
+
         Object[] options = {"Sim",
             "Não"};
         int n = JOptionPane.showOptionDialog(this,
@@ -337,16 +330,16 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 options[0]);
         if (n == 0) {
             //Excluir cadastro
-            //Setar SITUAÇÃO=FALSE mo objeto
-            Item item = new Item();
-            item.setId(Integer.parseInt(jll_id.getText()));
-            item.setAtivo(false);
+            //Setar SITUAÇÃO=FALSE no objeto
+            User user = new User();
+            user.setId(Integer.parseInt(jll_id.getText()));
+            user.setAtivo(false);
 
-            //Chamar classe ItemDAO para salvar dados no Banco de dados
-            ItemDAO itemDAO = new ItemDAO();
+            //Chamar classe userDAO para salvar dados no Banco de dados
+            userDAO aDAO = new userDAO();
 
             //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
-            if (itemDAO.excluir(Integer.parseInt(jll_id.getText())) == null) {
+            if (aDAO.excluir(Integer.parseInt(jll_id.getText())) == null) {
                 JOptionPane.showMessageDialog(this, "Cadastro excluido com sucesso!", "CADASTRADO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
                 this.parente.setTableItems("");
                 this.dispose();
@@ -357,17 +350,13 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
     }//GEN-LAST:event_jbt_excluirActionPerformed
 
-    private void jtf_DescricaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_DescricaoKeyPressed
+    private void jtf_NomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_NomeKeyPressed
         this.keyPressed = true;
-    }//GEN-LAST:event_jtf_DescricaoKeyPressed
+    }//GEN-LAST:event_jtf_NomeKeyPressed
 
-    private void jtf_estoqueKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_estoqueKeyPressed
+    private void jcb_HierarquiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_HierarquiaActionPerformed
         this.keyPressed = true;
-    }//GEN-LAST:event_jtf_estoqueKeyPressed
-
-    private void jcb_GrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_GrupoActionPerformed
-        this.keyPressed = true;
-    }//GEN-LAST:event_jcb_GrupoActionPerformed
+    }//GEN-LAST:event_jcb_HierarquiaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -386,14 +375,16 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jff_Alterar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_Alterar_User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jff_Alterar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_Alterar_User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jff_Alterar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_Alterar_User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jff_Alterar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_Alterar_User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -417,21 +408,19 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_limpar;
     private javax.swing.JButton jbt_salvar_alteracao;
-    private javax.swing.JComboBox<Grupo> jcb_Grupo;
+    private javax.swing.JComboBox<String> jcb_Hierarquia;
     private javax.swing.JLabel jll_id;
-    private javax.swing.JTextField jtf_Descricao;
-    private javax.swing.JTextField jtf_estoque;
+    private javax.swing.JPasswordField jpf_Senha;
+    private javax.swing.JTextField jtf_Nome;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void setDAO(Object dao) {
-        this.item = (Item) dao;
+        this.user = (User) dao;
 
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
-        jll_id.setText("" + this.item.getId());
-        jtf_Descricao.setText(this.item.getDescricao());
-        jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()));
-//jcb_Grupo.setText
+        jll_id.setText("" + this.user.getId());
+        jtf_Nome.setText(this.user.getNome());
 
     }
 
@@ -443,14 +432,13 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         } else {
             jInternalFrame1.setTitle("Alterar/Excluir");
         }
-        jtf_Descricao.setEnabled(!inativarControles);
-        jtf_estoque.setEnabled(!inativarControles);
-        jcb_Grupo.setEnabled(!inativarControles);
+        jtf_Nome.setEnabled(!inativarControles);
+        jpf_Senha.setEnabled(false);
+        jcb_Hierarquia.setEnabled(!inativarControles);
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);
         keyPressed = false;
-
     }
 
     @Override

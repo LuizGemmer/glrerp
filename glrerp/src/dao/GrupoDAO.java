@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import apoio.IDAOT;
@@ -20,21 +16,70 @@ public class GrupoDAO implements IDAOT<Grupo> {
 
     @Override
     public String salvar(Grupo o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        //Salvar no banco de dados
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "INSERT INTO grupo VALUES "
+                    + "(default, "
+                    + "'" + o.getDescricao().toUpperCase() + "', "
+                    + "'" + o.getTipo().toUpperCase() + "', "
+                    + "'true')";
+
+            int retorno = st.executeUpdate(sql);
+            System.out.println("SQL: " + sql);
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao inserir cadastro de Grupo " + e);
+            return e.toString();
+        }
     }
 
     @Override
     public String atualizar(Grupo o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        //Atualizar um Grupo
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE grupo SET "
+                    + "descricao='" + o.getDescricao().toUpperCase() + "', "
+                    + "WHERE id='" + o.getId() + "'";
+
+            int retorno = st.executeUpdate(sql);
+            System.out.println("SQL: " + sql);
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar Grupo " + e);
+            return e.toString();
+        }
     }
 
     @Override
     public String excluir(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE grupo SET "
+                    + "ativo=false "
+                    + "WHERE id=" + id;
+
+            int retorno = st.executeUpdate(sql);
+            System.out.println("SQL: " + sql);
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir Grupo " + e);
+            return e.toString();
+        }
     }
 
     @Override
     public ArrayList<Grupo> consultarTodos() {
+
+        //Consultar todos os Grupos
         ArrayList<Grupo> grupos = new ArrayList();
 
         try {
@@ -50,16 +95,16 @@ public class GrupoDAO implements IDAOT<Grupo> {
             System.out.println("SQL: " + sql);
             while (retorno.next()) {
                 Grupo grupo = new Grupo();
-                
+
                 grupo.setId(retorno.getInt("id"));
                 grupo.setDescricao(retorno.getString("descricao").toUpperCase());
-                grupo.setTipo(retorno.getString("tipo"));
+                grupo.setTipo(retorno.getString("tipo").toUpperCase());
 
                 grupos.add(grupo);
             }
 
         } catch (Exception e) {
-            System.out.println("Erro ao consultar cadastro de Cliente/Fornecedor " + e);
+            System.out.println("Erro ao consultar cadastro de Grupo " + e);
         }
 
         return grupos;
@@ -80,7 +125,7 @@ public class GrupoDAO implements IDAOT<Grupo> {
             String sql = ""
                     + "SELECT * "
                     + "FROM grupo "
-                    + "WHERE id=" + id + " AND ativo=true";
+                    + "WHERE id=" + id;
 
             ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);
@@ -88,11 +133,11 @@ public class GrupoDAO implements IDAOT<Grupo> {
 
                 grupo.setId(retorno.getInt("id"));
                 grupo.setDescricao(retorno.getString("descricao").toUpperCase());
-                grupo.setTipo(retorno.getString("tipo"));
+                grupo.setTipo(retorno.getString("tipo").toUpperCase());
 
             }
         } catch (Exception e) {
-            System.out.println("Erro ao consultar cadastro de Cliente/Fornecedor " + e);
+            System.out.println("Erro ao consultar cadastro de Grupo " + e);
         }
 
         return grupo;
@@ -100,15 +145,33 @@ public class GrupoDAO implements IDAOT<Grupo> {
 
     @Override
     public ArrayList<String[]> paraListagemTabela(String filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Grupo> grupos = consultarTodos();
+
+        ArrayList<String[]> tableData = new ArrayList();
+        for (Grupo grupo : grupos) {
+            String[] data = {
+                Integer.toString(grupo.getId()),
+                grupo.getDescricao(),
+                grupo.getTipo()
+            };
+
+            if (filtro.equals("")) {
+                tableData.add(data);
+            } else if (data[1].toUpperCase().contains(filtro.toUpperCase())
+                    || data[2].toUpperCase().contains(filtro.toUpperCase())) {
+                tableData.add(data);
+            }
+        }
+
+        return tableData;
     }
 
     @Override
     public String[] getTableColumns() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new String[]{"Id", "Descricao", "Tipo"};
     }
-    
-    public Grupo[] consultarComboBox(){
+
+    public Grupo[] consultarComboBox() {
         ArrayList<Grupo> grupos = this.consultarTodos();
         Grupo[] gruposArr = new Grupo[grupos.size()];
         for (int i = 0; i < gruposArr.length; i++) {

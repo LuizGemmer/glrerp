@@ -3,6 +3,7 @@ package dao;
 import entidade.Item;
 import apoio.ConexaoBD;
 import apoio.IDAOT;
+import entidade.Grupo;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
@@ -153,15 +154,19 @@ public class ItemDAO implements IDAOT<Item> {
 
         ArrayList<String[]> tableData = new ArrayList();
         for (Item item : items) {
+            Grupo abc = new GrupoDAO().consultarId(item.getId_grupo());
             String[] data = {
                 Integer.toString(item.getId()),
                 item.getDescricao(),
                 new DecimalFormat("#.####").format(item.getQtde_estoque()),
-                new GrupoDAO().consultarId(item.getId_grupo()).toString(),};
+                abc.toString(),
+                abc.getTipo()
+            };
 
             if (filtro.equals("")) {
                 tableData.add(data);
             } else if (data[1].toUpperCase().contains(filtro.toUpperCase())
+                    || data[3].toUpperCase().contains(filtro.toUpperCase())
                     || data[4].toUpperCase().contains(filtro.toUpperCase())) {
                 tableData.add(data);
             }
@@ -172,7 +177,7 @@ public class ItemDAO implements IDAOT<Item> {
 
     @Override
     public String[] getTableColumns() {
-        return new String[]{"Id", "Descriçao", "Qtde", "Grupo"};
+        return new String[]{"Id", "Descriçao", "Qtde", "Grupo", "Tipo de Grupo"};
     }
 
 }

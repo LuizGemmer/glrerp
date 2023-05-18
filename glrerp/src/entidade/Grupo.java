@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entidade;
 
 /**
@@ -48,6 +44,6 @@ public class Grupo {
     
     @Override
     public String toString(){
-        return String.valueOf(this.getId()) + " " + String.valueOf(this.getDescricao());
+        return String.valueOf("(" + String.valueOf(this.getTipo()) + ")  " + String.valueOf(this.getDescricao()));
     }
 }

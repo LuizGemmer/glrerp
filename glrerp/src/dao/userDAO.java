@@ -125,7 +125,7 @@ public class userDAO implements IDAOT<User> {
             String sql = ""
                     + "SELECT * "
                     + "FROM usuario "
-                    + "WHERE id=" + id + " AND ativo=true";
+                    + "WHERE id=" + id;
 
             ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);

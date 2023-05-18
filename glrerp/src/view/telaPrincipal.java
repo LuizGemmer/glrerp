@@ -1,8 +1,17 @@
 package view;
 
+import view.Usuario.jff_Alterar_User;
+import view.Item.jif_Cadastro_item;
+import view.Usuario.jif_Cadastro_user;
+import view.Item.jff_Alterar_item;
+import view.Cliente.jff_Alterar_cliente;
+import view.Cliente.jif_Cadastro_cliente;
 import dao.ClienteDAO;
+import dao.GrupoDAO;
 import dao.ItemDAO;
 import dao.userDAO;
+import view.Grupo.jff_Alterar_grupo;
+import view.Grupo.jif_Cadastro_grupo;
 
 /**
  *
@@ -263,6 +272,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_grupo_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jm_grupo_visualizar.setIconTextGap(10);
         jm_grupo_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
+        jm_grupo_visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_grupo_visualizarActionPerformed(evt);
+            }
+        });
         jm_grupo.add(jm_grupo_visualizar);
 
         jm_grupo_cadastro.setBackground(new java.awt.Color(13, 71, 161));
@@ -278,6 +292,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_grupo_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jm_grupo_cadastro.setIconTextGap(10);
         jm_grupo_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
+        jm_grupo_cadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_grupo_cadastroActionPerformed(evt);
+            }
+        });
         jm_grupo.add(jm_grupo_cadastro);
 
         jMenuBar2.add(jm_grupo);
@@ -569,6 +588,18 @@ public class telaPrincipal extends javax.swing.JFrame {
     private void jm_almox_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_almox_visualizarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jm_almox_visualizarActionPerformed
+
+    private void jm_grupo_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_grupo_visualizarActionPerformed
+        jif_Listagem_DAO jifVis_grupo = new jif_Listagem_DAO(new GrupoDAO(), new jff_Alterar_grupo());
+        jDesktopPane1.add(jifVis_grupo);
+        jifVis_grupo.setVisible(true);
+    }//GEN-LAST:event_jm_grupo_visualizarActionPerformed
+
+    private void jm_grupo_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_grupo_cadastroActionPerformed
+        jif_Cadastro_grupo jif_cad_grupo = new jif_Cadastro_grupo();
+        jDesktopPane1.add(jif_cad_grupo);
+        jif_cad_grupo.setVisible(true);
+    }//GEN-LAST:event_jm_grupo_cadastroActionPerformed
 
     /**
      * @param args the command line arguments

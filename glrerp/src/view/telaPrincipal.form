@@ -371,6 +371,9 @@
                   <Dimension value="[100, 35]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_grupo_visualizarActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jm_grupo_cadastro">
               <Properties>
@@ -400,6 +403,9 @@
                   <Dimension value="[100, 35]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_grupo_cadastroActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

@@ -1,5 +1,5 @@
 
-package view;
+package view.Usuario;
 
 import dao.userDAO;
 import entidade.User;
@@ -98,7 +98,7 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
 
         jcb_Hierarquia.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Hierarquia.setForeground(new java.awt.Color(0, 0, 0));
-        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "usuario", "admin" }));
+        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "USUARIO", "ADMIN" }));
         jcb_Hierarquia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcb_HierarquiaActionPerformed(evt);
