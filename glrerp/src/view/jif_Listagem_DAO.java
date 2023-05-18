@@ -14,15 +14,15 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
 
     private final IDAOT DAOObject;
     private final jff_ITelaAlterarCadastro telaAlterar;
-    
-        
+
     private final DefaultTableModel tableModel;
 
     public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar) {
         this.DAOObject = dao;
         this.telaAlterar = telaAlterar;
-        
+
         initComponents();
+
         this.tableModel = (DefaultTableModel) jTable1.getModel();
         this.setTableColumns();
         this.setTableItems("");
@@ -151,17 +151,17 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void setTableColumns() {
-       String[] colunasTabela = DAOObject.getTableColumns();
-       for(String coluna : colunasTabela) {
-           tableModel.addColumn(coluna);
-       }
+        String[] colunasTabela = DAOObject.getTableColumns();
+        for (String coluna : colunasTabela) {
+            tableModel.addColumn(coluna);
+        }
     }
-    
+
     public void setTableItems(String termoBusca) {
         // Remove os itens da tabela
         this.tableModel.getDataVector().removeAllElements();
         this.tableModel.fireTableDataChanged();
-        
+
         ArrayList<String[]> novosDados = this.DAOObject.paraListagemTabela(termoBusca);
         for (String[] row : novosDados) {
             this.tableModel.addRow(row);
@@ -189,9 +189,9 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         this.telaAlterar.setDetalhamento(false);
         this.telaAlterar.setTelaParente(this);
         this.telaAlterar.showWindow(true);
-        
+
     }//GEN-LAST:event_jbt_alterarActionPerformed
-   
+
     private void jbt_detalharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_detalharActionPerformed
         //Abrir tela de detalhamento de cadastro
         int id = this.buscarNaTabela();
@@ -213,6 +213,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         int IDAOTid = Integer.parseInt(((Vector) this.tableModel.getDataVector().elementAt(rowIndex)).elementAt(0).toString());
         return IDAOTid;
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

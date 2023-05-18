@@ -13,6 +13,16 @@ import java.sql.Statement;
  */
 public class ClienteDAO implements IDAOT<Cliente> {
 
+    private String tipo;
+
+    public ClienteDAO(String tipo) {
+        this.tipo = "TIPO LIKE '" + tipo + "' AND ";
+    }
+
+    public ClienteDAO() {
+        this.tipo = "";
+    }
+
     @Override
     public String salvar(Cliente o) {
 
@@ -95,7 +105,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
             String sql = ""
                     + "SELECT * "
                     + "FROM cliente "
-                    + "WHERE TIPO LIKE '" + tipo + "' AND ativo=true "
+                    + "WHERE " + this.tipo + "ativo=true "
                     + "ORDER BY nome";
 
             ResultSet retorno = st.executeQuery(sql);
@@ -165,7 +175,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
     @Override
     public ArrayList<String[]> paraListagemTabela(String filtro) {
-        ArrayList<Cliente> clientes = consultarTodos("cliente");
+        ArrayList<Cliente> clientes = consultarTodos(this.tipo);
 
         ArrayList<String[]> tableData = new ArrayList();
         for (Cliente cliente : clientes) {

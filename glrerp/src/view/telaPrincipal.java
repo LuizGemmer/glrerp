@@ -11,14 +11,13 @@ import dao.userDAO;
 public class telaPrincipal extends javax.swing.JFrame {
 
     private final jif_Cadastro_cliente tipo;
-    
+
     public telaPrincipal() {
         initComponents();
         this.tipo = null;
-        
+
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -122,6 +121,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_fornecedor_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_fornecedor_visualizar.setForeground(new java.awt.Color(255, 255, 255));
         jm_fornecedor_visualizar.setText("Visualizar");
+        jm_fornecedor_visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_fornecedor_visualizarActionPerformed(evt);
+            }
+        });
         jm_fornecedor.add(jm_fornecedor_visualizar);
 
         jm_fornecedor_cadastro.setBackground(new java.awt.Color(13, 71, 161));
@@ -285,7 +289,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jm_cliente_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_cliente_visualizarActionPerformed
-        jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO(), new jff_Alterar_cliente());
+        jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO("cliente"), new jff_Alterar_cliente());
         jDesktopPane1.add(jifVis_cliente);
         jifVis_cliente.setVisible(true);
     }//GEN-LAST:event_jm_cliente_visualizarActionPerformed
@@ -309,11 +313,9 @@ public class telaPrincipal extends javax.swing.JFrame {
 
 
     private void jm_user_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_user_cadastroActionPerformed
-
         jif_Cadastro_user jif_cad_user = new jif_Cadastro_user();
         jDesktopPane1.add(jif_cad_user);
         jif_cad_user.setVisible(true);
-          // TODO add your handling code here:
     }//GEN-LAST:event_jm_user_cadastroActionPerformed
 
     private void jm_item_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_item_cadastroActionPerformed
@@ -335,6 +337,13 @@ public class telaPrincipal extends javax.swing.JFrame {
         jif_cad_cliente.setVisible(true);
     }//GEN-LAST:event_jm_fornecedor_cadastroActionPerformed
 
+    private void jm_fornecedor_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_fornecedor_visualizarActionPerformed
+        jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO("fornecedor"), new jff_Alterar_cliente());
+        jDesktopPane1.add(jifVis_cliente);
+        jifVis_cliente.setTitle("Visualizar - Fornecedor");
+        jifVis_cliente.setVisible(true);
+        
+    }//GEN-LAST:event_jm_fornecedor_visualizarActionPerformed
 
     /**
      * @param args the command line arguments
