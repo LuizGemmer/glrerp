@@ -162,7 +162,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Hierarquia.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Hierarquia.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Hierarquia.setMaximumRowCount(150);
-        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "usuario", "admin" }));
+        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "USUARIO", "ADMIN" }));
         jcb_Hierarquia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jcb_Hierarquia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -417,10 +417,12 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     @Override
     public void setDAO(Object dao) {
         this.user = (User) dao;
-
+        int index = new userDAO().indexCBUnidadeMedida(this.user.getHierarquia());
+        
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.user.getId());
         jtf_Nome.setText(this.user.getNome());
+        jcb_Hierarquia.setSelectedIndex(index);
 
     }
 
@@ -432,7 +434,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         } else {
             jInternalFrame1.setTitle("Alterar/Excluir");
         }
-        jtf_Nome.setEnabled(!inativarControles);
+        jtf_Nome.setEditable(!inativarControles);
         jpf_Senha.setEnabled(false);
         jcb_Hierarquia.setEnabled(!inativarControles);
         jbt_excluir.setEnabled(!inativarControles);

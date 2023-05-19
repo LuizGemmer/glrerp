@@ -45,7 +45,8 @@ public class GrupoDAO implements IDAOT<Grupo> {
 
             String sql = "UPDATE grupo SET "
                     + "descricao='" + o.getDescricao().toUpperCase() + "', "
-                    + "WHERE id='" + o.getId() + "'";
+                    + "tipo='" + o.getTipo().toUpperCase() + "' "
+                    + "WHERE id=" + o.getId();
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
@@ -178,5 +179,25 @@ public class GrupoDAO implements IDAOT<Grupo> {
             gruposArr[i] = grupos.get(i);
         }
         return gruposArr;
+    }
+
+    public int indexCBUnidadeMedida(String stringUnd) {
+
+        //metodo para retornar o valor do tipo de grupo atual nos combobox de detalhar e alterar grupo
+        int indexCBUM = 0;
+
+        System.out.println("String = " + stringUnd);
+        if (stringUnd.equals("MATERIA-PRIMA")) {
+            indexCBUM = 0;
+        } else if (stringUnd.equals("PRODUTO ACABADO")) {
+            indexCBUM = 1;
+        } else if (stringUnd.equals("FERRAMENTA")) {
+            indexCBUM = 2;
+        } else {
+            indexCBUM = 3;
+        }
+
+        System.out.println("index= " + indexCBUM);
+        return indexCBUM;
     }
 }

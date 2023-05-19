@@ -27,8 +27,10 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
     private DefaultComboBoxModel model;
 
     public jff_Alterar_grupo() {
+        
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
+        
         initComponents();
     }
 
@@ -48,7 +50,7 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         jLabel7 = new javax.swing.JLabel();
         jll_id = new javax.swing.JLabel();
         jbt_excluir = new javax.swing.JButton();
-        jcb_Tipo = new javax.swing.JComboBox<Grupo>();
+        jcb_Tipo = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -156,7 +158,7 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         jcb_Tipo.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Tipo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Tipo.setMaximumRowCount(150);
-        jcb_Tipo.setModel(this.model);
+        jcb_Tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MATERIA-PRIMA", "PRODUTO ACABADO", "FERRAMENTA", "OUTRO" }));
         jcb_Tipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jcb_Tipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -277,11 +279,13 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         //Alterar cadastro de Grupo
         //Atribuir dados inseridos pelo usuario a variaveis
         String descGrupo = jtf_Descricao.getText();
+        String tipoGrupo = jcb_Tipo.getSelectedItem().toString();
               
         //Setar nomes das variaveis para o objeto Grupo
         Grupo grupo = new Grupo();
         grupo.setId(Integer.parseInt(jll_id.getText()));
         grupo.setDescricao(descGrupo);
+        grupo.setTipo(tipoGrupo);
     
         //Chamar classe GrupoDAO para salvar dados no Banco de dados
         GrupoDAO grupoDAO = new GrupoDAO();
@@ -386,7 +390,7 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_limpar;
     private javax.swing.JButton jbt_salvar_alteracao;
-    private javax.swing.JComboBox<Grupo> jcb_Tipo;
+    private javax.swing.JComboBox jcb_Tipo;
     private javax.swing.JLabel jll_id;
     private javax.swing.JTextField jtf_Descricao;
     // End of variables declaration//GEN-END:variables
@@ -394,10 +398,13 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
     @Override
     public void setDAO(Object dao) {
         this.grupo = (Grupo) dao;
+        int index = new GrupoDAO().indexCBUnidadeMedida(this.grupo.getTipo());
 
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.grupo.getId());
         jtf_Descricao.setText(this.grupo.getDescricao());
+        jcb_Tipo.setSelectedIndex(index);
+        
         
     }
 
@@ -409,8 +416,8 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         } else {
             jInternalFrame1.setTitle("Alterar/Excluir");
         }
-        jtf_Descricao.setEnabled(!inativarControles);
-        jcb_Tipo.setEnabled(false);
+        jtf_Descricao.setEditable(!inativarControles);
+        jcb_Tipo.setEnabled(!inativarControles);
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);

@@ -1,5 +1,6 @@
-package view.Item;
+package view.Estrutura;
 
+import view.Item.*;
 import dao.GrupoDAO;
 import dao.ItemDAO;
 import entidade.Grupo;
@@ -14,11 +15,12 @@ import javax.swing.JOptionPane;
 public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
     private DefaultComboBoxModel model;
-
+    
+    
     public jif_Cadastro_item() {
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
-        initComponents();
+        initComponents();                    
     }
 
     @SuppressWarnings("unchecked")
@@ -35,11 +37,6 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jtf_estoque_inicial = new javax.swing.JTextField();
         jcb_Grupo = new javax.swing.JComboBox<Grupo>();
-        jcb_Unidade_medida = new javax.swing.JComboBox();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jta_Observacao = new javax.swing.JTextArea();
-        jLabel7 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
@@ -97,23 +94,6 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jcb_Grupo.setMaximumRowCount(150);
         jcb_Grupo.setModel(this.model);
 
-        jcb_Unidade_medida.setBackground(new java.awt.Color(250, 250, 250));
-        jcb_Unidade_medida.setForeground(new java.awt.Color(0, 0, 0));
-        jcb_Unidade_medida.setMaximumRowCount(150);
-        jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
-
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("*Unidade de medida");
-
-        jta_Observacao.setBackground(new java.awt.Color(250, 250, 250));
-        jta_Observacao.setColumns(20);
-        jta_Observacao.setForeground(new java.awt.Color(0, 0, 0));
-        jta_Observacao.setRows(5);
-        jScrollPane1.setViewportView(jta_Observacao);
-
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Observações");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -123,32 +103,21 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, Short.MAX_VALUE)
-                                .addComponent(jbt_limpar))
+                                .addComponent(jbt_limpar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jbt_fechar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(27, 27, 27)
+                                .addGap(40, 40, 40)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                                            .addComponent(jcb_Unidade_medida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(57, 57, 57))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 213, Short.MAX_VALUE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbt_fechar))
+                                    .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 297, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(27, 27, 27)
@@ -167,21 +136,11 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(jLabel7)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                    .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbt_fechar)
@@ -208,8 +167,6 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jtf_Descricao.setText("");
         jcb_Grupo.setSelectedIndex(0);
         jtf_estoque_inicial.setText("");
-        jcb_Unidade_medida.setSelectedIndex(0);
-        jta_Observacao.setText("");
         jtf_Descricao.requestFocus();
     }//GEN-LAST:event_jbt_limparActionPerformed
 
@@ -217,18 +174,14 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         //Cadastro de Item
         //Atribuir dados inseridos pelo usuario a variaveis
         String descItem = jtf_Descricao.getText();
-        int grupoItem = ((Grupo) jcb_Grupo.getSelectedItem()).getId();
+        int grupoItem = ((Grupo)jcb_Grupo.getSelectedItem()).getId();
         double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText());
-        String unidadeMedida = jcb_Unidade_medida.getSelectedItem().toString();
-        String obs = jta_Observacao.getText();
 
         //Setar nomes das variaveis para o objeto Item
         Item item = new Item();
         item.setDescricao(descItem);
         item.setId_grupo(grupoItem);
         item.setQtde_estoque(estoqueItem);
-        item.setUnidade_medida(unidadeMedida);
-        item.setObservacao(obs);
 
         //Chamar classe ItemDAO para salvar dados no Banco de dados
         ItemDAO itemDAO = new ItemDAO();
@@ -239,8 +192,6 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             jtf_Descricao.setText("");
             jcb_Grupo.setSelectedIndex(0);
             jtf_estoque_inicial.setText("");
-            jcb_Unidade_medida.setSelectedIndex(0);
-            jta_Observacao.setText("");
             jtf_Descricao.requestFocus();
 
         } else {
@@ -253,17 +204,12 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbt_cadastrar;
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_limpar;
     private javax.swing.JComboBox<Grupo> jcb_Grupo;
-    private javax.swing.JComboBox jcb_Unidade_medida;
-    private javax.swing.JTextArea jta_Observacao;
     private javax.swing.JTextField jtf_Descricao;
     private javax.swing.JTextField jtf_estoque_inicial;
     // End of variables declaration//GEN-END:variables

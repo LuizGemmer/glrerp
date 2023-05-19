@@ -43,6 +43,9 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_item = new javax.swing.JMenu();
         jm_item_visualizar = new javax.swing.JMenuItem();
         jm_item_cadastro = new javax.swing.JMenuItem();
+        jm_estrutura = new javax.swing.JMenu();
+        jm_estrutura_visualizar = new javax.swing.JMenuItem();
+        jm_estrutura_cadastro = new javax.swing.JMenuItem();
         jm_grupo = new javax.swing.JMenu();
         jm_grupo_visualizar = new javax.swing.JMenuItem();
         jm_grupo_cadastro = new javax.swing.JMenuItem();
@@ -54,7 +57,6 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_vendas_cadastro = new javax.swing.JMenuItem();
         jm_almox = new javax.swing.JMenu();
         jm_almox_visualizar = new javax.swing.JMenuItem();
-        jm_almox_cadastro = new javax.swing.JMenuItem();
         jm_user = new javax.swing.JMenu();
         jm_user_visualizar = new javax.swing.JMenuItem();
         jm_user_cadastro = new javax.swing.JMenuItem();
@@ -155,6 +157,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_fornecedor.setIconTextGap(20);
         jm_fornecedor.setMargin(new java.awt.Insets(10, 10, 10, 10));
         jm_fornecedor.setOpaque(true);
+        jm_fornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_fornecedorActionPerformed(evt);
+            }
+        });
 
         jm_fornecedor_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_fornecedor_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
@@ -167,6 +174,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_fornecedor_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jm_fornecedor_visualizar.setIconTextGap(10);
         jm_fornecedor_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
+        jm_fornecedor_visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_fornecedor_visualizarActionPerformed(evt);
+            }
+        });
         jm_fornecedor.add(jm_fornecedor_visualizar);
 
         jm_fornecedor_cadastro.setBackground(new java.awt.Color(13, 71, 161));
@@ -245,6 +257,47 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_item.add(jm_item_cadastro);
 
         jMenuBar2.add(jm_item);
+
+        jm_estrutura.setBackground(new java.awt.Color(13, 71, 161));
+        jm_estrutura.setBorder(null);
+        jm_estrutura.setForeground(new java.awt.Color(255, 255, 255));
+        jm_estrutura.setText("ESTRUTURA DE PRODUTO");
+        jm_estrutura.setAlignmentX(1.0F);
+        jm_estrutura.setAlignmentY(1.0F);
+        jm_estrutura.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_estrutura.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_estrutura.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_estrutura.setIconTextGap(20);
+        jm_estrutura.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_estrutura.setMinimumSize(new java.awt.Dimension(46, 21));
+
+        jm_estrutura_visualizar.setBackground(new java.awt.Color(13, 71, 161));
+        jm_estrutura_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_estrutura_visualizar.setForeground(new java.awt.Color(250, 250, 250));
+        jm_estrutura_visualizar.setText("Visualizar");
+        jm_estrutura_visualizar.setBorder(null);
+        jm_estrutura_visualizar.setBorderPainted(false);
+        jm_estrutura_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_estrutura_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_estrutura_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_estrutura_visualizar.setIconTextGap(10);
+        jm_estrutura_visualizar.setPreferredSize(new java.awt.Dimension(100, 35));
+        jm_estrutura.add(jm_estrutura_visualizar);
+
+        jm_estrutura_cadastro.setBackground(new java.awt.Color(13, 71, 161));
+        jm_estrutura_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_estrutura_cadastro.setForeground(new java.awt.Color(250, 250, 250));
+        jm_estrutura_cadastro.setText("Cadastro");
+        jm_estrutura_cadastro.setBorder(null);
+        jm_estrutura_cadastro.setBorderPainted(false);
+        jm_estrutura_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_estrutura_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_estrutura_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_estrutura_cadastro.setIconTextGap(10);
+        jm_estrutura_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
+        jm_estrutura.add(jm_estrutura_cadastro);
+
+        jMenuBar2.add(jm_estrutura);
 
         jm_grupo.setBackground(new java.awt.Color(13, 71, 161));
         jm_grupo.setBorder(null);
@@ -342,6 +395,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_producao_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jm_producao_cadastro.setIconTextGap(10);
         jm_producao_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
+        jm_producao_cadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_producao_cadastroActionPerformed(evt);
+            }
+        });
         jm_producao.add(jm_producao_cadastro);
 
         jMenuBar2.add(jm_producao);
@@ -423,19 +481,6 @@ public class telaPrincipal extends javax.swing.JFrame {
             }
         });
         jm_almox.add(jm_almox_visualizar);
-
-        jm_almox_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_almox_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jm_almox_cadastro.setForeground(new java.awt.Color(250, 250, 250));
-        jm_almox_cadastro.setText("Cadastro");
-        jm_almox_cadastro.setBorder(null);
-        jm_almox_cadastro.setBorderPainted(false);
-        jm_almox_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_almox_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jm_almox_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_almox_cadastro.setIconTextGap(10);
-        jm_almox_cadastro.setPreferredSize(new java.awt.Dimension(100, 35));
-        jm_almox.add(jm_almox_cadastro);
 
         jMenuBar2.add(jm_almox);
 
@@ -586,7 +631,9 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jm_cliente_visualizarActionPerformed
 
     private void jm_almox_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_almox_visualizarActionPerformed
-        // TODO add your handling code here:
+        jif_Listagem_DAO jifVis_item = new jif_Listagem_DAO(new ItemDAO(), new jff_Alterar_item());
+        jDesktopPane1.add(jifVis_item);
+        jifVis_item.setVisible(true);
     }//GEN-LAST:event_jm_almox_visualizarActionPerformed
 
     private void jm_grupo_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_grupo_visualizarActionPerformed
@@ -600,6 +647,20 @@ public class telaPrincipal extends javax.swing.JFrame {
         jDesktopPane1.add(jif_cad_grupo);
         jif_cad_grupo.setVisible(true);
     }//GEN-LAST:event_jm_grupo_cadastroActionPerformed
+
+    private void jm_producao_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_producao_cadastroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jm_producao_cadastroActionPerformed
+
+    private void jm_fornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_fornecedorActionPerformed
+        
+    }//GEN-LAST:event_jm_fornecedorActionPerformed
+
+    private void jm_fornecedor_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_fornecedor_visualizarActionPerformed
+        jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO("fornecedor"), new jff_Alterar_cliente());
+        jDesktopPane1.add(jifVis_cliente);
+        jifVis_cliente.setVisible(true);
+    }//GEN-LAST:event_jm_fornecedor_visualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -643,11 +704,13 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jm_ajuda;
     private javax.swing.JMenuItem jm_ajuda_sair;
     private javax.swing.JMenu jm_almox;
-    private javax.swing.JMenuItem jm_almox_cadastro;
     private javax.swing.JMenuItem jm_almox_visualizar;
     private javax.swing.JMenu jm_cliente;
     private javax.swing.JMenuItem jm_cliente_cadastro;
     private javax.swing.JMenuItem jm_cliente_visualizar;
+    private javax.swing.JMenu jm_estrutura;
+    private javax.swing.JMenuItem jm_estrutura_cadastro;
+    private javax.swing.JMenuItem jm_estrutura_visualizar;
     private javax.swing.JMenu jm_fornecedor;
     private javax.swing.JMenuItem jm_fornecedor_cadastro;
     private javax.swing.JMenuItem jm_fornecedor_visualizar;

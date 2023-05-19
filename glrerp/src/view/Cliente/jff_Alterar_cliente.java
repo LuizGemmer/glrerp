@@ -494,11 +494,11 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         } else {
             jInternalFrame1.setTitle("Alterar/Excluir");
         }
-        jtf_Nome.setEnabled(!inativarControles);
-        jtf_email.setEnabled(!inativarControles);
-        jtf_Cpf.setEnabled(!inativarControles);
-        jtf_End.setEnabled(!inativarControles);
-        jtf_Tel.setEnabled(!inativarControles);
+        jtf_Nome.setEditable(!inativarControles);
+        jtf_email.setEditable(!inativarControles);
+        jtf_Cpf.setEditable(!inativarControles);
+        jtf_End.setEditable(!inativarControles);
+        jtf_Tel.setEditable(!inativarControles);
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);

@@ -171,5 +171,18 @@ public class userDAO implements IDAOT<User> {
     public String[] getTableColumns() {
          return new String[]{"Id", "Nome", "Hierarquia"};
     }
+    
+    public int indexCBUnidadeMedida(String stringUnd) {
+
+        //metodo para retornar o valor da hierarquia atual nos combobox de detalhar e alterar usuario
+        int indexCBUM = 0;
+        if (stringUnd.equals("USUARIO")) {
+            indexCBUM = 0;
+        } else {
+            indexCBUM = 1;
+        }
+           
+        return indexCBUM;
+    }
 
 }

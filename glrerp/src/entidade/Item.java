@@ -1,4 +1,3 @@
-
 package entidade;
 
 /**
@@ -6,12 +5,16 @@ package entidade;
  * @author rg
  */
 public class Item {
+
     private int id;
     private int id_grupo;
     private String descricao;
     private double qtde_estoque;
     private boolean ativo;
+    private String unidade_medida;
+    private String observacao;
 
+    
     public int getId() {
         return id;
     }
@@ -50,5 +53,21 @@ public class Item {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public String getUnidade_medida() {
+        return unidade_medida;
+    }
+
+    public void setUnidade_medida(String unidade_medida) {
+        this.unidade_medida = unidade_medida;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 }
