@@ -44,7 +44,7 @@ public class Grupo {
     
     @Override
     public String toString(){
-        return String.valueOf("(" + String.valueOf(this.getTipo()) + ")  " + String.valueOf(this.getDescricao()));
+        return String.valueOf(String.valueOf(this.getTipo()) + " - " + String.valueOf(this.getDescricao()));
     }
     
 }

@@ -56,7 +56,6 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         jInternalFrame1.setBackground(new java.awt.Color(238, 238, 238));
-        jInternalFrame1.setClosable(true);
         jInternalFrame1.setIconifiable(true);
         jInternalFrame1.setMaximizable(true);
         jInternalFrame1.setResizable(true);

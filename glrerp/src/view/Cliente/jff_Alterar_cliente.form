@@ -28,7 +28,6 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ee" green="ee" red="ee" type="rgb"/>
         </Property>
-        <Property name="closable" type="boolean" value="true"/>
         <Property name="iconifiable" type="boolean" value="true"/>
         <Property name="maximizable" type="boolean" value="true"/>
         <Property name="resizable" type="boolean" value="true"/>

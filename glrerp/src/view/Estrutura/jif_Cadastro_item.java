@@ -40,7 +40,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
-        setTitle("Cadastro - Item");
+        setTitle("Cadastro - Estrutura");
         setPreferredSize(new java.awt.Dimension(960, 500));
         getContentPane().setLayout(new java.awt.FlowLayout());
 

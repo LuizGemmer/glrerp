@@ -65,7 +65,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         jInternalFrame1.setBackground(new java.awt.Color(238, 238, 238));
-        jInternalFrame1.setClosable(true);
         jInternalFrame1.setIconifiable(true);
         jInternalFrame1.setMaximizable(true);
         jInternalFrame1.setResizable(true);
@@ -503,7 +502,8 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()));
         jta_Observacao.setText(this.item.getObservacao());        
         jcb_Unidade_medida.setSelectedIndex(index);
-
+        //jcb_Grupo.setSelectedItem( new GrupoDAO().consultarId(this.item.getId_grupo()).getTipo());
+       
     }
 
     @Override
