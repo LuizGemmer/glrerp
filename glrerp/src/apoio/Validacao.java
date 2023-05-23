@@ -83,10 +83,10 @@ public class Validacao {
     }
 
     public static boolean validarTelefone(String campo) {
-        if (campo.trim().length() != 11){
+        if (campo.trim().length() != 11) {
             return false;
         }
-        
+
         int ddd = Integer.parseInt(campo.substring(0, 2));
         boolean dddMatch = false;
         for (int i = 0; i < dddsTelefoneBrasil.length; i++) {
@@ -111,28 +111,24 @@ public class Validacao {
         }
     }
 
-    public static boolean ValidarJTFObrigatorio(JTextField campo, JButton botao) {
+    public static boolean ValidarJTFObrigatorio(JTextField campo) {
         //Validar se possui algum JTextField obrigatório em branco
         if (!validarCampoemBranco(campo.getText())) {
             campo.setBackground(Color.decode("#FF9696"));
-            botao.setEnabled(false);
             return false;
         } else {
             campo.setBackground(Color.white);
-            botao.setEnabled(true);
             return true;
         }
     }
 
-    public static boolean ValidarPasswdObrigatorio(JPasswordField campo, JButton botao) {
+    public static boolean ValidarPasswdObrigatorio(JPasswordField campo) {
         //Validar se possui algum JPasswordField obrigatório em branco
         if (!Validacao.validarCampoemBranco(String.valueOf(campo.getPassword()))) {
             campo.setBackground(Color.decode("#FF9696"));
-            botao.setEnabled(false);
             return false;
         } else {
             campo.setBackground(Color.white);
-            botao.setEnabled(true);
             return true;
         }
     }

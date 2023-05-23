@@ -1,5 +1,8 @@
 package view.Item;
 
+import apoio.ComboItem;
+import apoio.CombosDAO;
+import apoio.Validacao;
 import dao.GrupoDAO;
 import dao.ItemDAO;
 import entidade.Grupo;
@@ -15,14 +18,12 @@ import javax.swing.UIManager;
  */
 public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
-    private DefaultComboBoxModel model;
     private boolean trocaInverter = false;
 
     public jif_Cadastro_item() {
-        Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
-        this.model = new DefaultComboBoxModel(grupoComboBox);
         initComponents();
 
+        new CombosDAO().popularCombo("grupo", jcb_Grupo);
         jtf_conv1.setText("1");
         jtf_conv1.setEnabled(false);
         jcb_UndConv1.setEnabled(false);
@@ -42,7 +43,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jbt_cadastrar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jtf_estoque_inicial = new javax.swing.JTextField();
-        jcb_Grupo = new javax.swing.JComboBox<Grupo>();
+        jcb_Grupo = new javax.swing.JComboBox();
         jcb_Unidade_medida = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -75,6 +76,11 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Descricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Descricao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtf_DescricaoFocusLost(evt);
+            }
+        });
 
         jbt_fechar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_fechar.setForeground(new java.awt.Color(255, 255, 255));
@@ -109,17 +115,31 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jtf_estoque_inicial.setBackground(new java.awt.Color(250, 250, 250));
         jtf_estoque_inicial.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_estoque_inicial.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_estoque_inicial.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtf_estoque_inicialFocusLost(evt);
+            }
+        });
 
         jcb_Grupo.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Grupo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Grupo.setMaximumRowCount(150);
-        jcb_Grupo.setModel(this.model);
+        jcb_Grupo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jcb_GrupoFocusLost(evt);
+            }
+        });
 
         jcb_Unidade_medida.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Unidade_medida.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Unidade_medida.setMaximumRowCount(150);
         jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
+        jcb_Unidade_medida.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jcb_Unidade_medidaFocusLost(evt);
+            }
+        });
         jcb_Unidade_medida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcb_Unidade_medidaActionPerformed(evt);
@@ -292,50 +312,70 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
-
         //Botão de limpar campos de TextField
-        jtf_Descricao.setText("");
-        jcb_Grupo.setSelectedIndex(0);
-        jtf_estoque_inicial.setText("");
-        jcb_Unidade_medida.setSelectedIndex(0);
-        jta_Observacao.setText("");
+        LimparCampos();
         jtf_Descricao.requestFocus();
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
         //Cadastro de Item
-        //Atribuir dados inseridos pelo usuario a variaveis
-        String descItem = jtf_Descricao.getText().toUpperCase();
-        int grupoItem = ((Grupo) jcb_Grupo.getSelectedItem()).getId();
-        double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText().replace(',', '.'));
-        String unidadeMedida = jcb_Unidade_medida.getSelectedItem().toString();
-        String obs = jta_Observacao.getText();
+        //Fazer as validações de campos antes de salvar.
+        if (Validacao.ValidarJTFObrigatorio(jtf_Descricao)
+                && Validacao.testarCombo(jcb_Grupo)
+                && Validacao.ValidarJTFObrigatorio(jtf_estoque_inicial)
+                && Validacao.testarCombo(jcb_Unidade_medida)) {
 
-        //Setar nomes das variaveis para o objeto Item
-        Item item = new Item();
-        item.setDescricao(descItem);
-        item.setId_grupo(grupoItem);
-        item.setQtde_estoque(estoqueItem);
-        item.setUnidade_medida(unidadeMedida);
-        item.setObservacao(obs);
+            //Atribuir dados inseridos pelo usuario a variaveis
+            String descItem = jtf_Descricao.getText().toUpperCase();
+            ComboItem cb = (ComboItem) jcb_Grupo.getSelectedItem();
+            double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText().replace(',', '.'));
+            String unidadeMedida = jcb_Unidade_medida.getSelectedItem().toString();
+            String obs = jta_Observacao.getText();
 
-        //Chamar classe ItemDAO para salvar dados no Banco de dados
-        ItemDAO itemDAO = new ItemDAO();
+            double conv1;
+            double conv2;
+            String und_conv1;
+            String und_conv2;
+            //testar se algum campo de conversão for vazio, salvar como vazio no BD as informações de conversão
+            if (jtf_conv1.getText().isEmpty() || jtf_conv2.getText().isEmpty()) {
+                conv1 = 0;
+                conv2 = 0;
+                und_conv1 = "";
+                und_conv2 = "";
+            } else {
+                conv1 = Double.parseDouble(jtf_conv1.getText().replace(',', '.'));
+                conv2 = Double.parseDouble(jtf_conv2.getText().replace(',', '.'));
+                und_conv1 = jcb_UndConv1.getSelectedItem().toString();
+                und_conv2 = jcb_UndConv2.getSelectedItem().toString();
+            }
 
-        //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (itemDAO.salvar(item) == null) {
-            JOptionPane.showMessageDialog(this, "Novo item salvo com sucesso!", "ITEM CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
-            jtf_Descricao.setText("");
-            jcb_Grupo.setSelectedIndex(0);
-            jtf_estoque_inicial.setText("");
-            jcb_Unidade_medida.setSelectedIndex(0);
-            jta_Observacao.setText("");
-            jtf_Descricao.requestFocus();
+            //Setar nomes das variaveis para o objeto Item
+            Item item = new Item();
+            item.setDescricao(descItem);
+            item.setId_grupo(cb.getCodigo());
+            item.setQtde_estoque(estoqueItem);
+            item.setUnidade_medida(unidadeMedida);
+            item.setObservacao(obs);
+            item.setConv1(conv1);
+            item.setConv2(conv2);
+            item.setUnd_conv1(und_conv1);
+            item.setUnd_conv2(und_conv2);
 
+            //Chamar classe ItemDAO para salvar dados no Banco de dados
+            ItemDAO itemDAO = new ItemDAO();
+
+            //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
+            if (itemDAO.salvar(item) == null) {
+                JOptionPane.showMessageDialog(this, "Novo item salvo com sucesso!", "ITEM CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+                LimparCampos();
+                jtf_Descricao.requestFocus();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao inserir dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao inserir dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
     private void jbt_inverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_inverterActionPerformed
@@ -359,8 +399,23 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         } else {
             jcb_UndConv1.setSelectedIndex(jcb_Unidade_medida.getSelectedIndex());
         }
-
     }//GEN-LAST:event_jcb_Unidade_medidaActionPerformed
+
+    private void jtf_DescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_DescricaoFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_Descricao);
+    }//GEN-LAST:event_jtf_DescricaoFocusLost
+
+    private void jcb_GrupoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_GrupoFocusLost
+        Validacao.testarCombo(jcb_Grupo);
+    }//GEN-LAST:event_jcb_GrupoFocusLost
+
+    private void jtf_estoque_inicialFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_estoque_inicialFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_estoque_inicial);
+    }//GEN-LAST:event_jtf_estoque_inicialFocusLost
+
+    private void jcb_Unidade_medidaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_Unidade_medidaFocusLost
+        Validacao.testarCombo(jcb_Unidade_medida);
+    }//GEN-LAST:event_jcb_Unidade_medidaFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -377,7 +432,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_inverter;
     private javax.swing.JButton jbt_limpar;
-    private javax.swing.JComboBox<Grupo> jcb_Grupo;
+    private javax.swing.JComboBox jcb_Grupo;
     private javax.swing.JComboBox jcb_UndConv1;
     private javax.swing.JComboBox jcb_UndConv2;
     private javax.swing.JComboBox jcb_Unidade_medida;
@@ -387,4 +442,16 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtf_conv2;
     private javax.swing.JTextField jtf_estoque_inicial;
     // End of variables declaration//GEN-END:variables
+
+    private void LimparCampos() {
+        jtf_Descricao.setText("");
+        jcb_Grupo.setSelectedIndex(0);
+        jtf_estoque_inicial.setText("");
+        jcb_Unidade_medida.setSelectedIndex(0);
+        jta_Observacao.setText("");
+        jcb_UndConv1.setSelectedIndex(0);
+        jcb_UndConv2.setSelectedIndex(0);
+        jtf_conv2.setText("");
+    }
+
 }

@@ -320,7 +320,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
         //Faz as validações necessárias antes de salvar
         if (Validacao.testarCombo(jcb_Hierarquia)
-                && Validacao.ValidarJTFObrigatorio(jtf_Nome, jbt_salvar_alteracao)) {
+                && Validacao.ValidarJTFObrigatorio(jtf_Nome)) {
 
             //Alterar cadastro de Usuario
             //Atribuir dados inseridos pelo usuario a variaveis
@@ -348,7 +348,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
                 JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Você possui campos em branco obrigatórios (*) ou preenchidos incorretamente", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
@@ -395,7 +395,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     }//GEN-LAST:event_jcb_HierarquiaActionPerformed
 
     private void jtf_NomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_NomeFocusLost
-        Validacao.ValidarJTFObrigatorio(jtf_Nome, jbt_salvar_alteracao);
+        Validacao.ValidarJTFObrigatorio(jtf_Nome);
     }//GEN-LAST:event_jtf_NomeFocusLost
 
     private void jcb_HierarquiaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_HierarquiaFocusLost

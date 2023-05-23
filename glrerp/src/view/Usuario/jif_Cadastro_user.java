@@ -208,9 +208,9 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
         //Faz as validações necessárias antes de salvar
         if (Validacao.testarCombo(jcb_Hierarquia)
-                && Validacao.ValidarJTFObrigatorio(jtf_Nome, jbt_cadastrar)
-                && Validacao.ValidarJTFObrigatorio(jtf_email, jbt_cadastrar)
-                && Validacao.ValidarPasswdObrigatorio(jpf_Senha, jbt_cadastrar)) {
+                && Validacao.ValidarJTFObrigatorio(jtf_Nome)
+                && Validacao.ValidarJTFObrigatorio(jtf_email)
+                && Validacao.ValidarPasswdObrigatorio(jpf_Senha)) {
 
             //Cadastrar novo Usuário
             //Atribuir dados inseridos pelo usuario a variaveis
@@ -239,20 +239,20 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo cliente!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Você possui campos em branco obrigatórios (*) ou preenchidos incorretamente", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
     private void jtf_NomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_NomeFocusLost
-        Validacao.ValidarJTFObrigatorio(jtf_Nome, jbt_cadastrar);
+        Validacao.ValidarJTFObrigatorio(jtf_Nome);
     }//GEN-LAST:event_jtf_NomeFocusLost
 
     private void jpf_SenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jpf_SenhaFocusLost
-        Validacao.ValidarPasswdObrigatorio(jpf_Senha, jbt_cadastrar);
+        Validacao.ValidarPasswdObrigatorio(jpf_Senha);
     }//GEN-LAST:event_jpf_SenhaFocusLost
 
     private void jtf_emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_emailFocusLost
-        Validacao.ValidarJTFObrigatorio(jtf_email, jbt_cadastrar);
+        Validacao.ValidarJTFObrigatorio(jtf_email);
     }//GEN-LAST:event_jtf_emailFocusLost
 
     private void jcb_HierarquiaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_HierarquiaFocusLost
