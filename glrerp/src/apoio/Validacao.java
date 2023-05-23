@@ -40,6 +40,14 @@ public class Validacao {
         return cpf.equals(cpf.substring(0, 9) + digito1.toString() + digito2.toString());
     }
 
+    public static boolean validarCEP(String cep) {
+        if ((cep == null) || (cep.length() != 8)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static boolean validarCNPJ(String cnpj) {
         if ((cnpj == null) || (cnpj.length() != 14)) {
             return false;
@@ -75,8 +83,11 @@ public class Validacao {
     }
 
     public static boolean validarTelefone(String campo) {
-        System.out.println(campo);
-        int ddd = Integer.parseInt(campo.substring(1, 3));
+        if (campo.trim().length() != 11){
+            return false;
+        }
+        
+        int ddd = Integer.parseInt(campo.substring(0, 2));
         boolean dddMatch = false;
         for (int i = 0; i < dddsTelefoneBrasil.length; i++) {
             if (ddd == dddsTelefoneBrasil[i]) {
@@ -85,7 +96,7 @@ public class Validacao {
             }
         }
 
-        if (campo.trim().length() < 12 && !dddMatch) {
+        if (!dddMatch) {
             return false;
         } else {
             return true;

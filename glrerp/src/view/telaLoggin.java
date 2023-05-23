@@ -16,6 +16,7 @@ public class telaLoggin extends javax.swing.JFrame {
      */
     public telaLoggin() {
         initComponents();
+        this.setExtendedState(MAXIMIZED_BOTH);
     }
 
     /**
