@@ -98,16 +98,16 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_cliente.setAlignmentX(1.0F);
         jm_cliente.setAlignmentY(1.0F);
         jm_cliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_cliente.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_cliente.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_cliente.setHideActionText(true);
         jm_cliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jm_cliente.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_cliente.setIconTextGap(20);
-        jm_cliente.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_cliente.setIconTextGap(10);
+        jm_cliente.setMargin(new java.awt.Insets(6, 6, 6, 6));
         jm_cliente.setOpaque(true);
 
         jm_cliente_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_cliente_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_cliente_visualizar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_cliente_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_cliente_visualizar.setText("Visualizar");
         jm_cliente_visualizar.setBorder(null);
@@ -125,7 +125,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_cliente.add(jm_cliente_visualizar);
 
         jm_cliente_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_cliente_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_cliente_cadastro.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_cliente_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_cliente_cadastro.setText("Cadastro");
         jm_cliente_cadastro.setBorder(null);
@@ -153,12 +153,12 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_fornecedor.setAlignmentX(1.0F);
         jm_fornecedor.setAlignmentY(1.0F);
         jm_fornecedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_fornecedor.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_fornecedor.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_fornecedor.setHideActionText(true);
         jm_fornecedor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jm_fornecedor.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_fornecedor.setIconTextGap(20);
-        jm_fornecedor.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_fornecedor.setIconTextGap(10);
+        jm_fornecedor.setMargin(new java.awt.Insets(6, 6, 6, 6));
         jm_fornecedor.setOpaque(true);
         jm_fornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,7 +167,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         });
 
         jm_fornecedor_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_fornecedor_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_fornecedor_visualizar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_fornecedor_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_fornecedor_visualizar.setText("Visualizar");
         jm_fornecedor_visualizar.setBorder(null);
@@ -185,7 +185,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_fornecedor.add(jm_fornecedor_visualizar);
 
         jm_fornecedor_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_fornecedor_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_fornecedor_cadastro.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_fornecedor_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_fornecedor_cadastro.setText("Cadastro");
         jm_fornecedor_cadastro.setBorder(null);
@@ -213,16 +213,16 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_item.setAlignmentX(1.0F);
         jm_item.setAlignmentY(1.0F);
         jm_item.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_item.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_item.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_item.setHideActionText(true);
         jm_item.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jm_item.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_item.setIconTextGap(20);
-        jm_item.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_item.setIconTextGap(10);
+        jm_item.setMargin(new java.awt.Insets(6, 6, 6, 6));
         jm_item.setOpaque(true);
 
         jm_item_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_item_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_item_visualizar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_item_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_item_visualizar.setText("Visualizar");
         jm_item_visualizar.setBorder(null);
@@ -240,7 +240,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_item.add(jm_item_visualizar);
 
         jm_item_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_item_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_item_cadastro.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_item_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_item_cadastro.setText("Cadastro");
         jm_item_cadastro.setBorder(null);
@@ -267,15 +267,15 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_estrutura.setText("ESTRUTURA DE PRODUTO");
         jm_estrutura.setAlignmentX(1.0F);
         jm_estrutura.setAlignmentY(1.0F);
-        jm_estrutura.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_estrutura.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_estrutura.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jm_estrutura.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_estrutura.setIconTextGap(20);
-        jm_estrutura.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_estrutura.setIconTextGap(10);
+        jm_estrutura.setMargin(new java.awt.Insets(6, 6, 6, 6));
         jm_estrutura.setMinimumSize(new java.awt.Dimension(46, 21));
 
         jm_estrutura_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_estrutura_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_estrutura_visualizar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_estrutura_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_estrutura_visualizar.setText("Visualizar");
         jm_estrutura_visualizar.setBorder(null);
@@ -288,7 +288,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_estrutura.add(jm_estrutura_visualizar);
 
         jm_estrutura_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_estrutura_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_estrutura_cadastro.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_estrutura_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_estrutura_cadastro.setText("Cadastro");
         jm_estrutura_cadastro.setBorder(null);
@@ -309,16 +309,16 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_grupo.setAlignmentX(1.0F);
         jm_grupo.setAlignmentY(1.0F);
         jm_grupo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_grupo.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_grupo.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_grupo.setHideActionText(true);
         jm_grupo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jm_grupo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_grupo.setIconTextGap(20);
-        jm_grupo.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_grupo.setIconTextGap(10);
+        jm_grupo.setMargin(new java.awt.Insets(6, 6, 6, 6));
         jm_grupo.setOpaque(true);
 
         jm_grupo_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_grupo_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_grupo_visualizar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_grupo_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_grupo_visualizar.setText("Visualizar");
         jm_grupo_visualizar.setBorder(null);
@@ -336,7 +336,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_grupo.add(jm_grupo_visualizar);
 
         jm_grupo_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_grupo_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_grupo_cadastro.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_grupo_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_grupo_cadastro.setText("Cadastro");
         jm_grupo_cadastro.setBorder(null);
@@ -364,16 +364,16 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_producao.setAlignmentX(1.0F);
         jm_producao.setAlignmentY(1.0F);
         jm_producao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_producao.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_producao.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_producao.setHideActionText(true);
         jm_producao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jm_producao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_producao.setIconTextGap(20);
-        jm_producao.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_producao.setIconTextGap(10);
+        jm_producao.setMargin(new java.awt.Insets(6, 6, 6, 6));
         jm_producao.setOpaque(true);
 
         jm_producao_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_producao_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_producao_visualizar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_producao_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_producao_visualizar.setText("Visualizar");
         jm_producao_visualizar.setBorder(null);
@@ -386,7 +386,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_producao.add(jm_producao_visualizar);
 
         jm_producao_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_producao_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_producao_cadastro.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_producao_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_producao_cadastro.setText("Cadastro");
         jm_producao_cadastro.setBorder(null);
@@ -414,16 +414,16 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_vendas.setAlignmentX(1.0F);
         jm_vendas.setAlignmentY(1.0F);
         jm_vendas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_vendas.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_vendas.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_vendas.setHideActionText(true);
         jm_vendas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jm_vendas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_vendas.setIconTextGap(20);
-        jm_vendas.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_vendas.setIconTextGap(10);
+        jm_vendas.setMargin(new java.awt.Insets(6, 6, 6, 6));
         jm_vendas.setOpaque(true);
 
         jm_vendas_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_vendas_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_vendas_visualizar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_vendas_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_vendas_visualizar.setText("Visualizar");
         jm_vendas_visualizar.setBorder(null);
@@ -436,7 +436,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_vendas.add(jm_vendas_visualizar);
 
         jm_vendas_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_vendas_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_vendas_cadastro.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_vendas_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_vendas_cadastro.setText("Cadastro");
         jm_vendas_cadastro.setBorder(null);
@@ -459,16 +459,16 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_almox.setAlignmentX(1.0F);
         jm_almox.setAlignmentY(1.0F);
         jm_almox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_almox.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_almox.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_almox.setHideActionText(true);
         jm_almox.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jm_almox.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_almox.setIconTextGap(20);
-        jm_almox.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_almox.setIconTextGap(10);
+        jm_almox.setMargin(new java.awt.Insets(6, 6, 6, 6));
         jm_almox.setOpaque(true);
 
         jm_almox_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_almox_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_almox_visualizar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_almox_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_almox_visualizar.setText("Visualizar");
         jm_almox_visualizar.setBorder(null);
@@ -494,16 +494,16 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_user.setAlignmentX(1.0F);
         jm_user.setAlignmentY(1.0F);
         jm_user.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_user.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_user.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_user.setHideActionText(true);
         jm_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jm_user.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_user.setIconTextGap(20);
-        jm_user.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_user.setIconTextGap(10);
+        jm_user.setMargin(new java.awt.Insets(6, 6, 6, 6));
         jm_user.setOpaque(true);
 
         jm_user_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_user_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_user_visualizar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_user_visualizar.setForeground(new java.awt.Color(250, 250, 250));
         jm_user_visualizar.setText("Visualizar");
         jm_user_visualizar.setBorder(null);
@@ -521,7 +521,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_user.add(jm_user_visualizar);
 
         jm_user_cadastro.setBackground(new java.awt.Color(13, 71, 161));
-        jm_user_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_user_cadastro.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_user_cadastro.setForeground(new java.awt.Color(250, 250, 250));
         jm_user_cadastro.setText("Cadastro");
         jm_user_cadastro.setBorder(null);
@@ -549,16 +549,16 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_ajuda.setAlignmentX(1.0F);
         jm_ajuda.setAlignmentY(1.0F);
         jm_ajuda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_ajuda.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
+        jm_ajuda.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_ajuda.setHideActionText(true);
         jm_ajuda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jm_ajuda.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_ajuda.setIconTextGap(20);
-        jm_ajuda.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        jm_ajuda.setIconTextGap(10);
+        jm_ajuda.setMargin(new java.awt.Insets(6, 6, 6, 6));
         jm_ajuda.setOpaque(true);
 
         jm_ajuda_sair.setBackground(new java.awt.Color(13, 71, 161));
-        jm_ajuda_sair.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_ajuda_sair.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jm_ajuda_sair.setForeground(new java.awt.Color(250, 250, 250));
         jm_ajuda_sair.setText("Sair");
         jm_ajuda_sair.setBorder(null);

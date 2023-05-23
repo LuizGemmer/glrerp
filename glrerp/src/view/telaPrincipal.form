@@ -51,14 +51,14 @@
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="16" style="1"/>
+              <Font name="Verdana" size="14" style="1"/>
             </Property>
             <Property name="hideActionText" type="boolean" value="true"/>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="iconTextGap" type="int" value="20"/>
+            <Property name="iconTextGap" type="int" value="10"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[10, 10, 10, 10]"/>
+              <Insets value="[6, 6, 6, 6]"/>
             </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
@@ -69,7 +69,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -102,7 +102,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -148,14 +148,14 @@
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="16" style="1"/>
+              <Font name="Verdana" size="14" style="1"/>
             </Property>
             <Property name="hideActionText" type="boolean" value="true"/>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="iconTextGap" type="int" value="20"/>
+            <Property name="iconTextGap" type="int" value="10"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[10, 10, 10, 10]"/>
+              <Insets value="[6, 6, 6, 6]"/>
             </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
@@ -169,7 +169,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -199,7 +199,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -245,14 +245,14 @@
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="16" style="1"/>
+              <Font name="Verdana" size="14" style="1"/>
             </Property>
             <Property name="hideActionText" type="boolean" value="true"/>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="iconTextGap" type="int" value="20"/>
+            <Property name="iconTextGap" type="int" value="10"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[10, 10, 10, 10]"/>
+              <Insets value="[6, 6, 6, 6]"/>
             </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
@@ -263,7 +263,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -293,7 +293,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -336,13 +336,13 @@
             <Property name="alignmentX" type="float" value="1.0"/>
             <Property name="alignmentY" type="float" value="1.0"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="16" style="1"/>
+              <Font name="Verdana" size="14" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="iconTextGap" type="int" value="20"/>
+            <Property name="iconTextGap" type="int" value="10"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[10, 10, 10, 10]"/>
+              <Insets value="[6, 6, 6, 6]"/>
             </Property>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[46, 21]"/>
@@ -355,7 +355,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -382,7 +382,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -423,14 +423,14 @@
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="16" style="1"/>
+              <Font name="Verdana" size="14" style="1"/>
             </Property>
             <Property name="hideActionText" type="boolean" value="true"/>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="iconTextGap" type="int" value="20"/>
+            <Property name="iconTextGap" type="int" value="10"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[10, 10, 10, 10]"/>
+              <Insets value="[6, 6, 6, 6]"/>
             </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
@@ -441,7 +441,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -471,7 +471,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -517,14 +517,14 @@
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="16" style="1"/>
+              <Font name="Verdana" size="14" style="1"/>
             </Property>
             <Property name="hideActionText" type="boolean" value="true"/>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="iconTextGap" type="int" value="20"/>
+            <Property name="iconTextGap" type="int" value="10"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[10, 10, 10, 10]"/>
+              <Insets value="[6, 6, 6, 6]"/>
             </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
@@ -535,7 +535,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -562,7 +562,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -608,14 +608,14 @@
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="16" style="1"/>
+              <Font name="Verdana" size="14" style="1"/>
             </Property>
             <Property name="hideActionText" type="boolean" value="true"/>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="iconTextGap" type="int" value="20"/>
+            <Property name="iconTextGap" type="int" value="10"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[10, 10, 10, 10]"/>
+              <Insets value="[6, 6, 6, 6]"/>
             </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
@@ -626,7 +626,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -653,7 +653,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -696,14 +696,14 @@
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="16" style="1"/>
+              <Font name="Verdana" size="14" style="1"/>
             </Property>
             <Property name="hideActionText" type="boolean" value="true"/>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="iconTextGap" type="int" value="20"/>
+            <Property name="iconTextGap" type="int" value="10"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[10, 10, 10, 10]"/>
+              <Insets value="[6, 6, 6, 6]"/>
             </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
@@ -714,7 +714,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -758,14 +758,14 @@
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="16" style="1"/>
+              <Font name="Verdana" size="14" style="1"/>
             </Property>
             <Property name="hideActionText" type="boolean" value="true"/>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="iconTextGap" type="int" value="20"/>
+            <Property name="iconTextGap" type="int" value="10"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[10, 10, 10, 10]"/>
+              <Insets value="[6, 6, 6, 6]"/>
             </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
@@ -776,7 +776,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -806,7 +806,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -852,14 +852,14 @@
               <Color id="Hand Cursor"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Verdana" size="16" style="1"/>
+              <Font name="Verdana" size="14" style="1"/>
             </Property>
             <Property name="hideActionText" type="boolean" value="true"/>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="iconTextGap" type="int" value="20"/>
+            <Property name="iconTextGap" type="int" value="10"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[10, 10, 10, 10]"/>
+              <Insets value="[6, 6, 6, 6]"/>
             </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
@@ -870,7 +870,7 @@
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Verdana" size="14" style="1"/>
+                  <Font name="Verdana" size="14" style="0"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="fa" green="fa" red="fa" type="rgb"/>

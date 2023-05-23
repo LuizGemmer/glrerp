@@ -1,11 +1,14 @@
 package view.Usuario;
 
+import apoio.Validacao;
 import dao.GrupoDAO;
 import dao.userDAO;
 import entidade.Grupo;
 import entidade.User;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.UIManager;
 import view.jff_ITelaAlterarCadastro;
 import view.jif_Listagem_DAO;
 
@@ -25,6 +28,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
         initComponents();
+        jtf_Email.setEditable(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -46,6 +50,8 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jbt_excluir = new javax.swing.JButton();
         jcb_Hierarquia = new javax.swing.JComboBox<>();
         jpf_Senha = new javax.swing.JPasswordField();
+        jtf_Email = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -72,6 +78,11 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
         jtf_Nome.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Nome.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        jtf_Nome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtf_NomeFocusLost(evt);
+            }
+        });
         jtf_Nome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtf_NomeKeyPressed(evt);
@@ -159,6 +170,11 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Hierarquia.setMaximumRowCount(150);
         jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "USUARIO", "ADMIN" }));
         jcb_Hierarquia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jcb_Hierarquia.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jcb_HierarquiaFocusLost(evt);
+            }
+        });
         jcb_Hierarquia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcb_HierarquiaActionPerformed(evt);
@@ -169,17 +185,32 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jpf_Senha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_Senha.setForeground(new java.awt.Color(0, 0, 0));
 
+        jtf_Email.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtf_Email.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Email.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+        jtf_Email.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("*E-mail");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,15 +222,17 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
                                 .addComponent(jbt_limpar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jpf_Senha)
-                                    .addComponent(jtf_Nome))
+                                    .addComponent(jtf_Nome)
+                                    .addComponent(jtf_Email))
                                 .addGap(61, 61, 61)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbt_fechar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jcb_Hierarquia, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jpf_Senha, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcb_Hierarquia, javax.swing.GroupLayout.Alignment.LEADING, 0, 451, Short.MAX_VALUE))
+                        .addGap(0, 305, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -211,16 +244,20 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jpf_Senha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jtf_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jcb_Hierarquia, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(191, 191, 191)
+                    .addComponent(jpf_Senha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcb_Hierarquia, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbt_fechar)
@@ -281,31 +318,37 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
+        //Faz as validações necessárias antes de salvar
+        if (Validacao.testarCombo(jcb_Hierarquia)
+                && Validacao.ValidarJTFObrigatorio(jtf_Nome, jbt_salvar_alteracao)) {
 
-        //Alterar cadastro de Usuario
-        //Atribuir dados inseridos pelo usuario a variaveis
-        String nomeUser = jtf_Nome.getText().toUpperCase();
-        char[] senhaUser = jpf_Senha.getPassword();
-        String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString().toUpperCase();
+            //Alterar cadastro de Usuario
+            //Atribuir dados inseridos pelo usuario a variaveis
+            String nomeUser = jtf_Nome.getText().toUpperCase();
+            char[] senhaUser = jpf_Senha.getPassword();
+            String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString().toUpperCase();
 
-        //Setar nomes das variaveis para o objeto User
-        User user = new User();
-        user.setId(this.user.getId());
-        user.setNome(nomeUser);
-        user.setSenha(this.user.getSenha());
-        user.setHierarquia(hierarquiaUser);
+            //Setar nomes das variaveis para o objeto User
+            User user = new User();
+            user.setId(this.user.getId());
+            user.setNome(nomeUser);
+            user.setSenha(this.user.getSenha());
+            user.setHierarquia(hierarquiaUser);
 
-        //Chamar classe userDAO para salvar dados no Banco de dados
-        userDAO aDAO = new userDAO();
+            //Chamar classe userDAO para salvar dados no Banco de dados
+            userDAO aDAO = new userDAO();
 
-        //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (aDAO.atualizar(user) == null) {
-            JOptionPane.showMessageDialog(this, "Alteração salva com sucesso!", "ALTERAÇÃO SALVA", JOptionPane.INFORMATION_MESSAGE);
-            limparCampos();
-            this.parente.setTableItems("");
-            this.dispose();
+            //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
+            if (aDAO.atualizar(user) == null) {
+                JOptionPane.showMessageDialog(this, "Alteração salva com sucesso!", "ALTERAÇÃO SALVA", JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                this.parente.setTableItems("");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Você possui campos em branco obrigatórios (*) ou preenchidos incorretamente", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
@@ -351,7 +394,14 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         this.keyPressed = true;
     }//GEN-LAST:event_jcb_HierarquiaActionPerformed
 
-    
+    private void jtf_NomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_NomeFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_Nome, jbt_salvar_alteracao);
+    }//GEN-LAST:event_jtf_NomeFocusLost
+
+    private void jcb_HierarquiaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_HierarquiaFocusLost
+        Validacao.testarCombo(jcb_Hierarquia);
+    }//GEN-LAST:event_jcb_HierarquiaFocusLost
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -391,6 +441,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
@@ -402,6 +453,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JComboBox<String> jcb_Hierarquia;
     private javax.swing.JLabel jll_id;
     private javax.swing.JPasswordField jpf_Senha;
+    private javax.swing.JTextField jtf_Email;
     private javax.swing.JTextField jtf_Nome;
     // End of variables declaration//GEN-END:variables
 
@@ -409,11 +461,12 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     public void setDAO(Object dao) {
         this.user = (User) dao;
         int index = new userDAO().indexCBUnidadeMedida(this.user.getHierarquia());
-        
+
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.user.getId());
         jtf_Nome.setText(this.user.getNome());
         jcb_Hierarquia.setSelectedIndex(index);
+        jtf_Email.setText(this.user.getEmail());
 
     }
 
@@ -428,6 +481,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Nome.setEditable(!inativarControles);
         jpf_Senha.setEnabled(false);
         jcb_Hierarquia.setEnabled(!inativarControles);
+        UIManager.put("ComboBox.disabledForeground",Color.DARK_GRAY);
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);
@@ -445,7 +499,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
     }
-    
+
     private void limparCampos() {
         jtf_Nome.setText("");
         jpf_Senha.setText("");

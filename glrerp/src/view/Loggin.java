@@ -9,14 +9,14 @@ import javax.swing.JOptionPane;
  *
  * @author ruang
  */
-public class telaLoggin extends javax.swing.JFrame {
+public class Loggin extends javax.swing.JDialog {
 
     /**
-     * Creates new form telaPrincipal
+     * Creates new form Loggin
      */
-    public telaLoggin() {
+    public Loggin(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
-        this.setExtendedState(MAXIMIZED_BOTH);
     }
 
     /**
@@ -35,8 +35,11 @@ public class telaLoggin extends javax.swing.JFrame {
         jtf_user = new javax.swing.JTextField();
         jpf_passwd = new javax.swing.JPasswordField();
         jbt_Acessar = new javax.swing.JButton();
+        jbt_sair = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setModal(true);
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setBackground(new java.awt.Color(250, 250, 250));
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -45,14 +48,16 @@ public class telaLoggin extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Usuario");
+        jLabel1.setText("E-mail");
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Senha");
 
+        jtf_user.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_user.setForeground(new java.awt.Color(250, 250, 250));
         jtf_user.setCaretColor(new java.awt.Color(250, 250, 250));
 
+        jpf_passwd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_passwd.setForeground(new java.awt.Color(250, 250, 250));
         jpf_passwd.setCaretColor(new java.awt.Color(250, 250, 250));
         jpf_passwd.setDisabledTextColor(new java.awt.Color(250, 250, 250));
@@ -66,23 +71,32 @@ public class telaLoggin extends javax.swing.JFrame {
             }
         });
 
+        jbt_sair.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_sair.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_sair.setText("Sair");
+        jbt_sair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbt_sairActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jtf_user)
-                    .addComponent(jpf_passwd, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
-                .addContainerGap(64, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbt_Acessar)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jbt_sair)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                        .addComponent(jbt_Acessar))
+                    .addComponent(jpf_passwd, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtf_user, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(17, 17, 17))
         );
         jPanel2Layout.setVerticalGroup(
@@ -97,13 +111,15 @@ public class telaLoggin extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jpf_passwd, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(jbt_Acessar)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbt_Acessar)
+                    .addComponent(jbt_sair))
                 .addGap(18, 18, 18))
         );
 
         jPanel1.add(jPanel2, new java.awt.GridBagConstraints());
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -127,8 +143,11 @@ public class telaLoggin extends javax.swing.JFrame {
             }
         }
 
-
     }//GEN-LAST:event_jbt_AcessarActionPerformed
+
+    private void jbt_sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_sairActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jbt_sairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,21 +166,27 @@ public class telaLoggin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(telaLoggin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Loggin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(telaLoggin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Loggin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(telaLoggin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Loggin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(telaLoggin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Loggin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new telaLoggin().setVisible(true);
+                Loggin dialog = new Loggin(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
@@ -172,6 +197,7 @@ public class telaLoggin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton jbt_Acessar;
+    private javax.swing.JButton jbt_sair;
     private javax.swing.JPasswordField jpf_passwd;
     private javax.swing.JTextField jtf_user;
     // End of variables declaration//GEN-END:variables

@@ -11,9 +11,10 @@ id serial not null,
 );
 
 create table usuario (
-id serial not null,
+	id serial not null,
 	nome varchar(150) not null,
-	senha varchar (45) not null,
+	email varchar(150) not null,
+	senha varchar (150) not null,
 	hierarquia varchar (45) not null,
 	ativo boolean not null,
 	primary key (id)
@@ -35,6 +36,10 @@ id serial not null,
 	ativo boolean not null,
 	unidade_medida varchar(45) not null,
 	observacao text,
+	conv1 double precision,
+	und_conv1 varchar(45),
+	conv2 double precision,
+	und_conv2 varchar(45),
 	primary key(id),
 	constraint fk_id_grupo foreign key (id_grupo) references grupo (id)
 );

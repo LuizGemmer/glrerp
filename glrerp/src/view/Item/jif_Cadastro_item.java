@@ -4,8 +4,10 @@ import dao.GrupoDAO;
 import dao.ItemDAO;
 import entidade.Grupo;
 import entidade.Item;
+import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -14,11 +16,17 @@ import javax.swing.JOptionPane;
 public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
     private DefaultComboBoxModel model;
+    private boolean trocaInverter = false;
 
     public jif_Cadastro_item() {
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
         initComponents();
+
+        jtf_conv1.setText("1");
+        jtf_conv1.setEnabled(false);
+        jcb_UndConv1.setEnabled(false);
+        UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
     }
 
     @SuppressWarnings("unchecked")
@@ -40,6 +48,13 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jta_Observacao = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jtf_conv1 = new javax.swing.JTextField();
+        jcb_UndConv1 = new javax.swing.JComboBox();
+        jLabel9 = new javax.swing.JLabel();
+        jcb_UndConv2 = new javax.swing.JComboBox();
+        jtf_conv2 = new javax.swing.JTextField();
+        jbt_inverter = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
@@ -49,6 +64,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
         jPanel1.setBackground(new java.awt.Color(238, 238, 238));
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(931, 600));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("*Descrição");
@@ -88,7 +104,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         });
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("*Estoque Inicial");
+        jLabel6.setText("Conversão");
 
         jtf_estoque_inicial.setBackground(new java.awt.Color(250, 250, 250));
         jtf_estoque_inicial.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -104,6 +120,11 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jcb_Unidade_medida.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Unidade_medida.setMaximumRowCount(150);
         jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
+        jcb_Unidade_medida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_Unidade_medidaActionPerformed(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("*Unidade de medida");
@@ -118,80 +139,144 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Observações");
 
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setText("*Estoque Inicial");
+
+        jtf_conv1.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_conv1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtf_conv1.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_conv1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtf_conv1.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+
+        jcb_UndConv1.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_UndConv1.setForeground(new java.awt.Color(0, 0, 0));
+        jcb_UndConv1.setMaximumRowCount(150);
+        jcb_UndConv1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
+
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("=");
+
+        jcb_UndConv2.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_UndConv2.setForeground(new java.awt.Color(0, 0, 0));
+        jcb_UndConv2.setMaximumRowCount(150);
+        jcb_UndConv2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
+
+        jtf_conv2.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_conv2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtf_conv2.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_conv2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtf_conv2.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+
+        jbt_inverter.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_inverter.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_inverter.setText("Inverter");
+        jbt_inverter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbt_inverterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
+                .addGap(81, 81, 81)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, Short.MAX_VALUE)
-                                .addComponent(jbt_limpar))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(27, 27, 27)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                                            .addComponent(jcb_Unidade_medida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(57, 57, 57))
+                                        .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 213, Short.MAX_VALUE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbt_fechar))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jbt_inverter)
+                                            .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(27, 27, 27)
-                        .addComponent(jbt_cadastrar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6))
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(57, 224, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jtf_conv1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jcb_UndConv1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jtf_conv2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jcb_UndConv2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jbt_cadastrar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbt_limpar)
+                                .addGap(6, 6, 6)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbt_fechar)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(58, 58, 58)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(jLabel7)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addGap(142, 142, 142)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))))
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jbt_fechar)
-                        .addComponent(jbt_limpar))
-                    .addComponent(jbt_cadastrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtf_conv1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jcb_UndConv1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9)
+                        .addComponent(jtf_conv2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jcb_UndConv2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbt_inverter))
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbt_limpar)
+                        .addComponent(jbt_fechar))
+                    .addComponent(jbt_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel6, jtf_Descricao, jtf_estoque_inicial});
@@ -253,6 +338,30 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
+    private void jbt_inverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_inverterActionPerformed
+        this.trocaInverter = !trocaInverter;
+        jcb_UndConv2.setEnabled(!trocaInverter);
+        jcb_UndConv1.setEnabled(trocaInverter);
+
+        if (trocaInverter) {
+            jcb_UndConv1.setSelectedIndex(jcb_UndConv2.getSelectedIndex());
+            jcb_UndConv2.setSelectedIndex(jcb_Unidade_medida.getSelectedIndex());
+        } else {
+            jcb_UndConv2.setSelectedIndex(jcb_UndConv1.getSelectedIndex());
+            jcb_UndConv1.setSelectedIndex(jcb_Unidade_medida.getSelectedIndex());
+        }
+
+    }//GEN-LAST:event_jbt_inverterActionPerformed
+
+    private void jcb_Unidade_medidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_Unidade_medidaActionPerformed
+        if (trocaInverter) {
+            jcb_UndConv2.setSelectedIndex(jcb_Unidade_medida.getSelectedIndex());
+        } else {
+            jcb_UndConv1.setSelectedIndex(jcb_Unidade_medida.getSelectedIndex());
+        }
+
+    }//GEN-LAST:event_jcb_Unidade_medidaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -260,15 +369,22 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbt_cadastrar;
     private javax.swing.JButton jbt_fechar;
+    private javax.swing.JButton jbt_inverter;
     private javax.swing.JButton jbt_limpar;
     private javax.swing.JComboBox<Grupo> jcb_Grupo;
+    private javax.swing.JComboBox jcb_UndConv1;
+    private javax.swing.JComboBox jcb_UndConv2;
     private javax.swing.JComboBox jcb_Unidade_medida;
     private javax.swing.JTextArea jta_Observacao;
     private javax.swing.JTextField jtf_Descricao;
+    private javax.swing.JTextField jtf_conv1;
+    private javax.swing.JTextField jtf_conv2;
     private javax.swing.JTextField jtf_estoque_inicial;
     // End of variables declaration//GEN-END:variables
 }

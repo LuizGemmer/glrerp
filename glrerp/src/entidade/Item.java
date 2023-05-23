@@ -13,6 +13,11 @@ public class Item {
     private boolean ativo;
     private String unidade_medida;
     private String observacao;
+    private double conv1;
+    private String und_conv1;
+    private double conv2;
+    private String und_conv2;
+    
 
     
     public int getId() {
@@ -69,5 +74,37 @@ public class Item {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public double getConv1() {
+        return conv1;
+    }
+
+    public void setConv1(double conv1) {
+        this.conv1 = conv1;
+    }
+
+    public String getUnd_conv1() {
+        return und_conv1;
+    }
+
+    public void setUnd_conv1(String und_conv1) {
+        this.und_conv1 = und_conv1;
+    }
+
+    public double getConv2() {
+        return conv2;
+    }
+
+    public void setConv2(double conv2) {
+        this.conv2 = conv2;
+    }
+
+    public String getUnd_conv2() {
+        return und_conv2;
+    }
+
+    public void setUnd_conv2(String und_conv2) {
+        this.und_conv2 = und_conv2;
     }
 }

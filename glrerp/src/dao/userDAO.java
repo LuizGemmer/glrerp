@@ -15,7 +15,7 @@ public class userDAO implements IDAOT<User> {
 
     @Override
     public String salvar(User o) {
-                //Salvar Usuário no banco de dados
+        //Salvar Usuário no banco de dados
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
@@ -24,7 +24,8 @@ public class userDAO implements IDAOT<User> {
                     + "'" + o.getNome() + "', "
                     + "'" + o.getSenha() + "', "
                     + "'" + o.getHierarquia() + "', "
-                    + "'true')";
+                    + "'true', "
+                    + "'" + o.getEmail() + "')";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
@@ -38,13 +39,13 @@ public class userDAO implements IDAOT<User> {
 
     @Override
     public String atualizar(User o) {
-            //Atualizar um Usuário
+        //Atualizar um Usuário
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE usuario SET "
                     + "nome='" + o.getNome() + "', "
-                    + "hierarquia='" + o.getHierarquia() + "' " 
+                    + "hierarquia='" + o.getHierarquia() + "' "
                     + "WHERE id=" + o.getId();
 
             int retorno = st.executeUpdate(sql);
@@ -99,6 +100,7 @@ public class userDAO implements IDAOT<User> {
                 user.setNome(retorno.getString("nome"));
                 user.setSenha(retorno.getString("senha"));
                 user.setHierarquia(retorno.getString("hierarquia"));
+                user.setEmail(retorno.getString("email"));
 
                 users.add(user);
             }
@@ -134,6 +136,7 @@ public class userDAO implements IDAOT<User> {
                 user.setId(retorno.getInt("id"));
                 user.setNome(retorno.getString("nome"));
                 user.setHierarquia(retorno.getString("hierarquia"));
+                user.setEmail(retorno.getString("email"));
 
             }
         } catch (Exception e) {
@@ -153,25 +156,28 @@ public class userDAO implements IDAOT<User> {
             String[] data = {
                 Integer.toString(user.getId()),
                 user.getNome(),
+                user.getEmail(),
                 user.getHierarquia()
             };
 
             if (filtro.equals("")) {
                 tableData.add(data);
             } else if (data[1].contains(filtro.toUpperCase())
-                    || data[2].contains(filtro.toUpperCase())) {
+                    || data[2].contains(filtro.toUpperCase())
+                    ||data[3].contains(filtro.toUpperCase())) {
                 tableData.add(data);
             }
         }
 
         return tableData;
+        
     }
 
     @Override
     public String[] getTableColumns() {
-         return new String[]{"Id", "Nome", "Hierarquia"};
+        return new String[]{"Id", "Nome", "Email", "Hierarquia"};
     }
-    
+
     public int indexCBUnidadeMedida(String stringUnd) {
 
         //metodo para retornar o valor da hierarquia atual nos combobox de detalhar e alterar usuario
@@ -181,7 +187,7 @@ public class userDAO implements IDAOT<User> {
         } else {
             indexCBUM = 2;
         }
-           
+
         return indexCBUM;
     }
 

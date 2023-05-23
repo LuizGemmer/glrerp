@@ -29,7 +29,11 @@ public class ItemDAO implements IDAOT<Item> {
                     + o.getQtde_estoque() + ", "
                     + "'true', "
                     + "'" + o.getUnidade_medida() + "', "
-                    + "'" + o.getObservacao() + "')";
+                    + "'" + o.getObservacao() + "', "
+                    + o.getConv1() + ", "
+                    + "'" + o.getUnd_conv1()+ "', "
+                    + o.getConv2() + ", "
+                    + "'" + o.getUnd_conv2()+ "')";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
@@ -56,7 +60,11 @@ public class ItemDAO implements IDAOT<Item> {
                     + "qtde_estoque=" + o.getQtde_estoque() + ", "
                     + "ativo='true', "
                     + "unidade_medida='" + o.getUnidade_medida() + "', "
-                    + "observacao='" + o.getObservacao() + "' "
+                    + "observacao='" + o.getObservacao() + "', "
+                    + "conv1=" + o.getConv1() + "', "
+                    + "und_conv1='" + o.getUnd_conv1() + "', "
+                    + "conv2=" + o.getConv2() + "', "
+                    + "und_conv2='" + o.getUnd_conv2() + "' "
                     + " WHERE id=" + o.getId();
 
             System.out.println("SQL: " + sql);
@@ -113,6 +121,10 @@ public class ItemDAO implements IDAOT<Item> {
                 item.setAtivo(retorno.getBoolean("ativo"));
                 item.setUnidade_medida(retorno.getString("unidade_medida"));
                 item.setObservacao(retorno.getString("observacao"));
+                item.setConv1(retorno.getDouble("conv1"));
+                item.setUnd_conv1(retorno.getString("und_conv1"));
+                item.setConv2(retorno.getDouble("conv2"));
+                item.setUnd_conv2(retorno.getString("und_conv2"));
 
                 itens.add(item);
             }
@@ -149,6 +161,10 @@ public class ItemDAO implements IDAOT<Item> {
                 item.setQtde_estoque(retorno.getDouble("qtde_estoque"));
                 item.setUnidade_medida(retorno.getString("unidade_medida"));
                 item.setObservacao(retorno.getString("observacao"));
+                item.setConv1(retorno.getDouble("conv1"));
+                item.setUnd_conv1(retorno.getString("und_conv1"));
+                item.setConv2(retorno.getDouble("conv2"));
+                item.setUnd_conv2(retorno.getString("und_conv2"));
             }
         } catch (Exception e) {
             System.out.println("Erro ao consultar cadastro de Item " + e);
