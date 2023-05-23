@@ -162,9 +162,9 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
 
             if (filtro.equals("")) {
                 tableData.add(data);
-            } else if (data[1].toUpperCase().contains(filtro.toUpperCase())
-                    || data[2].toUpperCase().contains(filtro.toUpperCase())
-                    || data[3].toUpperCase().contains(filtro.toUpperCase())) {
+            } else if (data[1].contains(filtro.toUpperCase())
+                    || data[2].contains(filtro.toUpperCase())
+                    || data[3].contains(filtro.toUpperCase())) {
                 tableData.add(data);
             }
         }

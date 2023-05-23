@@ -23,8 +23,8 @@ public class GrupoDAO implements IDAOT<Grupo> {
 
             String sql = "INSERT INTO grupo VALUES "
                     + "(default, "
-                    + "'" + o.getDescricao().toUpperCase() + "', "
-                    + "'" + o.getTipo().toUpperCase() + "', "
+                    + "'" + o.getDescricao() + "', "
+                    + "'" + o.getTipo() + "', "
                     + "'true')";
 
             int retorno = st.executeUpdate(sql);
@@ -44,8 +44,8 @@ public class GrupoDAO implements IDAOT<Grupo> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE grupo SET "
-                    + "descricao='" + o.getDescricao().toUpperCase() + "', "
-                    + "tipo='" + o.getTipo().toUpperCase() + "' "
+                    + "descricao='" + o.getDescricao() + "', "
+                    + "tipo='" + o.getTipo() + "' "
                     + "WHERE id=" + o.getId();
 
             int retorno = st.executeUpdate(sql);
@@ -98,8 +98,8 @@ public class GrupoDAO implements IDAOT<Grupo> {
                 Grupo grupo = new Grupo();
 
                 grupo.setId(retorno.getInt("id"));
-                grupo.setDescricao(retorno.getString("descricao").toUpperCase());
-                grupo.setTipo(retorno.getString("tipo").toUpperCase());
+                grupo.setDescricao(retorno.getString("descricao"));
+                grupo.setTipo(retorno.getString("tipo"));
 
                 grupos.add(grupo);
             }
@@ -133,8 +133,8 @@ public class GrupoDAO implements IDAOT<Grupo> {
             while (retorno.next()) {
 
                 grupo.setId(retorno.getInt("id"));
-                grupo.setDescricao(retorno.getString("descricao").toUpperCase());
-                grupo.setTipo(retorno.getString("tipo").toUpperCase());
+                grupo.setDescricao(retorno.getString("descricao"));
+                grupo.setTipo(retorno.getString("tipo"));
 
             }
         } catch (Exception e) {
@@ -158,8 +158,8 @@ public class GrupoDAO implements IDAOT<Grupo> {
 
             if (filtro.equals("")) {
                 tableData.add(data);
-            } else if (data[1].toUpperCase().contains(filtro.toUpperCase())
-                    || data[2].toUpperCase().contains(filtro.toUpperCase())) {
+            } else if (data[1].contains(filtro.toUpperCase())
+                    || data[2].contains(filtro.toUpperCase())) {
                 tableData.add(data);
             }
         }
@@ -188,13 +188,13 @@ public class GrupoDAO implements IDAOT<Grupo> {
 
         System.out.println("String = " + stringUnd);
         if (stringUnd.equals("MATERIA-PRIMA")) {
-            indexCBUM = 0;
-        } else if (stringUnd.equals("PRODUTO ACABADO")) {
             indexCBUM = 1;
-        } else if (stringUnd.equals("FERRAMENTA")) {
+        } else if (stringUnd.equals("PRODUTO ACABADO")) {
             indexCBUM = 2;
-        } else {
+        } else if (stringUnd.equals("FERRAMENTA")) {
             indexCBUM = 3;
+        } else {
+            indexCBUM = 4;
         }
 
         System.out.println("index= " + indexCBUM);

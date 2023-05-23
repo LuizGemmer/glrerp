@@ -26,6 +26,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     public telaPrincipal() {
         initComponents();
         this.tipo = null;
+        this.setExtendedState(MAXIMIZED_BOTH);
 
     }
 

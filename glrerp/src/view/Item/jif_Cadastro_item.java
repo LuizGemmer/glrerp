@@ -57,6 +57,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jLabel2.setText("*Grupo");
 
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Descricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
 
         jbt_fechar.setBackground(new java.awt.Color(13, 71, 161));
@@ -90,9 +91,11 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jLabel6.setText("*Estoque Inicial");
 
         jtf_estoque_inicial.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_estoque_inicial.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_estoque_inicial.setForeground(new java.awt.Color(0, 0, 0));
 
         jcb_Grupo.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_Grupo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Grupo.setMaximumRowCount(150);
         jcb_Grupo.setModel(this.model);
@@ -100,13 +103,14 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jcb_Unidade_medida.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Unidade_medida.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Unidade_medida.setMaximumRowCount(150);
-        jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
+        jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("*Unidade de medida");
 
         jta_Observacao.setBackground(new java.awt.Color(250, 250, 250));
         jta_Observacao.setColumns(20);
+        jta_Observacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jta_Observacao.setForeground(new java.awt.Color(0, 0, 0));
         jta_Observacao.setRows(5);
         jScrollPane1.setViewportView(jta_Observacao);
@@ -216,9 +220,9 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
         //Cadastro de Item
         //Atribuir dados inseridos pelo usuario a variaveis
-        String descItem = jtf_Descricao.getText();
+        String descItem = jtf_Descricao.getText().toUpperCase();
         int grupoItem = ((Grupo) jcb_Grupo.getSelectedItem()).getId();
-        double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText());
+        double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText().replace(',', '.'));
         String unidadeMedida = jcb_Unidade_medida.getSelectedItem().toString();
         String obs = jta_Observacao.getText();
 

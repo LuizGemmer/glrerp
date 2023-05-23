@@ -33,6 +33,8 @@ id serial not null,
 	descricao varchar (150) not null,
 	qtde_estoque double precision not null,
 	ativo boolean not null,
+	unidade_medida varchar(45) not null,
+	observacao text,
 	primary key(id),
 	constraint fk_id_grupo foreign key (id_grupo) references grupo (id)
 );

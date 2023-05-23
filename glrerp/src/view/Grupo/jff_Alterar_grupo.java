@@ -73,6 +73,7 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         jLabel2.setText("*Tipo");
 
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Descricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
         jtf_Descricao.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Descricao.setSelectedTextColor(new java.awt.Color(0, 0, 0));
@@ -155,9 +156,10 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         });
 
         jcb_Tipo.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_Tipo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Tipo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Tipo.setMaximumRowCount(150);
-        jcb_Tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MATERIA-PRIMA", "PRODUTO ACABADO", "FERRAMENTA", "OUTRO" }));
+        jcb_Tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "MATERIA-PRIMA", "PRODUTO ACABADO", "FERRAMENTA", "OUTRO" }));
         jcb_Tipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jcb_Tipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -277,8 +279,8 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
 
         //Alterar cadastro de Grupo
         //Atribuir dados inseridos pelo usuario a variaveis
-        String descGrupo = jtf_Descricao.getText();
-        String tipoGrupo = jcb_Tipo.getSelectedItem().toString();
+        String descGrupo = jtf_Descricao.getText().toUpperCase();
+        String tipoGrupo = jcb_Tipo.getSelectedItem().toString().toUpperCase();
               
         //Setar nomes das variaveis para o objeto Grupo
         Grupo grupo = new Grupo();

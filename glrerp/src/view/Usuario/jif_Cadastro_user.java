@@ -1,6 +1,6 @@
-
 package view.Usuario;
 
+import apoio.Validacao;
 import dao.userDAO;
 import entidade.User;
 import javax.swing.JOptionPane;
@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
  */
 public class jif_Cadastro_user extends javax.swing.JInternalFrame {
 
-   
     public jif_Cadastro_user() {
         initComponents();
     }
@@ -51,10 +50,11 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jLabel2.setText("*Senha");
 
         jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Nome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
-        jtf_Nome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtf_NomeActionPerformed(evt);
+        jtf_Nome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtf_NomeFocusLost(evt);
             }
         });
 
@@ -89,21 +89,18 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jLabel6.setText("*Hierarquia");
 
         jpf_Senha.setBackground(new java.awt.Color(250, 250, 250));
+        jpf_Senha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_Senha.setForeground(new java.awt.Color(0, 0, 0));
-        jpf_Senha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jpf_SenhaActionPerformed(evt);
+        jpf_Senha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jpf_SenhaFocusLost(evt);
             }
         });
 
         jcb_Hierarquia.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_Hierarquia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Hierarquia.setForeground(new java.awt.Color(0, 0, 0));
-        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "USUARIO", "ADMIN" }));
-        jcb_Hierarquia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcb_HierarquiaActionPerformed(evt);
-            }
-        });
+        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "USUARIO", "ADMIN" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -169,55 +166,53 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
-        
         //Botão de limpar campos de TextField
-        jtf_Nome.setText("");
-        jpf_Senha.setText("");
-        jcb_Hierarquia.setSelectedIndex(0);
+        LimparCampos();
         jtf_Nome.requestFocus();
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
-        
-        //Cadastrar novo Usuário
-        //Atribuir dados inseridos pelo usuario a variaveis
-        String nomeUser = jtf_Nome.getText();
-        char[] senhaUser = jpf_Senha.getPassword();
-        String passwd = String.valueOf(senhaUser);
-        String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString();
+        //Faz as vakidações necessárias antes de salvar
+        if (Validacao.testarCombo(jcb_Hierarquia)
+                && Validacao.ValidarJTFObrigatorio(jtf_Nome, jbt_cadastrar)
+                && Validacao.ValidarPasswdObrigatorio(jpf_Senha, jbt_cadastrar)) {
 
-        //Setar nomes das variaveis para o objeto User
-        User user = new User();
-        user.setNome(nomeUser);
-        user.setSenha(passwd);
-        user.setHierarquia(hierarquiaUser);
-        
-        //Chamar classe ClienteDAO para salvar dados no Banco de dados
-        userDAO aDAO = new userDAO();
-        
-        //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (aDAO.salvar(user) == null){
-            JOptionPane.showMessageDialog(this, "Novo Usuário salvo com sucesso!", "USUÁRIO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
-            jtf_Nome.setText("");
-            jpf_Senha.setText("");
-            jcb_Hierarquia.setSelectedIndex(0);
-            jtf_Nome.requestFocus();
-        }else{
-            JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo cliente!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            //Cadastrar novo Usuário
+            //Atribuir dados inseridos pelo usuario a variaveis
+            String nomeUser = jtf_Nome.getText().toUpperCase();
+            char[] senhaUser = jpf_Senha.getPassword();
+            String passwd = String.valueOf(senhaUser);
+            String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString().toUpperCase();
+
+            //Setar nomes das variaveis para o objeto User
+            User user = new User();
+            user.setNome(nomeUser);
+            user.setSenha(passwd);
+            user.setHierarquia(hierarquiaUser);
+
+            //Chamar classe ClienteDAO para salvar dados no Banco de dados
+            userDAO aDAO = new userDAO();
+
+            //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
+            if (aDAO.salvar(user) == null) {
+                JOptionPane.showMessageDialog(this, "Novo Usuário salvo com sucesso!", "USUÁRIO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+                LimparCampos();
+                jtf_Nome.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo cliente!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Você possui campos em branco obrigatórios (*) ou preenchidos incorretamente", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
-    private void jtf_NomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_NomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtf_NomeActionPerformed
+    private void jtf_NomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_NomeFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_Nome, jbt_cadastrar);
+    }//GEN-LAST:event_jtf_NomeFocusLost
 
-    private void jpf_SenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jpf_SenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jpf_SenhaActionPerformed
-
-    private void jcb_HierarquiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_HierarquiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcb_HierarquiaActionPerformed
+    private void jpf_SenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jpf_SenhaFocusLost
+        Validacao.ValidarPasswdObrigatorio(jpf_Senha, jbt_cadastrar);
+    }//GEN-LAST:event_jpf_SenhaFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -232,4 +227,10 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
     private javax.swing.JPasswordField jpf_Senha;
     private javax.swing.JTextField jtf_Nome;
     // End of variables declaration//GEN-END:variables
+
+    private void LimparCampos() {
+        jtf_Nome.setText("");
+        jpf_Senha.setText("");
+        jcb_Hierarquia.setSelectedIndex(0);
+    }
 }

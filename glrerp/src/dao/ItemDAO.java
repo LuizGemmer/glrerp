@@ -25,7 +25,7 @@ public class ItemDAO implements IDAOT<Item> {
             String sql = "INSERT INTO item VALUES "
                     + "(default, "
                     + o.getId_grupo() + ", "
-                    + "'" + o.getDescricao().toUpperCase() + "', "
+                    + "'" + o.getDescricao() + "', "
                     + o.getQtde_estoque() + ", "
                     + "'true', "
                     + "'" + o.getUnidade_medida() + "', "
@@ -52,7 +52,7 @@ public class ItemDAO implements IDAOT<Item> {
 
             String sql = "UPDATE item SET "
                     + "id_grupo=" + o.getId_grupo() + ", "
-                    + "descricao='" + o.getDescricao().toUpperCase() + "', "
+                    + "descricao='" + o.getDescricao() + "', "
                     + "qtde_estoque=" + o.getQtde_estoque() + ", "
                     + "ativo='true', "
                     + "unidade_medida='" + o.getUnidade_medida() + "', "
@@ -144,7 +144,7 @@ public class ItemDAO implements IDAOT<Item> {
             System.out.println("SQL: " + sql);
             while (retorno.next()) {
                 item.setId(retorno.getInt("id"));
-                item.setDescricao(retorno.getString("descricao").toUpperCase());
+                item.setDescricao(retorno.getString("descricao"));
                 item.setId_grupo(retorno.getInt("id_grupo"));
                 item.setQtde_estoque(retorno.getDouble("qtde_estoque"));
                 item.setUnidade_medida(retorno.getString("unidade_medida"));
@@ -174,10 +174,10 @@ public class ItemDAO implements IDAOT<Item> {
 
             if (filtro.equals("")) {
                 tableData.add(data);
-            } else if (data[1].toUpperCase().contains(filtro.toUpperCase())
-                    || data[2].toUpperCase().contains(filtro.toUpperCase())
-                    || data[3].toUpperCase().contains(filtro.toUpperCase())
-                    || data[4].toUpperCase().contains(filtro.toUpperCase())) {
+            } else if (data[1].contains(filtro.toUpperCase())
+                    || data[2].contains(filtro.toUpperCase())
+                    || data[3].contains(filtro.toUpperCase())
+                    || data[4].contains(filtro.toUpperCase())) {
                 tableData.add(data);
             }
         }
@@ -195,41 +195,41 @@ public class ItemDAO implements IDAOT<Item> {
         //metodo para retornar o valor da unidade de medida atual nos combobox de detalhar e alterar item
         int indexCBUM = 0;
         if (stringUnd.equals("und")) {
-            indexCBUM = 0;
-        } else if (stringUnd.equals("caixa")) {
             indexCBUM = 1;
-        } else if (stringUnd.equals("pacote")) {
+        } else if (stringUnd.equals("caixa")) {
             indexCBUM = 2;
-        } else if (stringUnd.equals("fração")) {
+        } else if (stringUnd.equals("pacote")) {
             indexCBUM = 3;
-        } else if (stringUnd.equals("m")) {
+        } else if (stringUnd.equals("fração")) {
             indexCBUM = 4;
-        } else if (stringUnd.equals("m²")) {
+        } else if (stringUnd.equals("m")) {
             indexCBUM = 5;
-        } else if (stringUnd.equals("m linear")) {
+        } else if (stringUnd.equals("m²")) {
             indexCBUM = 6;
-        } else if (stringUnd.equals("cm")) {
+        } else if (stringUnd.equals("m linear")) {
             indexCBUM = 7;
-        } else if (stringUnd.equals("mm")) {
+        } else if (stringUnd.equals("cm")) {
             indexCBUM = 8;
-        } else if (stringUnd.equals("L")) {
+        } else if (stringUnd.equals("mm")) {
             indexCBUM = 9;
-        } else if (stringUnd.equals("mL")) {
+        } else if (stringUnd.equals("L")) {
             indexCBUM = 10;
-        } else if (stringUnd.equals("m³")) {
+        } else if (stringUnd.equals("mL")) {
             indexCBUM = 11;
-        } else if (stringUnd.equals("cm³")) {
+        } else if (stringUnd.equals("m³")) {
             indexCBUM = 12;
-        } else if (stringUnd.equals("dm³")) {
+        } else if (stringUnd.equals("cm³")) {
             indexCBUM = 13;
-        } else if (stringUnd.equals("ton")) {
+        } else if (stringUnd.equals("dm³")) {
             indexCBUM = 14;
-        } else if (stringUnd.equals("kg")) {
+        } else if (stringUnd.equals("ton")) {
             indexCBUM = 15;
-        } else if (stringUnd.equals("g³")) {
+        } else if (stringUnd.equals("kg")) {
             indexCBUM = 16;
-        } else {
+        } else if (stringUnd.equals("g³")) {
             indexCBUM = 17;
+        } else {
+            indexCBUM = 18;
         }
    
         return indexCBUM;

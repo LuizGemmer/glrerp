@@ -3,11 +3,9 @@ package view.Usuario;
 import dao.GrupoDAO;
 import dao.userDAO;
 import entidade.Grupo;
-import entidade.Item;
 import entidade.User;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
-import java.text.DecimalFormat;
 import view.jff_ITelaAlterarCadastro;
 import view.jif_Listagem_DAO;
 
@@ -18,13 +16,9 @@ import view.jif_Listagem_DAO;
 public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlterarCadastro {
 
     private jif_Listagem_DAO parente;
-
     private User user;
-
     private boolean keyPressed;
-
     private boolean inativarControles = false;
-
     private DefaultComboBoxModel model;
 
     public jff_Alterar_User() {
@@ -74,6 +68,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel2.setText("*Senha");
 
         jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Nome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
         jtf_Nome.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Nome.setSelectedTextColor(new java.awt.Color(0, 0, 0));
@@ -159,9 +154,10 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         });
 
         jcb_Hierarquia.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_Hierarquia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Hierarquia.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Hierarquia.setMaximumRowCount(150);
-        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "USUARIO", "ADMIN" }));
+        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "USUARIO", "ADMIN" }));
         jcb_Hierarquia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jcb_Hierarquia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,6 +166,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         });
 
         jpf_Senha.setBackground(new java.awt.Color(250, 250, 250));
+        jpf_Senha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_Senha.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -278,12 +275,8 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
-
         //Botão de limpar campos de TextField
-        //Botão de limpar campos de TextField
-        jtf_Nome.setText("");
-        jpf_Senha.setText("");
-        jcb_Hierarquia.setSelectedIndex(0);
+        limparCampos();
         jtf_Nome.requestFocus();
     }//GEN-LAST:event_jbt_limparActionPerformed
 
@@ -291,9 +284,9 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
 
         //Alterar cadastro de Usuario
         //Atribuir dados inseridos pelo usuario a variaveis
-        String nomeUser = jtf_Nome.getText();
+        String nomeUser = jtf_Nome.getText().toUpperCase();
         char[] senhaUser = jpf_Senha.getPassword();
-        String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString();
+        String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString().toUpperCase();
 
         //Setar nomes das variaveis para o objeto User
         User user = new User();
@@ -307,7 +300,8 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
 
         //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
         if (aDAO.atualizar(user) == null) {
-            JOptionPane.showMessageDialog(this, "Novo Usuário salvo com sucesso!", "USUÁRIO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Alteração salva com sucesso!", "ALTERAÇÃO SALVA", JOptionPane.INFORMATION_MESSAGE);
+            limparCampos();
             this.parente.setTableItems("");
             this.dispose();
         } else {
@@ -357,9 +351,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         this.keyPressed = true;
     }//GEN-LAST:event_jcb_HierarquiaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -452,6 +444,12 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         //Abrir novo JFrame na mesma localização do JFrame anterior
         this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
+    }
+    
+    private void limparCampos() {
+        jtf_Nome.setText("");
+        jpf_Senha.setText("");
+        jcb_Hierarquia.setSelectedIndex(0);
     }
 
 }

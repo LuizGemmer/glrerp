@@ -32,11 +32,11 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
             String sql = "INSERT INTO cliente VALUES "
                     + "(default, "
-                    + "'" + o.getNome().toUpperCase() + "', "
+                    + "'" + o.getNome() + "', "
                     + "'" + o.getCpf() + "', "
                     + "'" + o.getEmail() + "', "
                     + "'" + o.getTelefone() + "', "
-                    + "'" + o.getEndereco().toUpperCase() + "', "
+                    + "'" + o.getEndereco() + "', "
                     + "'" + o.getTipo() + "', "
                     + "'true')";
 
@@ -58,11 +58,11 @@ public class ClienteDAO implements IDAOT<Cliente> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE cliente SET "
-                    + "nome='" + o.getNome().toUpperCase() + "', "
+                    + "nome='" + o.getNome() + "', "
                     + "cpf='" + o.getCpf() + "', "
                     + "email='" + o.getEmail() + "', "
                     + "telefone='" + o.getTelefone() + "', "
-                    + "endereco='" + o.getEndereco().toUpperCase() + "' "
+                    + "endereco='" + o.getEndereco() + "' "
                     + "WHERE id='" + o.getId() + "'";
 
             int retorno = st.executeUpdate(sql);
@@ -114,11 +114,11 @@ public class ClienteDAO implements IDAOT<Cliente> {
                 Cliente cliente = new Cliente();
 
                 cliente.setId(retorno.getInt("id"));
-                cliente.setNome(retorno.getString("nome").toUpperCase());
+                cliente.setNome(retorno.getString("nome"));
                 cliente.setCpf(retorno.getString("cpf"));
                 cliente.setEmail(retorno.getString("email"));
                 cliente.setTelefone(retorno.getString("telefone"));
-                cliente.setEndereco(retorno.getString("endereco").toUpperCase());
+                cliente.setEndereco(retorno.getString("endereco"));
                 cliente.setTipo(retorno.getString("tipo"));
 
                 clientes.add(cliente);
@@ -153,11 +153,11 @@ public class ClienteDAO implements IDAOT<Cliente> {
             while (retorno.next()) {
 
                 cliente.setId(retorno.getInt("id"));
-                cliente.setNome(retorno.getString("nome").toUpperCase());
+                cliente.setNome(retorno.getString("nome"));
                 cliente.setCpf(retorno.getString("cpf"));
                 cliente.setEmail(retorno.getString("email"));
                 cliente.setTelefone(retorno.getString("telefone"));
-                cliente.setEndereco(retorno.getString("endereco").toUpperCase());
+                cliente.setEndereco(retorno.getString("endereco"));
                 cliente.setTipo(retorno.getString("tipo"));
 
             }
@@ -187,8 +187,8 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
             if (filtro.equals("")) {
                 tableData.add(data);
-            } else if (data[1].toUpperCase().contains(filtro.toUpperCase())
-                    || data[2].toUpperCase().contains(filtro.toUpperCase())) {
+            } else if (data[1].contains(filtro.toUpperCase())
+                    || data[2].contains(filtro.toUpperCase())) {
                 tableData.add(data);
             }
         }

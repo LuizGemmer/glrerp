@@ -64,15 +64,19 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
         jLabel4.setText("Endereço");
 
         jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Nome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
 
         jtf_Tel.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Tel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Tel.setForeground(new java.awt.Color(0, 0, 0));
 
         jtf_Cpf.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Cpf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Cpf.setForeground(new java.awt.Color(0, 0, 0));
 
         jtf_End.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_End.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_End.setForeground(new java.awt.Color(0, 0, 0));
 
         jbt_fechar.setBackground(new java.awt.Color(13, 71, 161));
@@ -106,6 +110,7 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
         jLabel6.setText("*E-mail");
 
         jtf_email.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_email.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -204,11 +209,11 @@ public class jif_Cadastro_cliente extends javax.swing.JInternalFrame {
         
         //Cadastrar novo Cliente
         //Atribuir dados inseridos pelo usuario a variaveis
-        String nomeCliente = jtf_Nome.getText();
+        String nomeCliente = jtf_Nome.getText().toUpperCase();
         String telCliente = jtf_Tel.getText();
         String cpfCliente = jtf_Cpf.getText();
         String emailCliente = jtf_email.getText();
-        String endCliente = jtf_End.getText();
+        String endCliente = jtf_End.getText().toUpperCase();
 
         //Setar nomes das variaveis para o objeto Cliente
         Cliente cliente = new Cliente();

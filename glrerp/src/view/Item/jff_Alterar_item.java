@@ -82,6 +82,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel2.setText("*Grupo");
 
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Descricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
         jtf_Descricao.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Descricao.setSelectedTextColor(new java.awt.Color(0, 0, 0));
@@ -122,6 +123,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel6.setText("*Estoque");
 
         jtf_estoque.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_estoque.setForeground(new java.awt.Color(0, 0, 0));
         jtf_estoque.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_estoque.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -176,6 +178,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         });
 
         jcb_Grupo.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_Grupo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Grupo.setMaximumRowCount(150);
         jcb_Grupo.setModel(this.model);
@@ -188,6 +191,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
         jta_Observacao.setBackground(new java.awt.Color(250, 250, 250));
         jta_Observacao.setColumns(20);
+        jta_Observacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jta_Observacao.setForeground(new java.awt.Color(0, 0, 0));
         jta_Observacao.setRows(5);
         jta_Observacao.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -201,9 +205,10 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel8.setText("Observações");
 
         jcb_Unidade_medida.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_Unidade_medida.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Unidade_medida.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Unidade_medida.setMaximumRowCount(150);
-        jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg", " ", " ", " ", " ", " " }));
+        jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg", "", "", "", "", "" }));
         jcb_Unidade_medida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcb_Unidade_medidaActionPerformed(evt);
@@ -351,7 +356,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
         //Alterar cadastro de Item
         //Atribuir dados inseridos pelo usuario a variaveis
-        String descItem = jtf_Descricao.getText();
+        String descItem = jtf_Descricao.getText().toUpperCase();
         int grupoItem = ((Grupo) jcb_Grupo.getSelectedItem()).getId();
         double estoqueItem = Double.parseDouble(jtf_estoque.getText().replace(',', '.'));
         String unidadeMedida = jcb_Unidade_medida.getSelectedItem().toString();

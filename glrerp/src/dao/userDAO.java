@@ -21,7 +21,7 @@ public class userDAO implements IDAOT<User> {
 
             String sql = "INSERT INTO usuario VALUES "
                     + "(default, "
-                    + "'" + o.getNome().toUpperCase() + "', "
+                    + "'" + o.getNome() + "', "
                     + "'" + o.getSenha() + "', "
                     + "'" + o.getHierarquia() + "', "
                     + "'true')";
@@ -43,7 +43,7 @@ public class userDAO implements IDAOT<User> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE usuario SET "
-                    + "nome='" + o.getNome().toUpperCase() + "', "
+                    + "nome='" + o.getNome() + "', "
                     + "hierarquia='" + o.getHierarquia() + "' " 
                     + "WHERE id=" + o.getId();
 
@@ -132,7 +132,7 @@ public class userDAO implements IDAOT<User> {
             while (retorno.next()) {
 
                 user.setId(retorno.getInt("id"));
-                user.setNome(retorno.getString("nome").toUpperCase());
+                user.setNome(retorno.getString("nome"));
                 user.setHierarquia(retorno.getString("hierarquia"));
 
             }
@@ -158,8 +158,8 @@ public class userDAO implements IDAOT<User> {
 
             if (filtro.equals("")) {
                 tableData.add(data);
-            } else if (data[1].toUpperCase().contains(filtro.toUpperCase())
-                    || data[2].toUpperCase().contains(filtro.toUpperCase())) {
+            } else if (data[1].contains(filtro.toUpperCase())
+                    || data[2].contains(filtro.toUpperCase())) {
                 tableData.add(data);
             }
         }
@@ -177,9 +177,9 @@ public class userDAO implements IDAOT<User> {
         //metodo para retornar o valor da hierarquia atual nos combobox de detalhar e alterar usuario
         int indexCBUM = 0;
         if (stringUnd.equals("USUARIO")) {
-            indexCBUM = 0;
-        } else {
             indexCBUM = 1;
+        } else {
+            indexCBUM = 2;
         }
            
         return indexCBUM;

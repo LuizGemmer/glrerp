@@ -46,6 +46,7 @@ public class jif_Cadastro_grupo extends javax.swing.JInternalFrame {
         jLabel1.setText("*Descrição");
 
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_Descricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
 
         jbt_fechar.setBackground(new java.awt.Color(13, 71, 161));
@@ -79,8 +80,9 @@ public class jif_Cadastro_grupo extends javax.swing.JInternalFrame {
         jLabel6.setText("*Tipo");
 
         jcb_Tipo.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_Tipo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Tipo.setForeground(new java.awt.Color(0, 0, 0));
-        jcb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MATERIA-PRIMA", "PRODUTO ACABADO", "FERRAMENTA", "OUTRO" }));
+        jcb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "MATERIA-PRIMA", "PRODUTO ACABADO", "FERRAMENTA", "OUTRO" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -150,8 +152,8 @@ public class jif_Cadastro_grupo extends javax.swing.JInternalFrame {
         
         //Cadastrar novo grupo
         //Atribuir dados inseridos pelo usuario a variaveis
-        String descGrupo = jtf_Descricao.getText();
-        String tipoGrupo = jcb_Tipo.getSelectedItem().toString();
+        String descGrupo = jtf_Descricao.getText().toUpperCase();
+        String tipoGrupo = jcb_Tipo.getSelectedItem().toString().toUpperCase();
 
         //Setar nomes das variaveis para o objeto grupo
         Grupo grupo = new Grupo();
