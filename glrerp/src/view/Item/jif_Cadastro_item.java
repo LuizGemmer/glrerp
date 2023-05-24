@@ -1,14 +1,11 @@
 package view.Item;
 
-import apoio.ComboItem;
 import apoio.CombosDAO;
 import apoio.Validacao;
-import dao.GrupoDAO;
 import dao.ItemDAO;
 import entidade.Grupo;
 import entidade.Item;
 import java.awt.Color;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -327,7 +324,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
             //Atribuir dados inseridos pelo usuario a variaveis
             String descItem = jtf_Descricao.getText().toUpperCase();
-            ComboItem cb = (ComboItem) jcb_Grupo.getSelectedItem();
+            Grupo cb = (Grupo) jcb_Grupo.getSelectedItem();
             double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText().replace(',', '.'));
             String unidadeMedida = jcb_Unidade_medida.getSelectedItem().toString();
             String obs = jta_Observacao.getText();
@@ -352,7 +349,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             //Setar nomes das variaveis para o objeto Item
             Item item = new Item();
             item.setDescricao(descItem);
-            item.setId_grupo(cb.getCodigo());
+            item.setId_grupo(cb.getId());
             item.setQtde_estoque(estoqueItem);
             item.setUnidade_medida(unidadeMedida);
             item.setObservacao(obs);

@@ -1,5 +1,6 @@
 package apoio;
 
+import entidade.Grupo;
 import java.sql.ResultSet;
 import javax.swing.JComboBox;
 
@@ -15,31 +16,60 @@ public class CombosDAO {
     public void popularCombo(String tabela, JComboBox combo) {
 
         combo.removeAllItems();
+        if (tabela.equals("grupo")) {
+            Grupo item = new Grupo();
+            item.setId(0);
+            item.setDescricao("SELECIONE");
+            combo.addItem(item);
 
-        ComboItem item = new ComboItem();
-        item.setCodigo(0);
-        item.setDescricao("SELECIONE");
-        combo.addItem(item);
+            try {
+                resultado = new ConexaoBD().getConnection().createStatement().executeQuery(""
+                        + "SELECT * "
+                        + "FROM " + tabela + " "
+                        + "WHERE ativo='true' "
+                        + "ORDER BY 2");
 
-        try {
-            resultado = new ConexaoBD().getConnection().createStatement().executeQuery(""
-                    + "SELECT * "
-                    + "FROM " + tabela + " "
-                    + "WHERE ativo='true' "
-                    + "ORDER BY 2");
+                if (resultado.isBeforeFirst()) {
+                    while (resultado.next()) {
+                        item = new Grupo();
+                        item.setId(resultado.getInt(1));
+                        item.setDescricao(resultado.getString(2));
+                        item.setTipo(resultado.getString(3));
 
-            if (resultado.isBeforeFirst()) {
-                while (resultado.next()) {
-                    item = new ComboItem();
-                    item.setCodigo(resultado.getInt(1));
-                    item.setDescricao(resultado.getString(2));
-
-                    combo.addItem(item);
+                        combo.addItem(item);
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("Erro ao popular Combo = " + e.toString());
             }
-        } catch (Exception e) {
-            System.out.println("Erro ao popular Combo = " + e.toString());
+
+        } else {
+            ComboItem item = new ComboItem();
+            item.setCodigo(0);
+            item.setDescricao("SELECIONE");
+            combo.addItem(item);
+
+            try {
+                resultado = new ConexaoBD().getConnection().createStatement().executeQuery(""
+                        + "SELECT * "
+                        + "FROM " + tabela + " "
+                        + "WHERE ativo='true' "
+                        + "ORDER BY 2");
+
+                if (resultado.isBeforeFirst()) {
+                    while (resultado.next()) {
+                        item = new ComboItem();
+                        item.setCodigo(resultado.getInt(1));
+                        item.setDescricao(resultado.getString(2));
+                        
+                        combo.addItem(item);
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Erro ao popular Combo = " + e.toString());
+            }
         }
+
     }
 
     // construtor 2
@@ -75,6 +105,15 @@ public class CombosDAO {
     public void definirItemCombo(JComboBox combo, ComboItem item) {
         for (int i = 0; i < combo.getItemCount(); i++) {
             if (((ComboItem) combo.getItemAt(i)).getCodigo() == (item.getCodigo())) {
+                combo.setSelectedIndex(i);
+                return;
+            }
+        }
+    }
+    
+    public void definirComboGrupo(JComboBox combo, Grupo item) {
+        for (int i = 0; i < combo.getItemCount(); i++) {
+            if (((Grupo) combo.getItemAt(i)).getId()== (item.getId())) {
                 combo.setSelectedIndex(i);
                 return;
             }

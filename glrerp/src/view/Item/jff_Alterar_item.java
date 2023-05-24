@@ -1,19 +1,14 @@
 package view.Item;
 
-import apoio.ComboItem;
+
 import apoio.CombosDAO;
-import apoio.IDAOT;
 import apoio.Validacao;
-import dao.GrupoDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
 import entidade.Grupo;
-import entidade.Grupo;
 import entidade.Item;
 import java.awt.Color;
-import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
-import javax.swing.DefaultComboBoxModel;
 import java.text.DecimalFormat;
 import javax.swing.UIManager;
 import view.jff_ITelaAlterarCadastro;
@@ -462,7 +457,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
             //Atribuir dados inseridos pelo usuario a variaveis
             String descItem = jtf_Descricao.getText().toUpperCase();
-            ComboItem cb = (ComboItem) jcb_Grupo.getSelectedItem();
+            Grupo cb = (Grupo) jcb_Grupo.getSelectedItem();
             double estoqueItem = Double.parseDouble(jtf_estoque.getText().replace(',', '.'));
             String obs = jta_Observacao.getText();
 
@@ -487,7 +482,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             Item item = new Item();
             item.setId(Integer.parseInt(jll_id.getText()));
             item.setDescricao(descItem);
-            item.setId_grupo(cb.getCodigo());
+            item.setId_grupo(cb.getId());
             item.setQtde_estoque(estoqueItem);
             item.setObservacao(obs);
             item.setConv1(conv1);
@@ -696,10 +691,10 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
         //retornar o valor selecionado ao Combo Box GRUPO
         new CombosDAO().popularCombo("grupo", jcb_Grupo);
-        ComboItem cb = new ComboItem();
-        cb.setCodigo(this.item.getId_grupo());
+        Grupo cb = new Grupo();
+        cb.setId(this.item.getId_grupo());
         cb.setDescricao(new GrupoDAO().consultarId(this.item.getId_grupo()).getDescricao());
-        new CombosDAO().definirItemCombo(jcb_Grupo, cb);
+        new CombosDAO().definirComboGrupo(jcb_Grupo, cb);
 
         //Impede a alteração da unidade de conversão caso esta já estaja salva. Caso não tenha sido salva, permite a edição
         if (this.item.getConv2() != 0) {

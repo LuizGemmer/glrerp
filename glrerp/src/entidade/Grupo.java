@@ -5,6 +5,7 @@ package entidade;
  * @author rg
  */
 public class Grupo {
+
     private int id;
     private String descricao;
     private String tipo;
@@ -41,10 +42,14 @@ public class Grupo {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
-    
+
     @Override
-    public String toString(){
-        return String.valueOf(String.valueOf(this.getTipo()) + " - " + String.valueOf(this.getDescricao()));
+    public String toString() {
+        if (String.valueOf(this.getTipo()).equals("null")) {
+            return String.valueOf(String.valueOf(this.getDescricao()));
+        } else {
+            return String.valueOf(String.valueOf(this.getTipo()) + " - " + String.valueOf(this.getDescricao()));
+        }
     }
-    
+
 }
