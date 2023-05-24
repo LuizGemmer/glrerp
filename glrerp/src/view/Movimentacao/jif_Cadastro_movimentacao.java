@@ -1,9 +1,5 @@
 package view.Movimentacao;
 
-import apoio.CombosDAO;
-import java.awt.Color;
-import javax.swing.UIManager;
-
 /**
  *
  * @author ruang
@@ -14,14 +10,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
     public jif_Cadastro_movimentacao() {
         initComponents();
-
-        new CombosDAO().popularCombo("grupo", jcb_Grupo);
-        jtf_Perda.setText("1");
-        jtf_Perda.setEnabled(false);
-        jcb_UndConv1.setEnabled(false);
-        UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
