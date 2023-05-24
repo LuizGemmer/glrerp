@@ -31,6 +31,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         initComponents();
         jtf_conv1.setEnabled(false);
         jcb_Unidade_medida.setEnabled(false);
+        jtf_estoque.setEditable(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -64,6 +65,9 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_conv2 = new javax.swing.JTextField();
         jcb_UndConv2 = new javax.swing.JComboBox();
         jbt_inverter = new javax.swing.JButton();
+        jff_valor = new javax.swing.JFormattedTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -80,9 +84,11 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("*Descrição");
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("*Grupo");
 
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
@@ -129,22 +135,13 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         });
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("*Estoque");
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("Estoque Atual");
 
         jtf_estoque.setBackground(new java.awt.Color(250, 250, 250));
         jtf_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_estoque.setForeground(new java.awt.Color(0, 0, 0));
         jtf_estoque.setDisabledTextColor(new java.awt.Color(102, 102, 102));
-        jtf_estoque.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jtf_estoqueFocusLost(evt);
-            }
-        });
-        jtf_estoque.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtf_estoqueKeyPressed(evt);
-            }
-        });
 
         jPanel2.setBackground(new java.awt.Color(238, 238, 238));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -179,7 +176,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jll_id, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jbt_excluir.setBackground(new java.awt.Color(13, 71, 161));
@@ -220,6 +217,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jScrollPane1.setViewportView(jta_Observacao);
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Observações");
 
         jcb_Unidade_medida.setBackground(new java.awt.Color(250, 250, 250));
@@ -227,21 +225,13 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Unidade_medida.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Unidade_medida.setMaximumRowCount(150);
         jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg", "", "", "", "", "" }));
-        jcb_Unidade_medida.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jcb_Unidade_medidaFocusLost(evt);
-            }
-        });
-        jcb_Unidade_medida.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcb_Unidade_medidaActionPerformed(evt);
-            }
-        });
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("*Unidade de medida");
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Unidade de medida");
 
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel9.setText("Conversão");
 
         jtf_conv1.setBackground(new java.awt.Color(250, 250, 250));
@@ -298,54 +288,83 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             }
         });
 
+        jff_valor.setBackground(new java.awt.Color(250, 250, 250));
+        jff_valor.setForeground(new java.awt.Color(0, 0, 0));
+        jff_valor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jff_valor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jff_valorFocusLost(evt);
+            }
+        });
+        jff_valor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jff_valorKeyTyped(evt);
+            }
+        });
+
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("*Valor Unitário");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
-                .addGap(25, 25, 25)
+                .addGap(87, 87, 87)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jbt_salvar_alteracao)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbt_excluir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbt_limpar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jtf_conv1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jcb_UndConv1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jtf_conv2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jcb_UndConv2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbt_inverter))
-                            .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtf_estoque, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jtf_Descricao, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jcb_Unidade_medida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(25, 25, 25))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jbt_salvar_alteracao)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbt_excluir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 353, Short.MAX_VALUE)
+                                .addComponent(jbt_limpar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jtf_Descricao, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jScrollPane1)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jtf_estoque)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jtf_conv1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jcb_UndConv1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jLabel10)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jtf_conv2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jcb_UndConv2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jbt_inverter)))
+                                    .addComponent(jff_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbt_fechar)
                 .addContainerGap())
@@ -358,30 +377,40 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                     .addComponent(jLabel1)
                     .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jff_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtf_conv1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcb_UndConv1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(jtf_conv2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcb_UndConv2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbt_inverter)
+                            .addComponent(jLabel9))
+                        .addGap(26, 26, 26))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtf_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtf_conv1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcb_UndConv1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(jtf_conv2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcb_UndConv2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbt_inverter)
-                    .addComponent(jLabel9))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                    .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbt_salvar_alteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -402,7 +431,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -437,12 +466,11 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
-
         //Botão de limpar campos de TextField
         jtf_Descricao.setText("");
         jcb_Grupo.setSelectedIndex(0);
-        jtf_estoque.setText("");
         jta_Observacao.setText("");
+        jff_valor.setText("");
         jtf_Descricao.requestFocus();
     }//GEN-LAST:event_jbt_limparActionPerformed
 
@@ -453,13 +481,14 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         if (Validacao.ValidarJTFObrigatorio(jtf_Descricao)
                 && Validacao.testarCombo(jcb_Grupo)
                 && Validacao.ValidarJTFObrigatorio(jtf_estoque)
-                && Validacao.testarCombo(jcb_Unidade_medida)) {
+                && Validacao.testarCombo(jcb_Unidade_medida)
+                && Validacao.ValidarJTFObrigatorio(jff_valor)) {
 
             //Atribuir dados inseridos pelo usuario a variaveis
             String descItem = jtf_Descricao.getText().toUpperCase();
             Grupo cb = (Grupo) jcb_Grupo.getSelectedItem();
-            double estoqueItem = Double.parseDouble(jtf_estoque.getText().replace(',', '.'));
             String obs = jta_Observacao.getText();
+            double valorItem = Double.parseDouble(jff_valor.getText().replace(',', '.'));
 
             double conv1;
             double conv2;
@@ -483,12 +512,12 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             item.setId(Integer.parseInt(jll_id.getText()));
             item.setDescricao(descItem);
             item.setId_grupo(cb.getId());
-            item.setQtde_estoque(estoqueItem);
             item.setObservacao(obs);
             item.setConv1(conv1);
             item.setConv2(conv2);
             item.setUnd_conv1(und_conv1);
             item.setUnd_conv2(und_conv2);
+            item.setValor(valorItem);
 
             //Chamar classe ItemDAO para salvar dados no Banco de dados
             ItemDAO itemDAO = new ItemDAO();
@@ -543,10 +572,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         this.keyPressed = true;
     }//GEN-LAST:event_jtf_DescricaoKeyPressed
 
-    private void jtf_estoqueKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_estoqueKeyPressed
-        this.keyPressed = true;
-    }//GEN-LAST:event_jtf_estoqueKeyPressed
-
     private void jcb_GrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_GrupoActionPerformed
         this.keyPressed = true;
     }//GEN-LAST:event_jcb_GrupoActionPerformed
@@ -554,10 +579,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private void jta_ObservacaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jta_ObservacaoKeyPressed
         this.keyPressed = true;
     }//GEN-LAST:event_jta_ObservacaoKeyPressed
-
-    private void jcb_Unidade_medidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_Unidade_medidaActionPerformed
-        this.keyPressed = true;
-    }//GEN-LAST:event_jcb_Unidade_medidaActionPerformed
 
     private void jbt_inverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_inverterActionPerformed
         this.trocaInverter = !trocaInverter;
@@ -581,14 +602,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         Validacao.testarCombo(jcb_Grupo);
     }//GEN-LAST:event_jcb_GrupoFocusLost
 
-    private void jtf_estoqueFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_estoqueFocusLost
-        Validacao.ValidarJTFObrigatorio(jtf_estoque);
-    }//GEN-LAST:event_jtf_estoqueFocusLost
-
-    private void jcb_Unidade_medidaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_Unidade_medidaFocusLost
-        Validacao.testarCombo(jcb_Unidade_medida);
-    }//GEN-LAST:event_jcb_Unidade_medidaFocusLost
-
     private void jtf_conv1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_conv1KeyPressed
         this.keyPressed = true;
     }//GEN-LAST:event_jtf_conv1KeyPressed
@@ -604,6 +617,15 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private void jcb_UndConv2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_UndConv2ActionPerformed
         this.keyPressed = true;
     }//GEN-LAST:event_jcb_UndConv2ActionPerformed
+
+    private void jff_valorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jff_valorFocusLost
+        Validacao.ValidarJTFObrigatorio(jff_valor);
+    }//GEN-LAST:event_jff_valorFocusLost
+
+    private void jff_valorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jff_valorKeyTyped
+        Validacao.ValidarDecimal(jff_valor, evt);
+        this.keyPressed = true;
+    }//GEN-LAST:event_jff_valorKeyTyped
 
     /**
      * @param args the command line arguments
@@ -645,6 +667,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
@@ -654,6 +677,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton jbt_excluir;
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_inverter;
@@ -663,6 +687,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JComboBox jcb_UndConv1;
     private javax.swing.JComboBox jcb_UndConv2;
     private javax.swing.JComboBox jcb_Unidade_medida;
+    private javax.swing.JFormattedTextField jff_valor;
     private javax.swing.JLabel jll_id;
     private javax.swing.JTextArea jta_Observacao;
     private javax.swing.JTextField jtf_Descricao;
@@ -688,6 +713,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Unidade_medida.setSelectedIndex(index);
         jcb_UndConv1.setSelectedIndex(indexUC1);
         jcb_UndConv2.setSelectedIndex(indexUC2);
+        jff_valor.setText(new DecimalFormat("#.####").format(this.item.getValor()));
 
         //retornar o valor selecionado ao Combo Box GRUPO
         new CombosDAO().popularCombo("grupo", jcb_Grupo);
@@ -725,7 +751,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             jInternalFrame1.setTitle("Alterar/Excluir");
         }
         jtf_Descricao.setEditable(!inativarControles);
-        jtf_estoque.setEditable(!inativarControles);
         jcb_Grupo.setEnabled(!inativarControles);
         jta_Observacao.setEditable(!inativarControles);
         jcb_UndConv1.setEnabled(!inativarControles);
@@ -734,6 +759,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jbt_inverter.setEnabled(!inativarControles);
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
+        jff_valor.setEditable(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);
         keyPressed = false;
     }

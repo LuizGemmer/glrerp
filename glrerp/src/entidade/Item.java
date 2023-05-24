@@ -17,9 +17,9 @@ public class Item {
     private String und_conv1;
     private double conv2;
     private String und_conv2;
+    private double valor;
     
-
-    
+        
     public int getId() {
         return id;
     }
@@ -106,5 +106,13 @@ public class Item {
 
     public void setUnd_conv2(String und_conv2) {
         this.und_conv2 = und_conv2;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 }

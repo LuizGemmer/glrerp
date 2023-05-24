@@ -86,7 +86,7 @@
                               <Component id="jtf_Cpf" min="-2" pref="449" max="-2" attributes="0"/>
                               <Component id="jtf_End" alignment="0" min="-2" pref="626" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="142" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="239" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -111,17 +111,17 @@
                       <Component id="jLabel6" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jtf_email" linkSize="1" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="32" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel3" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jtf_Cpf" linkSize="1" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="jLabel3" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel4" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jtf_End" linkSize="1" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="jLabel4" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                  <EmptySpace pref="89" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                           <Component id="jbt_fechar" alignment="3" min="-2" max="-2" attributes="0"/>

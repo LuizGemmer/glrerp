@@ -1,7 +1,6 @@
 package view;
 
 import apoio.IDAOT;
-import entidade.Cliente;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
@@ -14,7 +13,6 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
 
     private final IDAOT DAOObject;
     private final jff_ITelaAlterarCadastro telaAlterar;
-
     private final DefaultTableModel tableModel;
 
     public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar) {
@@ -58,8 +56,11 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
 
         jTable1.setBackground(new java.awt.Color(250, 250, 250));
         jTable1.setForeground(new java.awt.Color(51, 51, 51));
-        jTable1.setColumnSelectionAllowed(true);
+        jTable1.setCellSelectionEnabled(false);
+        jTable1.setEditingColumn(0);
+        jTable1.setEditingRow(0);
         jTable1.setRowHeight(25);
+        jTable1.setRowSelectionAllowed(true);
         jTable1.setSelectionBackground(new java.awt.Color(13, 71, 161));
         jTable1.setSelectionForeground(new java.awt.Color(250, 250, 250));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -170,6 +171,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         String[] colunasTabela = DAOObject.getTableColumns();
         for (String coluna : colunasTabela) {
             tableModel.addColumn(coluna);
+
         }
     }
 
@@ -184,6 +186,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         }
 
         tableModel.fireTableDataChanged();
+ //jTable1.isCellEditable();-------------------------------------------------------------------------------------------------------------------------------------------------
     }
 
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed

@@ -141,5 +141,21 @@ public class Validacao {
             return true;
         }
     }
+    
+    //Valida na hora da digitação se o usuario está digitando apenas numeros. Pode conter apenas uma "," ou "."
+    public static boolean ValidarDecimal (JTextField campo, java.awt.event.KeyEvent evt){
+        String caracteres = "0987654321,.";
+        String unico = ".,";
+        String inverse;
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+        if (campo.getText().contains(",") || campo.getText().contains(".")) {
+            if (unico.contains(evt.getKeyChar() + "")) {
+                evt.consume();
+            }
+        }
+        return true;
+    }
 
 }

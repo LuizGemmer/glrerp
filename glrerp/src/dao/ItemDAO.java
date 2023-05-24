@@ -31,9 +31,10 @@ public class ItemDAO implements IDAOT<Item> {
                     + "'" + o.getUnidade_medida() + "', "
                     + "'" + o.getObservacao() + "', "
                     + o.getConv1() + ", "
-                    + "'" + o.getUnd_conv1()+ "', "
+                    + "'" + o.getUnd_conv1() + "', "
                     + o.getConv2() + ", "
-                    + "'" + o.getUnd_conv2()+ "')";
+                    + "'" + o.getUnd_conv2() + "', "
+                    + o.getValor() + ")";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
@@ -57,14 +58,14 @@ public class ItemDAO implements IDAOT<Item> {
             String sql = "UPDATE item SET "
                     + "id_grupo=" + o.getId_grupo() + ", "
                     + "descricao='" + o.getDescricao() + "', "
-                    + "qtde_estoque=" + o.getQtde_estoque() + ", "
                     + "ativo='true', "
                     + "observacao='" + o.getObservacao() + "', "
                     + "conv1=" + o.getConv1() + ", "
                     + "und_conv1='" + o.getUnd_conv1() + "', "
                     + "conv2=" + o.getConv2() + ", "
-                    + "und_conv2='" + o.getUnd_conv2() + "' "
-                    + " WHERE id=" + o.getId();
+                    + "und_conv2='" + o.getUnd_conv2() + "', "
+                    + "valor=" + o.getValor() + " "
+                    + "WHERE id=" + o.getId();
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
@@ -124,6 +125,7 @@ public class ItemDAO implements IDAOT<Item> {
                 item.setUnd_conv1(retorno.getString("und_conv1"));
                 item.setConv2(retorno.getDouble("conv2"));
                 item.setUnd_conv2(retorno.getString("und_conv2"));
+                item.setValor(retorno.getDouble("valor"));
 
                 itens.add(item);
             }
@@ -164,6 +166,7 @@ public class ItemDAO implements IDAOT<Item> {
                 item.setUnd_conv1(retorno.getString("und_conv1"));
                 item.setConv2(retorno.getDouble("conv2"));
                 item.setUnd_conv2(retorno.getString("und_conv2"));
+                item.setValor(retorno.getDouble("valor"));
             }
         } catch (Exception e) {
             System.out.println("Erro ao consultar cadastro de Item " + e);
@@ -243,12 +246,12 @@ public class ItemDAO implements IDAOT<Item> {
             indexCBUM = 16;
         } else if (stringUnd.equals("g")) {
             indexCBUM = 17;
-        } else if (stringUnd.equals("mg")){
+        } else if (stringUnd.equals("mg")) {
             indexCBUM = 18;
-        } else{
+        } else {
             indexCBUM = 0;
         }
-   
+
         return indexCBUM;
     }
 
