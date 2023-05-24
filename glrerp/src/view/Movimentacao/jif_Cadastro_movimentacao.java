@@ -1,13 +1,7 @@
 package view.Movimentacao;
 
-import view.Item.*;
 import apoio.CombosDAO;
-import apoio.Validacao;
-import dao.ItemDAO;
-import entidade.Grupo;
-import entidade.Item;
 import java.awt.Color;
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -302,55 +296,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private void jbt_inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_inserirActionPerformed
         //Cadastro de Item
         //Fazer as validações de campos antes de salvar.
-        if (Validacao.ValidarJTFObrigatorio(jtf_Descricao)
-                && Validacao.testarCombo(jcb_Grupo)
-                && Validacao.ValidarJTFObrigatorio(jtf_estoque_inicial)
-                && Validacao.testarCombo(jcb_Unidade_medida)) {
-
-            //Atribuir dados inseridos pelo usuario a variaveis
-            String descItem = jtf_Descricao.getText().toUpperCase();
-            Grupo cb = (Grupo) jcb_Grupo.getSelectedItem();
-            double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText().replace(',', '.'));
-            String unidadeMedida = jcb_Unidade_medida.getSelectedItem().toString();
-            String obs = jta_Observacao.getText();
-
-            double conv1;
-            double conv2;
-            String und_conv1;
-            String und_conv2;
-            //testar se algum campo de conversão for vazio, salvar como vazio no BD as informações de conversão
-            if (jtf_Perda.getText().isEmpty() || jtf_conv2.getText().isEmpty()) {
-                conv1 = 1;
-                conv2 = 0;
-                und_conv1 = "";
-                und_conv2 = "";
-            } else {
-                conv1 = Double.parseDouble(jtf_Perda.getText().replace(',', '.'));
-                conv2 = Double.parseDouble(jtf_conv2.getText().replace(',', '.'));
-                und_conv1 = jcb_UndConv1.getSelectedItem().toString();
-                und_conv2 = jcb_UndConv2.getSelectedItem().toString();
-            }
-
-            //Setar nomes das variaveis para o objeto Item
-            Item item = new Item();
-            item.setDescricao(descItem);
-            item.setId_grupo(cb.getId());
-            item.setQtde_estoque(estoqueItem);
-            item.setUnidade_medida(unidadeMedida);
-            item.setObservacao(obs);
-            item.setConv1(conv1);
-            item.setConv2(conv2);
-            item.setUnd_conv1(und_conv1);
-            item.setUnd_conv2(und_conv2);
-
-            //Chamar classe ItemDAO para salvar dados no Banco de dados
-            ItemDAO itemDAO = new ItemDAO();
-
-            //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-           
-
-            }
-        }
     }//GEN-LAST:event_jbt_inserirActionPerformed
 
     private void jtf_dataFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_dataFocusLost
@@ -393,7 +338,5 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtf_id_item;
     private javax.swing.JTextField jtf_nome_item;
     // End of variables declaration//GEN-END:variables
-
-
 
 }
