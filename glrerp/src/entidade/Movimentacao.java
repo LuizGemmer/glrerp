@@ -119,6 +119,10 @@ public class Movimentacao {
     public void setId_pedido(int id_pedido) {
         this.id_pedido = id_pedido;
     }
+
+    public Object getItem_Id() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
 }
