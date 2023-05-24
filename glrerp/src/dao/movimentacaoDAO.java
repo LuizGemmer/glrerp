@@ -199,7 +199,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
     @Override
     public String[] getTableColumns() {
-        return new String[]{"Id", "Tipo", "Item", "Qtde", "Valor", "Observação"};
+        return new String[]{"Id", "Tipo", "Item", "Qtde", "Valor", "Observaçãot"};
     }
 
 }
