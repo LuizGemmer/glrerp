@@ -402,8 +402,6 @@ public class telaPrincipal extends javax.swing.JFrame {
 
         jm_item.add(jm_estrutura);
 
-        jMenuBar2.add(jm_item);
-
         jm_movimentacoes.setBackground(new java.awt.Color(13, 71, 161));
         jm_movimentacoes.setBorder(null);
         jm_movimentacoes.setForeground(new java.awt.Color(255, 255, 255));
@@ -561,7 +559,9 @@ public class telaPrincipal extends javax.swing.JFrame {
 
         jm_movimentacoes.add(jm_producao);
 
-        jMenuBar2.add(jm_movimentacoes);
+        jm_item.add(jm_movimentacoes);
+
+        jMenuBar2.add(jm_item);
 
         jm_almox.setBackground(new java.awt.Color(13, 71, 161));
         jm_almox.setBorder(null);
