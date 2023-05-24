@@ -201,8 +201,8 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     private void jbt_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_alterarActionPerformed
         //Abrir tela de alteração e exclusão de cadastro
         int id = this.buscarNaTabela();
-        this.telaAlterar.setDAO(DAOObject.consultarId(id));
         this.telaAlterar.setDetalhamento(false);
+        this.telaAlterar.setDAO(DAOObject.consultarId(id));
         this.telaAlterar.setTelaParente(this);
         this.telaAlterar.showWindow(true);
 

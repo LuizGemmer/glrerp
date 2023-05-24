@@ -25,6 +25,7 @@ public class CombosDAO {
             resultado = new ConexaoBD().getConnection().createStatement().executeQuery(""
                     + "SELECT * "
                     + "FROM " + tabela + " "
+                    + "WHERE ativo='true' "
                     + "ORDER BY 2");
 
             if (resultado.isBeforeFirst()) {
@@ -79,5 +80,5 @@ public class CombosDAO {
             }
         }
     }
-   
+
 }

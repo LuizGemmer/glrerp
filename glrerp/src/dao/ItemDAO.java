@@ -59,11 +59,10 @@ public class ItemDAO implements IDAOT<Item> {
                     + "descricao='" + o.getDescricao() + "', "
                     + "qtde_estoque=" + o.getQtde_estoque() + ", "
                     + "ativo='true', "
-                    + "unidade_medida='" + o.getUnidade_medida() + "', "
                     + "observacao='" + o.getObservacao() + "', "
-                    + "conv1=" + o.getConv1() + "', "
+                    + "conv1=" + o.getConv1() + ", "
                     + "und_conv1='" + o.getUnd_conv1() + "', "
-                    + "conv2=" + o.getConv2() + "', "
+                    + "conv2=" + o.getConv2() + ", "
                     + "und_conv2='" + o.getUnd_conv2() + "' "
                     + " WHERE id=" + o.getId();
 
@@ -242,10 +241,12 @@ public class ItemDAO implements IDAOT<Item> {
             indexCBUM = 15;
         } else if (stringUnd.equals("kg")) {
             indexCBUM = 16;
-        } else if (stringUnd.equals("g³")) {
+        } else if (stringUnd.equals("g")) {
             indexCBUM = 17;
-        } else {
+        } else if (stringUnd.equals("mg")){
             indexCBUM = 18;
+        } else{
+            indexCBUM = 0;
         }
    
         return indexCBUM;

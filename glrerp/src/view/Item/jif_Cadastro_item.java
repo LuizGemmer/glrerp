@@ -338,7 +338,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             String und_conv2;
             //testar se algum campo de conversão for vazio, salvar como vazio no BD as informações de conversão
             if (jtf_conv1.getText().isEmpty() || jtf_conv2.getText().isEmpty()) {
-                conv1 = 0;
+                conv1 = 1;
                 conv2 = 0;
                 und_conv1 = "";
                 und_conv2 = "";

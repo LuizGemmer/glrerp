@@ -1,16 +1,21 @@
 package view.Item;
 
+import apoio.ComboItem;
+import apoio.CombosDAO;
 import apoio.IDAOT;
+import apoio.Validacao;
 import dao.GrupoDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
 import entidade.Grupo;
 import entidade.Grupo;
 import entidade.Item;
+import java.awt.Color;
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 import java.text.DecimalFormat;
+import javax.swing.UIManager;
 import view.jff_ITelaAlterarCadastro;
 import view.jif_Listagem_DAO;
 
@@ -25,12 +30,12 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private Item item;
     private boolean keyPressed;
     private boolean inativarControles;
-    private DefaultComboBoxModel model;
 
     public jff_Alterar_item() {
-        Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
-        this.model = new DefaultComboBoxModel(grupoComboBox);
+        UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
         initComponents();
+        jtf_conv1.setEnabled(false);
+        jcb_Unidade_medida.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -51,7 +56,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel7 = new javax.swing.JLabel();
         jll_id = new javax.swing.JLabel();
         jbt_excluir = new javax.swing.JButton();
-        jcb_Grupo = new javax.swing.JComboBox<Grupo>();
+        jcb_Grupo = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jta_Observacao = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
@@ -90,6 +95,11 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
         jtf_Descricao.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Descricao.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        jtf_Descricao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtf_DescricaoFocusLost(evt);
+            }
+        });
         jtf_Descricao.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtf_DescricaoKeyPressed(evt);
@@ -130,6 +140,11 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_estoque.setForeground(new java.awt.Color(0, 0, 0));
         jtf_estoque.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+        jtf_estoque.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtf_estoqueFocusLost(evt);
+            }
+        });
         jtf_estoque.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtf_estoqueKeyPressed(evt);
@@ -185,8 +200,12 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Grupo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Grupo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Grupo.setMaximumRowCount(150);
-        jcb_Grupo.setModel(this.model);
         jcb_Grupo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jcb_Grupo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jcb_GrupoFocusLost(evt);
+            }
+        });
         jcb_Grupo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcb_GrupoActionPerformed(evt);
@@ -213,6 +232,11 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Unidade_medida.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Unidade_medida.setMaximumRowCount(150);
         jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg", "", "", "", "", "" }));
+        jcb_Unidade_medida.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jcb_Unidade_medidaFocusLost(evt);
+            }
+        });
         jcb_Unidade_medida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcb_Unidade_medidaActionPerformed(evt);
@@ -230,11 +254,21 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_conv1.setForeground(new java.awt.Color(0, 0, 0));
         jtf_conv1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtf_conv1.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        jtf_conv1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtf_conv1KeyPressed(evt);
+            }
+        });
 
         jcb_UndConv1.setBackground(new java.awt.Color(250, 250, 250));
         jcb_UndConv1.setForeground(new java.awt.Color(0, 0, 0));
         jcb_UndConv1.setMaximumRowCount(150);
         jcb_UndConv1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
+        jcb_UndConv1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_UndConv1ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("=");
@@ -244,11 +278,21 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_conv2.setForeground(new java.awt.Color(0, 0, 0));
         jtf_conv2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtf_conv2.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        jtf_conv2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtf_conv2KeyPressed(evt);
+            }
+        });
 
         jcb_UndConv2.setBackground(new java.awt.Color(250, 250, 250));
         jcb_UndConv2.setForeground(new java.awt.Color(0, 0, 0));
         jcb_UndConv2.setMaximumRowCount(150);
         jcb_UndConv2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
+        jcb_UndConv2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_UndConv2ActionPerformed(evt);
+            }
+        });
 
         jbt_inverter.setBackground(new java.awt.Color(13, 71, 161));
         jbt_inverter.setForeground(new java.awt.Color(255, 255, 255));
@@ -338,23 +382,19 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                     .addComponent(jbt_inverter)
                     .addComponent(jLabel9))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbt_limpar)
-                            .addComponent(jbt_fechar))
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbt_salvar_alteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbt_excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbt_salvar_alteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbt_excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbt_limpar)
+                        .addComponent(jbt_fechar)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
@@ -407,40 +447,67 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Descricao.setText("");
         jcb_Grupo.setSelectedIndex(0);
         jtf_estoque.setText("");
-        jcb_Unidade_medida.setSelectedIndex(0);
         jta_Observacao.setText("");
         jtf_Descricao.requestFocus();
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
-
         //Alterar cadastro de Item
-        //Atribuir dados inseridos pelo usuario a variaveis
-        String descItem = jtf_Descricao.getText().toUpperCase();
-        int grupoItem = ((Grupo) jcb_Grupo.getSelectedItem()).getId();
-        double estoqueItem = Double.parseDouble(jtf_estoque.getText().replace(',', '.'));
-        String unidadeMedida = jcb_Unidade_medida.getSelectedItem().toString();
-        String obs = jta_Observacao.getText();
+        //Fazer as validações de campos antes de salvar.
+        //new CombosDAO().popularCombo("grupo", jcb_Grupo);
+        if (Validacao.ValidarJTFObrigatorio(jtf_Descricao)
+                && Validacao.testarCombo(jcb_Grupo)
+                && Validacao.ValidarJTFObrigatorio(jtf_estoque)
+                && Validacao.testarCombo(jcb_Unidade_medida)) {
 
-        //Setar nomes das variaveis para o objeto Item
-        Item item = new Item();
-        item.setId(Integer.parseInt(jll_id.getText()));
-        item.setDescricao(descItem);
-        item.setId_grupo(grupoItem);
-        item.setQtde_estoque(estoqueItem);
-        item.setUnidade_medida(unidadeMedida);
-        item.setObservacao(obs);
+            //Atribuir dados inseridos pelo usuario a variaveis
+            String descItem = jtf_Descricao.getText().toUpperCase();
+            ComboItem cb = (ComboItem) jcb_Grupo.getSelectedItem();
+            double estoqueItem = Double.parseDouble(jtf_estoque.getText().replace(',', '.'));
+            String obs = jta_Observacao.getText();
 
-        //Chamar classe ItemDAO para salvar dados no Banco de dados
-        ItemDAO itemDAO = new ItemDAO();
+            double conv1;
+            double conv2;
+            String und_conv1;
+            String und_conv2;
+            //testar se algum campo de conversão for vazio, salvar como vazio no BD as informações de conversão
+            if (jtf_conv1.getText().isEmpty() || jtf_conv2.getText().isEmpty()) {
+                conv1 = 1;
+                conv2 = 0;
+                und_conv1 = "";
+                und_conv2 = "";
+            } else {
+                conv1 = Double.parseDouble(jtf_conv1.getText().replace(',', '.'));
+                conv2 = Double.parseDouble(jtf_conv2.getText().replace(',', '.'));
+                und_conv1 = jcb_UndConv1.getSelectedItem().toString();
+                und_conv2 = jcb_UndConv2.getSelectedItem().toString();
+            }
+            
+            //Setar nomes das variaveis para o objeto Item
+            Item item = new Item();
+            item.setId(Integer.parseInt(jll_id.getText()));
+            item.setDescricao(descItem);
+            item.setId_grupo(cb.getCodigo());
+            item.setQtde_estoque(estoqueItem);
+            item.setObservacao(obs);
+            item.setConv1(conv1);
+            item.setConv2(conv2);
+            item.setUnd_conv1(und_conv1);
+            item.setUnd_conv2(und_conv2);
 
-        //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (itemDAO.atualizar(item) == null) {
-            JOptionPane.showMessageDialog(this, "Cadastro alterado com sucesso!", "CADASTRADO ALTERADO", JOptionPane.INFORMATION_MESSAGE);
-            this.parente.setTableItems("");
-            this.dispose();
+            //Chamar classe ItemDAO para salvar dados no Banco de dados
+            ItemDAO itemDAO = new ItemDAO();
+
+            //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
+            if (itemDAO.atualizar(item) == null) {
+                JOptionPane.showMessageDialog(this, "Cadastro alterado com sucesso!", "CADASTRADO ALTERADO", JOptionPane.INFORMATION_MESSAGE);
+                this.parente.setTableItems("");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
@@ -511,6 +578,38 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         }
     }//GEN-LAST:event_jbt_inverterActionPerformed
 
+    private void jtf_DescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_DescricaoFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_Descricao);
+    }//GEN-LAST:event_jtf_DescricaoFocusLost
+
+    private void jcb_GrupoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_GrupoFocusLost
+        Validacao.testarCombo(jcb_Grupo);
+    }//GEN-LAST:event_jcb_GrupoFocusLost
+
+    private void jtf_estoqueFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_estoqueFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_estoque);
+    }//GEN-LAST:event_jtf_estoqueFocusLost
+
+    private void jcb_Unidade_medidaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_Unidade_medidaFocusLost
+        Validacao.testarCombo(jcb_Unidade_medida);
+    }//GEN-LAST:event_jcb_Unidade_medidaFocusLost
+
+    private void jtf_conv1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_conv1KeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_conv1KeyPressed
+
+    private void jtf_conv2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_conv2KeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_conv2KeyPressed
+
+    private void jcb_UndConv1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_UndConv1ActionPerformed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jcb_UndConv1ActionPerformed
+
+    private void jcb_UndConv2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_UndConv2ActionPerformed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jcb_UndConv2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -565,7 +664,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JButton jbt_inverter;
     private javax.swing.JButton jbt_limpar;
     private javax.swing.JButton jbt_salvar_alteracao;
-    private javax.swing.JComboBox<Grupo> jcb_Grupo;
+    private javax.swing.JComboBox jcb_Grupo;
     private javax.swing.JComboBox jcb_UndConv1;
     private javax.swing.JComboBox jcb_UndConv2;
     private javax.swing.JComboBox jcb_Unidade_medida;
@@ -581,15 +680,45 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     public void setDAO(Object dao) {
         this.item = (Item) dao;
         int index = new ItemDAO().indexCBUnidadeMedida(this.item.getUnidade_medida());
+        int indexUC1 = new ItemDAO().indexCBUnidadeMedida(this.item.getUnd_conv1());
+        int indexUC2 = new ItemDAO().indexCBUnidadeMedida(this.item.getUnd_conv2());
 
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.item.getId());
         jtf_Descricao.setText(this.item.getDescricao());
         jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()));
         jta_Observacao.setText(this.item.getObservacao());
+        jtf_conv1.setText(new DecimalFormat("#.####").format(this.item.getConv1()));
+        jtf_conv2.setText(new DecimalFormat("#.####").format(this.item.getConv2()));
         jcb_Unidade_medida.setSelectedIndex(index);
-        //jcb_Grupo.setSelectedItem( new GrupoDAO().consultarId(this.item.getId_grupo()).getTipo());
+        jcb_UndConv1.setSelectedIndex(indexUC1);
+        jcb_UndConv2.setSelectedIndex(indexUC2);
 
+        //retornar o valor selecionado ao Combo Box GRUPO
+        new CombosDAO().popularCombo("grupo", jcb_Grupo);
+        ComboItem cb = new ComboItem();
+        cb.setCodigo(this.item.getId_grupo());
+        cb.setDescricao(new GrupoDAO().consultarId(this.item.getId_grupo()).getDescricao());
+        new CombosDAO().definirItemCombo(jcb_Grupo, cb);
+
+        //Impede a alteração da unidade de conversão caso esta já estaja salva. Caso não tenha sido salva, permite a edição
+        if (this.item.getConv2() != 0) {
+            jtf_conv1.setEnabled(false);
+            jtf_conv2.setEnabled(false);
+            jcb_UndConv1.setEnabled(false);
+            jcb_UndConv2.setEnabled(false);
+            jbt_inverter.setEnabled(false);
+        } else {
+            if (jcb_UndConv1.getSelectedIndex() == jcb_Unidade_medida.getSelectedIndex()) {
+                jcb_UndConv1.setEnabled(false);
+            } else if (jcb_UndConv2.getSelectedIndex() == jcb_Unidade_medida.getSelectedIndex()) {
+                jcb_UndConv2.setEnabled(false);
+            } else {
+                jtf_conv1.setEnabled(false);
+                jcb_UndConv1.setEnabled(false);
+                jcb_UndConv1.setSelectedIndex(index);
+            }
+        }
     }
 
     @Override
@@ -603,22 +732,26 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Descricao.setEditable(!inativarControles);
         jtf_estoque.setEditable(!inativarControles);
         jcb_Grupo.setEnabled(!inativarControles);
-        jcb_Unidade_medida.setEnabled(!inativarControles);
         jta_Observacao.setEditable(!inativarControles);
+        jcb_UndConv1.setEnabled(!inativarControles);
+        jcb_UndConv2.setEnabled(!inativarControles);
+        jtf_conv2.setEditable(!inativarControles);
+        jbt_inverter.setEnabled(!inativarControles);
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);
         keyPressed = false;
-
     }
 
     @Override
-    public void setTelaParente(jif_Listagem_DAO tela) {
+    public void setTelaParente(jif_Listagem_DAO tela
+    ) {
         this.parente = tela;
     }
 
     @Override
-    public void showWindow(boolean s) {
+    public void showWindow(boolean s
+    ) {
         //Abrir novo JFrame na mesma localização do JFrame anterior
         this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
