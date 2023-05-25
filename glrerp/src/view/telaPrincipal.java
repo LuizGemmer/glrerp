@@ -35,6 +35,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDesktopPane2 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar2 = new javax.swing.JMenuBar();
@@ -70,6 +71,9 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_user = new javax.swing.JMenu();
         jm_user_visualizar = new javax.swing.JMenuItem();
         jm_user_cadastro = new javax.swing.JMenuItem();
+        jm_user1 = new javax.swing.JMenu();
+        jm_user_visualizar1 = new javax.swing.JMenuItem();
+        jm_user_cadastro1 = new javax.swing.JMenuItem();
         jm_ajuda = new javax.swing.JMenu();
         jm_ajuda_sair = new javax.swing.JMenuItem();
 
@@ -398,8 +402,6 @@ public class telaPrincipal extends javax.swing.JFrame {
 
         jm_item.add(jm_estrutura);
 
-        jMenuBar2.add(jm_item);
-
         jm_movimentacoes.setBackground(new java.awt.Color(13, 71, 161));
         jm_movimentacoes.setBorder(null);
         jm_movimentacoes.setForeground(new java.awt.Color(255, 255, 255));
@@ -557,7 +559,9 @@ public class telaPrincipal extends javax.swing.JFrame {
 
         jm_movimentacoes.add(jm_producao);
 
-        jMenuBar2.add(jm_movimentacoes);
+        jm_item.add(jm_movimentacoes);
+
+        jMenuBar2.add(jm_item);
 
         jm_almox.setBackground(new java.awt.Color(13, 71, 161));
         jm_almox.setBorder(null);
@@ -648,6 +652,61 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_user.add(jm_user_cadastro);
 
         jMenuBar2.add(jm_user);
+
+        jm_user1.setBackground(new java.awt.Color(13, 71, 161));
+        jm_user1.setBorder(null);
+        jm_user1.setForeground(new java.awt.Color(255, 255, 255));
+        jm_user1.setText("RELATÓRIOS");
+        jm_user1.setAlignmentX(1.0F);
+        jm_user1.setAlignmentY(1.0F);
+        jm_user1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_user1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_user1.setHideActionText(true);
+        jm_user1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_user1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_user1.setIconTextGap(10);
+        jm_user1.setMargin(new java.awt.Insets(6, 6, 6, 6));
+        jm_user1.setOpaque(true);
+
+        jm_user_visualizar1.setBackground(new java.awt.Color(13, 71, 161));
+        jm_user_visualizar1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_user_visualizar1.setForeground(new java.awt.Color(250, 250, 250));
+        jm_user_visualizar1.setText("Visualizar");
+        jm_user_visualizar1.setBorder(null);
+        jm_user_visualizar1.setBorderPainted(false);
+        jm_user_visualizar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_user_visualizar1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jm_user_visualizar1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jm_user_visualizar1.setMaximumSize(null);
+        jm_user_visualizar1.setPreferredSize(new java.awt.Dimension(150, 35));
+        jm_user_visualizar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_user_visualizar1ActionPerformed(evt);
+            }
+        });
+        jm_user1.add(jm_user_visualizar1);
+
+        jm_user_cadastro1.setBackground(new java.awt.Color(13, 71, 161));
+        jm_user_cadastro1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_user_cadastro1.setForeground(new java.awt.Color(250, 250, 250));
+        jm_user_cadastro1.setText("Cadastro");
+        jm_user_cadastro1.setBorder(null);
+        jm_user_cadastro1.setBorderPainted(false);
+        jm_user_cadastro1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_user_cadastro1.setFocusPainted(true);
+        jm_user_cadastro1.setFocusable(true);
+        jm_user_cadastro1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jm_user_cadastro1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jm_user_cadastro1.setMaximumSize(null);
+        jm_user_cadastro1.setPreferredSize(new java.awt.Dimension(150, 35));
+        jm_user_cadastro1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_user_cadastro1ActionPerformed(evt);
+            }
+        });
+        jm_user1.add(jm_user_cadastro1);
+
+        jMenuBar2.add(jm_user1);
 
         jm_ajuda.setBackground(new java.awt.Color(13, 71, 161));
         jm_ajuda.setBorder(null);
@@ -813,6 +872,14 @@ public class telaPrincipal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jm_estrutura_visualizarActionPerformed
 
+    private void jm_user_visualizar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_user_visualizar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jm_user_visualizar1ActionPerformed
+
+    private void jm_user_cadastro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_user_cadastro1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jm_user_cadastro1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -852,6 +919,7 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenu jm_ajuda;
@@ -883,8 +951,11 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jm_producao_cadastro;
     private javax.swing.JMenuItem jm_producao_visualizar;
     private javax.swing.JMenu jm_user;
+    private javax.swing.JMenu jm_user1;
     private javax.swing.JMenuItem jm_user_cadastro;
+    private javax.swing.JMenuItem jm_user_cadastro1;
     private javax.swing.JMenuItem jm_user_visualizar;
+    private javax.swing.JMenuItem jm_user_visualizar1;
     private javax.swing.JMenu jm_vendas;
     private javax.swing.JMenuItem jm_vendas_cadastro;
     private javax.swing.JMenuItem jm_vendas_visualizar;
