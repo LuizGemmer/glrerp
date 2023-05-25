@@ -8,6 +8,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import javax.swing.JTable;
+import static javax.swing.SwingConstants.CENTER;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -22,7 +28,8 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "INSERT INTO estrutura VALUES "
-                    + "(default, "
+                    + "( "
+                    + o.getItem_id() + ", "
                     + o.getInsumo_id() + ", "
                     + o.getQtde_insumo() + ", "
                     + "'true')";
@@ -149,10 +156,12 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
 
             Item item = new ItemDAO().consultarId(estrutura.getItem_id());
             Item mp = new ItemDAO().consultarId(estrutura.getInsumo_id());
+            Estrutura est = new EstruturaDAO().consultarId((estrutura.getItem_id()));
             String[] data = {
-       //         Integer.toString(estrutura.getId()),
+                Integer.toString(estrutura.getItem_id()),
                 item.getDescricao(),
                 mp.getDescricao(),
+                Double.toString(est.getQtde_insumo()),
                 new DecimalFormat("#.####").format(estrutura.getQtde_insumo()),};
 
             if (filtro.equals("")) {
@@ -169,7 +178,133 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
 
     @Override
     public String[] getTableColumns() {
-        return new String[]{"Produto", "Insumo", "Qtde Insumo"};
+        return new String[]{"ID Produto", "Produto", "Insumo", "Qtde Insumo"};
+    }
+    
+    public void popularTabela(JTable tabela, String criterio) {
+        ResultSet resultadoQ;
+
+        //Dados da Tabela
+        Object[][] dadosTabela = null;
+
+        //Cabecalho da tabela
+        Object[] cabecalho = new Object[6];
+        cabecalho[0] = "ID Produto";
+        cabecalho[1] = "Produto";
+        cabecalho[2] = "ID Insumo";
+        cabecalho[3] = "Insumo";
+        cabecalho[4] = "Qtde Insumo";
+        cabecalho[5] = "Unidade";
+
+        //Cria a matriz com número de registros na tabela
+        try {
+            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                    + "SELECT "
+                    + "estrutura.item_id AS item_id, "
+                    + "item.descricao, "
+                    + "estrutura.insumo_id, "
+                    + "item.descricao AS insumo_descricrao, "
+                    + "estrutura.qtde_insumo, "
+                    + "item.unidade_medida "
+                    + "FROM item, estrutura "
+                    + "WHERE estrutura.item_id = item.id "
+                    + "AND item.ativo=true "
+                    + "AND estrutura.insumo_id = item.id"
+                    + "AND estrutura.ativo=true "
+                    + "ORDER BY item.descricao");
+
+            resultadoQ.next();
+
+            dadosTabela = new Object[resultadoQ.getInt(1)][6];
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar tabela: " + e);
+        }
+        int lin = 0;
+
+        //Efetua a consulta na Tabela
+        try {
+            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                    + "SELECT "
+                    + "estrutura.item_id AS item_id, "
+                    + "item.descricao, "
+                    + "estrutura.insumo_id, "
+                    + "item.descricao AS insumo_descricrao, "
+                    + "estrutura.qtde_insumo, "
+                    + "item.unidade_medida "
+                    + "FROM item, estrutura "
+                    + "WHERE estrutura.item_id = item.id "
+                    + "AND item.ativo=true "
+                    + "AND estrutura.insumo_id = item.id"
+                    + "AND estrutura.ativo=true "
+                    + "ORDER BY item.descricao");
+
+            while (resultadoQ.next()) {
+
+                dadosTabela[lin][0] = resultadoQ.getInt("item_id");
+                dadosTabela[lin][1] = resultadoQ.getString("descricao");
+                dadosTabela[lin][2] = resultadoQ.getInt("insumo_id");
+                dadosTabela[lin][3] = resultadoQ.getString("insumo_descricao");
+                dadosTabela[lin][4] = resultadoQ.getDouble("qtde_insumo");
+                dadosTabela[lin][5] = resultadoQ.getString("unidade_medida");
+                
+                lin++;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao popular tabela: " + e);
+        }
+
+        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+            @Override
+            //Quando retorno for FALSE, a tabela não é editável
+            public boolean isCellEditable(int row, int column) {
+                return false;
+                //if (column == 3){return true} else {return false}
+            }
+
+            //Alteração do metodo que determina a coluna em que o objeto ImageIcon Devera aparecer
+            @Override
+            public Class getColumnClass(int column) {
+                if (column == 2) {
+                    //retunr ImageIcon.class
+                }
+                return Object.class;
+            }
+        });
+
+        //Altera o número de selecao de linhas da tabela
+        tabela.setSelectionMode(0);
+
+        //Redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        for (int i = 0; i < tabela.getColumnModel().getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(5);
+                    break;
+                case 1:
+                    column.setPreferredWidth(200);
+                    break;
+                case 2:
+                    column.setPreferredWidth(20);
+                    break;
+            }
+        }
+
+        //Alinhar dados da coluna 1 no centro da celula da tabela
+        class AlinharCentro extends DefaultTableCellRenderer {
+
+            public AlinharCentro() {
+                setHorizontalAlignment(CENTER); // ou LEFT, RIGHT, etc
+            }
+        }
+
+        TableCellRenderer tcr = new AlinharCentro();
+        column = tabela.getColumnModel().getColumn(0);
+        column.setCellRenderer(tcr);
+
     }
 
 }

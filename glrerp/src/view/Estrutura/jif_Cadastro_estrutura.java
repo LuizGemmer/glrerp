@@ -1,9 +1,13 @@
 package view.Estrutura;
 
+import apoio.Validacao;
+import dao.EstruturaDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
+import entidade.Estrutura;
 import entidade.Grupo;
 import entidade.Item;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,7 +17,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
     private int id_selecionado;
     public int pesquisar_insumo_item;
-    
+
     public jif_Cadastro_estrutura() {
         initComponents();
     }
@@ -29,7 +33,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jtf_grupo_item.setText(grupo.getTipo() + " - " + grupo.getDescricao());
         jbt_nova_estrutura.setEnabled(true);
     }
-    
+
     public void NomearInsumo(int id_tabela) {
         //Coloca os valores referentes ao ID do insumo para os campos JTF
         this.id_selecionado = id_tabela;
@@ -43,7 +47,6 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jtf_qtde_insumo.setEnabled(true);
         jbt_inserir.setEnabled(true);
     }
-       
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -219,6 +222,11 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jtf_qtde_insumo.setForeground(new java.awt.Color(0, 0, 0));
         jtf_qtde_insumo.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_qtde_insumo.setEnabled(false);
+        jtf_qtde_insumo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtf_qtde_insumoKeyTyped(evt);
+            }
+        });
 
         jtf_und_medida_insumo.setBackground(new java.awt.Color(250, 250, 250));
         jtf_und_medida_insumo.setForeground(new java.awt.Color(0, 0, 0));
@@ -429,8 +437,41 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_pesquisar_insumoActionPerformed
 
     private void jbt_inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_inserirActionPerformed
-        jbt_salvar.setEnabled(true);
-        jbt_excluir.setEnabled(true);
+        //Validar se os campos foram preenchidos corretamente
+        if (Validacao.ValidarJTFObrigatorio(jtf_qtde_insumo)
+                && Validacao.ValidarJTFObrigatorio(jtf_nome_insumo)) {
+            jbt_salvar.setEnabled(true);
+            jbt_excluir.setEnabled(true);
+
+            //Salvar item da estrutura no BD
+            int id_item = Integer.parseInt(jtf_id_item.getText());
+            int id_insumo = Integer.parseInt(jtf_id_insumo.getText());
+            double qtde_insumo = Double.parseDouble(jtf_qtde_insumo.getText());
+
+            Estrutura estrutura = new Estrutura();
+            estrutura.setItem_id(id_item);
+            estrutura.setInsumo_id(id_insumo);
+            estrutura.setQtde_insumo(qtde_insumo);
+
+            EstruturaDAO estruturaDAO = new EstruturaDAO();
+            if (estruturaDAO.salvar(estrutura) == null) {
+                JOptionPane.showMessageDialog(this, "Insumo inserido com sucesso!", "SUCESSO NO CADASTRO", JOptionPane.INFORMATION_MESSAGE);
+                new EstruturaDAO().popularTabela(jtb_insumos_estrutura, "");
+                jtf_id_insumo.setText("");
+                jtf_nome_insumo.setText("");
+                jtf_qtde_insumo.setText("");
+                jtf_grupo_insumo.setText("");
+                jtf_und_medida_insumo.setText("");
+
+                jbt_pesquisar_insumo.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao inserir dados no banco de dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_jbt_inserirActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
@@ -440,6 +481,10 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
     private void jbt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbt_salvarActionPerformed
+
+    private void jtf_qtde_insumoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_qtde_insumoKeyTyped
+        Validacao.ValidarDecimal(jtf_grupo_insumo, evt);
+    }//GEN-LAST:event_jtf_qtde_insumoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
