@@ -15,29 +15,35 @@ import javax.swing.JOptionPane;
  */
 public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
-    private int id_selecionado;
+    private int id_item_selecionado;
+    private int id_insumo_selecionado;
     public int pesquisar_insumo_item;
+    private boolean editar_insumos = false;
 
     public jif_Cadastro_estrutura() {
         initComponents();
     }
 
     public void NomearItem(int id_tabela) {
+        this.id_item_selecionado = id_tabela;
+
+        //popula tabela com a estrutura já cadastrada no item
+        new EstruturaDAO().popularTabela(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
+
         //Coloca os valores referentes ao ID do item para os campos JTF
-        this.id_selecionado = id_tabela;
-        Item item = new ItemDAO().consultarId(this.id_selecionado);
+        Item item = new ItemDAO().consultarId(this.id_item_selecionado);
         Grupo grupo = new GrupoDAO().consultarId(item.getId_grupo());
 
         jtf_id_item.setText(String.valueOf(item.getId()));
         jtf_nome_item.setText(item.getDescricao());
         jtf_grupo_item.setText(grupo.getTipo() + " - " + grupo.getDescricao());
-        jbt_nova_estrutura.setEnabled(true);
+        jbt_editar_estrutura.setEnabled(true);
     }
 
     public void NomearInsumo(int id_tabela) {
         //Coloca os valores referentes ao ID do insumo para os campos JTF
-        this.id_selecionado = id_tabela;
-        Item item = new ItemDAO().consultarId(this.id_selecionado);
+        this.id_insumo_selecionado = id_tabela;
+        Item item = new ItemDAO().consultarId(this.id_insumo_selecionado);
         Grupo grupo = new GrupoDAO().consultarId(item.getId_grupo());
 
         jtf_id_insumo.setText(String.valueOf(item.getId()));
@@ -56,10 +62,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jtf_id_item = new javax.swing.JTextField();
         jbt_fechar = new javax.swing.JButton();
-        jbt_nova_estrutura = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jlb_id = new javax.swing.JLabel();
+        jbt_editar_estrutura = new javax.swing.JButton();
         jtf_nome_item = new javax.swing.JTextField();
         jtf_grupo_item = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
@@ -77,7 +80,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jtb_insumos_estrutura = new javax.swing.JTable();
         jbt_inserir = new javax.swing.JButton();
         jbt_excluir = new javax.swing.JButton();
-        jbt_salvar = new javax.swing.JButton();
+        jbt_editar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
@@ -113,46 +116,15 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             }
         });
 
-        jbt_nova_estrutura.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_nova_estrutura.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_nova_estrutura.setText("Nova Estrutura");
-        jbt_nova_estrutura.setEnabled(false);
-        jbt_nova_estrutura.addActionListener(new java.awt.event.ActionListener() {
+        jbt_editar_estrutura.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_editar_estrutura.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_editar_estrutura.setText("Editar Estrutura");
+        jbt_editar_estrutura.setEnabled(false);
+        jbt_editar_estrutura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_nova_estruturaActionPerformed(evt);
+                jbt_editar_estruturaActionPerformed(evt);
             }
         });
-
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Estrutura N°");
-
-        jPanel2.setBackground(new java.awt.Color(238, 238, 238));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
-        jPanel2.setForeground(new java.awt.Color(102, 102, 102));
-        jPanel2.setEnabled(false);
-        jPanel2.setFocusable(false);
-
-        jlb_id.setForeground(new java.awt.Color(102, 102, 102));
-        jlb_id.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlb_id.setText("jLabel4");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlb_id, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlb_id, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addContainerGap())
-        );
 
         jtf_nome_item.setBackground(new java.awt.Color(250, 250, 250));
         jtf_nome_item.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -252,11 +224,16 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jtb_insumos_estrutura.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jtb_insumos_estrutura.setShowGrid(false);
         jtb_insumos_estrutura.setShowHorizontalLines(true);
+        jtb_insumos_estrutura.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtb_insumos_estruturaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtb_insumos_estrutura);
 
         jbt_inserir.setBackground(new java.awt.Color(13, 71, 161));
         jbt_inserir.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_inserir.setText("Inserir");
+        jbt_inserir.setText("Inserir/Salvar");
         jbt_inserir.setEnabled(false);
         jbt_inserir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -274,13 +251,13 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             }
         });
 
-        jbt_salvar.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_salvar.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_salvar.setText("Salvar Estrutura");
-        jbt_salvar.setEnabled(false);
-        jbt_salvar.addActionListener(new java.awt.event.ActionListener() {
+        jbt_editar.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_editar.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_editar.setText("Editar");
+        jbt_editar.setEnabled(false);
+        jbt_editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_salvarActionPerformed(evt);
+                jbt_editarActionPerformed(evt);
             }
         });
 
@@ -288,76 +265,64 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(33, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel5))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jtf_id_item)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtf_nome_item, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtf_grupo_item, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jbt_pesquisar_item, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbt_editar_estrutura))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 33, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 929, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jtf_id_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jtf_nome_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jtf_qtde_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtf_und_medida_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jbt_inserir, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jtf_id_insumo, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtf_nome_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtf_grupo_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jtf_und_medida_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jbt_inserir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jbt_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jtf_grupo_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jbt_excluir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jbt_pesquisar_insumo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jbt_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jbt_fechar))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 929, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jtf_id_item, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtf_nome_item))
-                                    .addComponent(jtf_grupo_item))
-                                .addGap(18, 18, 18)
-                                .addComponent(jbt_pesquisar_item, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbt_nova_estrutura)))))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jbt_fechar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 929, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(32, 32, 32))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -372,7 +337,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                         .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jbt_pesquisar_item, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbt_nova_estrutura, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jbt_editar_estrutura, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(22, 22, 22)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -381,8 +346,9 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbt_inserir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbt_excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jbt_excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbt_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbt_inserir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtf_id_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -395,12 +361,10 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                             .addComponent(jtf_qtde_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jtf_und_medida_insumo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbt_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbt_fechar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbt_fechar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(550, 550, 550))
         );
 
@@ -414,11 +378,12 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
-    private void jbt_nova_estruturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_nova_estruturaActionPerformed
-        jbt_nova_estrutura.setEnabled(false);
+    private void jbt_editar_estruturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_editar_estruturaActionPerformed
+        jbt_editar_estrutura.setEnabled(false);
         jbt_pesquisar_item.setEnabled(false);
         jbt_pesquisar_insumo.setEnabled(true);
-    }//GEN-LAST:event_jbt_nova_estruturaActionPerformed
+        this.editar_insumos = true;
+    }//GEN-LAST:event_jbt_editar_estruturaActionPerformed
 
     private void jbt_pesquisar_itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_pesquisar_itemActionPerformed
         this.pesquisar_insumo_item = 1;
@@ -437,74 +402,132 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_pesquisar_insumoActionPerformed
 
     private void jbt_inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_inserirActionPerformed
-        //Validar se os campos foram preenchidos corretamente
+        //Validar se os campos obrigatórios foram preenchidos corretamente
         if (Validacao.ValidarJTFObrigatorio(jtf_qtde_insumo)
                 && Validacao.ValidarJTFObrigatorio(jtf_nome_insumo)) {
-            jbt_salvar.setEnabled(true);
-            jbt_excluir.setEnabled(true);
 
-            //Salvar item da estrutura no BD
-            int id_item = Integer.parseInt(jtf_id_item.getText());
-            int id_insumo = Integer.parseInt(jtf_id_insumo.getText());
-            double qtde_insumo = Double.parseDouble(jtf_qtde_insumo.getText());
+            //Valida se o insumo a ser inserido na estrutura já consta na mesma. 
+            //Caso o insumo já esteja na esturua ele mostra uma mensagem de erro. 
+            //Também não permite que o proprio item seja usado como insumo.
+            if (this.id_insumo_selecionado == this.id_item_selecionado) {
+                JOptionPane.showMessageDialog(this, "Você não pode inserir como Insumo o próprio item a qual se refere a estrutura!", "ERRO AO SALVAR (INSUMO IGUAL AO ITEM)", JOptionPane.ERROR_MESSAGE);
 
-            Estrutura estrutura = new Estrutura();
-            estrutura.setItem_id(id_item);
-            estrutura.setInsumo_id(id_insumo);
-            estrutura.setQtde_insumo(qtde_insumo);
-
-            EstruturaDAO estruturaDAO = new EstruturaDAO();
-            if (estruturaDAO.salvar(estrutura) == null) {
-                JOptionPane.showMessageDialog(this, "Insumo inserido com sucesso!", "SUCESSO NO CADASTRO", JOptionPane.INFORMATION_MESSAGE);
-                new EstruturaDAO().popularTabela(jtb_insumos_estrutura, "");
-                jtf_id_insumo.setText("");
-                jtf_nome_insumo.setText("");
-                jtf_qtde_insumo.setText("");
-                jtf_grupo_insumo.setText("");
-                jtf_und_medida_insumo.setText("");
-
-                jbt_pesquisar_insumo.requestFocus();
+            } else if (this.id_insumo_selecionado == new EstruturaDAO().consultarId(this.id_item_selecionado, this.id_insumo_selecionado).getInsumo_id()) {
+                JOptionPane.showMessageDialog(this, "Você já inseriu esse insumo como compenente dessa estrutura de item. \n"
+                        + "Edite o insumo correspondente ou exclua-o antes de inserir-lo novamente.", "INSUMO DUPLICADO NÃO PERMITIDO", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao inserir dados no banco de dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-            }
+                //Salvar item da estrutura no BD
+                int id_item = Integer.parseInt(jtf_id_item.getText());
+                int id_insumo = Integer.parseInt(jtf_id_insumo.getText());
+                double qtde_insumo = Double.parseDouble(jtf_qtde_insumo.getText().replace(',', '.'));
 
+                Estrutura estrutura = new Estrutura();
+                estrutura.setItem_id(id_item);
+                estrutura.setInsumo_id(id_insumo);
+                estrutura.setQtde_insumo(qtde_insumo);
+
+                EstruturaDAO estruturaDAO = new EstruturaDAO();
+                if (estruturaDAO.salvar(estrutura) == null) {
+                    JOptionPane.showMessageDialog(this, "Insumo inserido com sucesso!", "SUCESSO NO CADASTRO", JOptionPane.INFORMATION_MESSAGE);
+                    new EstruturaDAO().popularTabela(jtb_insumos_estrutura, String.valueOf(estrutura.getItem_id()));
+                    LimparCampos();
+                    jbt_pesquisar_insumo.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao inserir dados no banco de dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            jbt_pesquisar_insumo.requestFocus();
         }
-
+        jbt_pesquisar_insumo.setEnabled(true);
+        
     }//GEN-LAST:event_jbt_inserirActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbt_excluirActionPerformed
+        Object[] options = {"Sim",
+            "Não"};
+        int n = JOptionPane.showOptionDialog(this,
+                "Essa exclusão é IRREVERSÍVEL. Deseja continuar?",
+                "EXCLUSÃO DE CADASTRO",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                options,
+                options[0]);
+        if (n == 0) {
+            //Excluir cadastro
+            //Setar SITUAÇÃO=FALSE mo objeto
+            String id_tabela = String.valueOf(jtb_insumos_estrutura.getValueAt(jtb_insumos_estrutura.getSelectedRow(), 0));
+            int id_IntTabela = Integer.parseInt(id_tabela);
 
-    private void jbt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbt_salvarActionPerformed
+            //Chamar classe ItemDAO para salvar dados no Banco de dados
+            EstruturaDAO estruturaDAO = new EstruturaDAO();
+
+            //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
+            if (estruturaDAO.inativar(this.id_item_selecionado, id_IntTabela) == null) {
+                JOptionPane.showMessageDialog(this, "Insumo excluido com sucesso!", "INSUMO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
+                new EstruturaDAO().popularTabela(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO EXCLUIR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jbt_excluirActionPerformed
 
     private void jtf_qtde_insumoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_qtde_insumoKeyTyped
         Validacao.ValidarDecimal(jtf_grupo_insumo, evt);
     }//GEN-LAST:event_jtf_qtde_insumoKeyTyped
 
+    private void jbt_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_editarActionPerformed
+        //Editar quantidade Insumo na Estrutura
+        String id_tabela = String.valueOf(jtb_insumos_estrutura.getValueAt(jtb_insumos_estrutura.getSelectedRow(), 0));
+        int id_IntTabela = Integer.parseInt(id_tabela);
+        LimparCampos();
+
+        //Chamar classe EstruturaAO para puxar os dados no Banco de dados e após excluir a linha selecionada na tabela
+        EstruturaDAO estruturaDAO = new EstruturaDAO();
+
+        //puxar valores da tabela para os JTF correspondentes
+        NomearInsumo(id_IntTabela);
+        jtf_qtde_insumo.setText(String.valueOf(new EstruturaDAO().consultarId(this.id_item_selecionado, id_IntTabela).getQtde_insumo()));
+        jtf_qtde_insumo.requestFocus();
+        jbt_pesquisar_insumo.setEnabled(false);
+
+        //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
+        if (estruturaDAO.excluir(this.id_item_selecionado, id_IntTabela) == null) {
+            System.out.println("Exclusão OK");
+            jbt_editar.setEnabled(false);
+        } else {
+            System.out.println("Falha na exclusão");
+        }
+
+    }//GEN-LAST:event_jbt_editarActionPerformed
+
+    private void jtb_insumos_estruturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtb_insumos_estruturaMouseClicked
+        //Habilitar botões de alteração e detalhamento somente quando selecionar uma linha na tabela
+        if (this.editar_insumos == true) {
+            jbt_editar.setEnabled(true);
+            jbt_excluir.setEnabled(true);
+        }
+    }//GEN-LAST:event_jtb_insumos_estruturaMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JButton jbt_editar;
+    private javax.swing.JButton jbt_editar_estrutura;
     private javax.swing.JButton jbt_excluir;
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_inserir;
-    private javax.swing.JButton jbt_nova_estrutura;
     private javax.swing.JButton jbt_pesquisar_insumo;
     private javax.swing.JButton jbt_pesquisar_item;
-    private javax.swing.JButton jbt_salvar;
-    private javax.swing.JLabel jlb_id;
     private javax.swing.JTable jtb_insumos_estrutura;
     private javax.swing.JTextField jtf_grupo_insumo;
     private javax.swing.JTextField jtf_grupo_item;
@@ -516,4 +539,11 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtf_und_medida_insumo;
     // End of variables declaration//GEN-END:variables
 
+    private void LimparCampos() {
+        jtf_id_insumo.setText("");
+        jtf_nome_insumo.setText("");
+        jtf_qtde_insumo.setText("");
+        jtf_grupo_insumo.setText("");
+        jtf_und_medida_insumo.setText("");
+    }
 }

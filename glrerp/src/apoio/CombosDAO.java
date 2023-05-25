@@ -27,7 +27,7 @@ public class CombosDAO {
                         + "SELECT * "
                         + "FROM " + tabela + " "
                         + "WHERE ativo='true' "
-                        + "ORDER BY 2");
+                        + "ORDER BY 3");
 
                 if (resultado.isBeforeFirst()) {
                     while (resultado.next()) {

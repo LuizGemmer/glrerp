@@ -3,11 +3,9 @@ package dao;
 import apoio.ConexaoBD;
 import apoio.IDAOT;
 import entidade.Estrutura;
-import entidade.Item;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 import javax.swing.JTable;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -66,14 +64,33 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         }
     }
 
-    @Override
-    public String excluir(int id) {
+    public String inativar(int item_id, int insumo_id) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE estrutura SET "
                     + "ativo=false "
-                    + "WHERE id=" + id;
+                    + "WHERE item_id=" + item_id + " "
+                    + "AND insumo_id=" + insumo_id;
+
+            int retorno = st.executeUpdate(sql);
+            System.out.println("SQL: " + sql);
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir Estrutura " + e);
+            return e.toString();
+        }
+    }
+
+    public String excluir(int item_id, int insumo_id) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "DELETE FROM estrutura "
+                    + "WHERE ativo=true "
+                    + "AND item_id=" + item_id + " "
+                    + "AND insumo_id=" + insumo_id;
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
@@ -115,22 +132,50 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         return estrut;
     }
 
-    @Override
-    public ArrayList<Estrutura> consultar(String criterio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<Estrutura> consultar(int item_id, int insumo_id) {
+        ArrayList<Estrutura> estruturas = new ArrayList();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                    + "FROM estrutura "
+                    + "WHERE ativo=true "
+                    + "AND item_id=" + item_id + " "
+                    + "AND insumo_id=" + insumo_id;
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+
+            while (retorno.next()) {
+                Estrutura estrutura = new Estrutura();
+
+                estrutura.setItem_id(retorno.getInt("item_id"));
+                estrutura.setInsumo_id(retorno.getInt("insumo_id"));
+                estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
+                estrutura.setAtivo(retorno.getBoolean("ativo"));
+
+                estruturas.add(estrutura);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro " + e);
+        }
+
+        return estruturas;
     }
 
-    @Override
-    public Estrutura consultarId(int id) {
+    public Estrutura consultarId(int item_id, int insumo_id) {
         Estrutura estrutura = new Estrutura();
 
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = ""
-                    + "SELECT * "
+            String sql = "SELECT * "
                     + "FROM estrutura "
-                    + "WHERE ativo=true";
+                    + "WHERE ativo=true "
+                    + "AND item_id=" + item_id + " "
+                    + "AND insumo_id=" + insumo_id;
 
             ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);
@@ -138,6 +183,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 estrutura.setItem_id(retorno.getInt("item_id"));
                 estrutura.setInsumo_id(retorno.getInt("insumo_id"));
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
+                estrutura.setAtivo(retorno.getBoolean("ativo"));
 
             }
         } catch (Exception e) {
@@ -148,39 +194,10 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
     }
 
     @Override
-    public ArrayList<String[]> paraListagemTabela(String filtro) {
-        ArrayList<Estrutura> estrut = consultarTodos();
-
-        ArrayList<String[]> tableData = new ArrayList();
-        for (Estrutura estrutura : estrut) {
-
-            Item item = new ItemDAO().consultarId(estrutura.getItem_id());
-            Item mp = new ItemDAO().consultarId(estrutura.getInsumo_id());
-            Estrutura est = new EstruturaDAO().consultarId((estrutura.getItem_id()));
-            String[] data = {
-                Integer.toString(estrutura.getItem_id()),
-                item.getDescricao(),
-                mp.getDescricao(),
-                Double.toString(est.getQtde_insumo()),
-                new DecimalFormat("#.####").format(estrutura.getQtde_insumo()),};
-
-            if (filtro.equals("")) {
-                tableData.add(data);
-            } else if (data[1].contains(filtro.toUpperCase())
-                    || data[2].contains(filtro.toUpperCase())
-                    || data[3].contains(filtro.toUpperCase())) {
-                tableData.add(data);
-            }
-        }
-
-        return tableData;
-    }
-
-    @Override
     public String[] getTableColumns() {
         return new String[]{"ID Produto", "Produto", "Insumo", "Qtde Insumo"};
     }
-    
+
     public void popularTabela(JTable tabela, String criterio) {
         ResultSet resultadoQ;
 
@@ -188,34 +205,30 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         Object[][] dadosTabela = null;
 
         //Cabecalho da tabela
-        Object[] cabecalho = new Object[6];
-        cabecalho[0] = "ID Produto";
-        cabecalho[1] = "Produto";
-        cabecalho[2] = "ID Insumo";
-        cabecalho[3] = "Insumo";
-        cabecalho[4] = "Qtde Insumo";
-        cabecalho[5] = "Unidade";
+        Object[] cabecalho = new Object[4];
+        cabecalho[0] = "ID Insumo";
+        cabecalho[1] = "Insumo";
+        cabecalho[2] = "Qtde Insumo";
+        cabecalho[3] = "Unidade";
 
         //Cria a matriz com número de registros na tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
                     + "SELECT "
-                    + "estrutura.item_id AS item_id, "
-                    + "item.descricao, "
                     + "estrutura.insumo_id, "
-                    + "item.descricao AS insumo_descricrao, "
+                    + "item.descricao, "
                     + "estrutura.qtde_insumo, "
                     + "item.unidade_medida "
                     + "FROM item, estrutura "
-                    + "WHERE estrutura.item_id = item.id "
+                    + "WHERE estrutura.insumo_id = item.id "
                     + "AND item.ativo=true "
-                    + "AND estrutura.insumo_id = item.id"
                     + "AND estrutura.ativo=true "
+                    + "AND estrutura.item_id=" + criterio + " "
                     + "ORDER BY item.descricao");
 
             resultadoQ.next();
 
-            dadosTabela = new Object[resultadoQ.getInt(1)][6];
+            dadosTabela = new Object[resultadoQ.getInt(1)][4];
         } catch (Exception e) {
             System.out.println("Erro ao consultar tabela: " + e);
         }
@@ -225,28 +238,24 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
                     + "SELECT "
-                    + "estrutura.item_id AS item_id, "
-                    + "item.descricao, "
                     + "estrutura.insumo_id, "
-                    + "item.descricao AS insumo_descricrao, "
+                    + "item.descricao, "
                     + "estrutura.qtde_insumo, "
                     + "item.unidade_medida "
                     + "FROM item, estrutura "
-                    + "WHERE estrutura.item_id = item.id "
+                    + "WHERE estrutura.insumo_id = item.id "
                     + "AND item.ativo=true "
-                    + "AND estrutura.insumo_id = item.id"
                     + "AND estrutura.ativo=true "
+                    + "AND estrutura.item_id=" + criterio + " "
                     + "ORDER BY item.descricao");
 
             while (resultadoQ.next()) {
 
-                dadosTabela[lin][0] = resultadoQ.getInt("item_id");
+                dadosTabela[lin][0] = resultadoQ.getInt("insumo_id");
                 dadosTabela[lin][1] = resultadoQ.getString("descricao");
-                dadosTabela[lin][2] = resultadoQ.getInt("insumo_id");
-                dadosTabela[lin][3] = resultadoQ.getString("insumo_descricao");
-                dadosTabela[lin][4] = resultadoQ.getDouble("qtde_insumo");
-                dadosTabela[lin][5] = resultadoQ.getString("unidade_medida");
-                
+                dadosTabela[lin][2] = resultadoQ.getDouble("qtde_insumo");
+                dadosTabela[lin][3] = resultadoQ.getString("unidade_medida");
+
                 lin++;
             }
 
@@ -285,10 +294,10 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     column.setPreferredWidth(5);
                     break;
                 case 1:
-                    column.setPreferredWidth(200);
+                    column.setPreferredWidth(300);
                     break;
                 case 2:
-                    column.setPreferredWidth(20);
+                    column.setPreferredWidth(10);
                     break;
             }
         }
@@ -305,6 +314,26 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         column = tabela.getColumnModel().getColumn(0);
         column.setCellRenderer(tcr);
 
+    }
+
+    @Override
+    public ArrayList<String[]> paraListagemTabela(String filtro) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String excluir(int id) {
+        return this.excluir(0, 0);
+    }
+
+    @Override
+    public ArrayList<Estrutura> consultar(String criterio) {
+        return this.consultar(0, 0);
+    }
+
+    @Override
+    public Estrutura consultarId(int id) {
+        return this.consultarId(0, 0);
     }
 
 }
