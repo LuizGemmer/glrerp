@@ -54,7 +54,6 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_grupo_visualizar = new javax.swing.JMenuItem();
         jm_grupo_cadastro = new javax.swing.JMenuItem();
         jm_estrutura = new javax.swing.JMenu();
-        jm_estrutura_visualizar = new javax.swing.JMenuItem();
         jm_estrutura_cadastro = new javax.swing.JMenuItem();
         jm_movimentacoes = new javax.swing.JMenu();
         jm_vendas = new javax.swing.JMenu();
@@ -71,9 +70,9 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_user = new javax.swing.JMenu();
         jm_user_visualizar = new javax.swing.JMenuItem();
         jm_user_cadastro = new javax.swing.JMenuItem();
-        jm_user1 = new javax.swing.JMenu();
-        jm_user_visualizar1 = new javax.swing.JMenuItem();
-        jm_user_cadastro1 = new javax.swing.JMenuItem();
+        jm_relatorio = new javax.swing.JMenu();
+        jm_relatorio_visualizar = new javax.swing.JMenuItem();
+        jm_relatorio_cadastro = new javax.swing.JMenuItem();
         jm_ajuda = new javax.swing.JMenu();
         jm_ajuda_sair = new javax.swing.JMenuItem();
 
@@ -134,7 +133,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_cliente_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_cliente_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_cliente_visualizar.setForeground(new java.awt.Color(250, 250, 250));
-        jm_cliente_visualizar.setText("Visualizar");
+        jm_cliente_visualizar.setText("Visualizar/Editar");
         jm_cliente_visualizar.setBorder(null);
         jm_cliente_visualizar.setBorderPainted(false);
         jm_cliente_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -188,7 +187,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_fornecedor_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_fornecedor_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_fornecedor_visualizar.setForeground(new java.awt.Color(250, 250, 250));
-        jm_fornecedor_visualizar.setText("Visualizar");
+        jm_fornecedor_visualizar.setText("Visualizar/Editar");
         jm_fornecedor_visualizar.setBorder(null);
         jm_fornecedor_visualizar.setBorderPainted(false);
         jm_fornecedor_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -259,7 +258,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_item_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_item_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_item_visualizar.setForeground(new java.awt.Color(250, 250, 250));
-        jm_item_visualizar.setText("Visualizar");
+        jm_item_visualizar.setText("Visualizar/Editar");
         jm_item_visualizar.setBorder(null);
         jm_item_visualizar.setBorderPainted(false);
         jm_item_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -313,7 +312,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_grupo_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_grupo_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_grupo_visualizar.setForeground(new java.awt.Color(250, 250, 250));
-        jm_grupo_visualizar.setText("Visualizar");
+        jm_grupo_visualizar.setText("Visualizar/Editar");
         jm_grupo_visualizar.setBorder(null);
         jm_grupo_visualizar.setBorderPainted(false);
         jm_grupo_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -364,35 +363,17 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_estrutura.setOpaque(true);
         jm_estrutura.setPreferredSize(new java.awt.Dimension(150, 35));
 
-        jm_estrutura_visualizar.setBackground(new java.awt.Color(13, 71, 161));
-        jm_estrutura_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jm_estrutura_visualizar.setForeground(new java.awt.Color(250, 250, 250));
-        jm_estrutura_visualizar.setText("Visualizar");
-        jm_estrutura_visualizar.setBorder(null);
-        jm_estrutura_visualizar.setBorderPainted(false);
-        jm_estrutura_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_estrutura_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jm_estrutura_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jm_estrutura_visualizar.setMaximumSize(null);
-        jm_estrutura_visualizar.setPreferredSize(new java.awt.Dimension(150, 35));
-        jm_estrutura_visualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jm_estrutura_visualizarActionPerformed(evt);
-            }
-        });
-        jm_estrutura.add(jm_estrutura_visualizar);
-
         jm_estrutura_cadastro.setBackground(new java.awt.Color(13, 71, 161));
         jm_estrutura_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_estrutura_cadastro.setForeground(new java.awt.Color(250, 250, 250));
-        jm_estrutura_cadastro.setText("Nova Estrutura");
+        jm_estrutura_cadastro.setText("Gerenciar Estruturas");
         jm_estrutura_cadastro.setBorder(null);
         jm_estrutura_cadastro.setBorderPainted(false);
         jm_estrutura_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jm_estrutura_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jm_estrutura_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jm_estrutura_cadastro.setMaximumSize(null);
-        jm_estrutura_cadastro.setPreferredSize(new java.awt.Dimension(150, 35));
+        jm_estrutura_cadastro.setPreferredSize(new java.awt.Dimension(170, 35));
         jm_estrutura_cadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jm_estrutura_cadastroActionPerformed(evt);
@@ -436,7 +417,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_vendas_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_vendas_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_vendas_visualizar.setForeground(new java.awt.Color(250, 250, 250));
-        jm_vendas_visualizar.setText("Visualizar");
+        jm_vendas_visualizar.setText("Visualizar/Editar");
         jm_vendas_visualizar.setBorder(null);
         jm_vendas_visualizar.setBorderPainted(false);
         jm_vendas_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -480,7 +461,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_compras_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_compras_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_compras_visualizar.setForeground(new java.awt.Color(250, 250, 250));
-        jm_compras_visualizar.setText("Visualizar");
+        jm_compras_visualizar.setText("Visualizar/Editar");
         jm_compras_visualizar.setBorder(null);
         jm_compras_visualizar.setBorderPainted(false);
         jm_compras_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -529,7 +510,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_producao_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_producao_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_producao_visualizar.setForeground(new java.awt.Color(250, 250, 250));
-        jm_producao_visualizar.setText("Visualizar");
+        jm_producao_visualizar.setText("Visualizar/Editar");
         jm_producao_visualizar.setBorder(null);
         jm_producao_visualizar.setBorderPainted(false);
         jm_producao_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -616,7 +597,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_user_visualizar.setBackground(new java.awt.Color(13, 71, 161));
         jm_user_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jm_user_visualizar.setForeground(new java.awt.Color(250, 250, 250));
-        jm_user_visualizar.setText("Visualizar");
+        jm_user_visualizar.setText("Visualizar/Editar");
         jm_user_visualizar.setBorder(null);
         jm_user_visualizar.setBorderPainted(false);
         jm_user_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -653,60 +634,60 @@ public class telaPrincipal extends javax.swing.JFrame {
 
         jMenuBar2.add(jm_user);
 
-        jm_user1.setBackground(new java.awt.Color(13, 71, 161));
-        jm_user1.setBorder(null);
-        jm_user1.setForeground(new java.awt.Color(255, 255, 255));
-        jm_user1.setText("RELATÓRIOS");
-        jm_user1.setAlignmentX(1.0F);
-        jm_user1.setAlignmentY(1.0F);
-        jm_user1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_user1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jm_user1.setHideActionText(true);
-        jm_user1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jm_user1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jm_user1.setIconTextGap(10);
-        jm_user1.setMargin(new java.awt.Insets(6, 6, 6, 6));
-        jm_user1.setOpaque(true);
+        jm_relatorio.setBackground(new java.awt.Color(13, 71, 161));
+        jm_relatorio.setBorder(null);
+        jm_relatorio.setForeground(new java.awt.Color(255, 255, 255));
+        jm_relatorio.setText("RELATÓRIOS");
+        jm_relatorio.setAlignmentX(1.0F);
+        jm_relatorio.setAlignmentY(1.0F);
+        jm_relatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_relatorio.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_relatorio.setHideActionText(true);
+        jm_relatorio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jm_relatorio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jm_relatorio.setIconTextGap(10);
+        jm_relatorio.setMargin(new java.awt.Insets(6, 6, 6, 6));
+        jm_relatorio.setOpaque(true);
 
-        jm_user_visualizar1.setBackground(new java.awt.Color(13, 71, 161));
-        jm_user_visualizar1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jm_user_visualizar1.setForeground(new java.awt.Color(250, 250, 250));
-        jm_user_visualizar1.setText("Visualizar");
-        jm_user_visualizar1.setBorder(null);
-        jm_user_visualizar1.setBorderPainted(false);
-        jm_user_visualizar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_user_visualizar1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jm_user_visualizar1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jm_user_visualizar1.setMaximumSize(null);
-        jm_user_visualizar1.setPreferredSize(new java.awt.Dimension(150, 35));
-        jm_user_visualizar1.addActionListener(new java.awt.event.ActionListener() {
+        jm_relatorio_visualizar.setBackground(new java.awt.Color(13, 71, 161));
+        jm_relatorio_visualizar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_relatorio_visualizar.setForeground(new java.awt.Color(250, 250, 250));
+        jm_relatorio_visualizar.setText("Visualizar");
+        jm_relatorio_visualizar.setBorder(null);
+        jm_relatorio_visualizar.setBorderPainted(false);
+        jm_relatorio_visualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_relatorio_visualizar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jm_relatorio_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jm_relatorio_visualizar.setMaximumSize(null);
+        jm_relatorio_visualizar.setPreferredSize(new java.awt.Dimension(150, 35));
+        jm_relatorio_visualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jm_user_visualizar1ActionPerformed(evt);
+                jm_relatorio_visualizarActionPerformed(evt);
             }
         });
-        jm_user1.add(jm_user_visualizar1);
+        jm_relatorio.add(jm_relatorio_visualizar);
 
-        jm_user_cadastro1.setBackground(new java.awt.Color(13, 71, 161));
-        jm_user_cadastro1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jm_user_cadastro1.setForeground(new java.awt.Color(250, 250, 250));
-        jm_user_cadastro1.setText("Cadastro");
-        jm_user_cadastro1.setBorder(null);
-        jm_user_cadastro1.setBorderPainted(false);
-        jm_user_cadastro1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jm_user_cadastro1.setFocusPainted(true);
-        jm_user_cadastro1.setFocusable(true);
-        jm_user_cadastro1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jm_user_cadastro1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jm_user_cadastro1.setMaximumSize(null);
-        jm_user_cadastro1.setPreferredSize(new java.awt.Dimension(150, 35));
-        jm_user_cadastro1.addActionListener(new java.awt.event.ActionListener() {
+        jm_relatorio_cadastro.setBackground(new java.awt.Color(13, 71, 161));
+        jm_relatorio_cadastro.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jm_relatorio_cadastro.setForeground(new java.awt.Color(250, 250, 250));
+        jm_relatorio_cadastro.setText("Cadastro");
+        jm_relatorio_cadastro.setBorder(null);
+        jm_relatorio_cadastro.setBorderPainted(false);
+        jm_relatorio_cadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jm_relatorio_cadastro.setFocusPainted(true);
+        jm_relatorio_cadastro.setFocusable(true);
+        jm_relatorio_cadastro.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jm_relatorio_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jm_relatorio_cadastro.setMaximumSize(null);
+        jm_relatorio_cadastro.setPreferredSize(new java.awt.Dimension(150, 35));
+        jm_relatorio_cadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jm_user_cadastro1ActionPerformed(evt);
+                jm_relatorio_cadastroActionPerformed(evt);
             }
         });
-        jm_user1.add(jm_user_cadastro1);
+        jm_relatorio.add(jm_relatorio_cadastro);
 
-        jMenuBar2.add(jm_user1);
+        jMenuBar2.add(jm_relatorio);
 
         jm_ajuda.setBackground(new java.awt.Color(13, 71, 161));
         jm_ajuda.setBorder(null);
@@ -868,17 +849,13 @@ public class telaPrincipal extends javax.swing.JFrame {
         jif_cad_est.setVisible(true);
     }//GEN-LAST:event_jm_estrutura_cadastroActionPerformed
 
-    private void jm_estrutura_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_estrutura_visualizarActionPerformed
-        
-    }//GEN-LAST:event_jm_estrutura_visualizarActionPerformed
-
-    private void jm_user_visualizar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_user_visualizar1ActionPerformed
+    private void jm_relatorio_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_relatorio_visualizarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jm_user_visualizar1ActionPerformed
+    }//GEN-LAST:event_jm_relatorio_visualizarActionPerformed
 
-    private void jm_user_cadastro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_user_cadastro1ActionPerformed
+    private void jm_relatorio_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_relatorio_cadastroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jm_user_cadastro1ActionPerformed
+    }//GEN-LAST:event_jm_relatorio_cadastroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -934,7 +911,6 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jm_compras_visualizar;
     private javax.swing.JMenu jm_estrutura;
     private javax.swing.JMenuItem jm_estrutura_cadastro;
-    private javax.swing.JMenuItem jm_estrutura_visualizar;
     private javax.swing.JMenu jm_fornecedor;
     private javax.swing.JMenuItem jm_fornecedor_cadastro;
     private javax.swing.JMenuItem jm_fornecedor_visualizar;
@@ -950,12 +926,12 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jm_producao;
     private javax.swing.JMenuItem jm_producao_cadastro;
     private javax.swing.JMenuItem jm_producao_visualizar;
+    private javax.swing.JMenu jm_relatorio;
+    private javax.swing.JMenuItem jm_relatorio_cadastro;
+    private javax.swing.JMenuItem jm_relatorio_visualizar;
     private javax.swing.JMenu jm_user;
-    private javax.swing.JMenu jm_user1;
     private javax.swing.JMenuItem jm_user_cadastro;
-    private javax.swing.JMenuItem jm_user_cadastro1;
     private javax.swing.JMenuItem jm_user_visualizar;
-    private javax.swing.JMenuItem jm_user_visualizar1;
     private javax.swing.JMenu jm_vendas;
     private javax.swing.JMenuItem jm_vendas_cadastro;
     private javax.swing.JMenuItem jm_vendas_visualizar;
