@@ -1,8 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view.Estrutura;
+
+import dao.ItemDAO;
 
 /**
  *
@@ -10,11 +8,14 @@ package view.Estrutura;
  */
 public class jff_pesquisar extends javax.swing.JFrame {
 
-    /**
-     * Creates new form jff_pesquisar
-     */
-    public jff_pesquisar() {
+    private jif_Cadastro_estrutura estrutura;
+    private int pesquisa;
+
+    public jff_pesquisar(jif_Cadastro_estrutura estrutura, int qual_pesquisa) {
         initComponents();
+        this.estrutura = estrutura;
+        this.pesquisa = qual_pesquisa;
+        new ItemDAO().popularTabela(jtb_pesquisa, "");
     }
 
     /**
@@ -40,7 +41,7 @@ public class jff_pesquisar extends javax.swing.JFrame {
         setTitle("PESQUISAR");
 
         jPanel1.setBackground(new java.awt.Color(238, 238, 238));
-        jPanel1.setPreferredSize(new java.awt.Dimension(600, 450));
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 450));
 
         jLabel1.setBackground(new java.awt.Color(250, 250, 250));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -113,7 +114,7 @@ public class jff_pesquisar extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jbt_selecionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -169,11 +170,19 @@ public class jff_pesquisar extends javax.swing.JFrame {
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_selecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_selecionarActionPerformed
-        // TODO add your handling code here:
+        String id_tabela = String.valueOf(jtb_pesquisa.getValueAt(jtb_pesquisa.getSelectedRow(), 0));
+        int id_IntTabela = Integer.parseInt(id_tabela);
+
+        if (this.pesquisa == 1) {
+            estrutura.NomearItem(id_IntTabela);
+        } else {
+            estrutura.NomearInsumo(id_IntTabela);
+        }
+        this.dispose();
     }//GEN-LAST:event_jbt_selecionarActionPerformed
 
     private void jbt_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_filtrarActionPerformed
-        // TODO add your handling code here:
+        new ItemDAO().popularTabela(jtb_pesquisa, jtf_filtro.getText());
     }//GEN-LAST:event_jbt_filtrarActionPerformed
 
     /**
@@ -206,7 +215,7 @@ public class jff_pesquisar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new jff_pesquisar().setVisible(true);
+                //new jff_pesquisar().setVisible(true);
             }
         });
     }

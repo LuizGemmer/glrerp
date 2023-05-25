@@ -3,7 +3,6 @@ package dao;
 import apoio.ConexaoBD;
 import apoio.IDAOT;
 import entidade.Estrutura;
-import entidade.Grupo;
 import entidade.Item;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
 
             String sql = "INSERT INTO estrutura VALUES "
                     + "(default, "
-                    + o.getItem_id() + ", "
                     + o.getInsumo_id() + ", "
                     + o.getQtde_insumo() + ", "
                     + "'true')";
@@ -49,8 +47,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
             String sql = "UPDATE estrutura SET "
                     + "item_id=" + o.getItem_id() + ", "
                     + "insumo_id=" + o.getInsumo_id() + ", "
-                    + "qtde_insumo=" + o.getQtde_insumo()
-                    + " WHERE id=" + o.getId();
+                    + "qtde_insumo=" + o.getQtde_insumo();
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
@@ -97,7 +94,6 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
             while (retorno.next()) {
                 Estrutura estrutura = new Estrutura();
 
-                estrutura.setId(retorno.getInt("id"));
                 estrutura.setItem_id(retorno.getInt("item_id"));
                 estrutura.setInsumo_id(retorno.getInt("insumo_id"));
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
@@ -127,12 +123,11 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
             String sql = ""
                     + "SELECT * "
                     + "FROM estrutura "
-                    + "WHERE id=" + id + " AND ativo=true";
+                    + "WHERE ativo=true";
 
             ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);
             while (retorno.next()) {
-                estrutura.setId(retorno.getInt("id"));
                 estrutura.setItem_id(retorno.getInt("item_id"));
                 estrutura.setInsumo_id(retorno.getInt("insumo_id"));
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
@@ -155,7 +150,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
             Item item = new ItemDAO().consultarId(estrutura.getItem_id());
             Item mp = new ItemDAO().consultarId(estrutura.getInsumo_id());
             String[] data = {
-                Integer.toString(estrutura.getId()),
+       //         Integer.toString(estrutura.getId()),
                 item.getDescricao(),
                 mp.getDescricao(),
                 new DecimalFormat("#.####").format(estrutura.getQtde_insumo()),};
@@ -174,7 +169,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
 
     @Override
     public String[] getTableColumns() {
-        return new String[]{"Id", "Produto", "Insumo", "Qtde Insumo"};
+        return new String[]{"Produto", "Insumo", "Qtde Insumo"};
     }
 
 }

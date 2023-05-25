@@ -6,20 +6,12 @@ package entidade;
  */
 public class Estrutura {
 
-    private int id;
     private int item_id;
     private int insumo_id;
     private double qtde_insumo;
     private boolean ativo;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    
     public int getItem_id() {
         return item_id;
     }

@@ -6,6 +6,7 @@ import entidade.Cliente;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
+import javax.swing.JTable;
 
 /**
  *
@@ -199,6 +200,10 @@ public class ClienteDAO implements IDAOT<Cliente> {
     @Override
     public String[] getTableColumns() {
         return new String[]{"Id", "Nome", "CPF/CNPJ"};
+    }
+
+    public void popularTabela(JTable jtb_pesquisa, String text) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

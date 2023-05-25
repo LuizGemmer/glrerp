@@ -1,8 +1,9 @@
 package view.Estrutura;
 
 import dao.GrupoDAO;
+import dao.ItemDAO;
 import entidade.Grupo;
-import javax.swing.DefaultComboBoxModel;
+import entidade.Item;
 
 /**
  *
@@ -10,14 +11,39 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
-    private DefaultComboBoxModel model;
-    
+    private int id_selecionado;
+    public int pesquisar_insumo_item;
     
     public jif_Cadastro_estrutura() {
-        Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
-        this.model = new DefaultComboBoxModel(grupoComboBox);
-        initComponents();                    
+        initComponents();
     }
+
+    public void NomearItem(int id_tabela) {
+        //Coloca os valores referentes ao ID do item para os campos JTF
+        this.id_selecionado = id_tabela;
+        Item item = new ItemDAO().consultarId(this.id_selecionado);
+        Grupo grupo = new GrupoDAO().consultarId(item.getId_grupo());
+
+        jtf_id_item.setText(String.valueOf(item.getId()));
+        jtf_nome_item.setText(item.getDescricao());
+        jtf_grupo_item.setText(grupo.getTipo() + " - " + grupo.getDescricao());
+        jbt_nova_estrutura.setEnabled(true);
+    }
+    
+    public void NomearInsumo(int id_tabela) {
+        //Coloca os valores referentes ao ID do insumo para os campos JTF
+        this.id_selecionado = id_tabela;
+        Item item = new ItemDAO().consultarId(this.id_selecionado);
+        Grupo grupo = new GrupoDAO().consultarId(item.getId_grupo());
+
+        jtf_id_insumo.setText(String.valueOf(item.getId()));
+        jtf_nome_insumo.setText(item.getDescricao());
+        jtf_grupo_insumo.setText(grupo.getTipo() + " - " + grupo.getDescricao());
+        jtf_und_medida_insumo.setText(item.getUnidade_medida());
+        jtf_qtde_insumo.setEnabled(true);
+        jbt_inserir.setEnabled(true);
+    }
+       
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -71,6 +97,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jtf_id_item.setBackground(new java.awt.Color(250, 250, 250));
         jtf_id_item.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_id_item.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_id_item.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtf_id_item.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_id_item.setEnabled(false);
 
@@ -155,6 +182,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
         jtf_id_insumo.setBackground(new java.awt.Color(250, 250, 250));
         jtf_id_insumo.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_id_insumo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtf_id_insumo.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_id_insumo.setEnabled(false);
 
@@ -302,15 +330,15 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jtf_id_item, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtf_nome_item, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jtf_nome_item))
                                     .addComponent(jtf_grupo_item))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(jbt_pesquisar_item, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jbt_nova_estrutura)))))
                 .addGap(32, 32, 32))
         );
@@ -381,13 +409,14 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_nova_estruturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_nova_estruturaActionPerformed
-        //Cadastro de Item
-        
-
+        jbt_nova_estrutura.setEnabled(false);
+        jbt_pesquisar_item.setEnabled(false);
+        jbt_pesquisar_insumo.setEnabled(true);
     }//GEN-LAST:event_jbt_nova_estruturaActionPerformed
 
     private void jbt_pesquisar_itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_pesquisar_itemActionPerformed
-        jff_pesquisar jff_pesquisar = new jff_pesquisar();    
+        this.pesquisar_insumo_item = 1;
+        jff_pesquisar jff_pesquisar = new jff_pesquisar(this, this.pesquisar_insumo_item);
         jff_pesquisar.setVisible(true);
     }//GEN-LAST:event_jbt_pesquisar_itemActionPerformed
 
@@ -396,11 +425,14 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtf_grupo_insumoActionPerformed
 
     private void jbt_pesquisar_insumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_pesquisar_insumoActionPerformed
-        // TODO add your handling code here:
+        this.pesquisar_insumo_item = 2;
+        jff_pesquisar jff_pesquisar = new jff_pesquisar(this, this.pesquisar_insumo_item);
+        jff_pesquisar.setVisible(true);
     }//GEN-LAST:event_jbt_pesquisar_insumoActionPerformed
 
     private void jbt_inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_inserirActionPerformed
-        // TODO add your handling code here:
+        jbt_salvar.setEnabled(true);
+        jbt_excluir.setEnabled(true);
     }//GEN-LAST:event_jbt_inserirActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
@@ -440,4 +472,5 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtf_qtde_insumo;
     private javax.swing.JTextField jtf_und_medida_insumo;
     // End of variables declaration//GEN-END:variables
+
 }
