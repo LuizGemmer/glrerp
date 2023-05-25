@@ -28,7 +28,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         this.id_item_selecionado = id_tabela;
 
         //popula tabela com a estrutura já cadastrada no item
-        new EstruturaDAO().popularTabela(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
+        new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
 
         //Coloca os valores referentes ao ID do item para os campos JTF
         Item item = new ItemDAO().consultarId(this.id_item_selecionado);
@@ -429,7 +429,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                 EstruturaDAO estruturaDAO = new EstruturaDAO();
                 if (estruturaDAO.salvar(estrutura) == null) {
                     JOptionPane.showMessageDialog(this, "Insumo inserido com sucesso!", "SUCESSO NO CADASTRO", JOptionPane.INFORMATION_MESSAGE);
-                    new EstruturaDAO().popularTabela(jtb_insumos_estrutura, String.valueOf(estrutura.getItem_id()));
+                    new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(estrutura.getItem_id()));
                     LimparCampos();
                     jbt_pesquisar_insumo.requestFocus();
                 } else {
@@ -467,7 +467,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
             if (estruturaDAO.inativar(this.id_item_selecionado, id_IntTabela) == null) {
                 JOptionPane.showMessageDialog(this, "Insumo excluido com sucesso!", "INSUMO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
-                new EstruturaDAO().popularTabela(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
+                new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
 
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO EXCLUIR", JOptionPane.ERROR_MESSAGE);

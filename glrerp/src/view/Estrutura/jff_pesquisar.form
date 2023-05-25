@@ -59,9 +59,9 @@
                       <Component id="jLabel1" max="32767" attributes="0"/>
                       <Component id="jScrollPane1" pref="788" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jbt_selecionar" min="-2" max="-2" attributes="0"/>
+                          <Component id="jbt_selecionar" min="-2" pref="200" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jbt_fechar" min="-2" max="-2" attributes="0"/>
+                          <Component id="jbt_fechar" min="-2" pref="200" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel2" min="-2" pref="48" max="-2" attributes="0"/>
@@ -138,7 +138,6 @@
                   </Table>
                 </Property>
                 <Property name="rowHeight" type="int" value="25"/>
-                <Property name="rowSelectionAllowed" type="boolean" value="true"/>
                 <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="a1" green="47" red="d" type="rgb"/>
                 </Property>

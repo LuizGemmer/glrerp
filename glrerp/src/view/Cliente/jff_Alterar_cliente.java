@@ -50,7 +50,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jll_id = new javax.swing.JLabel();
         jbt_excluir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         jInternalFrame1.setBackground(new java.awt.Color(238, 238, 238));

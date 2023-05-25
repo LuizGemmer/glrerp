@@ -1,16 +1,18 @@
 package view.Item;
 
-
 import apoio.CombosDAO;
 import apoio.Validacao;
+import dao.EstruturaDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
+import entidade.Estrutura;
 import entidade.Grupo;
 import entidade.Item;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.text.DecimalFormat;
 import javax.swing.UIManager;
+import view.Estrutura.jff_pesquisar;
 import view.jff_ITelaAlterarCadastro;
 import view.jif_Listagem_DAO;
 
@@ -25,6 +27,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private Item item;
     private boolean keyPressed;
     private boolean inativarControles;
+    private boolean confirma_exclusao;
 
     public jff_Alterar_item() {
         UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
@@ -69,7 +72,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         jInternalFrame1.setBackground(new java.awt.Color(238, 238, 238));
@@ -506,7 +509,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 und_conv1 = jcb_UndConv1.getSelectedItem().toString();
                 und_conv2 = jcb_UndConv2.getSelectedItem().toString();
             }
-            
+
             //Setar nomes das variaveis para o objeto Item
             Item item = new Item();
             item.setId(Integer.parseInt(jll_id.getText()));
@@ -536,37 +539,93 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
-        Object[] options = {"Sim",
-            "Não"};
-        int n = JOptionPane.showOptionDialog(this,
-                "Essa exclusão é IRREVERSÍVEL. Deseja continuar?",
-                "EXCLUSÃO DE CADASTRO",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                options,
-                options[0]);
-        if (n == 0) {
-            //Excluir cadastro
-            //Setar SITUAÇÃO=FALSE mo objeto
-            Item item = new Item();
-            item.setId(Integer.parseInt(jll_id.getText()));
-            item.setAtivo(false);
 
-            //Chamar classe ItemDAO para salvar dados no Banco de dados
-            ItemDAO itemDAO = new ItemDAO();
+        //pegar do JTL o ID do item
+        String id = jll_id.getText();
+        int id_item = Integer.parseInt(id);
 
-            //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
-            if (itemDAO.excluir(Integer.parseInt(jll_id.getText())) == null) {
-                JOptionPane.showMessageDialog(this, "Cadastro excluido com sucesso!", "CADASTRADO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
-                this.parente.setTableItems("");
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-            }
+        Estrutura estrutura = new EstruturaDAO().consultarIdInsumo(id_item);
+
+        //Verificar se o item a ser Excluído esta cadastrado como um INSUMO na tela de estrutura
+        //Caso Positivo, irá abrir a tela mostrando os produtos que possuem o item a ser excluído como Insumo
+        //Caso negativo continua com a exclusão.
+        System.out.println(estrutura.getItem_id());
+        if (estrutura.getItem_id() > 0) {
+            jff_pesquisar jff_pesquisar = new jff_pesquisar(this, id_item);
+            jff_pesquisar.setVisible(true);
+            System.out.println("aqui 1");
+        } else {
+            System.out.println("aqui 2");
+            ExcluirCadastroItem(true);
         }
 
+
     }//GEN-LAST:event_jbt_excluirActionPerformed
+
+    public void ExcluirCadastroItem(boolean confirmar) {
+        this.confirma_exclusao = confirmar;
+        //pegar do JTL o ID do item
+        String id = jll_id.getText();
+        int id_item = Integer.parseInt(id);
+        Estrutura estrutura = new EstruturaDAO().consultarIdInsumo(id_item);
+
+        if (this.confirma_exclusao) {
+            if (estrutura.getItem_id() > 0) {
+                System.out.println("aqui 3");
+                //Excluir cadastro
+                //Setar SITUAÇÃO=FALSE mo objeto
+                Item item = new Item();
+                item.setId(Integer.parseInt(jll_id.getText()));
+                item.setAtivo(false);
+
+                //Chamar classe ItemDAO para salvar dados no Banco de dados
+                ItemDAO itemDAO = new ItemDAO();
+
+                //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
+                if (itemDAO.excluir(Integer.parseInt(jll_id.getText())) == null) {
+                    JOptionPane.showMessageDialog(this, "Cadastro excluido com sucesso!", "CADASTRADO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
+                    this.parente.setTableItems("");
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                System.out.println("aqui 4");
+                Object[] options = {"Sim",
+                    "Não"};
+                int n = JOptionPane.showOptionDialog(this,
+                        "Essa exclusão é IRREVERSÍVEL. Deseja continuar?",
+                        "EXCLUSÃO DE CADASTRO",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                if (n == 0) {
+                    //Excluir cadastro
+                    //Setar SITUAÇÃO=FALSE mo objeto
+                    Item item = new Item();
+                    item.setId(Integer.parseInt(jll_id.getText()));
+                    item.setAtivo(false);
+
+                    //Chamar classe ItemDAO para salvar dados no Banco de dados
+                    ItemDAO itemDAO = new ItemDAO();
+
+                    //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
+                    if (itemDAO.excluir(Integer.parseInt(jll_id.getText())) == null) {
+                        JOptionPane.showMessageDialog(this, "Cadastro excluido com sucesso!", "CADASTRADO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
+                        this.parente.setTableItems("");
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Exclusão cancelada. Cadastro permanece ativo!", "EXCLUSÃO CANCELADA", JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
     private void jtf_DescricaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_DescricaoKeyPressed
         this.keyPressed = true;
@@ -631,11 +690,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
