@@ -6,7 +6,6 @@ import entidade.Movimentacao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
-import javax.management.InvalidAttributeValueException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 
@@ -17,21 +16,10 @@ import java.time.LocalDateTime;
 public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
     private String tipo;
-    private DecimalFormat formater = new DecimalFormat("#,###");
+    private DecimalFormat formater = new DecimalFormat("#.####");
 
-    public movimentacaoDAO(String tipo) throws InvalidAttributeValueException {
-        if (!(
-                tipo.equals("producao") ||
-                tipo.equals("venda") ||
-                tipo.equals("compra")
-                )) {
-            throw new InvalidAttributeValueException(
-                    "Os tipos permitidos são 'producao', 'venda' e 'compra', mas '"
-                    + tipo + "' foi fornecido"
-            );
-        } else {
-            this.tipo = " where tipo='" + tipo + "'";
-        }
+    public movimentacaoDAO(String tipo) {
+        this.tipo = " where tipo='" + tipo + "'";
     }
 
     public movimentacaoDAO() {
@@ -178,7 +166,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
             String[] data = {
                 Integer.toString(movimentacao.getId()),
                 movimentacao.getTipo(),
-                this.formater.format(movimentacao.getItem_Id()),
+                this.formater.format(movimentacao.getItem_id()),
                 this.formater.format(movimentacao.getQtde()),
                 "R$ " + this.formater.format(movimentacao.getValor()),
                 movimentacao.getObservacao()

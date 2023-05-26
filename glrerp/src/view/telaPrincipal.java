@@ -1,5 +1,6 @@
 package view;
 
+import apoio.IDAOT;
 import view.Usuario.jff_Alterar_User;
 import view.Item.jif_Cadastro_item;
 import view.Usuario.jif_Cadastro_user;
@@ -9,6 +10,7 @@ import view.Cliente.jif_Cadastro_cliente;
 import dao.ClienteDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
+import dao.movimentacaoDAO;
 import dao.userDAO;
 import view.Estrutura.jif_Cadastro_estrutura;
 import view.Grupo.jff_Alterar_grupo;
@@ -31,6 +33,17 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     }
 
+    private void abrirListagemDAO(IDAOT dao, jff_ITelaAlterarCadastro tela) {
+        jif_Listagem_DAO telaListagem = new jif_Listagem_DAO(dao, tela);
+        if(visualizarIsOpen != null){
+            this.visualizarIsOpen.dispose();
+        }
+        jDesktopPane1.add(telaListagem);
+        telaListagem.setTitle("Visualizar - Itens");
+        telaListagem.setVisible(true);
+        this.visualizarIsOpen = telaListagem;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -425,6 +438,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_vendas_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jm_vendas_visualizar.setMaximumSize(null);
         jm_vendas_visualizar.setPreferredSize(new java.awt.Dimension(150, 35));
+        jm_vendas_visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_vendas_visualizarActionPerformed(evt);
+            }
+        });
         jm_vendas.add(jm_vendas_visualizar);
 
         jm_vendas_cadastro.setBackground(new java.awt.Color(13, 71, 161));
@@ -518,6 +536,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_producao_visualizar.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jm_producao_visualizar.setMaximumSize(null);
         jm_producao_visualizar.setPreferredSize(new java.awt.Dimension(150, 35));
+        jm_producao_visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_producao_visualizarActionPerformed(evt);
+            }
+        });
         jm_producao.add(jm_producao_visualizar);
 
         jm_producao_cadastro.setBackground(new java.awt.Color(13, 71, 161));
@@ -840,7 +863,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jm_fornecedor_visualizarActionPerformed
 
     private void jm_compras_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_compras_visualizarActionPerformed
-        // TODO add your handling code here:
+        abrirListagemDAO(new movimentacaoDAO("compra"), null);
     }//GEN-LAST:event_jm_compras_visualizarActionPerformed
 
     private void jm_estrutura_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_estrutura_cadastroActionPerformed
@@ -856,6 +879,14 @@ public class telaPrincipal extends javax.swing.JFrame {
     private void jm_relatorio_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_relatorio_cadastroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jm_relatorio_cadastroActionPerformed
+
+    private void jm_vendas_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_vendas_visualizarActionPerformed
+        abrirListagemDAO(new movimentacaoDAO("venda"), null);
+    }//GEN-LAST:event_jm_vendas_visualizarActionPerformed
+
+    private void jm_producao_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_producao_visualizarActionPerformed
+        abrirListagemDAO(new movimentacaoDAO("producao"), null);
+    }//GEN-LAST:event_jm_producao_visualizarActionPerformed
 
     /**
      * @param args the command line arguments
