@@ -212,7 +212,7 @@ public class ItemDAO implements IDAOT<Item> {
 
     @Override
     public String[] getTableColumns() {
-        return new String[]{"Id", "Descriçao", "Qtde", "Unidade Medida", "Grupo"};
+        return new String[]{"Id", "Descriçao", "Qtde", "Unidade", "Grupo"};
     }
 
     public int indexCBUnidadeMedida(String stringUnd) {

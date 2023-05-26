@@ -3,7 +3,11 @@ package view;
 import apoio.IDAOT;
 import java.util.ArrayList;
 import java.util.Vector;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -56,11 +60,9 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
 
         jTable1.setBackground(new java.awt.Color(250, 250, 250));
         jTable1.setForeground(new java.awt.Color(51, 51, 51));
-        jTable1.setCellSelectionEnabled(false);
         jTable1.setEditingColumn(0);
         jTable1.setEditingRow(0);
         jTable1.setRowHeight(25);
-        jTable1.setRowSelectionAllowed(true);
         jTable1.setSelectionBackground(new java.awt.Color(13, 71, 161));
         jTable1.setSelectionForeground(new java.awt.Color(250, 250, 250));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -123,10 +125,10 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addContainerGap(360, Short.MAX_VALUE)
                             .addComponent(jbt_detalhar)
                             .addGap(18, 18, 18)
                             .addComponent(jbt_alterar)
@@ -153,7 +155,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
                     .addComponent(jbt_visualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbt_fechar)
@@ -171,8 +173,43 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         String[] colunasTabela = DAOObject.getTableColumns();
         for (String coluna : colunasTabela) {
             tableModel.addColumn(coluna);
-
         }
+        // Ajuste o tamanho das colunas, exceto a última
+        TableColumnModel columnModel = jTable1.getColumnModel();
+        int tableWidth = jTable1.getPreferredSize().width;
+        int totalColumnWidthsExceptLast = 0;
+
+        if (jTable1.getColumnCount() == 3) {
+            TableColumn column0 = columnModel.getColumn(0);
+            column0.setPreferredWidth(70);
+            TableColumn column1 = columnModel.getColumn(1);
+            column1.setPreferredWidth(585);
+            TableColumn column2 = columnModel.getColumn(2);
+            column2.setPreferredWidth(300);
+
+        } else if (jTable1.getColumnCount() == 4) {
+            TableColumn column0 = columnModel.getColumn(0);
+            column0.setPreferredWidth(70);
+            TableColumn column1 = columnModel.getColumn(1);
+            column1.setPreferredWidth(368);
+            TableColumn column2 = columnModel.getColumn(2);
+            column2.setPreferredWidth(367);
+            TableColumn column3 = columnModel.getColumn(3);
+            column3.setPreferredWidth(150);
+
+        } else if (jTable1.getColumnCount() == 5) {
+            TableColumn column0 = columnModel.getColumn(0);
+            column0.setPreferredWidth(70);
+            TableColumn column1 = columnModel.getColumn(1);
+            column1.setPreferredWidth(400);
+            TableColumn column2 = columnModel.getColumn(2);
+            column2.setPreferredWidth(115);
+            TableColumn column3 = columnModel.getColumn(3);
+            column3.setPreferredWidth(70);
+            TableColumn column4 = columnModel.getColumn(4);
+            column4.setPreferredWidth(300);
+        }
+
     }
 
     public void setTableItems(String termoBusca) {
@@ -185,8 +222,21 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
             this.tableModel.addRow(row);
         }
 
+        //Ajustar a centralização do texto nas colunas da tabela
+        if (jTable1.getColumnCount() == 5) {
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+            jTable1.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+            
+        } else {
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        }
+
         tableModel.fireTableDataChanged();
- //jTable1.isCellEditable();-------------------------------------------------------------------------------------------------------------------------------------------------
+        jTable1.setDefaultEditor(Object.class, null); //Proibir a edição das células da tabela
     }
 
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
