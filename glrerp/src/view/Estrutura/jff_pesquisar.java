@@ -18,6 +18,7 @@ public class jff_pesquisar extends javax.swing.JFrame {
     private int item_id;
     private boolean exclusao_item;
 
+    //contrutor Quando a tela de pesquisar for chamado pela tela JIF_CADASTRO_ESTRUTURA
     public jff_pesquisar(jif_Cadastro_estrutura estrutura, int qual_pesquisa) {
         this.item_id = 0;
         initComponents();
@@ -36,6 +37,7 @@ public class jff_pesquisar extends javax.swing.JFrame {
         new ItemDAO().popularTabela(jtb_pesquisa, "");
     }
 
+    //contrutor Quando a tela de pesquisar for chamado pela tela JFF_ALTERAR_ITEM
     public jff_pesquisar(jff_Alterar_item item, int item_id) {
         this.exclusao_item = false;
         initComponents();

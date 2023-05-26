@@ -50,6 +50,7 @@ id serial not null,
 	insumo_id int not null,
 	qtde_insumo double precision not null,
 	ativo boolean not null,
+	und_medida varchar(45) not null,
 	primary key (id),
 	constraint fk_item_id foreign key (item_id) references item (id),
 	constraint fk_insumo_id foreign key (insumo_id) references item (id)

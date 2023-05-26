@@ -787,12 +787,15 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         } else {
             if (jcb_UndConv1.getSelectedIndex() == jcb_Unidade_medida.getSelectedIndex()) {
                 jcb_UndConv1.setEnabled(false);
+                jtf_conv2.setEnabled(true);
             } else if (jcb_UndConv2.getSelectedIndex() == jcb_Unidade_medida.getSelectedIndex()) {
                 jcb_UndConv2.setEnabled(false);
+                jtf_conv2.setEnabled(true);
             } else {
                 jtf_conv1.setEnabled(false);
                 jcb_UndConv1.setEnabled(false);
                 jcb_UndConv1.setSelectedIndex(index);
+                jtf_conv2.setEnabled(true);
             }
         }
     }

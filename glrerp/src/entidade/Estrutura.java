@@ -10,6 +10,7 @@ public class Estrutura {
     private int insumo_id;
     private double qtde_insumo;
     private boolean ativo;
+    private String und_medida;
 
     
     public int getItem_id() {
@@ -42,6 +43,14 @@ public class Estrutura {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public String getUnd_medida() {
+        return und_medida;
+    }
+
+    public void setUnd_medida(String und_medida) {
+        this.und_medida = und_medida;
     }
 
     

@@ -3,12 +3,10 @@ package dao;
 import apoio.ConexaoBD;
 import apoio.IDAOT;
 import entidade.Movimentacao;
-import entidade.Movimentacao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
 import javax.management.InvalidAttributeValueException;
-import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 

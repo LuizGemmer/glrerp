@@ -9,6 +9,7 @@ import javax.swing.text.*;
 public class Formatacao {
 
     static DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
+    
 
     public static JFormattedTextField getFormatado(String formato) {
         JFormattedTextField campoFormatado = null;

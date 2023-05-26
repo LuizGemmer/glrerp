@@ -1,17 +1,23 @@
 package dao;
 
 import apoio.ConexaoBD;
+import apoio.Formatacao;
 import apoio.IDAOT;
 import entidade.Estrutura;
+import java.awt.Component;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 /**
  *
@@ -30,7 +36,8 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + o.getItem_id() + ", "
                     + o.getInsumo_id() + ", "
                     + o.getQtde_insumo() + ", "
-                    + "'true')";
+                    + "'true', "
+                    + "'" + o.getUnd_medida() + "')";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
@@ -52,7 +59,8 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
             String sql = "UPDATE estrutura SET "
                     + "item_id=" + o.getItem_id() + ", "
                     + "insumo_id=" + o.getInsumo_id() + ", "
-                    + "qtde_insumo=" + o.getQtde_insumo();
+                    + "qtde_insumo=" + o.getQtde_insumo() + ", "
+                    + "und_medida='" + o.getUnd_medida();
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
@@ -122,6 +130,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 estrutura.setInsumo_id(retorno.getInt("insumo_id"));
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
                 estrutura.setAtivo(retorno.getBoolean("ativo"));
+                estrutura.setUnd_medida(retorno.getString("und_medida"));
 
                 estrut.add(estrutura);
             }
@@ -154,6 +163,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 estrutura.setInsumo_id(retorno.getInt("insumo_id"));
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
                 estrutura.setAtivo(retorno.getBoolean("ativo"));
+                estrutura.setUnd_medida(retorno.getString("und_medida"));
 
                 estruturas.add(estrutura);
             }
@@ -184,6 +194,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 estrutura.setInsumo_id(retorno.getInt("insumo_id"));
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
                 estrutura.setAtivo(retorno.getBoolean("ativo"));
+                estrutura.setUnd_medida(retorno.getString("und_medida"));
 
             }
         } catch (Exception e) {
@@ -192,7 +203,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
 
         return estrutura;
     }
-    
+
     public Estrutura consultarIdInsumo(int insumo_id) {
         Estrutura estrutura = new Estrutura();
 
@@ -207,16 +218,18 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + "item.ativo "
                     + "FROM estrutura, item "
                     + "WHERE estrutura.ativo=true "
-                    + "AND item.ativo=true"
-                    + "AND insumo_id=" + insumo_id;
+                    + "AND item.ativo=true "
+                    + "AND estrutura.insumo_id=" + insumo_id;
 
-            ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);
+            ResultSet retorno = st.executeQuery(sql);
+
             while (retorno.next()) {
                 estrutura.setItem_id(retorno.getInt("item_id"));
                 estrutura.setInsumo_id(retorno.getInt("insumo_id"));
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
                 estrutura.setAtivo(retorno.getBoolean("ativo"));
+                estrutura.setUnd_medida(retorno.getString("und_medida"));
 
             }
         } catch (Exception e) {
@@ -234,39 +247,16 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
     public void popularTabelaInsumos(JTable tabela, String criterio) {
         ResultSet resultadoQ;
 
-        //Dados da Tabela
-        Object[][] dadosTabela = null;
+        // Dados da Tabela
+        ArrayList<Object[]> dadosTabela = new ArrayList<>();
 
-        //Cabecalho da tabela
+        // Cabecalho da tabela
         Object[] cabecalho = new Object[4];
         cabecalho[0] = "ID Insumo";
         cabecalho[1] = "Insumo";
         cabecalho[2] = "Qtde Insumo";
         cabecalho[3] = "Unidade";
 
-        //Cria a matriz com número de registros na tabela
-        try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT "
-                    + "estrutura.insumo_id, "
-                    + "item.descricao, "
-                    + "estrutura.qtde_insumo, "
-                    + "item.unidade_medida "
-                    + "FROM item, estrutura "
-                    + "WHERE estrutura.insumo_id = item.id "
-                    + "AND item.ativo=true "
-                    + "AND estrutura.ativo=true "
-                    + "AND estrutura.item_id=" + criterio + " "
-                    + "ORDER BY item.descricao");
-
-            resultadoQ.next();
-
-            dadosTabela = new Object[resultadoQ.getInt(1)][4];
-        } catch (Exception e) {
-            System.out.println("Erro ao consultar tabela: " + e);
-        }
-        int lin = 0;
-
         //Efetua a consulta na Tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
@@ -274,7 +264,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + "estrutura.insumo_id, "
                     + "item.descricao, "
                     + "estrutura.qtde_insumo, "
-                    + "item.unidade_medida "
+                    + "estrutura.und_medida "
                     + "FROM item, estrutura "
                     + "WHERE estrutura.insumo_id = item.id "
                     + "AND item.ativo=true "
@@ -283,108 +273,84 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + "ORDER BY item.descricao");
 
             while (resultadoQ.next()) {
-
-                dadosTabela[lin][0] = resultadoQ.getInt("insumo_id");
-                dadosTabela[lin][1] = resultadoQ.getString("descricao");
-                dadosTabela[lin][2] = resultadoQ.getDouble("qtde_insumo");
-                dadosTabela[lin][3] = resultadoQ.getString("unidade_medida");
-
-                lin++;
+                Object[] linha = new Object[4];
+                linha[0] = resultadoQ.getInt("insumo_id");
+                linha[1] = resultadoQ.getString("descricao");
+                linha[2] = resultadoQ.getDouble("qtde_insumo");
+                linha[3] = resultadoQ.getString("und_medida");
+                dadosTabela.add(linha);
             }
 
         } catch (Exception e) {
             System.out.println("Erro ao popular tabela: " + e);
         }
 
-        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+        tabela.setModel(new DefaultTableModel(
+                dadosTabela.toArray(new Object[0][0]), cabecalho) {
             @Override
-            //Quando retorno for FALSE, a tabela não é editável
             public boolean isCellEditable(int row, int column) {
                 return false;
-                //if (column == 3){return true} else {return false}
-            }
-
-            //Alteração do metodo que determina a coluna em que o objeto ImageIcon Devera aparecer
-            @Override
-            public Class getColumnClass(int column) {
-                if (column == 2) {
-                    //retunr ImageIcon.class
-                }
-                return Object.class;
+                // if (column == 3){return true} else {return false}
             }
         });
 
-        //Altera o número de selecao de linhas da tabela
+        // Altera o número de selecao de linhas da tabela
         tabela.setSelectionMode(0);
 
-        //Redimensiona as colunas de uma tabela
+        // Redimensiona as colunas de uma tabela
         TableColumn column = null;
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        int[] columnWidths = {20, 380, 50, 50};
         for (int i = 0; i < tabela.getColumnModel().getColumnCount(); i++) {
             column = tabela.getColumnModel().getColumn(i);
-            switch (i) {
-                case 0:
-                    column.setPreferredWidth(5);
-                    break;
-                case 1:
-                    column.setPreferredWidth(300);
-                    break;
-                case 2:
-                    column.setPreferredWidth(10);
-                    break;
-            }
+            column.setPreferredWidth(columnWidths[i]);
         }
 
-        //Alinhar dados da coluna 1 no centro da celula da tabela
-        class AlinharCentro extends DefaultTableCellRenderer {
+        // Alinhar dados da coluna 1 no centro da celula da tabela
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        TableColumn column1 = tabela.getColumnModel().getColumn(0);
+        TableColumn column2 = tabela.getColumnModel().getColumn(2);
+        TableColumn column3 = tabela.getColumnModel().getColumn(3);
+        column1.setCellRenderer(centerRenderer);
+        column2.setCellRenderer(centerRenderer);
+        column3.setCellRenderer(centerRenderer);
 
-            public AlinharCentro() {
-                setHorizontalAlignment(CENTER); // ou LEFT, RIGHT, etc
+        // Formatar número Double na coluna 2
+        DefaultTableCellRenderer decimalRenderer = new DefaultTableCellRenderer() {
+            private DecimalFormat decimalFormat = new DecimalFormat("#,####0.0000");
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+                    int row, int column) {
+                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                if (value instanceof Double) {
+                    double valor = (Double) value;
+                    String textoFormatado = decimalFormat.format(valor);
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                    setText(textoFormatado);
+                }
+                return component;
             }
-        }
+        };
 
-        TableCellRenderer tcr = new AlinharCentro();
-        column = tabela.getColumnModel().getColumn(0);
-        column.setCellRenderer(tcr);
-
+        column2.setCellRenderer(decimalRenderer);
     }
-    
+
     public void popularTabelaItensConsomemInsumoX(JTable tabela, int id) {
         ResultSet resultadoQ;
 
-        //Dados da Tabela
-        Object[][] dadosTabela = null;
+        // Dados da Tabela
+        ArrayList<Object[]> dadosTabela = new ArrayList<>();
 
-        //Cabecalho da tabela
+        // Cabecalho da tabela
         Object[] cabecalho = new Object[4];
         cabecalho[0] = "ID Item";
         cabecalho[1] = "Item";
         cabecalho[2] = "Qtde Insumo";
         cabecalho[3] = "Unidade";
 
-        //Cria a matriz com número de registros na tabela
-        try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT "
-                    + "estrutura.item_id, "
-                    + "item.descricao, "
-                    + "estrutura.qtde_insumo, "
-                    + "item.unidade_medida "
-                    + "FROM item, estrutura "
-                    + "WHERE estrutura.item_id = item.id "
-                    + "AND item.ativo=true "
-                    + "AND estrutura.ativo=true "
-                    + "AND estrutura.insumo_id=" + id + " "
-                    + "ORDER BY item.descricao");
-
-            resultadoQ.next();
-
-            dadosTabela = new Object[resultadoQ.getInt(1)][4];
-        } catch (Exception e) {
-            System.out.println("Erro ao consultar tabela: " + e);
-        }
-        int lin = 0;
-
         //Efetua a consulta na Tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
@@ -392,7 +358,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + "estrutura.item_id, "
                     + "item.descricao, "
                     + "estrutura.qtde_insumo, "
-                    + "item.unidade_medida "
+                    + "estrutura.und_medida "
                     + "FROM item, estrutura "
                     + "WHERE estrutura.item_id = item.id "
                     + "AND item.ativo=true "
@@ -401,70 +367,69 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + "ORDER BY item.descricao");
 
             while (resultadoQ.next()) {
-
-                dadosTabela[lin][0] = resultadoQ.getInt("item_id");
-                dadosTabela[lin][1] = resultadoQ.getString("descricao");
-                dadosTabela[lin][2] = resultadoQ.getDouble("qtde_insumo");
-                dadosTabela[lin][3] = resultadoQ.getString("unidade_medida");
-
-                lin++;
+                Object[] linha = new Object[4];
+                linha[0] = resultadoQ.getInt("item_id");
+                linha[1] = resultadoQ.getString("descricao");
+                linha[2] = resultadoQ.getDouble("qtde_insumo");
+                linha[3] = resultadoQ.getString("und_medida");
+                dadosTabela.add(linha);
             }
 
         } catch (Exception e) {
             System.out.println("Erro ao popular tabela: " + e);
         }
 
-        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+        tabela.setModel(new DefaultTableModel(
+                dadosTabela.toArray(new Object[0][0]), cabecalho) {
             @Override
-            //Quando retorno for FALSE, a tabela não é editável
             public boolean isCellEditable(int row, int column) {
                 return false;
-                //if (column == 3){return true} else {return false}
-            }
-
-            //Alteração do metodo que determina a coluna em que o objeto ImageIcon Devera aparecer
-            @Override
-            public Class getColumnClass(int column) {
-                if (column == 2) {
-                    //retunr ImageIcon.class
-                }
-                return Object.class;
+                // if (column == 3){return true} else {return false}
             }
         });
 
-        //Altera o número de selecao de linhas da tabela
+        // Altera o número de selecao de linhas da tabela
         tabela.setSelectionMode(0);
 
-        //Redimensiona as colunas de uma tabela
+        // Redimensiona as colunas de uma tabela
         TableColumn column = null;
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        int[] columnWidths = {50, 350, 50, 50};
         for (int i = 0; i < tabela.getColumnModel().getColumnCount(); i++) {
             column = tabela.getColumnModel().getColumn(i);
-            switch (i) {
-                case 0:
-                    column.setPreferredWidth(5);
-                    break;
-                case 1:
-                    column.setPreferredWidth(300);
-                    break;
-                case 2:
-                    column.setPreferredWidth(10);
-                    break;
-            }
+            column.setPreferredWidth(columnWidths[i]);
         }
 
-        //Alinhar dados da coluna 1 no centro da celula da tabela
-        class AlinharCentro extends DefaultTableCellRenderer {
+        // Alinhar dados da coluna 1 no centro da celula da tabela
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        TableColumn column1 = tabela.getColumnModel().getColumn(0);
+        TableColumn column2 = tabela.getColumnModel().getColumn(2);
+        TableColumn column3 = tabela.getColumnModel().getColumn(3);
+        column1.setCellRenderer(centerRenderer);
+        column2.setCellRenderer(centerRenderer);
+        column3.setCellRenderer(centerRenderer);
 
-            public AlinharCentro() {
-                setHorizontalAlignment(CENTER); // ou LEFT, RIGHT, etc
+        // Formatar número Double na coluna 2
+        DefaultTableCellRenderer decimalRenderer = new DefaultTableCellRenderer() {
+            private DecimalFormat decimalFormat = new DecimalFormat("#,####0.0000");
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+                    int row, int column) {
+                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                if (value instanceof Double) {
+                    double valor = (Double) value;
+                    String textoFormatado = decimalFormat.format(valor);
+                    setHorizontalAlignment(SwingConstants.CENTER);
+                    setText(textoFormatado);
+                }
+                return component;
             }
-        }
+        };
 
-        TableCellRenderer tcr = new AlinharCentro();
-        column = tabela.getColumnModel().getColumn(0);
-        column.setCellRenderer(tcr);
-
+        column2.setCellRenderer(decimalRenderer);
     }
 
     @Override
@@ -486,6 +451,5 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
     public Estrutura consultarId(int id) {
         return this.consultarId(0, 0);
     }
-    
 
 }

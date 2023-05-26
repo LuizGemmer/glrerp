@@ -844,7 +844,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jm_compras_visualizarActionPerformed
 
     private void jm_estrutura_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_estrutura_cadastroActionPerformed
-        jif_Cadastro_estrutura jif_cad_est = new jif_Cadastro_estrutura();
+        jif_Cadastro_estrutura jif_cad_est = new jif_Cadastro_estrutura(this.jDesktopPane1);
         jDesktopPane1.add(jif_cad_est);
         jif_cad_est.setVisible(true);
     }//GEN-LAST:event_jm_estrutura_cadastroActionPerformed
