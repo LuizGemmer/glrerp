@@ -849,7 +849,11 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jm_grupo_cadastroActionPerformed
 
     private void jm_producao_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_producao_cadastroActionPerformed
-        new jff_pesquisar_item("PRODUTO ACABADO").setVisible(true);
+        jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
+                "PRODUTO ACABADO"
+        );
+        telaPesquisa.setVisible(true);
+        
     }//GEN-LAST:event_jm_producao_cadastroActionPerformed
 
     private void jm_fornecedor_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_fornecedor_visualizarActionPerformed

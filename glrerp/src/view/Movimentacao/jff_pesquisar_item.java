@@ -3,7 +3,9 @@ package view.Movimentacao;
 import view.Estrutura.*;
 import dao.EstruturaDAO;
 import dao.ItemDAO;
+import dao.movimentacaoDAO;
 import entidade.Item;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import view.Item.jff_Alterar_item;
 
@@ -29,6 +31,8 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
         jbt_filtrar.setEnabled(true);
         jtf_filtro.setEnabled(true);
         this.setTitle("Pesquisa - Item");
+        
+        
         
         //Popular a tabela
         new ItemDAO().popularTabela(jtb_pesquisa, "", this.grupoTipo);
@@ -191,7 +195,12 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
         if (this.item_id == 0) {
             JOptionPane.showMessageDialog(this, "Selecione um registro na tabela acima");
         } else {
-            System.out.println(String.valueOf(item_id)); 
+            jff_alterar_movimentacao telaAlterar = new jff_alterar_movimentacao("producao", item_id);
+            telaAlterar.setDAO(new movimentacaoDAO("producao"));
+            telaAlterar.setItem(item_id);
+            telaAlterar.showWindow(true);
+            
+            this.dispose();
         }
     }//GEN-LAST:event_jbt_selecionarActionPerformed
 

@@ -28,28 +28,32 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
     @Override
     public String salvar(Movimentacao o) {
+        String cliente_id = "NULL";
+        if (o.getCliente_id() != 0) cliente_id = "" + o.getCliente_id();
+            
+        String sql = "INSERT INTO movimentacao VALUES "
+            + "(default, "
+            + "'" + o.getTipo()+ "', "
+            + "'" + o.getData() + "', "
+            + "'" + o.getItem_id()+ "', "
+            + "" + cliente_id + ", "
+            + "'" + o.getValor()+ "', "
+            + "'" + o.getQtde()+ "', "
+            + "'" + o.getPerdas() + "', "
+            + "'" + o.getObservacao()+ "', "
+            + "'" + o.getId_pedido()+ "');";
 
         //Salvar movimentacao no banco de dados
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-
-            String sql = "INSERT INTO movimentacao VALUES "
-                    + "(default, "
-                    + "'" + o.getTipo()+ "', "
-                    + "'" + o.getData() + "', "
-                    + "'" + o.getItem_id()+ "', "
-                    + "'" + o.getCliente_id()+ "', "
-                    + "'" + o.getValor()+ "', "
-                    + "'" + o.getQtde()+ "', "
-                    + "'" + o.getPerdas() + "', "
-                    + "'" + o.getObservacao()+ "', "
-                    + "'" + o.getId_pedido()+ "');";
-
+           
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
-            return null;
 
+            return null;
+            
         } catch (Exception e) {
+            System.out.println(sql);
             System.out.println("Erro ao inserir cadastro de movimentacao/Fornecedor " + e);
             return e.toString();
         }
