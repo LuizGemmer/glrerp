@@ -9,7 +9,6 @@ import javax.swing.text.*;
 public class Formatacao {
 
     static DecimalFormat df = new DecimalFormat("#,##0.00", new DecimalFormatSymbols(new Locale("pt", "BR")));
-    
 
     public static JFormattedTextField getFormatado(String formato) {
         JFormattedTextField campoFormatado = null;
@@ -55,7 +54,7 @@ public class Formatacao {
     public static JFormattedTextField getDataHora() {
         return getFormatado("##/##/#### ##:##");
     }
-    
+
     public static JFormattedTextField getCEP() {
         return getFormatado("#####-###");
     }
@@ -76,8 +75,8 @@ public class Formatacao {
             System.err.println(e);
         }
     }
-    
-    public static void formatarCEP(JFormattedTextField campo){
+
+    public static void formatarCEP(JFormattedTextField campo) {
         try {
             MaskFormatter m = new MaskFormatter();
             m.setPlaceholderCharacter(' ');
@@ -89,8 +88,8 @@ public class Formatacao {
             System.err.println(e);
         }
     }
-    
-     public static void formatarDataHora(JFormattedTextField campo) {
+
+    public static void formatarDataHora(JFormattedTextField campo) {
         try {
             MaskFormatter m = new MaskFormatter();
             m.setPlaceholderCharacter(' ');
@@ -190,4 +189,3 @@ public class Formatacao {
         return dataHoje;
     }
 }
-

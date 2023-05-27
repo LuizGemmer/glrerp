@@ -57,6 +57,7 @@ public class Validacao {
         return cnpj.equals(cnpj.substring(0, 12) + digito1.toString() + digito2.toString());
     }
 
+
     public static boolean validarDataDMA(int d, int m, int a) {
 
         boolean correto = true;
@@ -102,7 +103,7 @@ public class Validacao {
             return true;
         }
     }
-
+    
     private static boolean validarCampoemBranco(String campo) {
         if (campo.equals(null) || campo.equals("")) {
             return false;
@@ -141,9 +142,9 @@ public class Validacao {
             return true;
         }
     }
-    
+
     //Valida na hora da digitação se o usuario está digitando apenas numeros. Pode conter apenas uma "," ou "."
-    public static boolean ValidarDecimal (JTextField campo, java.awt.event.KeyEvent evt){
+    public static boolean ValidarDecimal(JTextField campo, java.awt.event.KeyEvent evt) {
         String caracteres = "0987654321,.";
         String unico = ".,";
         String inverse;

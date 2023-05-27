@@ -26,7 +26,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     private final jif_Cadastro_cliente tipo;
 
     private jif_Listagem_DAO visualizarIsOpen;
-    
+
     public telaPrincipal() {
         initComponents();
         this.tipo = null;
@@ -36,7 +36,7 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private void abrirListagemDAO(IDAOT dao, jff_ITelaAlterarCadastro tela) {
         jif_Listagem_DAO telaListagem = new jif_Listagem_DAO(dao, tela);
-        if(visualizarIsOpen != null){
+        if (visualizarIsOpen != null) {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(telaListagem);
@@ -44,7 +44,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         telaListagem.setVisible(true);
         this.visualizarIsOpen = telaListagem;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -760,16 +760,15 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jm_ajuda_sairActionPerformed
 
     private void jm_cliente_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_cliente_cadastroActionPerformed
-        jif_Cadastro_cliente jif_cad_cliente = new jif_Cadastro_cliente();
-        jif_cad_cliente.setIsCliente(true);
+        jif_Cadastro_cliente jif_cad_cliente = new jif_Cadastro_cliente(true);
         jDesktopPane1.add(jif_cad_cliente);
         jif_cad_cliente.setVisible(true);
-        
+
     }//GEN-LAST:event_jm_cliente_cadastroActionPerformed
 
     private void jm_item_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_item_visualizarActionPerformed
         jif_Listagem_DAO jifVis_item = new jif_Listagem_DAO(new ItemDAO(), new jff_Alterar_item());
-        if(visualizarIsOpen != null){
+        if (visualizarIsOpen != null) {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(jifVis_item);
@@ -793,7 +792,7 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private void jm_user_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_user_visualizarActionPerformed
         jif_Listagem_DAO jif_listagem_user = new jif_Listagem_DAO(new userDAO(), new jff_Alterar_User());
-        if(visualizarIsOpen != null){
+        if (visualizarIsOpen != null) {
             this.visualizarIsOpen.dispose();
         }
         jif_listagem_user.setTitle("Visualizar - Usuários");
@@ -803,15 +802,14 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jm_user_visualizarActionPerformed
 
     private void jm_fornecedor_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_fornecedor_cadastroActionPerformed
-        jif_Cadastro_cliente jif_cad_cliente = new jif_Cadastro_cliente();
-        jif_cad_cliente.setIsCliente(false);
+        jif_Cadastro_cliente jif_cad_cliente = new jif_Cadastro_cliente(false);
         jDesktopPane1.add(jif_cad_cliente);
         jif_cad_cliente.setVisible(true);
     }//GEN-LAST:event_jm_fornecedor_cadastroActionPerformed
 
     private void jm_cliente_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_cliente_visualizarActionPerformed
         jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO("cliente"), new jff_Alterar_cliente());
-        if(visualizarIsOpen != null){
+        if (visualizarIsOpen != null) {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(jifVis_cliente);
@@ -822,7 +820,7 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private void jm_almox_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_almox_visualizarActionPerformed
         jif_Listagem_DAO jifVis_item = new jif_Listagem_DAO(new ItemDAO(), new jff_Alterar_item());
-        if(visualizarIsOpen != null){
+        if (visualizarIsOpen != null) {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(jifVis_item);
@@ -833,7 +831,7 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private void jm_grupo_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_grupo_visualizarActionPerformed
         jif_Listagem_DAO jifVis_grupo = new jif_Listagem_DAO(new GrupoDAO(), new jff_Alterar_grupo());
-        if(visualizarIsOpen != null){
+        if (visualizarIsOpen != null) {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(jifVis_grupo);
@@ -854,7 +852,7 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private void jm_fornecedor_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_fornecedor_visualizarActionPerformed
         jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO("fornecedor"), new jff_Alterar_cliente());
-        if(visualizarIsOpen != null){
+        if (visualizarIsOpen != null) {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(jifVis_cliente);
@@ -923,7 +921,6 @@ public class telaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

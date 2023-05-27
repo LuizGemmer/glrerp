@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Item/jff_Alterar_item.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/apoio/Validacao.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/apoio/Formatacao.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/apoio/ConexaoBD.java</file>
@@ -26,11 +27,14 @@
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/apoio/ComboItem.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/dao/ItemDAO.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Grupo/jif_Cadastro_grupo.java</file>
+            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/dao/movimentacaoDAO.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/entidade/Cliente.java</file>
+            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Grupo/jff_Alterar_grupo.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/glrerp/Glrerp.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Cliente/jif_Cadastro_cliente.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/entidade/Grupo.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/entidade/User.java</file>
+            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Cliente/jff_Alterar_cliente.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/entidade/Estrutura.java</file>
         </group>
     </open-files>
