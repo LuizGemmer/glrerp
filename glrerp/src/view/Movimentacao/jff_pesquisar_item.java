@@ -1,5 +1,6 @@
-package view.Estrutura;
+package view.Movimentacao;
 
+import view.Estrutura.*;
 import dao.EstruturaDAO;
 import dao.ItemDAO;
 import entidade.Item;
@@ -10,20 +11,16 @@ import view.Item.jff_Alterar_item;
  *
  * @author ruang
  */
-public class jff_pesquisar extends javax.swing.JFrame {
+public class jff_pesquisar_item extends javax.swing.JFrame {
 
-    private jif_Cadastro_estrutura estrutura;
-    private jff_Alterar_item item;
-    private int pesquisa;
     private int item_id;
-    private boolean exclusao_item;
-
+    private String grupoTipo;
+    
     //contrutor Quando a tela de pesquisar for chamado pela tela JIF_CADASTRO_ESTRUTURA
-    public jff_pesquisar(jif_Cadastro_estrutura estrutura, int qual_pesquisa) {
+    public jff_pesquisar_item(String tipoGrupoItem) {
         this.item_id = 0;
+        this.grupoTipo = tipoGrupoItem;
         initComponents();
-        this.estrutura = estrutura;
-        this.pesquisa = qual_pesquisa;
         
         //Setar o nome dos botões e dos JLabels
         jLabel1.setText("");
@@ -34,29 +31,12 @@ public class jff_pesquisar extends javax.swing.JFrame {
         this.setTitle("Pesquisa - Item");
         
         //Popular a tabela
-        new ItemDAO().popularTabela(jtb_pesquisa, "");
+        new ItemDAO().popularTabela(jtb_pesquisa, "", this.grupoTipo);
     }
 
     //contrutor Quando a tela de pesquisar for chamado pela tela JFF_ALTERAR_ITEM
-    public jff_pesquisar(jff_Alterar_item item, int item_id) {
-        this.exclusao_item = false;
-        initComponents();
-        this.item = item;
-        this.item_id = item_id;
-        
-        //Setar o nome dos botões e dos JLabels
-        String item_descricao = new ItemDAO().consultarId(this.item_id).getDescricao();
-        jLabel1.setText("Item a ser excluído: " + this.item_id + " - " + item_descricao);
-        jbt_selecionar.setText("Continuar Exclusão");
-        jbt_fechar.setText("Cancelar Exclusão");
-        jbt_filtrar.setEnabled(false);
-        jtf_filtro.setEnabled(false);
-        this.setTitle("Pesquisa - Item/Uso do Insumo");
-        
-        //Popular a tabela
-        new EstruturaDAO().popularTabelaItensConsomemInsumoX(jtb_pesquisa, this.item_id);
-        JOptionPane.showMessageDialog(this, "Esse item que você deseja excluir foi encontrado como sendo INSUMO na estrutura de produto(s)"
-                + "\n\n CUIDADO: Se você CONTINUAR COM A EXCLUSÃO irá retirar esse item da estrutura dos produtos listado!", "ITEM UTILIZADO COMO INSUMO EM ESTRUTURA", JOptionPane.WARNING_MESSAGE);
+    public jff_pesquisar_item(jff_Alterar_item item, int item_id) {
+
     }
 
     @SuppressWarnings("unchecked")
@@ -200,57 +180,30 @@ public class jff_pesquisar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
-        //Botão de fechar
-        //Caso a tela de pesquisa tenha sido chamado pelo JIF_CADASTRO_ESTRUTURA
-        if (this.item_id == 0) {
-            this.dispose();
-        }//Caso a tela de pesquisa tenha sido chamado pelo JFF_ALTERAR_ITEM
-        else {
-            this.exclusao_item = false;
-            this.dispose();
-            item.ExcluirCadastroItem(exclusao_item);
-            
-        }
+        this.dispose();
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_selecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_selecionarActionPerformed
-        //Caso a tela de pesquisa tenha sido chamado pelo JIF_CADASTRO_ESTRUTURA
+        this.item_id = Integer.parseInt(
+                String.valueOf(jtb_pesquisa.getValueAt(jtb_pesquisa.getSelectedRow(), 0))
+        );
+        
         if (this.item_id == 0) {
-            String id_tabela = String.valueOf(jtb_pesquisa.getValueAt(jtb_pesquisa.getSelectedRow(), 0));
-            int id_IntTabela = Integer.parseInt(id_tabela);
-
-            if (this.pesquisa == 1) {
-                estrutura.NomearItem(id_IntTabela);
-            } else {
-                estrutura.NomearInsumo(id_IntTabela);
-            }
-            this.dispose();
-        } //Caso a tela de pesquisa tenha sido chamado pelo JFF_ALTERAR_ITEM
-        else {
-            Object[] options = {"Sim",
-                "Não"};
-            int n = JOptionPane.showOptionDialog(this,
-                    "Essa exclusão é IRREVERSÍVEL e irá remover o ITEM da tela de ESTRUTURA.\nDeseja continuar?",
-                    "EXCLUSÃO DE ITEM",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
-            if (n == 0) {
-                this.exclusao_item = true;
-                this.dispose();
-                item.ExcluirCadastroItem(exclusao_item);
-                
-            }
+            JOptionPane.showMessageDialog(this, "Selecione um registro na tabela acima");
+        } else {
+            System.out.println(String.valueOf(item_id)); 
         }
-
     }//GEN-LAST:event_jbt_selecionarActionPerformed
 
     private void jbt_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_filtrarActionPerformed
-        new ItemDAO().popularTabela(jtb_pesquisa, jtf_filtro.getText());
+        new ItemDAO().popularTabela(
+                jtb_pesquisa, 
+                jtf_filtro.getText(),
+                this.grupoTipo
+        );
     }//GEN-LAST:event_jbt_filtrarActionPerformed
 
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -265,14 +218,15 @@ public class jff_pesquisar extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jff_pesquisar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_pesquisar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jff_pesquisar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_pesquisar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jff_pesquisar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_pesquisar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jff_pesquisar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_pesquisar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

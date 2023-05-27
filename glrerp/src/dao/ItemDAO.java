@@ -145,7 +145,37 @@ public class ItemDAO implements IDAOT<Item> {
 
     @Override
     public ArrayList<Item> consultar(String criterio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Item> itens = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = criterio;
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+            while (retorno.next()) {
+                Item item = new Item();
+
+                item.setId(retorno.getInt("id"));
+                item.setId_grupo(retorno.getInt("id_grupo"));
+                item.setDescricao(retorno.getString("descricao"));
+                item.setQtde_estoque(retorno.getDouble("qtde_estoque"));
+                item.setAtivo(retorno.getBoolean("ativo"));
+                item.setUnidade_medida(retorno.getString("unidade_medida"));
+                item.setObservacao(retorno.getString("observacao"));
+                item.setConv1(retorno.getDouble("conv1"));
+                item.setUnd_conv1(retorno.getString("und_conv1"));
+                item.setConv2(retorno.getDouble("conv2"));
+                item.setUnd_conv2(retorno.getString("und_conv2"));
+                item.setValor(retorno.getDouble("valor"));
+
+                itens.add(item);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de Item " + e);
+        }
+
+        return itens;
     }
 
     @Override
@@ -262,7 +292,7 @@ public class ItemDAO implements IDAOT<Item> {
         return indexCBUM;
     }
 
-    public void popularTabela(JTable tabela, String criterio) {
+    public void popularTabela(JTable tabela, String criterio, String grupo) {
         ResultSet resultadoQ;
 
         // Dados da Tabela
@@ -277,16 +307,29 @@ public class ItemDAO implements IDAOT<Item> {
 
         //Efetua a consulta na Tabela
         try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+            if(grupo.equals("")) {
+                resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                        + "SELECT "
+                        + "item.id AS item_id, item.descricao, grupo.tipo, grupo.descricao AS gp_descricao "
+                        + "FROM item, grupo "
+                        + "WHERE item.id_grupo = grupo.id "
+                        + "AND item.ativo=true "
+                        + "AND (item.descricao ILIKE '%" + criterio + "%' "
+                        + "OR grupo.tipo ILIKE '%" + criterio + "%' "
+                        + "OR grupo.descricao ILIKE '%" + criterio + "%') "
+                        + "ORDER BY item.descricao");
+            } else {
+                resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
                     + "SELECT "
                     + "item.id AS item_id, item.descricao, grupo.tipo, grupo.descricao AS gp_descricao "
                     + "FROM item, grupo "
                     + "WHERE item.id_grupo = grupo.id "
                     + "AND item.ativo=true "
                     + "AND (item.descricao ILIKE '%" + criterio + "%' "
-                    + "OR grupo.tipo ILIKE '%" + criterio + "%' "
                     + "OR grupo.descricao ILIKE '%" + criterio + "%') "
+                    + "AND grupo.tipo ='" + grupo + "' "
                     + "ORDER BY item.descricao");
+            }
 
             while (resultadoQ.next()) {
                 Object[] linha = new Object[4];
@@ -328,4 +371,9 @@ public class ItemDAO implements IDAOT<Item> {
         column = tabela.getColumnModel().getColumn(0);
         column.setCellRenderer(centerRenderer);
     }
+    
+    public void popularTabela(JTable tabela, String criterio) {
+        this.popularTabela(tabela, criterio, "");
+    }
+
 }

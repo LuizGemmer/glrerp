@@ -15,6 +15,7 @@ import dao.userDAO;
 import view.Estrutura.jif_Cadastro_estrutura;
 import view.Grupo.jff_Alterar_grupo;
 import view.Grupo.jif_Cadastro_grupo;
+import view.Movimentacao.jff_pesquisar_item;
 
 /**
  *
@@ -848,7 +849,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jm_grupo_cadastroActionPerformed
 
     private void jm_producao_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_producao_cadastroActionPerformed
-        // TODO add your handling code here:
+        new jff_pesquisar_item("PRODUTO ACABADO").setVisible(true);
     }//GEN-LAST:event_jm_producao_cadastroActionPerformed
 
     private void jm_fornecedor_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_fornecedor_visualizarActionPerformed
