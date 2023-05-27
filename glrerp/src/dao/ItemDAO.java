@@ -71,6 +71,7 @@ public class ItemDAO implements IDAOT<Item> {
                     + "und_conv1='" + o.getUnd_conv1() + "', "
                     + "conv2=" + o.getConv2() + ", "
                     + "und_conv2='" + o.getUnd_conv2() + "', "
+                    + "qtde_estoque='" + o.getQtde_estoque() + "', "
                     + "valor=" + o.getValor() + " "
                     + "WHERE id=" + o.getId();
 

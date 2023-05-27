@@ -1,11 +1,22 @@
 package view.Movimentacao;
 
-import view.Cliente.*;
-import apoio.IDAOT;
 import dao.ClienteDAO;
+import dao.ItemDAO;
+import dao.movimentacaoDAO;
 import entidade.Cliente;
-import javax.swing.JFrame;
+import entidade.Item;
+import entidade.Movimentacao;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 import view.jff_ITelaAlterarCadastro;
 import view.jif_Listagem_DAO;
 
@@ -16,20 +27,58 @@ import view.jif_Listagem_DAO;
 public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_ITelaAlterarCadastro {
 
     private jif_Listagem_DAO parente;
-
-    private Cliente cliente;
-
+    private Item item;
     private boolean keyPressed;
-
-    private boolean inativarControles;
+    private boolean inativarControles;   
+    private final String tipoMovto;
+    private movimentacaoDAO dao;
+    private DefaultComboBoxModel comboModel;
     
-    private String tipoMovto;
-
+    
     public jff_alterar_movimentacao(String tipoMovto, int idItem) {
         this.tipoMovto = tipoMovto;
-        initComponents();
+
+        try {
+            ArrayList<Cliente> clientes = new ClienteDAO("fornecedor").consultarTodos();
+            Cliente[] clientesArr = new Cliente[clientes.size()];
+            for (int i = 0; i < clientesArr.length; i++) {
+                clientesArr[i] = clientes.get(i);
+            }
+            this.comboModel = new DefaultComboBoxModel(clientesArr);
+            
+            initComponents();
+            
+            MaskFormatter dateFormater = new MaskFormatter("##/##/####");
+            jft_data.setFormatterFactory(new DefaultFormatterFactory(dateFormater));
+            
+            MaskFormatter hourFormater = new MaskFormatter("##:##");
+            jft_hora.setFormatterFactory(new DefaultFormatterFactory(hourFormater));
+            
+            switch (tipoMovto) {
+                case "producao" -> this.initFormProducao();
+                case "compra" -> this.initFormCompra();
+                case "venda" -> this.initFormVenda();
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(jff_alterar_movimentacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+    private void initFormProducao() {
+        jtf_valor.setEnabled(false);
+        jcb_cliente.setEnabled(false);
+    }
+    
+    private void initFormVenda() {
+        jtf_perda.setEnabled(false);
+        lbl_clienteTipo.setText("Cliente");
+    }
+    
+    private void initFormCompra() {
+        jtf_perda.setEnabled(false);
+        lbl_clienteTipo.setText("Fornecedor");
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -56,7 +105,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jtf_valor = new javax.swing.JTextField();
         jtf_perda = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lbl_clienteTipo = new javax.swing.JLabel();
         jcb_cliente = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -200,10 +249,10 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("*perdas");
 
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Cliente");
+        lbl_clienteTipo.setForeground(new java.awt.Color(0, 0, 0));
+        lbl_clienteTipo.setText("Cliente");
 
-        jcb_cliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcb_cliente.setModel(this.comboModel);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -226,7 +275,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
                             .addComponent(jLabel6)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel7))
+                            .addComponent(lbl_clienteTipo))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtf_observacao)
@@ -285,7 +334,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
                     .addComponent(jtf_observacao, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
+                    .addComponent(lbl_clienteTipo)
                     .addComponent(jcb_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,13 +370,41 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
     }//GEN-LAST:event_jbt_excluirActionPerformed
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
+        double perda = 0.0;
+        int cliente_id = 0;
+        double valor = 0.0;
+        double qtde = Double.parseDouble(jtf_qtde.getText());
+        if (this.tipoMovto.equals("producao")) perda = Double.parseDouble(jtf_perda.getText());
+        if (!this.tipoMovto.equals("producao")) cliente_id = ((Cliente) jcb_cliente.getSelectedItem()).getId();
+        if (!this.tipoMovto.equals("producao")) valor = Double.parseDouble(jtf_valor.getText());
+        if (this.tipoMovto.equals("vendas")) qtde = -qtde;
 
+        String[] datePart = jft_data.getText().split("/");
+        String[] hourPart = jft_hora.getText().split(":");
+        String str = datePart[2] + "-" + datePart[1] + "-" + datePart[0] + " " + hourPart[0] + ":" + hourPart[1];
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
+        
+        Movimentacao movto = new Movimentacao();
+
+        
+        movto.setData(dateTime);
+        if (cliente_id != 0) movto.setCliente_id(cliente_id);
+        movto.setItem_id(item.getId());
+        movto.setObservacao(jtf_observacao.getText());
+        movto.setPerdas(perda);
+        movto.setQtde(qtde);
+        movto.setTipo(this.tipoMovto);
+        movto.setValor(valor);
+        
+        item.setQtde_estoque(item.getQtde_estoque() + qtde);
+        
+        new ItemDAO().atualizar(item);
+        this.dao.salvar(movto);
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
         //Botão de limpar campos de TextField
-        jtf_item.setText("");
-        jtf_tipo.setText("");
         jtf_qtde.setText("");
         jtf_observacao.setText("");
         jft_data.setText("");
@@ -427,7 +504,6 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -435,7 +511,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_limpar;
     private javax.swing.JButton jbt_salvar_alteracao;
-    private javax.swing.JComboBox<String> jcb_cliente;
+    private javax.swing.JComboBox<Cliente> jcb_cliente;
     private javax.swing.JFormattedTextField jft_data;
     private javax.swing.JFormattedTextField jft_hora;
     private javax.swing.JTextField jtf_item;
@@ -444,16 +520,28 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
     private javax.swing.JTextField jtf_qtde;
     private javax.swing.JTextField jtf_tipo;
     private javax.swing.JTextField jtf_valor;
+    private javax.swing.JLabel lbl_clienteTipo;
     // End of variables declaration//GEN-END:variables
 
+    public void setItem(int id) {
+        this.item = new ItemDAO().consultarId(id);
+        
+        jtf_item.setText(this.item.getDescricao());
+        jtf_tipo.setText(this.tipoMovto);
+    }
+    
     @Override
     public void setDAO(Object dao) {
-        this.cliente = (Cliente) dao;
+        this.dao = (movimentacaoDAO) dao;
     }
 
     @Override
     public void setDetalhamento(boolean inativarControles) {
-
+        jtf_qtde.setEnabled(!inativarControles);
+        jtf_observacao.setEnabled(!inativarControles);
+        jft_data.setEnabled(!inativarControles);
+        jft_hora.setEnabled(!inativarControles);
+        jtf_item.setEnabled(!inativarControles);
     }
 
     @Override
@@ -463,7 +551,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
 
     @Override
     public void showWindow(boolean s) {
-
+        this.setVisible(true);
     }
 
 }
