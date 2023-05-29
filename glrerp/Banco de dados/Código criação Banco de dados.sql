@@ -60,7 +60,7 @@ create table movimentacao (
 id serial not null,
 	tipo varchar (45) not null,
 	data Timestamp without Time Zone not null,
-	item_id int not null,
+	item_id int null,
 	cliente_id int not null,
 	valor decimal (10,2) not null,
 	qtde double precision not null,
