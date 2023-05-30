@@ -107,3 +107,52 @@ CREATE TRIGGER atualizar_valor_estrutura
 AFTER UPDATE ON item
 FOR EACH ROW
 EXECUTE FUNCTION calcular_valor_estrutura();
+
+
+
+CREATE OR REPLACE FUNCTION calcular_valor_estoque()
+  RETURNS TRIGGER AS
+$$
+BEGIN
+  IF NEW.tipo = 'compra' THEN
+    UPDATE item
+    SET valor = (
+        (item.qtde_estoque * item.valor + NEW.qtde * NEW.valor)
+        / (item.qtde_estoque + NEW.qtde)
+      ),
+      qtde_estoque = item.qtde_estoque + NEW.qtde
+    WHERE item.id = NEW.item_id AND item.ativo = true;
+  END IF;
+
+  RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER atualizar_valor_estoque
+AFTER INSERT ON movimentacao
+FOR EACH ROW
+EXECUTE FUNCTION calcular_valor_estoque();
+
+
+
+
+CREATE OR REPLACE FUNCTION calcular_estoque_vendaORproducao()
+  RETURNS TRIGGER AS
+$$
+BEGIN
+  IF NEW.tipo = 'venda' OR NEW.tipo = 'producao' THEN
+    UPDATE item
+    SET qtde_estoque = item.qtde_estoque + NEW.qtde
+    WHERE item.id = NEW.item_id AND item.ativo = true;
+  END IF;
+
+  RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER calcular_estoque_vendaORproducao
+AFTER INSERT ON movimentacao
+FOR EACH ROW
+EXECUTE FUNCTION calcular_estoque_vendaORproducao();
