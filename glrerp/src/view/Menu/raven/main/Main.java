@@ -28,6 +28,7 @@ public class Main extends javax.swing.JFrame {
     private final jif_Cadastro_cliente tipo;
     private jif_Listagem_DAO visualizarIsOpen;
     private jif_Cadastro_estrutura jif_cad_est;
+    private Main main;
 
     private void abrirListagemDAO(IDAOT dao, jff_ITelaAlterarCadastro tela, String titulo) {
         jif_Listagem_DAO telaListagem = new jif_Listagem_DAO(dao, tela);
@@ -56,7 +57,7 @@ public class Main extends javax.swing.JFrame {
                         visualizarIsOpen.dispose();
                     }
                     showForm(jifVis_cliente);
-                    jifVis_cliente.setTitle("Visualizar - Clientes");
+                    jifVis_cliente.setTitle("VISUALIZAR - CLIENTES");
                     jifVis_cliente.setVisible(true);
                     visualizarIsOpen = jifVis_cliente;
 
@@ -71,7 +72,7 @@ public class Main extends javax.swing.JFrame {
                         visualizarIsOpen.dispose();
                     }
                     showForm(jifVis_cliente);
-                    jifVis_cliente.setTitle("Visualizar - Fornecedores");
+                    jifVis_cliente.setTitle("VISUALIZAR - FORNECEDORES");
                     jifVis_cliente.setVisible(true);
                     visualizarIsOpen = jifVis_cliente;
 
@@ -86,7 +87,7 @@ public class Main extends javax.swing.JFrame {
                         visualizarIsOpen.dispose();
                     }
                     showForm(jifVis_item);
-                    jifVis_item.setTitle("Visualizar - Itens");
+                    jifVis_item.setTitle("VISUALIZAR - ITENS");
                     jifVis_item.setVisible(true);
                     visualizarIsOpen = jifVis_item;
 
@@ -101,7 +102,7 @@ public class Main extends javax.swing.JFrame {
                         visualizarIsOpen.dispose();
                     }
                     showForm(jifVis_grupo);
-                    jifVis_grupo.setTitle("Visualizar - Grupos");
+                    jifVis_grupo.setTitle("VISUALIZAR - GRUPOS");
                     jifVis_grupo.setVisible(true);
                     visualizarIsOpen = jifVis_grupo;
 
@@ -119,18 +120,26 @@ public class Main extends javax.swing.JFrame {
                     abrirListagemDAO(new movimentacaoDAO("venda"), null, "vendas");
 
                 } else if (index == 5 && subIndex == 2) { // --------------------------- CADASTRAR VENDAS
+                    jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
+                            "'PRODUTO ACABADO'", "venda"
+                    );
+                    telaPesquisa.setVisible(true);
 
                 } else if (index == 6 && subIndex == 1) { // --------------------------- VISUALIZAR COMPRAS
                     abrirListagemDAO(new movimentacaoDAO("compra"), null, "Compras");
 
                 } else if (index == 6 && subIndex == 2) { // --------------------------- CADASTRAR COMPRAS
+                    jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
+                            "'MATERIA-PRIMA', 'FERRAMENTA', 'OUTRO'", "compra"
+                    );
+                    telaPesquisa.setVisible(true);
 
                 } else if (index == 7 && subIndex == 1) { // --------------------------- VISUALIZAR PRODUÇÃO
                     abrirListagemDAO(new movimentacaoDAO("producao"), null, "Produção");
 
                 } else if (index == 7 && subIndex == 2) { // --------------------------- CADASTRAR PRODUÇÃO
                     jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
-                            "PRODUTO ACABADO"
+                            "'PRODUTO ACABADO'", "producao"
                     );
                     telaPesquisa.setVisible(true);
 
@@ -140,7 +149,7 @@ public class Main extends javax.swing.JFrame {
                         visualizarIsOpen.dispose();
                     }
                     showForm(jifVis_item);
-                    jifVis_item.setTitle("Visualizar - Estoque");
+                    jifVis_item.setTitle("VISUALIZAR - ESTOQUE");
                     jifVis_item.setVisible(true);
                     visualizarIsOpen = jifVis_item;
 
@@ -151,7 +160,7 @@ public class Main extends javax.swing.JFrame {
                     if (visualizarIsOpen != null) {
                         visualizarIsOpen.dispose();
                     }
-                    jif_listagem_user.setTitle("Visualizar - Usuários");
+                    jif_listagem_user.setTitle("VISUALIZAR - USUÁRIOS");
                     showForm(jif_listagem_user);
                     jif_listagem_user.setVisible(true);
                     visualizarIsOpen = jif_listagem_user;
@@ -174,6 +183,7 @@ public class Main extends javax.swing.JFrame {
         body.repaint();
         body.revalidate();
     }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -265,8 +275,9 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
-
+                Main main = new Main();
+                main.setVisible(true);
+             
             }
         });
     }

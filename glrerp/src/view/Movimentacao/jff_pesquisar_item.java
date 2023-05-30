@@ -13,14 +13,14 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
     private int item_id;
     private String grupoTipo;
     private String menuSelecionado;
-    
+
     //contrutor Quando a tela de pesquisar for chamado pela tela JIF_CADASTRO_ESTRUTURA
     public jff_pesquisar_item(String tipoGrupoItem, String menuSelecionado) {
         this.item_id = 0;
         this.grupoTipo = tipoGrupoItem;
         this.menuSelecionado = menuSelecionado;
         initComponents();
-        
+
         //Setar o nome dos botões e dos JLabels
         jLabel1.setText("");
         jbt_selecionar.setText("Selecionar");
@@ -28,9 +28,7 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
         jbt_filtrar.setEnabled(true);
         jtf_filtro.setEnabled(true);
         this.setTitle("Pesquisa - Item");
-        
-        
-        
+
         //Popular a tabela
         new ItemDAO().popularTabela(jtb_pesquisa, "", this.grupoTipo);
     }
@@ -183,7 +181,7 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
         this.item_id = Integer.parseInt(
                 String.valueOf(jtb_pesquisa.getValueAt(jtb_pesquisa.getSelectedRow(), 0))
         );
-        
+
         if (this.item_id == 0) {
             JOptionPane.showMessageDialog(this, "Selecione um registro na tabela acima");
         } else {
@@ -191,20 +189,18 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
             telaAlterar.setDAO(new movimentacaoDAO(this.menuSelecionado));
             telaAlterar.setItem(item_id);
             telaAlterar.showWindow(true);
-            
             this.dispose();
         }
     }//GEN-LAST:event_jbt_selecionarActionPerformed
 
     private void jbt_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_filtrarActionPerformed
         new ItemDAO().popularTabela(
-                jtb_pesquisa, 
+                jtb_pesquisa,
                 jtf_filtro.getText(),
                 this.grupoTipo
         );
     }//GEN-LAST:event_jbt_filtrarActionPerformed
 
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -249,4 +245,6 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
     private javax.swing.JTable jtb_pesquisa;
     private javax.swing.JTextField jtf_filtro;
     // End of variables declaration//GEN-END:variables
+
+  
 }

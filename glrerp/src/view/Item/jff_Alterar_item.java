@@ -761,14 +761,14 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.item.getId());
         jtf_Descricao.setText(this.item.getDescricao());
-        jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()));
+        jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()).replace(',', '.'));
         jta_Observacao.setText(this.item.getObservacao());
-        jtf_conv1.setText(new DecimalFormat("#.####").format(this.item.getConv1()));
-        jtf_conv2.setText(new DecimalFormat("#.####").format(this.item.getConv2()));
+        jtf_conv1.setText(new DecimalFormat("#.####").format(this.item.getConv1()).replace(',', '.'));
+        jtf_conv2.setText(new DecimalFormat("#.####").format(this.item.getConv2()).replace(',', '.'));
         jcb_Unidade_medida.setSelectedIndex(index);
         jcb_UndConv1.setSelectedIndex(indexUC1);
         jcb_UndConv2.setSelectedIndex(indexUC2);
-        jff_valor.setText(new DecimalFormat("#.####").format(this.item.getValor()));
+        jff_valor.setText(new DecimalFormat("#.####").format(this.item.getValor()).replace(',', '.'));
 
         //retornar o valor selecionado ao Combo Box GRUPO
         new CombosDAO().popularCombo("grupo", jcb_Grupo);

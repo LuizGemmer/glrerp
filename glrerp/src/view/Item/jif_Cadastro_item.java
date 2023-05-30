@@ -1,7 +1,6 @@
 package view.Item;
 
 import apoio.CombosDAO;
-import apoio.Formatacao;
 import apoio.Validacao;
 import dao.ItemDAO;
 import entidade.Grupo;

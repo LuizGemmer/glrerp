@@ -8,7 +8,6 @@ import entidade.Item;
 import entidade.Movimentacao;
 import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -146,15 +145,19 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("*Item");
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("*Tipo de Movimento");
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("*QTDE");
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("*Quantidade");
 
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Observações");
 
         jtf_item.setBackground(new java.awt.Color(250, 250, 250));
@@ -228,6 +231,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         });
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("*Data");
 
         jbt_excluir.setBackground(new java.awt.Color(13, 71, 161));
@@ -240,14 +244,17 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         });
 
         jft_data.setText("jFormattedTextField1");
+        jft_data.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jft_hora.setText("jFormattedTextField1");
+        jft_hora.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("*Hora");
 
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("*valor");
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("*Valor");
 
         jtf_valor.setBackground(new java.awt.Color(250, 250, 250));
         jtf_valor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -270,12 +277,15 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         });
 
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("*perdas");
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel9.setText("*Perdas");
 
         lbl_clienteTipo.setForeground(new java.awt.Color(0, 0, 0));
+        lbl_clienteTipo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_clienteTipo.setText("Cliente");
 
         jcb_cliente.setModel(this.comboModel);
+        jcb_cliente.setMinimumSize(new java.awt.Dimension(72, 28));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -291,14 +301,14 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbt_limpar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(lbl_clienteTipo))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_clienteTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jtf_observacao)
@@ -307,20 +317,19 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
                                 .addComponent(jft_data, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel8)
-                                .addGap(31, 31, 31)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jft_hora, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jtf_tipo, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jtf_qtde, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jtf_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtf_perda, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jtf_perda, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jcb_cliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbt_fechar)
@@ -352,14 +361,14 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
                     .addComponent(jLabel9)
                     .addComponent(jtf_perda, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jtf_observacao, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtf_observacao, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_clienteTipo)
-                    .addComponent(jcb_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                    .addComponent(jcb_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_clienteTipo))
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbt_fechar)
@@ -553,7 +562,8 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         this.item = new ItemDAO().consultarId(id);
         
         jtf_item.setText(this.item.getDescricao());
-        jtf_tipo.setText(this.tipoMovto);
+        String tipoMotivo = this.tipoMovto.toUpperCase();
+        jtf_tipo.setText(tipoMotivo);
     }
     
     @Override
@@ -595,7 +605,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         if (this.abertaComoEdiçao && !this.camposBloqueados){
             JOptionPane.showMessageDialog(
                     this.parente, 
-                    "Para garantir a integridade do historico de movimentaçoes, nao e permitido " +
+                    "Para garantir a integridade do historico de movimentaçoes, nao é permitido " +
                     "a alteraçao desses registros. Favor exclua esse registro e lance novamente com" +
                     "os valores corretos");
         } else {

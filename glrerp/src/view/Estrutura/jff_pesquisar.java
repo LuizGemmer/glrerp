@@ -2,7 +2,6 @@ package view.Estrutura;
 
 import dao.EstruturaDAO;
 import dao.ItemDAO;
-import entidade.Item;
 import javax.swing.JOptionPane;
 import view.Item.jff_Alterar_item;
 

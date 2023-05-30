@@ -41,7 +41,7 @@ public class telaPrincipal extends javax.swing.JFrame {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(telaListagem);
-        telaListagem.setTitle("Visualizar - Itens");
+        telaListagem.setTitle("VISUALIZAR - ITENS");
         telaListagem.setVisible(true);
         this.visualizarIsOpen = telaListagem;
     }
@@ -783,7 +783,7 @@ public class telaPrincipal extends javax.swing.JFrame {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(jifVis_item);
-        jifVis_item.setTitle("Visualizar - Itens");
+        jifVis_item.setTitle("VISUALIZAR - ITENS");
         jifVis_item.setVisible(true);
         this.visualizarIsOpen = jifVis_item;
     }//GEN-LAST:event_jm_item_visualizarActionPerformed
@@ -806,7 +806,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         if (visualizarIsOpen != null) {
             this.visualizarIsOpen.dispose();
         }
-        jif_listagem_user.setTitle("Visualizar - Usuários");
+        jif_listagem_user.setTitle("VISUALIZAR - USUÁRIOS");
         jDesktopPane1.add(jif_listagem_user);
         jif_listagem_user.setVisible(true);
         this.visualizarIsOpen = jif_listagem_user;
@@ -824,7 +824,7 @@ public class telaPrincipal extends javax.swing.JFrame {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(jifVis_cliente);
-        jifVis_cliente.setTitle("Visualizar - Clientes");
+        jifVis_cliente.setTitle("VISUALIZAR - CLIENTES");
         jifVis_cliente.setVisible(true);
         this.visualizarIsOpen = jifVis_cliente;
     }//GEN-LAST:event_jm_cliente_visualizarActionPerformed
@@ -835,7 +835,7 @@ public class telaPrincipal extends javax.swing.JFrame {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(jifVis_item);
-        jifVis_item.setTitle("Visualizar - Estoque");
+        jifVis_item.setTitle("VISUALIZAR - ESTOQUE");
         jifVis_item.setVisible(true);
         this.visualizarIsOpen = jifVis_item;
     }//GEN-LAST:event_jm_almox_visualizarActionPerformed
@@ -846,7 +846,7 @@ public class telaPrincipal extends javax.swing.JFrame {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(jifVis_grupo);
-        jifVis_grupo.setTitle("Visualizar - Grupos");
+        jifVis_grupo.setTitle("VISUALIZAR - GRUPOS");
         jifVis_grupo.setVisible(true);
         this.visualizarIsOpen = jifVis_grupo;
     }//GEN-LAST:event_jm_grupo_visualizarActionPerformed
@@ -859,7 +859,7 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private void jm_producao_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_producao_cadastroActionPerformed
         jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
-                "'PRODUTO ACABADO'", "compra"
+                "'PRODUTO ACABADO'", "producao"
         );
         telaPesquisa.setVisible(true);
         
@@ -871,7 +871,7 @@ public class telaPrincipal extends javax.swing.JFrame {
             this.visualizarIsOpen.dispose();
         }
         jDesktopPane1.add(jifVis_cliente);
-        jifVis_cliente.setTitle("Visualizar - Fornecedores");
+        jifVis_cliente.setTitle("VISUALIZAR - FORNECEDORES");
         jifVis_cliente.setVisible(true);
         this.visualizarIsOpen = jifVis_cliente;
     }//GEN-LAST:event_jm_fornecedor_visualizarActionPerformed
