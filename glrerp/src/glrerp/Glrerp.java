@@ -3,6 +3,7 @@ package glrerp;
 import apoio.ConexaoBD;
 import javax.swing.JOptionPane;
 import view.Loggin;
+import view.Menu.raven.main.Main;
 import view.telaPrincipal;
 
 /**
@@ -22,7 +23,8 @@ public class Glrerp {
             JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de Dados!", "ERRO BANCO DE DADOS", JOptionPane.ERROR_MESSAGE);
         }
          */
-        new telaPrincipal().setVisible(true);
+        //new telaPrincipal().setVisible(true);
+        new Main().setVisible(true);
 
     }
 

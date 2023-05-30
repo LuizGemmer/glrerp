@@ -102,7 +102,7 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jcb_Hierarquia.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Hierarquia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Hierarquia.setForeground(new java.awt.Color(0, 0, 0));
-        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "USUARIO", "ADMIN" }));
+        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "USUARIO", "SUPERVISOR", "ADMIN" }));
         jcb_Hierarquia.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jcb_HierarquiaFocusLost(evt);
