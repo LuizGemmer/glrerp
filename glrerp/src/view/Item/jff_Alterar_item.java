@@ -1,16 +1,19 @@
 package view.Item;
 
-
 import apoio.CombosDAO;
 import apoio.Validacao;
+import dao.EstruturaDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
+import entidade.Estrutura;
 import entidade.Grupo;
 import entidade.Item;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.text.DecimalFormat;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
+import view.Estrutura.jff_pesquisar;
 import view.jff_ITelaAlterarCadastro;
 import view.jif_Listagem_DAO;
 
@@ -25,13 +28,18 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private Item item;
     private boolean keyPressed;
     private boolean inativarControles;
+    private boolean confirma_exclusao;
 
     public jff_Alterar_item() {
         UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
+        UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
         initComponents();
         jtf_conv1.setEnabled(false);
         jcb_Unidade_medida.setEnabled(false);
         jtf_estoque.setEditable(false);
+        
+        ToolTipManager.sharedInstance().setInitialDelay(100); // Atraso de 500 milissegundos
+        ToolTipManager.sharedInstance().setDismissDelay(10000); // Duração de 3000 milissegundos
     }
 
     @SuppressWarnings("unchecked")
@@ -69,7 +77,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         jInternalFrame1.setBackground(new java.awt.Color(238, 238, 238));
@@ -94,6 +102,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Descricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Descricao.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Descricao.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Descricao.setSelectedTextColor(new java.awt.Color(0, 0, 0));
         jtf_Descricao.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -141,6 +150,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_estoque.setBackground(new java.awt.Color(250, 250, 250));
         jtf_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_estoque.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_estoque.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_estoque.setDisabledTextColor(new java.awt.Color(102, 102, 102));
 
         jPanel2.setBackground(new java.awt.Color(238, 238, 238));
@@ -209,6 +219,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jta_Observacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jta_Observacao.setForeground(new java.awt.Color(0, 0, 0));
         jta_Observacao.setRows(5);
+        jta_Observacao.setCaretColor(new java.awt.Color(0, 0, 0));
         jta_Observacao.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jta_ObservacaoKeyPressed(evt);
@@ -238,6 +249,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_conv1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_conv1.setForeground(new java.awt.Color(0, 0, 0));
         jtf_conv1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtf_conv1.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_conv1.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jtf_conv1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -262,6 +274,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_conv2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_conv2.setForeground(new java.awt.Color(0, 0, 0));
         jtf_conv2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtf_conv2.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_conv2.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jtf_conv2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -290,6 +303,8 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
         jff_valor.setBackground(new java.awt.Color(250, 250, 250));
         jff_valor.setForeground(new java.awt.Color(0, 0, 0));
+        jff_valor.setToolTipText("<html><p>O \"<b>VALOR UNITÁRIO</b>\" é atualizado automaticamente quando é feita uma nova compra do item</p>\n<br><br>\n<p>O valor novo é um valor ponderado, feito pela fórmula abaixo:</p>\n<p><b> [(Ea x Pa) + (Cn + Pn)] / (Ea + Cn) </b></p>\n<br>\n<p> Onde:\n<br> Ea = Estoque anterior a compra\n<br> Pa = Preço da compra anterior\n<br> Cn = Quantidade da nova compra\n<br> Pn = Preço da nova compra\n<br><br>\nMas você pode alterar esse valor manualmente mesmo assim.</p>\n</html>");
+        jff_valor.setCaretColor(new java.awt.Color(0, 0, 0));
         jff_valor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jff_valor.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -305,6 +320,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel11.setText("*Valor Unitário");
+        jLabel11.setToolTipText("<html><p>O \"<b>VALOR UNITÁRIO</b>\" é atualizado automaticamente quando é feita uma nova compra do item</p> <br><br> <p>O valor novo é um valor ponderado, feito pela fórmula abaixo:</p> <p><b> [(Ea x Pa) + (Cn + Pn)] / (Ea + Cn) </b></p> <br> <p> Onde: <br> Ea = Estoque anterior a compra <br> Pa = Preço da compra anterior <br> Cn = Quantidade da nova compra <br> Pn = Preço da nova compra <br><br> Mas você pode alterar esse valor manualmente mesmo assim.</p> </html>");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -506,7 +522,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 und_conv1 = jcb_UndConv1.getSelectedItem().toString();
                 und_conv2 = jcb_UndConv2.getSelectedItem().toString();
             }
-            
+
             //Setar nomes das variaveis para o objeto Item
             Item item = new Item();
             item.setId(Integer.parseInt(jll_id.getText()));
@@ -536,37 +552,93 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
-        Object[] options = {"Sim",
-            "Não"};
-        int n = JOptionPane.showOptionDialog(this,
-                "Essa exclusão é IRREVERSÍVEL. Deseja continuar?",
-                "EXCLUSÃO DE CADASTRO",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                options,
-                options[0]);
-        if (n == 0) {
-            //Excluir cadastro
-            //Setar SITUAÇÃO=FALSE mo objeto
-            Item item = new Item();
-            item.setId(Integer.parseInt(jll_id.getText()));
-            item.setAtivo(false);
 
-            //Chamar classe ItemDAO para salvar dados no Banco de dados
-            ItemDAO itemDAO = new ItemDAO();
+        //pegar do JTL o ID do item
+        String id = jll_id.getText();
+        int id_item = Integer.parseInt(id);
 
-            //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
-            if (itemDAO.excluir(Integer.parseInt(jll_id.getText())) == null) {
-                JOptionPane.showMessageDialog(this, "Cadastro excluido com sucesso!", "CADASTRADO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
-                this.parente.setTableItems("");
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-            }
+        Estrutura estrutura = new EstruturaDAO().consultarIdInsumo(id_item);
+
+        //Verificar se o item a ser Excluído esta cadastrado como um INSUMO na tela de estrutura
+        //Caso Positivo, irá abrir a tela mostrando os produtos que possuem o item a ser excluído como Insumo
+        //Caso negativo continua com a exclusão.
+        System.out.println(estrutura.getItem_id());
+        if (estrutura.getItem_id() > 0) {
+            jff_pesquisar jff_pesquisar = new jff_pesquisar(this, id_item);
+            jff_pesquisar.setVisible(true);
+            System.out.println("aqui 1");
+        } else {
+            System.out.println("aqui 2");
+            ExcluirCadastroItem(true);
         }
 
+
     }//GEN-LAST:event_jbt_excluirActionPerformed
+
+    public void ExcluirCadastroItem(boolean confirmar) {
+        this.confirma_exclusao = confirmar;
+        //pegar do JTL o ID do item
+        String id = jll_id.getText();
+        int id_item = Integer.parseInt(id);
+        Estrutura estrutura = new EstruturaDAO().consultarIdInsumo(id_item);
+
+        if (this.confirma_exclusao) {
+            if (estrutura.getItem_id() > 0) {
+                System.out.println("aqui 3");
+                //Excluir cadastro
+                //Setar SITUAÇÃO=FALSE mo objeto
+                Item item = new Item();
+                item.setId(Integer.parseInt(jll_id.getText()));
+                item.setAtivo(false);
+
+                //Chamar classe ItemDAO para salvar dados no Banco de dados
+                ItemDAO itemDAO = new ItemDAO();
+
+                //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
+                if (itemDAO.excluir(Integer.parseInt(jll_id.getText())) == null) {
+                    JOptionPane.showMessageDialog(this, "Cadastro excluido com sucesso!", "CADASTRADO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
+                    this.parente.setTableItems("");
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                System.out.println("aqui 4");
+                Object[] options = {"Sim",
+                    "Não"};
+                int n = JOptionPane.showOptionDialog(this,
+                        "Essa exclusão é IRREVERSÍVEL. Deseja continuar?",
+                        "EXCLUSÃO DE CADASTRO",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                if (n == 0) {
+                    //Excluir cadastro
+                    //Setar SITUAÇÃO=FALSE mo objeto
+                    Item item = new Item();
+                    item.setId(Integer.parseInt(jll_id.getText()));
+                    item.setAtivo(false);
+
+                    //Chamar classe ItemDAO para salvar dados no Banco de dados
+                    ItemDAO itemDAO = new ItemDAO();
+
+                    //Verifica se a exclusão foi bem sucessido e fecha a tela. Caso contrário apresenta mensagem de erro
+                    if (itemDAO.excluir(Integer.parseInt(jll_id.getText())) == null) {
+                        JOptionPane.showMessageDialog(this, "Cadastro excluido com sucesso!", "CADASTRADO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
+                        this.parente.setTableItems("");
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Exclusão cancelada. Cadastro permanece ativo!", "EXCLUSÃO CANCELADA", JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
     private void jtf_DescricaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_DescricaoKeyPressed
         this.keyPressed = true;
@@ -631,11 +703,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -706,14 +774,14 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.item.getId());
         jtf_Descricao.setText(this.item.getDescricao());
-        jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()));
+        jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()).replace('.', ','));
         jta_Observacao.setText(this.item.getObservacao());
-        jtf_conv1.setText(new DecimalFormat("#.####").format(this.item.getConv1()));
-        jtf_conv2.setText(new DecimalFormat("#.####").format(this.item.getConv2()));
+        jtf_conv1.setText(new DecimalFormat("#.####").format(this.item.getConv1()).replace('.', ','));
+        jtf_conv2.setText(new DecimalFormat("#.####").format(this.item.getConv2()).replace('.', ','));
         jcb_Unidade_medida.setSelectedIndex(index);
         jcb_UndConv1.setSelectedIndex(indexUC1);
         jcb_UndConv2.setSelectedIndex(indexUC2);
-        jff_valor.setText(new DecimalFormat("#.####").format(this.item.getValor()));
+        jff_valor.setText(new DecimalFormat("#.####").format(this.item.getValor()).replace('.', ','));
 
         //retornar o valor selecionado ao Combo Box GRUPO
         new CombosDAO().popularCombo("grupo", jcb_Grupo);
@@ -732,12 +800,15 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         } else {
             if (jcb_UndConv1.getSelectedIndex() == jcb_Unidade_medida.getSelectedIndex()) {
                 jcb_UndConv1.setEnabled(false);
+                jtf_conv2.setEnabled(true);
             } else if (jcb_UndConv2.getSelectedIndex() == jcb_Unidade_medida.getSelectedIndex()) {
                 jcb_UndConv2.setEnabled(false);
+                jtf_conv2.setEnabled(true);
             } else {
                 jtf_conv1.setEnabled(false);
                 jcb_UndConv1.setEnabled(false);
                 jcb_UndConv1.setSelectedIndex(index);
+                jtf_conv2.setEnabled(true);
             }
         }
     }

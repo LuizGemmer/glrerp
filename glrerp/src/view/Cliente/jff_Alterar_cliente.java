@@ -1,9 +1,10 @@
 package view.Cliente;
 
-import apoio.IDAOT;
+import apoio.Formatacao;
+import apoio.Validacao;
 import dao.ClienteDAO;
 import entidade.Cliente;
-import javax.swing.JFrame;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import view.jff_ITelaAlterarCadastro;
 import view.jif_Listagem_DAO;
@@ -15,15 +16,14 @@ import view.jif_Listagem_DAO;
 public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITelaAlterarCadastro {
 
     private jif_Listagem_DAO parente;
-
     private Cliente cliente;
-
     private boolean keyPressed;
-
     private boolean inativarControles;
 
     public jff_Alterar_cliente() {
         initComponents();
+        Formatacao.formatarTelefone(jff_Telefone);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -34,11 +34,9 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jlb_cpf_cnpj = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jtf_Nome = new javax.swing.JTextField();
-        jtf_Tel = new javax.swing.JTextField();
-        jtf_Cpf = new javax.swing.JTextField();
         jtf_End = new javax.swing.JTextField();
         jbt_fechar = new javax.swing.JButton();
         jbt_limpar = new javax.swing.JButton();
@@ -49,8 +47,11 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jLabel7 = new javax.swing.JLabel();
         jll_id = new javax.swing.JLabel();
         jbt_excluir = new javax.swing.JButton();
+        jff_Cpf = new javax.swing.JFormattedTextField();
+        jff_Telefone = new javax.swing.JFormattedTextField();
+        jbt_alterarCpfCnpj = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         jInternalFrame1.setBackground(new java.awt.Color(238, 238, 238));
@@ -65,51 +66,42 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("*Nome");
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("*Telefone");
 
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("*CPF/CNPJ");
+        jlb_cpf_cnpj.setForeground(new java.awt.Color(0, 0, 0));
+        jlb_cpf_cnpj.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jlb_cpf_cnpj.setText("*CPF");
 
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Endereço");
 
         jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Nome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Nome.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Nome.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Nome.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        jtf_Nome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtf_NomeFocusLost(evt);
+            }
+        });
         jtf_Nome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtf_NomeKeyPressed(evt);
             }
         });
 
-        jtf_Tel.setBackground(new java.awt.Color(250, 250, 250));
-        jtf_Tel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jtf_Tel.setForeground(new java.awt.Color(0, 0, 0));
-        jtf_Tel.setDisabledTextColor(new java.awt.Color(102, 102, 102));
-        jtf_Tel.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtf_TelKeyPressed(evt);
-            }
-        });
-
-        jtf_Cpf.setBackground(new java.awt.Color(250, 250, 250));
-        jtf_Cpf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jtf_Cpf.setForeground(new java.awt.Color(0, 0, 0));
-        jtf_Cpf.setDisabledTextColor(new java.awt.Color(102, 102, 102));
-        jtf_Cpf.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtf_CpfKeyPressed(evt);
-            }
-        });
-
         jtf_End.setBackground(new java.awt.Color(250, 250, 250));
         jtf_End.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_End.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_End.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_End.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_End.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -145,12 +137,19 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         });
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("*E-mail");
 
         jtf_email.setBackground(new java.awt.Color(250, 250, 250));
         jtf_email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_email.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_email.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_email.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+        jtf_email.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtf_emailFocusLost(evt);
+            }
+        });
         jtf_email.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtf_emailKeyPressed(evt);
@@ -202,18 +201,53 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
             }
         });
 
+        jff_Cpf.setBackground(new java.awt.Color(250, 250, 250));
+        jff_Cpf.setForeground(new java.awt.Color(0, 0, 0));
+        jff_Cpf.setCaretColor(new java.awt.Color(0, 0, 0));
+        jff_Cpf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jff_Cpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jff_CpfFocusLost(evt);
+            }
+        });
+        jff_Cpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jff_CpfKeyPressed(evt);
+            }
+        });
+
+        jff_Telefone.setBackground(new java.awt.Color(250, 250, 250));
+        jff_Telefone.setForeground(new java.awt.Color(0, 0, 0));
+        jff_Telefone.setCaretColor(new java.awt.Color(0, 0, 0));
+        jff_Telefone.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jff_Telefone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jff_TelefoneFocusLost(evt);
+            }
+        });
+        jff_Telefone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jff_TelefoneKeyPressed(evt);
+            }
+        });
+
+        jbt_alterarCpfCnpj.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_alterarCpfCnpj.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_alterarCpfCnpj.setText("Mudar para CNPJ");
+        jbt_alterarCpfCnpj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbt_alterarCpfCnpjActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(36, 36, 36)
+                        .addGap(186, 186, 186)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jbt_salvar_alteracao)
@@ -225,20 +259,23 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlb_cpf_cnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6))
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 214, Short.MAX_VALUE))
-                            .addComponent(jtf_End))))
+                                .addComponent(jff_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbt_alterarCpfCnpj))
+                            .addComponent(jff_Telefone, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_End, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbt_fechar)
                 .addContainerGap())
@@ -252,24 +289,25 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
+                        .addGap(22, 22, 22)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jtf_Tel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jff_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlb_cpf_cnpj)
+                            .addComponent(jbt_alterarCpfCnpj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addComponent(jff_Telefone, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jtf_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                    .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jtf_End, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(64, 64, 64)
+                    .addComponent(jtf_End, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbt_fechar)
@@ -284,7 +322,10 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,43 +367,47 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
 
         //Botão de limpar campos de TextField
-        jtf_Nome.setText("");
-        jtf_Tel.setText("");
-        jtf_Cpf.setText("");
-        jtf_End.setText("");
-        jtf_email.setText("");
+        LimparCampos();
         jtf_Nome.requestFocus();
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
+        //Faz as validações necessárias antes de salvar
+        if (Validacao.ValidarJTFObrigatorio(jtf_Nome)
+                && Validacao.ValidarJTFObrigatorio(jtf_email)
+                && ValidarTelefone()
+                && ValidarCPFeCNPJ()) {
 
-        //Alterar cadastro de Cliente
-        //Atribuir dados inseridos pelo usuario a variaveis
-        String nomeCliente = jtf_Nome.getText().toUpperCase();
-        String telCliente = jtf_Tel.getText();
-        String cpfCliente = jtf_Cpf.getText();
-        String emailCliente = jtf_email.getText();
-        String endCliente = jtf_End.getText().toUpperCase();
+            //Alterar cadastro de Cliente
+            //Atribuir dados inseridos pelo usuario a variaveis
+            String nomeCliente = jtf_Nome.getText().toUpperCase();
+            String telCliente = jff_Telefone.getText();
+            String cpfCliente = jff_Cpf.getText();
+            String emailCliente = jtf_email.getText();
+            String endCliente = jtf_End.getText().toUpperCase();
 
-        //Setar nomes das variaveis para o objeto Cliente
-        Cliente cliente = new Cliente();
-        cliente.setId(Integer.parseInt(jll_id.getText()));
-        cliente.setNome(nomeCliente);
-        cliente.setCpf(cpfCliente);
-        cliente.setEmail(emailCliente);
-        cliente.setTelefone(telCliente);
-        cliente.setEndereco(endCliente);
+            //Setar nomes das variaveis para o objeto Cliente
+            Cliente cliente = new Cliente();
+            cliente.setId(Integer.parseInt(jll_id.getText()));
+            cliente.setNome(nomeCliente);
+            cliente.setCpf(cpfCliente);
+            cliente.setEmail(emailCliente);
+            cliente.setTelefone(telCliente);
+            cliente.setEndereco(endCliente);
 
-        //Chamar classe ClienteDAO para salvar dados no Banco de dados
-        ClienteDAO clienteDAO = new ClienteDAO();
+            //Chamar classe ClienteDAO para salvar dados no Banco de dados
+            ClienteDAO clienteDAO = new ClienteDAO();
 
-        //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (clienteDAO.atualizar(cliente) == null) {
-            JOptionPane.showMessageDialog(this, "Cadastro alterado com sucesso!", "CADASTRADO ALTERADO", JOptionPane.INFORMATION_MESSAGE);
-            this.parente.setTableItems("");
-            this.dispose();
+            //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
+            if (clienteDAO.atualizar(cliente) == null) {
+                JOptionPane.showMessageDialog(this, "Cadastro alterado com sucesso!", "CADASTRADO ALTERADO", JOptionPane.INFORMATION_MESSAGE);
+                this.parente.setTableItems("");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
@@ -403,21 +448,50 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         this.keyPressed = true;
     }//GEN-LAST:event_jtf_NomeKeyPressed
 
-    private void jtf_TelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_TelKeyPressed
-        this.keyPressed = true;
-    }//GEN-LAST:event_jtf_TelKeyPressed
-
     private void jtf_emailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_emailKeyPressed
         this.keyPressed = true;
     }//GEN-LAST:event_jtf_emailKeyPressed
 
-    private void jtf_CpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_CpfKeyPressed
-        this.keyPressed = true;
-    }//GEN-LAST:event_jtf_CpfKeyPressed
-
     private void jtf_EndKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_EndKeyPressed
         this.keyPressed = true;
     }//GEN-LAST:event_jtf_EndKeyPressed
+
+    private void jff_CpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jff_CpfFocusLost
+        ValidarCPFeCNPJ();
+    }//GEN-LAST:event_jff_CpfFocusLost
+
+    private void jbt_alterarCpfCnpjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_alterarCpfCnpjActionPerformed
+        this.keyPressed = true;
+        if (jlb_cpf_cnpj.getText().equals("*CPF")) {
+            Formatacao.formatarCNPJ(jff_Cpf);
+            jlb_cpf_cnpj.setText("*CNPJ");
+            jbt_alterarCpfCnpj.setText("Alterar para CPF");
+        } else if (jlb_cpf_cnpj.getText().equals("*CNPJ")) {
+            Formatacao.formatarCPF(jff_Cpf);
+            jlb_cpf_cnpj.setText("*CPF");
+            jbt_alterarCpfCnpj.setText("Alterar para CNPJ");
+        }
+    }//GEN-LAST:event_jbt_alterarCpfCnpjActionPerformed
+
+    private void jff_CpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jff_CpfKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jff_CpfKeyPressed
+
+    private void jff_TelefoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jff_TelefoneKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jff_TelefoneKeyPressed
+
+    private void jff_TelefoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jff_TelefoneFocusLost
+        ValidarTelefone();
+    }//GEN-LAST:event_jff_TelefoneFocusLost
+
+    private void jtf_NomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_NomeFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_Nome);
+    }//GEN-LAST:event_jtf_NomeFocusLost
+
+    private void jtf_emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_emailFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_email);
+    }//GEN-LAST:event_jtf_emailFocusLost
 
     /**
      * @param args the command line arguments
@@ -458,21 +532,22 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton jbt_alterarCpfCnpj;
     private javax.swing.JButton jbt_excluir;
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_limpar;
     private javax.swing.JButton jbt_salvar_alteracao;
+    private javax.swing.JFormattedTextField jff_Cpf;
+    private javax.swing.JFormattedTextField jff_Telefone;
+    private javax.swing.JLabel jlb_cpf_cnpj;
     private javax.swing.JLabel jll_id;
-    private javax.swing.JTextField jtf_Cpf;
     private javax.swing.JTextField jtf_End;
     private javax.swing.JTextField jtf_Nome;
-    private javax.swing.JTextField jtf_Tel;
     private javax.swing.JTextField jtf_email;
     // End of variables declaration//GEN-END:variables
 
@@ -484,10 +559,18 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jll_id.setText("" + this.cliente.getId());
         jtf_Nome.setText(this.cliente.getNome());
         jtf_email.setText(this.cliente.getEmail());
-        jtf_Cpf.setText(this.cliente.getCpf());
+        if (Formatacao.removerFormatacao(this.cliente.getCpf()).length() < 14) {
+            Formatacao.formatarCPF(jff_Cpf);
+            jlb_cpf_cnpj.setText("*CPF");
+            jbt_alterarCpfCnpj.setText("Alterar para CNPJ");
+        } else {
+            Formatacao.formatarCNPJ(jff_Cpf);
+            jlb_cpf_cnpj.setText("*CNPJ");
+            jbt_alterarCpfCnpj.setText("Alterar para CPF");
+        }
+        jff_Cpf.setText(Formatacao.removerFormatacao(this.cliente.getCpf()));
         jtf_End.setText(this.cliente.getEndereco());
-        jtf_Tel.setText(this.cliente.getTelefone());
-
+        jff_Telefone.setText(Formatacao.removerFormatacao(this.cliente.getTelefone()));
     }
 
     @Override
@@ -500,14 +583,15 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         }
         jtf_Nome.setEditable(!inativarControles);
         jtf_email.setEditable(!inativarControles);
-        jtf_Cpf.setEditable(!inativarControles);
+        jff_Cpf.setEditable(!inativarControles);
         jtf_End.setEditable(!inativarControles);
-        jtf_Tel.setEditable(!inativarControles);
+        jff_Telefone.setEditable(!inativarControles);
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);
+        jbt_alterarCpfCnpj.setEnabled(!inativarControles);
         keyPressed = false;
-        
+
     }
 
     @Override
@@ -520,6 +604,47 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         //Abrir novo JFrame na mesma localização do JFrame anterior
         this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
+    }
+
+    public void LimparCampos() {
+        jtf_Nome.setText("");
+        jff_Telefone.setText("");
+        jff_Cpf.setText("");
+        jtf_End.setText("");
+        jtf_email.setText("");
+    }
+
+    private boolean ValidarTelefone() {
+        //Validar o Telefone
+        if (!Validacao.validarTelefone(Formatacao.removerFormatacao(jff_Telefone.getText()))) {
+            jff_Telefone.setBackground(Color.decode("#FF9696"));
+            return false;
+        } else {
+            jff_Telefone.setBackground(Color.white);
+            return true;
+        }
+    }
+
+    public boolean ValidarCPFeCNPJ() {
+        if (jlb_cpf_cnpj.getText().equals("*CPF")) {
+            if (!Validacao.validarCPF(Formatacao.removerFormatacao(jff_Cpf.getText()))) {
+                jff_Cpf.setBackground(Color.decode("#FF9696"));
+                return false;
+            } else {
+                jff_Cpf.setBackground(Color.white);
+                return true;
+            }
+        } else if (jlb_cpf_cnpj.getText().equals("*CNPJ")) {
+            if (!Validacao.validarCNPJ(Formatacao.removerFormatacao(jff_Cpf.getText()))) {
+                jff_Cpf.setBackground(Color.decode("#FF9696"));
+                return false;
+            } else {
+                jff_Cpf.setBackground(Color.white);
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package view.Usuario;
 import apoio.Validacao;
 import dao.userDAO;
 import entidade.User;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -46,14 +47,17 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("*Nome");
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("*Senha");
 
         jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Nome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Nome.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Nome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtf_NomeFocusLost(evt);
@@ -88,11 +92,13 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         });
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("*Hierarquia");
 
         jpf_Senha.setBackground(new java.awt.Color(250, 250, 250));
         jpf_Senha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_Senha.setForeground(new java.awt.Color(0, 0, 0));
+        jpf_Senha.setCaretColor(new java.awt.Color(0, 0, 0));
         jpf_Senha.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jpf_SenhaFocusLost(evt);
@@ -102,7 +108,7 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jcb_Hierarquia.setBackground(new java.awt.Color(250, 250, 250));
         jcb_Hierarquia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Hierarquia.setForeground(new java.awt.Color(0, 0, 0));
-        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "USUARIO", "ADMIN" }));
+        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "USUARIO", "SUPERVISOR", "ADMIN" }));
         jcb_Hierarquia.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jcb_HierarquiaFocusLost(evt);
@@ -110,11 +116,13 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         });
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("*E-mail");
 
         jtf_email.setBackground(new java.awt.Color(250, 250, 250));
         jtf_email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_email.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_email.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_email.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtf_emailFocusLost(evt);
@@ -126,12 +134,14 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(101, 101, 101)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -166,12 +176,10 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jpf_Senha, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jpf_Senha, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(7, 170, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jbt_cadastrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,7 +188,9 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
                                 .addComponent(jbt_fechar)))
                         .addGap(40, 40, 40))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jcb_Hierarquia, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
@@ -206,40 +216,45 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
-        //Faz as validações necessárias antes de salvar
-        if (Validacao.testarCombo(jcb_Hierarquia)
-                && Validacao.ValidarJTFObrigatorio(jtf_Nome)
-                && Validacao.ValidarJTFObrigatorio(jtf_email)
-                && Validacao.ValidarPasswdObrigatorio(jpf_Senha)) {
-
-            //Cadastrar novo Usuário
-            //Atribuir dados inseridos pelo usuario a variaveis
-            String nomeUser = jtf_Nome.getText().toUpperCase();
-            char[] senhaUser = jpf_Senha.getPassword();
-            String passwd = String.valueOf(senhaUser);
-            String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString().toUpperCase();
-            String email = jtf_email.getText();
-
-            //Setar nomes das variaveis para o objeto User
-            User user = new User();
-            user.setNome(nomeUser);
-            user.setSenha(passwd);
-            user.setHierarquia(hierarquiaUser);
-            user.setEmail(email);
-
-            //Chamar classe ClienteDAO para salvar dados no Banco de dados
-            userDAO aDAO = new userDAO();
-
-            //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-            if (aDAO.salvar(user) == null) {
-                JOptionPane.showMessageDialog(this, "Novo Usuário salvo com sucesso!", "USUÁRIO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
-                LimparCampos();
-                jtf_Nome.requestFocus();
-            } else {
-                JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo cliente!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-            }
+        if (EmailExistente()) {
+            JOptionPane.showMessageDialog(this, "E-mail já cadastrado. Digite outro email válido!", "E-MAIL JÁ CADASTRADO", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            //Faz as validações necessárias antes de salvar
+            if (Validacao.testarCombo(jcb_Hierarquia)
+                    && Validacao.ValidarJTFObrigatorio(jtf_Nome)
+                    && Validacao.ValidarJTFObrigatorio(jtf_email)
+                    && Validacao.ValidarPasswdObrigatorio(jpf_Senha)
+                    && Validacao.ValidarEmail(jtf_email)) {
+
+                //Cadastrar novo Usuário
+                //Atribuir dados inseridos pelo usuario a variaveis
+                String nomeUser = jtf_Nome.getText().toUpperCase();
+                char[] password = jpf_Senha.getPassword();
+                String passwd = String.valueOf(password);
+                String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString().toUpperCase();
+                String email = jtf_email.getText();
+
+                //Setar nomes das variaveis para o objeto User
+                User user = new User();
+                user.setNome(nomeUser);
+                user.setSenha(passwd);
+                user.setHierarquia(hierarquiaUser);
+                user.setEmail(email);
+
+                //Chamar classe ClienteDAO para salvar dados no Banco de dados
+                userDAO aDAO = new userDAO();
+
+                //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
+                if (aDAO.salvar(user) == null) {
+                    JOptionPane.showMessageDialog(this, "Novo Usuário salvo com sucesso!", "USUÁRIO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+                    LimparCampos();
+                    jtf_Nome.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo cliente!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
@@ -253,6 +268,7 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
 
     private void jtf_emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_emailFocusLost
         Validacao.ValidarJTFObrigatorio(jtf_email);
+        Validacao.ValidarEmail(jtf_email);
     }//GEN-LAST:event_jtf_emailFocusLost
 
     private void jcb_HierarquiaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_HierarquiaFocusLost
@@ -280,5 +296,20 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jpf_Senha.setText("");
         jtf_email.setText("");
         jcb_Hierarquia.setSelectedIndex(0);
+    }
+
+    private boolean EmailExistente() {
+        //Verifica se o email digitado ja existe no BD. Se sim, não deixa salvar.
+        String email = jtf_email.getText();
+        ArrayList<User> user = new userDAO().consultarTodos();
+        for (int i = 0; i < user.size(); i++) {
+            if (user.get(i).getEmail().equals(email)) {
+                return true;
+
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }

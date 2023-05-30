@@ -27,7 +27,7 @@ public class CombosDAO {
                         + "SELECT * "
                         + "FROM " + tabela + " "
                         + "WHERE ativo='true' "
-                        + "ORDER BY 2");
+                        + "ORDER BY 3");
 
                 if (resultado.isBeforeFirst()) {
                     while (resultado.next()) {
@@ -61,7 +61,7 @@ public class CombosDAO {
                         item = new ComboItem();
                         item.setCodigo(resultado.getInt(1));
                         item.setDescricao(resultado.getString(2));
-                        
+
                         combo.addItem(item);
                     }
                 }
@@ -110,13 +110,48 @@ public class CombosDAO {
             }
         }
     }
-    
+
     public void definirComboGrupo(JComboBox combo, Grupo item) {
         for (int i = 0; i < combo.getItemCount(); i++) {
-            if (((Grupo) combo.getItemAt(i)).getId()== (item.getId())) {
+            if (((Grupo) combo.getItemAt(i)).getId() == (item.getId())) {
                 combo.setSelectedIndex(i);
                 return;
             }
+        }
+    }
+
+    // Popular ComboBox da tela de Estrutura - Combo para unidades de medida
+    public void popularComboUndMedida(int id, JComboBox combo) {
+
+        combo.removeAllItems();
+        ComboItem item = new ComboItem();
+
+        try {
+            resultado = new ConexaoBD().getConnection().createStatement().executeQuery(""
+                    + "SELECT "
+                    + "CASE WHEN "
+                    + "und_conv1='' OR und_conv2='' THEN unidade_medida "
+                    + "ELSE CONCAT (und_conv1, ',', und_conv2) END "
+                    + "FROM item "
+                    + "WHERE id=" + id);
+
+            if (resultado.isBeforeFirst()) {
+                while (resultado.next()) {
+                    item = new ComboItem();
+                    item.setUnd_medida(resultado.getString(1));
+                    if (item.getUnd_medida().contains(",")) {
+
+                        String[] partes = item.getUnd_medida().split(",");
+                        for (String parte : partes) {
+                            combo.addItem(parte.trim());
+                        }
+                    } else {
+                        combo.addItem(item);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao popular Combo = " + e.toString());
         }
     }
 

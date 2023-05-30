@@ -5,9 +5,7 @@
 package apoio;
 
 import java.awt.Color;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -136,17 +134,18 @@ public class Validacao {
     public static boolean testarCombo(JComboBox campo) {
         //Testa se o ComboBom foi retirado da posição=0 (SELECIONE)
         if (campo.getSelectedIndex() == 0) {
+            campo.setBackground(Color.decode("#FF9696"));
             return false;
         } else {
+            campo.setBackground(Color.white);
             return true;
         }
     }
-    
+
     //Valida na hora da digitação se o usuario está digitando apenas numeros. Pode conter apenas uma "," ou "."
-    public static boolean ValidarDecimal (JTextField campo, java.awt.event.KeyEvent evt){
+    public static boolean ValidarDecimal(JTextField campo, java.awt.event.KeyEvent evt) {
         String caracteres = "0987654321,.";
         String unico = ".,";
-        String inverse;
         if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
@@ -156,6 +155,85 @@ public class Validacao {
             }
         }
         return true;
+    }
+
+    //Valida se o usuario está digitando apenas um @. Deve conter "@" e "." no email.
+    public static boolean ValidarEmail(JTextField campo) {
+        // Verificar se o email contém exatamente um caractere "@"
+        int quantidadeArrobas = 0;
+        for (int i = 0; i < campo.getText().length(); i++) {
+            if (campo.getText().charAt(i) == '@') {
+                quantidadeArrobas++;
+            }
+        }
+        if (quantidadeArrobas != 1) {
+            campo.setBackground(Color.decode("#FF9696"));
+            return false;
+        }
+
+        // Verificar se o email contém pelo menos um ponto após o "@"
+        int posicaoArroba = campo.getText().indexOf("@");
+        int posicaoUltimoPonto = campo.getText().lastIndexOf(".");
+        if (posicaoUltimoPonto < posicaoArroba) {
+            campo.setBackground(Color.decode("#FF9696"));
+            return false;
+        }
+
+        campo.setBackground(Color.white);
+        return true;
+    }
+
+    public static boolean ValidarSenhaForte(JPasswordField jPasswordField) {
+        // Verificar comprimento mínimo
+        if (jPasswordField.getPassword().length < 8) {
+            return false;
+        }
+
+        // Verificar caracteres especiais
+        boolean contemCaractereEspecial = false;
+        for (char c : jPasswordField.getPassword()) {
+            if ("!@#$%^&*()_+|~-=`{}[]:\";'<>?,./".indexOf(c) != -1) {
+                contemCaractereEspecial = true;
+                break;
+            }
+        }
+        if (!contemCaractereEspecial) {
+            jPasswordField.setBackground(Color.decode("#FF9696"));
+            return false;
+        }
+
+        // Verificar letras maiúsculas e minúsculas
+        boolean contemLetraMaiuscula = false;
+        boolean contemLetraMinuscula = false;
+        for (char c : jPasswordField.getPassword()) {
+            if (Character.isUpperCase(c)) {
+                contemLetraMaiuscula = true;
+            } else if (Character.isLowerCase(c)) {
+                contemLetraMinuscula = true;
+            }
+        }
+        if (!contemLetraMaiuscula || !contemLetraMinuscula) {
+            jPasswordField.setBackground(Color.decode("#FF9696"));
+            return false;
+        }
+
+        // Verificar números
+        boolean contemNumero = false;
+        for (char c : jPasswordField.getPassword()) {
+            if (Character.isDigit(c)) {
+                contemNumero = true;
+                break;
+            }
+        }
+        if (!contemNumero) {
+            jPasswordField.setBackground(Color.decode("#FF9696"));
+            return false;
+        }
+
+        // A senha atende aos critérios de senha forte
+        jPasswordField.setBackground(Color.WHITE);
+        return true;
+
     }
 
 }

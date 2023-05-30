@@ -184,8 +184,10 @@ public class userDAO implements IDAOT<User> {
         int indexCBUM = 0;
         if (stringUnd.equals("USUARIO")) {
             indexCBUM = 1;
-        } else {
+        } else if (stringUnd.equals("SUPERVISOR")) {
             indexCBUM = 2;
+        } else {
+            indexCBUM = 3;
         }
 
         return indexCBUM;

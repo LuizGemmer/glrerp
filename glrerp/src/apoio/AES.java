@@ -15,7 +15,7 @@ import javax.crypto.spec.*;
  * are permitted by the Java runtime's jurisdiction policy files.
  * <br/>
  * The public interface for this class consists of the static methods
- * {@link #encrypt} and {@link #decrypt}, which encrypt and decrypt arbitrary
+ * {@link #encrypt}, which encrypt arbitrary
  * streams of data, respectively.
  */
 public class AES {

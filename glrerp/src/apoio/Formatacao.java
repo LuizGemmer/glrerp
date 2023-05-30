@@ -31,7 +31,7 @@ public class Formatacao {
     }
 
     public static String formatarDecimal(double valor) {
-        NumberFormat formatter = new DecimalFormat("###0.00");
+        NumberFormat formatter = new DecimalFormat("#,##0.00");
         return (formatter.format(valor));
     }
 
@@ -54,7 +54,7 @@ public class Formatacao {
     public static JFormattedTextField getDataHora() {
         return getFormatado("##/##/#### ##:##");
     }
-    
+
     public static JFormattedTextField getCEP() {
         return getFormatado("#####-###");
     }
@@ -66,8 +66,9 @@ public class Formatacao {
     public static void formatarData(JFormattedTextField campo) {
         try {
             MaskFormatter m = new MaskFormatter();
-            m.setPlaceholderCharacter(' ');
             m.setMask("##/##/####");
+            m.setPlaceholderCharacter(' ');
+            m.setAllowsInvalid(false);
             campo.setFormatterFactory(null);
             campo.setFormatterFactory(new DefaultFormatterFactory(m));
             campo.setValue(null);
@@ -75,12 +76,13 @@ public class Formatacao {
             System.err.println(e);
         }
     }
-    
-    public static void formatarCEP(JFormattedTextField campo){
+
+    public static void formatarCEP(JFormattedTextField campo) {
         try {
             MaskFormatter m = new MaskFormatter();
-            m.setPlaceholderCharacter(' ');
             m.setMask("#####-###");
+            m.setPlaceholderCharacter(' ');
+            m.setAllowsInvalid(false);
             campo.setFormatterFactory(null);
             campo.setFormatterFactory(new DefaultFormatterFactory(m));
             campo.setValue(null);
@@ -88,12 +90,13 @@ public class Formatacao {
             System.err.println(e);
         }
     }
-    
-     public static void formatarDataHora(JFormattedTextField campo) {
+
+    public static void formatarDataHora(JFormattedTextField campo) {
         try {
             MaskFormatter m = new MaskFormatter();
-            m.setPlaceholderCharacter(' ');
             m.setMask("##/##/#### ##:##");
+            m.setPlaceholderCharacter(' ');
+            m.setAllowsInvalid(false);
             campo.setFormatterFactory(null);
             campo.setFormatterFactory(new DefaultFormatterFactory(m));
             campo.setValue(null);
@@ -105,8 +108,9 @@ public class Formatacao {
     public static void formatarCPF(JFormattedTextField campo) {
         try {
             MaskFormatter m = new MaskFormatter();
-            m.setPlaceholderCharacter(' ');
             m.setMask("###.###.###-##");
+            m.setPlaceholderCharacter(' ');
+            m.setAllowsInvalid(false);
             campo.setFormatterFactory(null);
             campo.setFormatterFactory(new DefaultFormatterFactory(m));
             campo.setValue(null);
@@ -118,8 +122,9 @@ public class Formatacao {
     public static void formatarCNPJ(JFormattedTextField campo) {
         try {
             MaskFormatter m = new MaskFormatter();
-            m.setPlaceholderCharacter(' ');
             m.setMask("##.###.###/####-##");
+            m.setPlaceholderCharacter(' ');
+            m.setAllowsInvalid(false);
             campo.setFormatterFactory(null);
             campo.setFormatterFactory(new DefaultFormatterFactory(m));
             campo.setValue(null);
@@ -131,8 +136,9 @@ public class Formatacao {
     public static void formatarTelefone(JFormattedTextField campo) {
         try {
             MaskFormatter m = new MaskFormatter();
-            m.setPlaceholderCharacter(' ');
             m.setMask("(##) #####-####");
+            m.setPlaceholderCharacter(' ');
+            m.setAllowsInvalid(false);
             campo.setFormatterFactory(null);
             campo.setFormatterFactory(new DefaultFormatterFactory(m));
             campo.setValue(null);
@@ -189,4 +195,3 @@ public class Formatacao {
         return dataHoje;
     }
 }
-

@@ -2,13 +2,11 @@ package dao;
 
 import apoio.ConexaoBD;
 import apoio.IDAOT;
-import entidade.Movimentacao;
+import entidade.Item;
 import entidade.Movimentacao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
-import javax.management.InvalidAttributeValueException;
-import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 
@@ -19,51 +17,51 @@ import java.time.LocalDateTime;
 public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
     private String tipo;
-    private DecimalFormat formater = new DecimalFormat("#,###");
+    private DecimalFormat formater = new DecimalFormat("#.####");
 
-    public movimentacaoDAO(String tipo) throws InvalidAttributeValueException {
-        if (!(
-                tipo.equals("producao") ||
-                tipo.equals("venda") ||
-                tipo.equals("compra")
-                )) {
-            throw new InvalidAttributeValueException(
-                    "Os tipos permitidos são 'producao', 'venda' e 'compra', mas '"
-                    + tipo + "' foi fornecido"
-            );
-        } else {
-            this.tipo = " where tipo='" + tipo + "'";
-        }
+    public movimentacaoDAO(String tipo) {
+        this.tipo = " where tipo='" + tipo + "'";
     }
 
     public movimentacaoDAO() {
         this.tipo = "";
     }
+    
+    private void atualizarEstoques(int idItem, double soma) {
+        Item item = new ItemDAO().consultarId(idItem);
+        item.setQtde_estoque(item.getQtde_estoque() + soma);
+    }
 
     @Override
     public String salvar(Movimentacao o) {
+        String cliente_id = "NULL";
+        if (o.getCliente_id() != 0) cliente_id = "" + o.getCliente_id();
+            
+        String sql = "INSERT INTO movimentacao VALUES "
+            + "(default, "
+            + "'" + o.getTipo()+ "', "
+            + "'" + o.getData() + "', "
+            + "'" + o.getItem_id()+ "', "
+            + "" + cliente_id + ", "
+            + "'" + o.getValor()+ "', "
+            + "'" + o.getQtde()+ "', "
+            + "'" + o.getPerdas() + "', "
+            + "'" + o.getObservacao()+ "', "
+            + "'" + o.getId_pedido()+ "');";
 
         //Salvar movimentacao no banco de dados
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-
-            String sql = "INSERT INTO movimentacao VALUES "
-                    + "(default, "
-                    + "'" + o.getTipo()+ "', "
-                    + "'" + o.getData() + "', "
-                    + "'" + o.getItem_id()+ "', "
-                    + "'" + o.getCliente_id()+ "', "
-                    + "'" + o.getValor()+ "', "
-                    + "'" + o.getQtde()+ "', "
-                    + "'" + o.getPerdas() + "', "
-                    + "'" + o.getObservacao()+ "', "
-                    + "'" + o.getId_pedido()+ "');";
-
+           
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
-            return null;
 
+            atualizarEstoques(o.getItem_id(), o.getQtde());
+            
+            return null;
+            
         } catch (Exception e) {
+            System.out.println(sql);
             System.out.println("Erro ao inserir cadastro de movimentacao/Fornecedor " + e);
             return e.toString();
         }
@@ -90,6 +88,8 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
+            atualizarEstoques(o.getItem_id(), o.getQtde());
+
             return null;
 
         } catch (Exception e) {
@@ -105,9 +105,11 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         m.setData(LocalDateTime.now());
         m.setQtde(-m.getQtde());
         m.setPerdas(-m.getPerdas());
-        m.setTipo("estorno " + m.getTipo());
+        m.setTipo(m.getTipo());
         
         this.salvar(m);
+        atualizarEstoques(m.getItem_id(), m.getQtde());
+
         return "";
     }
 
@@ -180,7 +182,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
             String[] data = {
                 Integer.toString(movimentacao.getId()),
                 movimentacao.getTipo(),
-                this.formater.format(movimentacao.getItem_Id()),
+                this.formater.format(movimentacao.getItem_id()),
                 this.formater.format(movimentacao.getQtde()),
                 "R$ " + this.formater.format(movimentacao.getValor()),
                 movimentacao.getObservacao()

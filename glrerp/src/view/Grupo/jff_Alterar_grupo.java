@@ -1,12 +1,12 @@
 package view.Grupo;
 
-import view.Grupo.*;
-import apoio.IDAOT;
+import apoio.Validacao;
 import dao.GrupoDAO;
 import entidade.Grupo;
-import java.text.DecimalFormat;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.UIManager;
 import view.jff_ITelaAlterarCadastro;
 import view.jif_Listagem_DAO;
 
@@ -17,21 +17,18 @@ import view.jif_Listagem_DAO;
 public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAlterarCadastro {
 
     private jif_Listagem_DAO parente;
-
     private Grupo grupo;
-
     private boolean keyPressed;
-
     private boolean inativarControles;
-
     private DefaultComboBoxModel model;
 
     public jff_Alterar_grupo() {
-        
+
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
         this.model = new DefaultComboBoxModel(grupoComboBox);
-        
         initComponents();
+        UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
+        UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
     }
 
     @SuppressWarnings("unchecked")
@@ -52,7 +49,7 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         jbt_excluir = new javax.swing.JButton();
         jcb_Tipo = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         jInternalFrame1.setBackground(new java.awt.Color(238, 238, 238));
@@ -67,16 +64,24 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("*Descrição");
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("*Tipo");
 
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Descricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Descricao.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Descricao.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Descricao.setSelectedTextColor(new java.awt.Color(0, 0, 0));
+        jtf_Descricao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtf_DescricaoFocusLost(evt);
+            }
+        });
         jtf_Descricao.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtf_DescricaoKeyPressed(evt);
@@ -161,6 +166,11 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         jcb_Tipo.setMaximumRowCount(150);
         jcb_Tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "MATERIA-PRIMA", "PRODUTO ACABADO", "FERRAMENTA", "OUTRO" }));
         jcb_Tipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jcb_Tipo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jcb_TipoFocusLost(evt);
+            }
+        });
         jcb_Tipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcb_TipoActionPerformed(evt);
@@ -173,9 +183,9 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(100, 100, 100)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
@@ -208,10 +218,10 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jcb_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jcb_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 251, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,28 +286,34 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
+        //Faz as validações necessárias antes de salvar
+        if (Validacao.testarCombo(jcb_Tipo)
+                && Validacao.ValidarJTFObrigatorio(jtf_Descricao)) {
 
-        //Alterar cadastro de Grupo
-        //Atribuir dados inseridos pelo usuario a variaveis
-        String descGrupo = jtf_Descricao.getText().toUpperCase();
-        String tipoGrupo = jcb_Tipo.getSelectedItem().toString().toUpperCase();
-              
-        //Setar nomes das variaveis para o objeto Grupo
-        Grupo grupo = new Grupo();
-        grupo.setId(Integer.parseInt(jll_id.getText()));
-        grupo.setDescricao(descGrupo);
-        grupo.setTipo(tipoGrupo);
-    
-        //Chamar classe GrupoDAO para salvar dados no Banco de dados
-        GrupoDAO grupoDAO = new GrupoDAO();
+            //Alterar cadastro de Grupo
+            //Atribuir dados inseridos pelo usuario a variaveis
+            String descGrupo = jtf_Descricao.getText().toUpperCase();
+            String tipoGrupo = jcb_Tipo.getSelectedItem().toString().toUpperCase();
 
-        //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (grupoDAO.atualizar(grupo) == null) {
-            JOptionPane.showMessageDialog(this, "Cadastro alterado com sucesso!", "CADASTRADO ALTERADO", JOptionPane.INFORMATION_MESSAGE);
-            this.parente.setTableItems("");
-            this.dispose();
+            //Setar nomes das variaveis para o objeto Grupo
+            Grupo grupo = new Grupo();
+            grupo.setId(Integer.parseInt(jll_id.getText()));
+            grupo.setDescricao(descGrupo);
+            grupo.setTipo(tipoGrupo);
+
+            //Chamar classe GrupoDAO para salvar dados no Banco de dados
+            GrupoDAO grupoDAO = new GrupoDAO();
+
+            //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
+            if (grupoDAO.atualizar(grupo) == null) {
+                JOptionPane.showMessageDialog(this, "Cadastro alterado com sucesso!", "CADASTRADO ALTERADO", JOptionPane.INFORMATION_MESSAGE);
+                this.parente.setTableItems("");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
@@ -341,6 +357,14 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
     private void jcb_TipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_TipoActionPerformed
         this.keyPressed = true;
     }//GEN-LAST:event_jcb_TipoActionPerformed
+
+    private void jtf_DescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_DescricaoFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_Descricao);
+    }//GEN-LAST:event_jtf_DescricaoFocusLost
+
+    private void jcb_TipoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_TipoFocusLost
+        Validacao.testarCombo(jcb_Tipo);
+    }//GEN-LAST:event_jcb_TipoFocusLost
 
     /**
      * @param args the command line arguments
@@ -405,8 +429,6 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         jll_id.setText("" + this.grupo.getId());
         jtf_Descricao.setText(this.grupo.getDescricao());
         jcb_Tipo.setSelectedIndex(index);
-        
-        
     }
 
     @Override

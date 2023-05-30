@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import javax.swing.JTable;
-import static javax.swing.SwingConstants.CENTER;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 /**
@@ -35,12 +34,12 @@ public class ItemDAO implements IDAOT<Item> {
                     + o.getQtde_estoque() + ", "
                     + "'true', "
                     + "'" + o.getUnidade_medida() + "', "
-                    + "'" + o.getObservacao() + "', "
+                    + "'" + o.getObservacao() + "',"
+                    + o.getValor() + ", "
                     + o.getConv1() + ", "
                     + "'" + o.getUnd_conv1() + "', "
                     + o.getConv2() + ", "
-                    + "'" + o.getUnd_conv2() + "', "
-                    + o.getValor() + ")";
+                    + "'" + o.getUnd_conv2() + "') ";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
@@ -144,7 +143,37 @@ public class ItemDAO implements IDAOT<Item> {
 
     @Override
     public ArrayList<Item> consultar(String criterio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Item> itens = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = criterio;
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+            while (retorno.next()) {
+                Item item = new Item();
+
+                item.setId(retorno.getInt("id"));
+                item.setId_grupo(retorno.getInt("id_grupo"));
+                item.setDescricao(retorno.getString("descricao"));
+                item.setQtde_estoque(retorno.getDouble("qtde_estoque"));
+                item.setAtivo(retorno.getBoolean("ativo"));
+                item.setUnidade_medida(retorno.getString("unidade_medida"));
+                item.setObservacao(retorno.getString("observacao"));
+                item.setConv1(retorno.getDouble("conv1"));
+                item.setUnd_conv1(retorno.getString("und_conv1"));
+                item.setConv2(retorno.getDouble("conv2"));
+                item.setUnd_conv2(retorno.getString("und_conv2"));
+                item.setValor(retorno.getDouble("valor"));
+
+                itens.add(item);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de Item " + e);
+        }
+
+        return itens;
     }
 
     @Override
@@ -211,7 +240,7 @@ public class ItemDAO implements IDAOT<Item> {
 
     @Override
     public String[] getTableColumns() {
-        return new String[]{"Id", "Descriçao", "Qtde", "Unidade Medida", "Grupo"};
+        return new String[]{"Id", "Descriçao", "Qtde", "Unidade", "Grupo"};
     }
 
     public int indexCBUnidadeMedida(String stringUnd) {
@@ -261,116 +290,88 @@ public class ItemDAO implements IDAOT<Item> {
         return indexCBUM;
     }
 
-    public void popularTabela(JTable tabela, String criterio) {
+    public void popularTabela(JTable tabela, String criterio, String grupo) {
         ResultSet resultadoQ;
 
-        //Dados da Tabela
-        Object[][] dadosTabela = null;
+        // Dados da Tabela
+        ArrayList<Object[]> dadosTabela = new ArrayList<>();
 
-        //Cabecalho da tabela
+        // Cabecalho da tabela
         Object[] cabecalho = new Object[4];
         cabecalho[0] = "ID";
         cabecalho[1] = "Descrição";
         cabecalho[2] = "Grupo - Tipo";
         cabecalho[3] = "Grupo - Descrição";
 
-        //Cria a matriz com número de registros na tabela
-        try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT "
-                    + "item.id AS item_id, item.descricao, grupo.tipo, grupo.descricao AS gp_descricao "
-                    + "FROM item, grupo "
-                    + "WHERE item.id_grupo = grupo.id "
-                    + "AND item.ativo=true "
-                    + "AND (item.descricao ILIKE '%" + criterio + "%' "
-                    + "OR grupo.tipo ILIKE '%" + criterio + "%' "
-                    + "OR grupo.descricao ILIKE '%" + criterio + "%') "
-                    + "ORDER BY item.descricao");
-
-            resultadoQ.next();
-
-            dadosTabela = new Object[resultadoQ.getInt(1)][4];
-        } catch (Exception e) {
-            System.out.println("Erro ao consultar tabela: " + e);
-        }
-        int lin = 0;
-
         //Efetua a consulta na Tabela
         try {
-            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+            if(grupo.equals("")) {
+                resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                        + "SELECT "
+                        + "item.id AS item_id, item.descricao, grupo.tipo, grupo.descricao AS gp_descricao "
+                        + "FROM item, grupo "
+                        + "WHERE item.id_grupo = grupo.id "
+                        + "AND item.ativo=true "
+                        + "AND (item.descricao ILIKE '%" + criterio + "%' "
+                        + "OR grupo.tipo ILIKE '%" + criterio + "%' "
+                        + "OR grupo.descricao ILIKE '%" + criterio + "%') "
+                        + "ORDER BY item.descricao");
+            } else {
+                resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
                     + "SELECT "
                     + "item.id AS item_id, item.descricao, grupo.tipo, grupo.descricao AS gp_descricao "
                     + "FROM item, grupo "
                     + "WHERE item.id_grupo = grupo.id "
                     + "AND item.ativo=true "
                     + "AND (item.descricao ILIKE '%" + criterio + "%' "
-                    + "OR grupo.tipo ILIKE '%" + criterio + "%' "
                     + "OR grupo.descricao ILIKE '%" + criterio + "%') "
+                    + "AND grupo.tipo in (" + grupo + ") "
                     + "ORDER BY item.descricao");
+            }
 
             while (resultadoQ.next()) {
-
-                dadosTabela[lin][0] = resultadoQ.getInt("item_id");
-                dadosTabela[lin][1] = resultadoQ.getString("descricao");
-                dadosTabela[lin][2] = resultadoQ.getString("tipo");
-                dadosTabela[lin][3] = resultadoQ.getString("gp_descricao");
-                lin++;
+                Object[] linha = new Object[4];
+                linha[0] = resultadoQ.getInt("item_id");
+                linha[1] = resultadoQ.getString("descricao");
+                linha[2] = resultadoQ.getString("tipo");
+                linha[3] = resultadoQ.getString("gp_descricao");
+                dadosTabela.add(linha);
             }
 
         } catch (Exception e) {
             System.out.println("Erro ao popular tabela: " + e);
         }
 
-        tabela.setModel(new DefaultTableModel(dadosTabela, cabecalho) {
+        tabela.setModel(new DefaultTableModel(
+                dadosTabela.toArray(new Object[0][0]), cabecalho) {
             @Override
-            //Quando retorno for FALSE, a tabela não é editável
             public boolean isCellEditable(int row, int column) {
                 return false;
-                //if (column == 3){return true} else {return false}
-            }
-
-            //Alteração do metodo que determina a coluna em que o objeto ImageIcon Devera aparecer
-            @Override
-            public Class getColumnClass(int column) {
-                if (column == 2) {
-                    //retunr ImageIcon.class
-                }
-                return Object.class;
+                // if (column == 3){return true} else {return false}
             }
         });
 
-        //Altera o número de selecao de linhas da tabela
+        // Altera o número de selecao de linhas da tabela
         tabela.setSelectionMode(0);
 
-        //Redimensiona as colunas de uma tabela
+        // Redimensiona as colunas de uma tabela
         TableColumn column = null;
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        int[] columnWidths = {30, 270, 50, 150};
         for (int i = 0; i < tabela.getColumnModel().getColumnCount(); i++) {
             column = tabela.getColumnModel().getColumn(i);
-            switch (i) {
-                case 0:
-                    column.setPreferredWidth(5);
-                    break;
-                case 1:
-                    column.setPreferredWidth(200);
-                    break;
-                case 2:
-                    column.setPreferredWidth(20);
-                    break;
-            }
+            column.setPreferredWidth(columnWidths[i]);
         }
 
-        //Alinhar dados da coluna 1 no centro da celula da tabela
-        class AlinharCentro extends DefaultTableCellRenderer {
-
-            public AlinharCentro() {
-                setHorizontalAlignment(CENTER); // ou LEFT, RIGHT, etc
-            }
-        }
-
-        TableCellRenderer tcr = new AlinharCentro();
+        // Alinhar dados da coluna 1 no centro da celula da tabela
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         column = tabela.getColumnModel().getColumn(0);
-        column.setCellRenderer(tcr);
-
+        column.setCellRenderer(centerRenderer);
     }
+    
+    public void popularTabela(JTable tabela, String criterio) {
+        this.popularTabela(tabela, criterio, "");
+    }
+
 }

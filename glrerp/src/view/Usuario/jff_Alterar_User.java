@@ -29,6 +29,8 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         this.model = new DefaultComboBoxModel(grupoComboBox);
         initComponents();
         jtf_Email.setEditable(false);
+        UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
+        UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
     }
 
     @SuppressWarnings("unchecked")
@@ -53,7 +55,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Email = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         jInternalFrame1.setBackground(new java.awt.Color(238, 238, 238));
@@ -68,14 +70,17 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("*Nome");
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("*Senha");
 
         jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Nome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Nome.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Nome.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Nome.setSelectedTextColor(new java.awt.Color(0, 0, 0));
         jtf_Nome.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -117,6 +122,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         });
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("*Hierarquia");
 
         jPanel2.setBackground(new java.awt.Color(238, 238, 238));
@@ -168,7 +174,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Hierarquia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Hierarquia.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Hierarquia.setMaximumRowCount(150);
-        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "USUARIO", "ADMIN" }));
+        jcb_Hierarquia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "USUARIO", "SUPERVISOR", "ADMIN" }));
         jcb_Hierarquia.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jcb_Hierarquia.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -184,14 +190,17 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jpf_Senha.setBackground(new java.awt.Color(250, 250, 250));
         jpf_Senha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_Senha.setForeground(new java.awt.Color(0, 0, 0));
+        jpf_Senha.setCaretColor(new java.awt.Color(0, 0, 0));
 
         jtf_Email.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Email.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Email.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Email.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Email.setSelectedTextColor(new java.awt.Color(0, 0, 0));
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("*E-mail");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -199,18 +208,13 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)))
+                .addGap(98, 98, 98)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

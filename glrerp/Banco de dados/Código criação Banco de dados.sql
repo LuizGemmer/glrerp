@@ -17,11 +17,12 @@ create table usuario (
 	senha varchar (150) not null,
 	hierarquia varchar (45) not null,
 	ativo boolean not null,
+	email varchar(150) not null,
 	primary key (id)
 );
 
 create table grupo (
-id serial not null,
+	id serial not null,
 	descricao varchar (100) not null,
 	tipo varchar (45) not null,
 	ativo boolean not null,
@@ -29,7 +30,7 @@ id serial not null,
 );
 
 create table item (
-id serial not null,
+	id serial not null,
 	id_grupo int not null,
 	descricao varchar (150) not null,
 	qtde_estoque double precision not null,
@@ -40,16 +41,19 @@ id serial not null,
 	und_conv1 varchar(45),
 	conv2 double precision,
 	und_conv2 varchar(45),
+	valor decimal (10,2) not null,
 	primary key(id),
 	constraint fk_id_grupo foreign key (id_grupo) references grupo (id)
 );
 
 create table estrutura(
-id serial not null,
+	id serial not null,
 	item_id int not null,
 	insumo_id int not null,
 	qtde_insumo double precision not null,
 	ativo boolean not null,
+	und_medida varchar(45) not null,
+	valor_estrutura decimal (10,2),
 	primary key (id),
 	constraint fk_item_id foreign key (item_id) references item (id),
 	constraint fk_insumo_id foreign key (insumo_id) references item (id)
@@ -59,12 +63,13 @@ create table movimentacao (
 id serial not null,
 	tipo varchar (45) not null,
 	data Timestamp without Time Zone not null,
-	item_id int not null,
+	item_id int null,
 	cliente_id int not null,
 	valor decimal (10,2) not null,
 	qtde double precision not null,
 	perda double precision not null,
 	observacao varchar (500),
+	id_pedido int null,
 	primary key(id),
 	constraint fk_item_id foreign key (item_id) references item (id),
 	constraint fk_cliente_id foreign key (cliente_id) references cliente (id)
@@ -76,4 +81,29 @@ movimentacao_id int not null,
 	primary key (movimentacao_id),
 	constraint fk_movimentacao_id foreign key (movimentacao_id) references movimentacao (id),
 	constraint fk_usuario_id foreign key (usuario_id) references usuario (id)
-)
+);
+
+
+CREATE OR REPLACE FUNCTION calcular_valor_estrutura()
+  RETURNS TRIGGER AS
+$$
+BEGIN
+  UPDATE estrutura
+  SET valor_estrutura = 
+    CASE 
+      WHEN estrutura.und_medida = item.unidade_medida THEN item.valor * estrutura.qtde_insumo
+      WHEN estrutura.und_medida = item.und_conv1 THEN item.valor * item.conv2 * estrutura.qtde_insumo
+      WHEN estrutura.und_medida = item.und_conv2 THEN item.valor / item.conv2 * estrutura.qtde_insumo
+    END
+  FROM item
+  WHERE estrutura.insumo_id = item.id AND estrutura.ativo=true AND item.id = NEW.id;
+
+  RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER atualizar_valor_estrutura
+AFTER UPDATE ON item
+FOR EACH ROW
+EXECUTE FUNCTION calcular_valor_estrutura();
