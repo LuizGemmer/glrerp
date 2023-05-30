@@ -34,12 +34,12 @@ public class ItemDAO implements IDAOT<Item> {
                     + o.getQtde_estoque() + ", "
                     + "'true', "
                     + "'" + o.getUnidade_medida() + "', "
-                    + "'" + o.getObservacao() + "',"
-                    + o.getValor() + ", "
+                    + "'" + o.getObservacao() + "',"  
                     + o.getConv1() + ", "
                     + "'" + o.getUnd_conv1() + "', "
                     + o.getConv2() + ", "
-                    + "'" + o.getUnd_conv2() + "') ";
+                    + "'" + o.getUnd_conv2() + "' "
+                    + o.getValor() + " ) " ;
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
