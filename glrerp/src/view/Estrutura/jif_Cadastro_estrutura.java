@@ -480,12 +480,25 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                 int id_insumo = Integer.parseInt(jtf_id_insumo.getText());
                 double qtde_insumo = Double.parseDouble(jtf_qtde_insumo.getText().replace(',', '.'));
                 String und_medida = String.valueOf(jcb_und_medida.getSelectedItem());
+                //Pegar o valor do item e inserir na estrutura o valor ponderado por insumo
+                double valor_estrutura = 0;
+                Item itemDAO = new ItemDAO().consultarId(this.id_insumo_selecionado);
+                if (und_medida.equals(itemDAO.getUnidade_medida())) {
+                    valor_estrutura = itemDAO.getValor() * qtde_insumo;
+                } else if (und_medida.equals(itemDAO.getUnd_conv1())) {
+                    valor_estrutura = itemDAO.getValor() * itemDAO.getConv2() * qtde_insumo;
+                } else if (und_medida.equals(itemDAO.getUnd_conv2())) {
+                    valor_estrutura = itemDAO.getValor() / itemDAO.getConv2() * qtde_insumo;
+                } else{
+                    valor_estrutura = 0;
+                }
 
                 Estrutura estrutura = new Estrutura();
                 estrutura.setItem_id(id_item);
                 estrutura.setInsumo_id(id_insumo);
                 estrutura.setQtde_insumo(qtde_insumo);
                 estrutura.setUnd_medida(und_medida);
+                estrutura.setValor_estrutura(valor_estrutura);
 
                 EstruturaDAO estruturaDAO = new EstruturaDAO();
                 if (estruturaDAO.salvar(estrutura) == null) {
