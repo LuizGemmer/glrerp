@@ -702,6 +702,9 @@
                       <Dimension value="[150, 35]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_vendas_cadastroActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -800,6 +803,9 @@
                       <Dimension value="[150, 35]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jm_compras_cadastroActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>

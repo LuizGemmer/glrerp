@@ -1,13 +1,8 @@
 package view.Movimentacao;
 
-import view.Estrutura.*;
-import dao.EstruturaDAO;
 import dao.ItemDAO;
 import dao.movimentacaoDAO;
-import entidade.Item;
-import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
-import view.Item.jff_Alterar_item;
 
 /**
  *
@@ -17,11 +12,13 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
 
     private int item_id;
     private String grupoTipo;
+    private String menuSelecionado;
     
     //contrutor Quando a tela de pesquisar for chamado pela tela JIF_CADASTRO_ESTRUTURA
-    public jff_pesquisar_item(String tipoGrupoItem) {
+    public jff_pesquisar_item(String tipoGrupoItem, String menuSelecionado) {
         this.item_id = 0;
         this.grupoTipo = tipoGrupoItem;
+        this.menuSelecionado = menuSelecionado;
         initComponents();
         
         //Setar o nome dos botões e dos JLabels
@@ -36,11 +33,6 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
         
         //Popular a tabela
         new ItemDAO().popularTabela(jtb_pesquisa, "", this.grupoTipo);
-    }
-
-    //contrutor Quando a tela de pesquisar for chamado pela tela JFF_ALTERAR_ITEM
-    public jff_pesquisar_item(jff_Alterar_item item, int item_id) {
-
     }
 
     @SuppressWarnings("unchecked")
@@ -195,8 +187,8 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
         if (this.item_id == 0) {
             JOptionPane.showMessageDialog(this, "Selecione um registro na tabela acima");
         } else {
-            jff_alterar_movimentacao telaAlterar = new jff_alterar_movimentacao("producao", item_id);
-            telaAlterar.setDAO(new movimentacaoDAO("producao"));
+            jff_alterar_movimentacao telaAlterar = new jff_alterar_movimentacao(this.menuSelecionado, item_id);
+            telaAlterar.setDAO(new movimentacaoDAO(this.menuSelecionado));
             telaAlterar.setItem(item_id);
             telaAlterar.showWindow(true);
             

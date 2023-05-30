@@ -328,7 +328,7 @@ public class ItemDAO implements IDAOT<Item> {
                     + "AND item.ativo=true "
                     + "AND (item.descricao ILIKE '%" + criterio + "%' "
                     + "OR grupo.descricao ILIKE '%" + criterio + "%') "
-                    + "AND grupo.tipo ='" + grupo + "' "
+                    + "AND grupo.tipo in (" + grupo + ") "
                     + "ORDER BY item.descricao");
             }
 
