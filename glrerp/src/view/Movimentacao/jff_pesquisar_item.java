@@ -193,6 +193,7 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbt_selecionarActionPerformed
 
+
     private void jbt_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_filtrarActionPerformed
         new ItemDAO().popularTabela(
                 jtb_pesquisa,
@@ -246,5 +247,4 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
     private javax.swing.JTextField jtf_filtro;
     // End of variables declaration//GEN-END:variables
 
-  
 }

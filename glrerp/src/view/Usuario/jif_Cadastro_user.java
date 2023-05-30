@@ -3,6 +3,7 @@ package view.Usuario;
 import apoio.Validacao;
 import dao.userDAO;
 import entidade.User;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -212,40 +213,45 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
-        //Faz as validações necessárias antes de salvar
-        if (Validacao.testarCombo(jcb_Hierarquia)
-                && Validacao.ValidarJTFObrigatorio(jtf_Nome)
-                && Validacao.ValidarJTFObrigatorio(jtf_email)
-                && Validacao.ValidarPasswdObrigatorio(jpf_Senha)) {
-
-            //Cadastrar novo Usuário
-            //Atribuir dados inseridos pelo usuario a variaveis
-            String nomeUser = jtf_Nome.getText().toUpperCase();
-            char[] senhaUser = jpf_Senha.getPassword();
-            String passwd = String.valueOf(senhaUser);
-            String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString().toUpperCase();
-            String email = jtf_email.getText();
-
-            //Setar nomes das variaveis para o objeto User
-            User user = new User();
-            user.setNome(nomeUser);
-            user.setSenha(passwd);
-            user.setHierarquia(hierarquiaUser);
-            user.setEmail(email);
-
-            //Chamar classe ClienteDAO para salvar dados no Banco de dados
-            userDAO aDAO = new userDAO();
-
-            //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-            if (aDAO.salvar(user) == null) {
-                JOptionPane.showMessageDialog(this, "Novo Usuário salvo com sucesso!", "USUÁRIO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
-                LimparCampos();
-                jtf_Nome.requestFocus();
-            } else {
-                JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo cliente!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-            }
+        if (EmailExistente()) {
+            JOptionPane.showMessageDialog(this, "E-mail já cadastrado. Digite outro email válido!", "E-MAIL JÁ CADASTRADO", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            //Faz as validações necessárias antes de salvar
+            if (Validacao.testarCombo(jcb_Hierarquia)
+                    && Validacao.ValidarJTFObrigatorio(jtf_Nome)
+                    && Validacao.ValidarJTFObrigatorio(jtf_email)
+                    && Validacao.ValidarPasswdObrigatorio(jpf_Senha)
+                    && Validacao.ValidarEmail(jtf_email)) {
+
+                //Cadastrar novo Usuário
+                //Atribuir dados inseridos pelo usuario a variaveis
+                String nomeUser = jtf_Nome.getText().toUpperCase();
+                char[] password = jpf_Senha.getPassword();
+                String passwd = String.valueOf(password);
+                String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString().toUpperCase();
+                String email = jtf_email.getText();
+
+                //Setar nomes das variaveis para o objeto User
+                User user = new User();
+                user.setNome(nomeUser);
+                user.setSenha(passwd);
+                user.setHierarquia(hierarquiaUser);
+                user.setEmail(email);
+
+                //Chamar classe ClienteDAO para salvar dados no Banco de dados
+                userDAO aDAO = new userDAO();
+
+                //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
+                if (aDAO.salvar(user) == null) {
+                    JOptionPane.showMessageDialog(this, "Novo Usuário salvo com sucesso!", "USUÁRIO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+                    LimparCampos();
+                    jtf_Nome.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo cliente!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
 
@@ -259,6 +265,7 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
 
     private void jtf_emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_emailFocusLost
         Validacao.ValidarJTFObrigatorio(jtf_email);
+        Validacao.ValidarEmail(jtf_email);
     }//GEN-LAST:event_jtf_emailFocusLost
 
     private void jcb_HierarquiaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_HierarquiaFocusLost
@@ -286,5 +293,20 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jpf_Senha.setText("");
         jtf_email.setText("");
         jcb_Hierarquia.setSelectedIndex(0);
+    }
+
+    private boolean EmailExistente() {
+        //Verifica se o email digitado ja existe no BD. Se sim, não deixa salvar.
+        String email = jtf_email.getText();
+        ArrayList<User> user = new userDAO().consultarTodos();
+        for (int i = 0; i < user.size(); i++) {
+            if (user.get(i).getEmail().equals(email)) {
+                return true;
+
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }

@@ -25,7 +25,7 @@ import view.jif_Listagem_DAO;
  *
  * @author ruang
  */
-public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_ITelaAlterarCadastro {
+public class jif_alterar_movimentacao extends javax.swing.JInternalFrame implements jff_ITelaAlterarCadastro {
 
     private jif_Listagem_DAO parente;
     private Item item;
@@ -39,8 +39,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
     private boolean abertaComoEdiçao;
     private boolean camposBloqueados;
 
-    
-    public jff_alterar_movimentacao() {
+    public jif_alterar_movimentacao() {
         this.abertaComoEdiçao = true;
         ArrayList<Cliente> clientes = new ClienteDAO(this.tipoCliente).consultarTodos();
         Cliente[] clientesArr = new Cliente[clientes.size()];
@@ -57,7 +56,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         this.jbt_salvar_alteracao.setEnabled(false);
     }
 
-    public jff_alterar_movimentacao(String tipoMovto, int idItem) {
+    public jif_alterar_movimentacao(String tipoMovto, int idItem) {
         this.tipoMovto = tipoMovto;
         if (this.tipoMovto.equals("venda")) {
             this.tipoCliente = "cliente";
@@ -67,6 +66,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
 
         try {
             ArrayList<Cliente> clientes = new ClienteDAO(this.tipoCliente).consultarTodos();
+            
             Cliente[] clientesArr = new Cliente[clientes.size()];
             for (int i = 0; i < clientesArr.length; i++) {
                 clientesArr[i] = clientes.get(i);
@@ -115,7 +115,6 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jInternalFrame1 = new javax.swing.JInternalFrame();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -139,17 +138,6 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jLabel9 = new javax.swing.JLabel();
         lbl_clienteTipo = new javax.swing.JLabel();
         jcb_cliente = new javax.swing.JComboBox<>();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.FlowLayout());
-
-        jInternalFrame1.setBackground(new java.awt.Color(238, 238, 238));
-        jInternalFrame1.setIconifiable(true);
-        jInternalFrame1.setMaximizable(true);
-        jInternalFrame1.setResizable(true);
-        jInternalFrame1.setTitle("Alterar/Excluir");
-        jInternalFrame1.setPreferredSize(new java.awt.Dimension(960, 500));
-        jInternalFrame1.setVisible(true);
 
         jPanel1.setBackground(new java.awt.Color(238, 238, 238));
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -336,7 +324,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jtf_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jtf_perda, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -374,7 +362,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jtf_observacao, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jcb_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_clienteTipo))
@@ -389,27 +377,70 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jInternalFrame1);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
-        dao.excluir(movimentacao.getId());
-    }//GEN-LAST:event_jbt_excluirActionPerformed
+    private void jtf_itemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_itemKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_itemKeyPressed
+
+    private void jtf_tipoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_tipoKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_tipoKeyPressed
+
+    private void jtf_qtdeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_qtdeKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_qtdeKeyPressed
+
+    private void jtf_observacaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_observacaoKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_observacaoKeyPressed
+
+    private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
+        //Botão de fechar
+        if (inativarControles == false && keyPressed) {
+            Object[] options = {"Sim",
+                "Não"};
+            int n = JOptionPane.showOptionDialog(this,
+                    "Você pode ter alterações não salvas. Tem certeza que deseja sair?",
+                    "ALTERAÇÕES NÃO SALVAS",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            if (n == 0) {
+                this.dispose();
+                keyPressed = false;
+            } else {
+                jtf_item.requestFocus(true);
+            }
+        } else {
+            this.dispose();
+        }
+    }//GEN-LAST:event_jbt_fecharActionPerformed
+
+    private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
+        //Botão de limpar campos de TextField
+        jtf_qtde.setText("");
+        jtf_observacao.setText("");
+        jft_data.setText("");
+        jft_hora.setText("");
+        jtf_item.requestFocus();
+    }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
         double perda = 0.0;
@@ -456,54 +487,9 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         }
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
-    private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
-        //Botão de limpar campos de TextField
-        jtf_qtde.setText("");
-        jtf_observacao.setText("");
-        jft_data.setText("");
-        jft_hora.setText("");
-        jtf_item.requestFocus();
-    }//GEN-LAST:event_jbt_limparActionPerformed
-
-    private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
-        //Botão de fechar
-        if (inativarControles == false && keyPressed) {
-            Object[] options = {"Sim",
-                "Não"};
-            int n = JOptionPane.showOptionDialog(this,
-                    "Você pode ter alterações não salvas. Tem certeza que deseja sair?",
-                    "ALTERAÇÕES NÃO SALVAS",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
-            if (n == 0) {
-                this.dispose();
-                keyPressed = false;
-            } else {
-                jtf_item.requestFocus(true);
-            }
-        } else {
-            this.dispose();
-        }
-    }//GEN-LAST:event_jbt_fecharActionPerformed
-
-    private void jtf_observacaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_observacaoKeyPressed
-        this.keyPressed = true;
-    }//GEN-LAST:event_jtf_observacaoKeyPressed
-
-    private void jtf_qtdeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_qtdeKeyPressed
-        this.keyPressed = true;
-    }//GEN-LAST:event_jtf_qtdeKeyPressed
-
-    private void jtf_tipoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_tipoKeyPressed
-        this.keyPressed = true;
-    }//GEN-LAST:event_jtf_tipoKeyPressed
-
-    private void jtf_itemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_itemKeyPressed
-        this.keyPressed = true;
-    }//GEN-LAST:event_jtf_itemKeyPressed
+    private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
+        dao.excluir(movimentacao.getId());
+    }//GEN-LAST:event_jbt_excluirActionPerformed
 
     private void jtf_valorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_valorKeyPressed
         // TODO add your handling code here:
@@ -513,44 +499,8 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         // TODO add your handling code here:
     }//GEN-LAST:event_jtf_perdaKeyPressed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jff_alterar_movimentacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jff_alterar_movimentacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jff_alterar_movimentacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jff_alterar_movimentacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -630,5 +580,5 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
             this.setVisible(true);
         }
     }
-
+    
 }

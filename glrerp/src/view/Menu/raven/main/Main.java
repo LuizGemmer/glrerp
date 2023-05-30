@@ -17,7 +17,9 @@ import view.Grupo.jif_Cadastro_grupo;
 import view.Item.jff_Alterar_item;
 import view.Item.jif_Cadastro_item;
 import view.Menu.raven.menu.MenuEvent;
+import view.Movimentacao.jff_alterar_movimentacao;
 import view.Movimentacao.jff_pesquisar_item;
+import view.Movimentacao.jif_alterar_movimentacao;
 import view.Usuario.jff_Alterar_User;
 import view.Usuario.jif_Cadastro_user;
 import view.jff_ITelaAlterarCadastro;
@@ -28,7 +30,7 @@ public class Main extends javax.swing.JFrame {
     private final jif_Cadastro_cliente tipo;
     private jif_Listagem_DAO visualizarIsOpen;
     private jif_Cadastro_estrutura jif_cad_est;
-    private Main main;
+    public jff_pesquisar_item telapesq;
 
     private void abrirListagemDAO(IDAOT dao, jff_ITelaAlterarCadastro tela, String titulo) {
         jif_Listagem_DAO telaListagem = new jif_Listagem_DAO(dao, tela);
@@ -48,6 +50,7 @@ public class Main extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menu1.setEvent(new MenuEvent() {
+            private jff_pesquisar_item telapesquisamov;
 
             @Override
             public void selected(int index, int subIndex) {
@@ -184,7 +187,6 @@ public class Main extends javax.swing.JFrame {
         body.revalidate();
     }
 
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -259,16 +261,24 @@ public class Main extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -277,7 +287,7 @@ public class Main extends javax.swing.JFrame {
             public void run() {
                 Main main = new Main();
                 main.setVisible(true);
-             
+
             }
         });
     }
