@@ -98,6 +98,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Descricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Descricao.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Descricao.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Descricao.setSelectedTextColor(new java.awt.Color(0, 0, 0));
         jtf_Descricao.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -145,6 +146,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_estoque.setBackground(new java.awt.Color(250, 250, 250));
         jtf_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_estoque.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_estoque.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_estoque.setDisabledTextColor(new java.awt.Color(102, 102, 102));
 
         jPanel2.setBackground(new java.awt.Color(238, 238, 238));
@@ -213,6 +215,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jta_Observacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jta_Observacao.setForeground(new java.awt.Color(0, 0, 0));
         jta_Observacao.setRows(5);
+        jta_Observacao.setCaretColor(new java.awt.Color(0, 0, 0));
         jta_Observacao.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jta_ObservacaoKeyPressed(evt);
@@ -242,6 +245,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_conv1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_conv1.setForeground(new java.awt.Color(0, 0, 0));
         jtf_conv1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtf_conv1.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_conv1.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jtf_conv1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -266,6 +270,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_conv2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_conv2.setForeground(new java.awt.Color(0, 0, 0));
         jtf_conv2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtf_conv2.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_conv2.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jtf_conv2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -294,6 +299,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
         jff_valor.setBackground(new java.awt.Color(250, 250, 250));
         jff_valor.setForeground(new java.awt.Color(0, 0, 0));
+        jff_valor.setCaretColor(new java.awt.Color(0, 0, 0));
         jff_valor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jff_valor.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {

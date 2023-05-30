@@ -84,6 +84,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Nome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Nome.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Nome.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Nome.setSelectedTextColor(new java.awt.Color(0, 0, 0));
         jtf_Nome.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -100,6 +101,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jtf_End.setBackground(new java.awt.Color(250, 250, 250));
         jtf_End.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_End.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_End.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_End.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_End.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -141,6 +143,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jtf_email.setBackground(new java.awt.Color(250, 250, 250));
         jtf_email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_email.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_email.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_email.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_email.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -200,6 +203,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
 
         jff_Cpf.setBackground(new java.awt.Color(250, 250, 250));
         jff_Cpf.setForeground(new java.awt.Color(0, 0, 0));
+        jff_Cpf.setCaretColor(new java.awt.Color(0, 0, 0));
         jff_Cpf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jff_Cpf.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -214,6 +218,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
 
         jff_Telefone.setBackground(new java.awt.Color(250, 250, 250));
         jff_Telefone.setForeground(new java.awt.Color(0, 0, 0));
+        jff_Telefone.setCaretColor(new java.awt.Color(0, 0, 0));
         jff_Telefone.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jff_Telefone.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -263,18 +268,14 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jff_Telefone, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jff_Cpf, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jbt_alterarCpfCnpj)))
-                                .addGap(0, 202, Short.MAX_VALUE))
-                            .addComponent(jtf_End))))
+                                .addComponent(jff_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbt_alterarCpfCnpj))
+                            .addComponent(jff_Telefone, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_End, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbt_fechar)
                 .addContainerGap())
@@ -288,16 +289,13 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jtf_Nome, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jff_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jlb_cpf_cnpj))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jbt_alterarCpfCnpj, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                                .addGap(2, 2, 2))))
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jff_Cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlb_cpf_cnpj)
+                            .addComponent(jbt_alterarCpfCnpj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jff_Telefone, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -309,7 +307,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtf_End, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbt_fechar)

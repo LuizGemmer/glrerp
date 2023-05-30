@@ -57,6 +57,7 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Nome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Nome.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Nome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtf_NomeFocusLost(evt);
@@ -97,6 +98,7 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jpf_Senha.setBackground(new java.awt.Color(250, 250, 250));
         jpf_Senha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_Senha.setForeground(new java.awt.Color(0, 0, 0));
+        jpf_Senha.setCaretColor(new java.awt.Color(0, 0, 0));
         jpf_Senha.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jpf_SenhaFocusLost(evt);
@@ -120,6 +122,7 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
         jtf_email.setBackground(new java.awt.Color(250, 250, 250));
         jtf_email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_email.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_email.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_email.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtf_emailFocusLost(evt);

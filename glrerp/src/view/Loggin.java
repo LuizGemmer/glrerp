@@ -1,9 +1,7 @@
 package view;
 
-import apoio.Criptografar;
-import dao.userDAO;
-import entidade.User;
-import java.util.ArrayList;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import view.Menu.raven.main.Main;
 
@@ -16,6 +14,15 @@ public class Loggin extends javax.swing.JDialog {
     public Loggin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
+
+                
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                System.exit(0); // Encerra o programa quando o JDialog for fechado
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -41,7 +48,6 @@ public class Loggin extends javax.swing.JDialog {
         jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setModal(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel3.setBackground(new java.awt.Color(13, 71, 161));
@@ -83,8 +89,10 @@ public class Loggin extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -98,9 +106,8 @@ public class Loggin extends javax.swing.JDialog {
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(12, 12, 12)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel4.setBackground(new java.awt.Color(250, 250, 250));
@@ -120,13 +127,13 @@ public class Loggin extends javax.swing.JDialog {
         jtf_email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_email.setForeground(new java.awt.Color(0, 0, 0));
         jtf_email.setBorder(null);
-        jtf_email.setCaretColor(new java.awt.Color(250, 250, 250));
+        jtf_email.setCaretColor(new java.awt.Color(0, 0, 0));
 
         jpf_passwd.setBackground(new java.awt.Color(238, 238, 238));
         jpf_passwd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_passwd.setForeground(new java.awt.Color(0, 0, 0));
         jpf_passwd.setBorder(null);
-        jpf_passwd.setCaretColor(new java.awt.Color(250, 250, 250));
+        jpf_passwd.setCaretColor(new java.awt.Color(0, 0, 0));
         jpf_passwd.setDisabledTextColor(new java.awt.Color(250, 250, 250));
 
         jbt_Acessar.setBackground(new java.awt.Color(13, 71, 161));
@@ -239,10 +246,16 @@ public class Loggin extends javax.swing.JDialog {
 
     private void jbt_sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_sairActionPerformed
         this.dispose();
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                System.exit(0); // Encerra o programa quando o JDialog for fechado
+            }
+        });
     }//GEN-LAST:event_jbt_sairActionPerformed
 
     private void jbt_AcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_AcessarActionPerformed
-        String email = jtf_email.getText();
+        /*String email = jtf_email.getText();
         //Criptografa a senha para posteriormente comparar com a senha criptografada no BD
         char[] passwd = jpf_passwd.getPassword();
         
@@ -253,7 +266,7 @@ public class Loggin extends javax.swing.JDialog {
         //Verifica se algum usuario e senha batem com o que o usuario digitou
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getEmail().equals(email)) {
-                this.dispose();
+                this.hide();
                 //new telaPrincipal().setVisible(true);
                 new Main().setVisible(true);
                 exibirMensagemDeBoasVindas(users.get(i).getNome());
@@ -262,7 +275,12 @@ public class Loggin extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Usuario ou Senha incorreto", "ERRO BANCO DE DADOS", JOptionPane.ERROR_MESSAGE);
                 jpf_passwd.setText("");
             }
-        }
+        }*/
+
+        this.hide();
+        //new telaPrincipal().setVisible(true);
+        new Main().setVisible(true);
+        exibirMensagemDeBoasVindas("'NOME'");
     }//GEN-LAST:event_jbt_AcessarActionPerformed
 
     /**

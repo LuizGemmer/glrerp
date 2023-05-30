@@ -100,6 +100,7 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
         jtf_filtro.setBackground(new java.awt.Color(250, 250, 250));
         jtf_filtro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_filtro.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_filtro.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_filtro.setDisabledTextColor(new java.awt.Color(102, 102, 102));
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -141,7 +142,7 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtf_filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbt_filtrar)
@@ -152,7 +153,7 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbt_selecionar)
                     .addComponent(jbt_fechar))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

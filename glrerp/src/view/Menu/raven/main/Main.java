@@ -20,6 +20,7 @@ import view.Menu.raven.menu.MenuEvent;
 import view.Movimentacao.jff_alterar_movimentacao;
 import view.Movimentacao.jff_pesquisar_item;
 import view.Movimentacao.jif_alterar_movimentacao;
+import view.Relatorio.jif_relatorio;
 import view.Usuario.jff_Alterar_User;
 import view.Usuario.jif_Cadastro_user;
 import view.jff_ITelaAlterarCadastro;
@@ -29,7 +30,6 @@ public class Main extends javax.swing.JFrame {
 
     private final jif_Cadastro_cliente tipo;
     private jif_Listagem_DAO visualizarIsOpen;
-    private jif_Cadastro_estrutura jif_cad_est;
     public jff_pesquisar_item telapesq;
 
     private void abrirListagemDAO(IDAOT dao, jff_ITelaAlterarCadastro tela, String titulo) {
@@ -50,19 +50,14 @@ public class Main extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menu1.setEvent(new MenuEvent() {
-            private jff_pesquisar_item telapesquisamov;
 
             @Override
             public void selected(int index, int subIndex) {
                 if (index == 0 && subIndex == 1) { // --------------------------- VISUALIZAR CLIENTES
                     jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO("cliente"), new jff_Alterar_cliente());
-                    if (visualizarIsOpen != null) {
-                        visualizarIsOpen.dispose();
-                    }
                     showForm(jifVis_cliente);
                     jifVis_cliente.setTitle("VISUALIZAR - CLIENTES");
                     jifVis_cliente.setVisible(true);
-                    visualizarIsOpen = jifVis_cliente;
 
                 } else if (index == 0 && subIndex == 2) { // --------------------------- CADASTRAR CLIENTES
                     jif_Cadastro_cliente jif_cad_cliente = new jif_Cadastro_cliente(true);
@@ -71,13 +66,9 @@ public class Main extends javax.swing.JFrame {
 
                 } else if (index == 1 && subIndex == 1) { // --------------------------- VISUALIZAR FORNECEDORES
                     jif_Listagem_DAO jifVis_cliente = new jif_Listagem_DAO(new ClienteDAO("fornecedor"), new jff_Alterar_cliente());
-                    if (visualizarIsOpen != null) {
-                        visualizarIsOpen.dispose();
-                    }
                     showForm(jifVis_cliente);
                     jifVis_cliente.setTitle("VISUALIZAR - FORNECEDORES");
                     jifVis_cliente.setVisible(true);
-                    visualizarIsOpen = jifVis_cliente;
 
                 } else if (index == 1 && subIndex == 2) { // --------------------------- CADASTRAR FORNECEDORES
                     jif_Cadastro_cliente jif_cad_cliente = new jif_Cadastro_cliente(false);
@@ -86,13 +77,9 @@ public class Main extends javax.swing.JFrame {
 
                 } else if (index == 2 && subIndex == 1) { // --------------------------- VISUALIZAR ITEM
                     jif_Listagem_DAO jifVis_item = new jif_Listagem_DAO(new ItemDAO(), new jff_Alterar_item());
-                    if (visualizarIsOpen != null) {
-                        visualizarIsOpen.dispose();
-                    }
                     showForm(jifVis_item);
                     jifVis_item.setTitle("VISUALIZAR - ITENS");
                     jifVis_item.setVisible(true);
-                    visualizarIsOpen = jifVis_item;
 
                 } else if (index == 2 && subIndex == 2) { // --------------------------- CADASTRAR ITEM
                     jif_Cadastro_item jif_cad_item = new jif_Cadastro_item();
@@ -101,13 +88,9 @@ public class Main extends javax.swing.JFrame {
 
                 } else if (index == 3 && subIndex == 1) { // --------------------------- VISUALIZAR GRUPO
                     jif_Listagem_DAO jifVis_grupo = new jif_Listagem_DAO(new GrupoDAO(), new jff_Alterar_grupo());
-                    if (visualizarIsOpen != null) {
-                        visualizarIsOpen.dispose();
-                    }
                     showForm(jifVis_grupo);
                     jifVis_grupo.setTitle("VISUALIZAR - GRUPOS");
                     jifVis_grupo.setVisible(true);
-                    visualizarIsOpen = jifVis_grupo;
 
                 } else if (index == 3 && subIndex == 2) { // --------------------------- CADASTRAR GRUPO
                     jif_Cadastro_grupo jif_cad_grupo = new jif_Cadastro_grupo();
@@ -148,25 +131,21 @@ public class Main extends javax.swing.JFrame {
 
                 } else if (index == 8 && subIndex == 1) { // --------------------------- VISUALIZAR ESTOQUE
                     jif_Listagem_DAO jifVis_item = new jif_Listagem_DAO(new ItemDAO(), new jff_Alterar_item());
-                    if (visualizarIsOpen != null) {
-                        visualizarIsOpen.dispose();
-                    }
                     showForm(jifVis_item);
                     jifVis_item.setTitle("VISUALIZAR - ESTOQUE");
                     jifVis_item.setVisible(true);
-                    visualizarIsOpen = jifVis_item;
 
                 } else if (index == 9 && subIndex == 1) { // --------------------------- VISUALIZAR RELATÓRIOS
+                    jif_relatorio jif_rel = new jif_relatorio();
+                    showForm(jif_rel);
+                    jif_rel.setVisible(true);
 
                 } else if (index == 10 && subIndex == 1) { // --------------------------- VISUALIZAR USUARIO
                     jif_Listagem_DAO jif_listagem_user = new jif_Listagem_DAO(new userDAO(), new jff_Alterar_User());
-                    if (visualizarIsOpen != null) {
-                        visualizarIsOpen.dispose();
-                    }
+
                     jif_listagem_user.setTitle("VISUALIZAR - USUÁRIOS");
                     showForm(jif_listagem_user);
                     jif_listagem_user.setVisible(true);
-                    visualizarIsOpen = jif_listagem_user;
 
                 } else if (index == 10 && subIndex == 2) { // --------------------------- CADASTRAR USUARIO
                     jif_Cadastro_user jif_cad_user = new jif_Cadastro_user();

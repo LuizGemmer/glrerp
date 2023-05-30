@@ -173,6 +173,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jtf_item.setBackground(new java.awt.Color(250, 250, 250));
         jtf_item.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_item.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_item.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_item.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_item.setEnabled(false);
         jtf_item.setSelectedTextColor(new java.awt.Color(0, 0, 0));
@@ -185,6 +186,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jtf_tipo.setBackground(new java.awt.Color(250, 250, 250));
         jtf_tipo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_tipo.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_tipo.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_tipo.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_tipo.setEnabled(false);
         jtf_tipo.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -196,6 +198,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jtf_qtde.setBackground(new java.awt.Color(250, 250, 250));
         jtf_qtde.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_qtde.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_qtde.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_qtde.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_qtde.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -206,6 +209,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jtf_observacao.setBackground(new java.awt.Color(250, 250, 250));
         jtf_observacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_observacao.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_observacao.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_observacao.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_observacao.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -253,10 +257,14 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
             }
         });
 
-        jft_data.setText("jFormattedTextField1");
+        jft_data.setBackground(new java.awt.Color(250, 250, 250));
+        jft_data.setForeground(new java.awt.Color(0, 0, 0));
+        jft_data.setCaretColor(new java.awt.Color(0, 0, 0));
         jft_data.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jft_hora.setText("jFormattedTextField1");
+        jft_hora.setBackground(new java.awt.Color(250, 250, 250));
+        jft_hora.setForeground(new java.awt.Color(0, 0, 0));
+        jft_hora.setCaretColor(new java.awt.Color(0, 0, 0));
         jft_hora.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
@@ -269,6 +277,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jtf_valor.setBackground(new java.awt.Color(250, 250, 250));
         jtf_valor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_valor.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_valor.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_valor.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_valor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -279,6 +288,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jtf_perda.setBackground(new java.awt.Color(250, 250, 250));
         jtf_perda.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_perda.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_perda.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_perda.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_perda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -294,6 +304,8 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         lbl_clienteTipo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_clienteTipo.setText("Cliente");
 
+        jcb_cliente.setBackground(new java.awt.Color(250, 250, 250));
+        jcb_cliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_cliente.setModel(this.comboModel);
         jcb_cliente.setMinimumSize(new java.awt.Dimension(72, 28));
 

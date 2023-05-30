@@ -215,6 +215,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jtf_qtde_insumo.setBackground(new java.awt.Color(250, 250, 250));
         jtf_qtde_insumo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_qtde_insumo.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_qtde_insumo.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_qtde_insumo.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_qtde_insumo.setEnabled(false);
         jtf_qtde_insumo.addKeyListener(new java.awt.event.KeyAdapter() {

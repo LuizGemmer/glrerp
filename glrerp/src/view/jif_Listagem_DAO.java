@@ -99,6 +99,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
 
         jtf_Buscar.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Buscar.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Buscar.setCaretColor(new java.awt.Color(0, 0, 0));
 
         jbt_alterar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_alterar.setForeground(new java.awt.Color(255, 255, 255));

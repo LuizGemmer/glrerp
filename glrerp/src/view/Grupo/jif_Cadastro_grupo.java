@@ -48,6 +48,7 @@ public class jif_Cadastro_grupo extends javax.swing.JInternalFrame {
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Descricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Descricao.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Descricao.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtf_DescricaoFocusLost(evt);

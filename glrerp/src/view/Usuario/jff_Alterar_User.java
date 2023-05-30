@@ -80,6 +80,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Nome.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Nome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Nome.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Nome.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Nome.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Nome.setSelectedTextColor(new java.awt.Color(0, 0, 0));
         jtf_Nome.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -189,10 +190,12 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jpf_Senha.setBackground(new java.awt.Color(250, 250, 250));
         jpf_Senha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_Senha.setForeground(new java.awt.Color(0, 0, 0));
+        jpf_Senha.setCaretColor(new java.awt.Color(0, 0, 0));
 
         jtf_Email.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Email.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Email.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_Email.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_Email.setSelectedTextColor(new java.awt.Color(0, 0, 0));
 
