@@ -267,7 +267,6 @@ public class Loggin extends javax.swing.JDialog {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getEmail().equals(email)) {
                 this.hide();
-                //new telaPrincipal().setVisible(true);
                 new Main().setVisible(true);
                 exibirMensagemDeBoasVindas(users.get(i).getNome());
 
@@ -278,7 +277,6 @@ public class Loggin extends javax.swing.JDialog {
         }*/
 
         this.hide();
-        //new telaPrincipal().setVisible(true);
         new Main().setVisible(true);
         exibirMensagemDeBoasVindas("'NOME'");
     }//GEN-LAST:event_jbt_AcessarActionPerformed

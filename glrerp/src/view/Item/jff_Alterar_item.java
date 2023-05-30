@@ -11,6 +11,7 @@ import entidade.Item;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.text.DecimalFormat;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import view.Estrutura.jff_pesquisar;
 import view.jff_ITelaAlterarCadastro;
@@ -36,6 +37,9 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_conv1.setEnabled(false);
         jcb_Unidade_medida.setEnabled(false);
         jtf_estoque.setEditable(false);
+        
+        ToolTipManager.sharedInstance().setInitialDelay(100); // Atraso de 500 milissegundos
+        ToolTipManager.sharedInstance().setDismissDelay(10000); // Duração de 3000 milissegundos
     }
 
     @SuppressWarnings("unchecked")
@@ -299,6 +303,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
         jff_valor.setBackground(new java.awt.Color(250, 250, 250));
         jff_valor.setForeground(new java.awt.Color(0, 0, 0));
+        jff_valor.setToolTipText("<html><p>O \"<b>VALOR UNITÁRIO</b>\" é atualizado automaticamente quando é feita uma nova compra do item</p>\n<br><br>\n<p>O valor novo é um valor ponderado, feito pela fórmula abaixo:</p>\n<p><b> [(Ea x Pa) + (Cn + Pn)] / (Ea + Cn) </b></p>\n<br>\n<p> Onde:\n<br> Ea = Estoque anterior a compra\n<br> Pa = Preço da compra anterior\n<br> Cn = Quantidade da nova compra\n<br> Pn = Preço da nova compra\n<br><br>\nMas você pode alterar esse valor manualmente mesmo assim.</p>\n</html>");
         jff_valor.setCaretColor(new java.awt.Color(0, 0, 0));
         jff_valor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jff_valor.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -315,6 +320,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel11.setText("*Valor Unitário");
+        jLabel11.setToolTipText("<html><p>O \"<b>VALOR UNITÁRIO</b>\" é atualizado automaticamente quando é feita uma nova compra do item</p> <br><br> <p>O valor novo é um valor ponderado, feito pela fórmula abaixo:</p> <p><b> [(Ea x Pa) + (Cn + Pn)] / (Ea + Cn) </b></p> <br> <p> Onde: <br> Ea = Estoque anterior a compra <br> Pa = Preço da compra anterior <br> Cn = Quantidade da nova compra <br> Pn = Preço da nova compra <br><br> Mas você pode alterar esse valor manualmente mesmo assim.</p> </html>");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -768,14 +774,14 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.item.getId());
         jtf_Descricao.setText(this.item.getDescricao());
-        jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()).replace(',', '.'));
+        jtf_estoque.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque()).replace('.', ','));
         jta_Observacao.setText(this.item.getObservacao());
-        jtf_conv1.setText(new DecimalFormat("#.####").format(this.item.getConv1()).replace(',', '.'));
-        jtf_conv2.setText(new DecimalFormat("#.####").format(this.item.getConv2()).replace(',', '.'));
+        jtf_conv1.setText(new DecimalFormat("#.####").format(this.item.getConv1()).replace('.', ','));
+        jtf_conv2.setText(new DecimalFormat("#.####").format(this.item.getConv2()).replace('.', ','));
         jcb_Unidade_medida.setSelectedIndex(index);
         jcb_UndConv1.setSelectedIndex(indexUC1);
         jcb_UndConv2.setSelectedIndex(indexUC2);
-        jff_valor.setText(new DecimalFormat("#.####").format(this.item.getValor()).replace(',', '.'));
+        jff_valor.setText(new DecimalFormat("#.####").format(this.item.getValor()).replace('.', ','));
 
         //retornar o valor selecionado ao Combo Box GRUPO
         new CombosDAO().popularCombo("grupo", jcb_Grupo);

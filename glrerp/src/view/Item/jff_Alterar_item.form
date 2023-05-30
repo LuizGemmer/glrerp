@@ -692,6 +692,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;p&gt;O &quot;&lt;b&gt;VALOR UNIT&#xc1;RIO&lt;/b&gt;&quot; &#xe9; atualizado automaticamente quando &#xe9; feita uma nova compra do item&lt;/p&gt;&#xa;&lt;br&gt;&lt;br&gt;&#xa;&lt;p&gt;O valor novo &#xe9; um valor ponderado, feito pela f&#xf3;rmula abaixo:&lt;/p&gt;&#xa;&lt;p&gt;&lt;b&gt; [(Ea x Pa) + (Cn + Pn)] / (Ea + Cn) &lt;/b&gt;&lt;/p&gt;&#xa;&lt;br&gt;&#xa;&lt;p&gt; Onde:&#xa;&lt;br&gt; Ea = Estoque anterior a compra&#xa;&lt;br&gt; Pa = Pre&#xe7;o da compra anterior&#xa;&lt;br&gt; Cn = Quantidade da nova compra&#xa;&lt;br&gt; Pn = Pre&#xe7;o da nova compra&#xa;&lt;br&gt;&lt;br&gt;&#xa;Mas voc&#xea; pode alterar esse valor manualmente mesmo assim.&lt;/p&gt;&#xa;&lt;/html&gt;"/>
                 <Property name="caretColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
                 </Property>
@@ -711,6 +712,7 @@
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="text" type="java.lang.String" value="*Valor Unit&#xe1;rio"/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;p&gt;O &quot;&lt;b&gt;VALOR UNIT&#xc1;RIO&lt;/b&gt;&quot; &#xe9; atualizado automaticamente quando &#xe9; feita uma nova compra do item&lt;/p&gt; &lt;br&gt;&lt;br&gt; &lt;p&gt;O valor novo &#xe9; um valor ponderado, feito pela f&#xf3;rmula abaixo:&lt;/p&gt; &lt;p&gt;&lt;b&gt; [(Ea x Pa) + (Cn + Pn)] / (Ea + Cn) &lt;/b&gt;&lt;/p&gt; &lt;br&gt; &lt;p&gt; Onde: &lt;br&gt; Ea = Estoque anterior a compra &lt;br&gt; Pa = Pre&#xe7;o da compra anterior &lt;br&gt; Cn = Quantidade da nova compra &lt;br&gt; Pn = Pre&#xe7;o da nova compra &lt;br&gt;&lt;br&gt; Mas voc&#xea; pode alterar esse valor manualmente mesmo assim.&lt;/p&gt; &lt;/html&gt;"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator1">

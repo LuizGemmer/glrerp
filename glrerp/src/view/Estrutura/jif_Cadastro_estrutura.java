@@ -10,8 +10,6 @@ import entidade.Estrutura;
 import entidade.Grupo;
 import entidade.Item;
 import java.awt.Color;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -21,22 +19,13 @@ import javax.swing.UIManager;
  */
 public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
-    /*MENU ANTIGO*/ private JDesktopPane DesktopPane; //Variavel usada para reiniciar a tela
     private int id_item_selecionado; //Variavel que armazena o id do item a ser cadastrada a estrutura
     private int id_insumo_selecionado; //Variavel que armazena o id do iNSUMO a ser cadastrada NA estrutura. Tal valor retorna na da tabela na tela JFF_PESQUISAR
     public int pesquisar_insumo_item; //Variavel que é utilizada para dizer à tela JFF_PESQUISAR se estamos buscando um item(int=1) ou um insumo (int=2)
     private boolean editar_insumos = false; //Variavel fica TRUE quando é clicado no botão EDITAR ESTRUTURA. Quando TRUE ela libera os botões de editar e excluir do BD.
     private boolean apertou_editar = false; //Variavel que fica TRUE quando seleciona um insumo já cadastrado na estrutura para edição. Caso seja clicado em FECHAR ou REINICIAR antes de salvar, gerará uma mensagem de aviso.
 
-    /*MENU ANTIGO*/
-    public jif_Cadastro_estrutura(JDesktopPane DesktopPane) {
-        this.DesktopPane = DesktopPane;
-        initComponents();
-        jcb_und_medida.setEnabled(false);
-        UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
-        UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
-    }
-
+    
     public jif_Cadastro_estrutura() {
         initComponents();
         jcb_und_medida.setEnabled(false);
@@ -657,16 +646,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         }
 
     }
-
-    //Método para reiniciar a tela de cadastro de estrutura
-    //MENU ANTIGO
-    public void ResetJif_Cadastro_Estrutura(JDesktopPane desktopPane, JInternalFrame internalFrame) {
-        this.dispose();  // Fecha o JInternalFrame
-        internalFrame = new jif_Cadastro_estrutura(this.DesktopPane);  // Recria o JInternalFrame
-        this.DesktopPane.add(internalFrame);  // Adiciona o JInternalFrame ao JDesktopPane
-        internalFrame.setVisible(true);  // Torna o JInternalFrame visível novamente
-    }
-
+    
     public double SomarTotalValorTabela() {
         int columnIndex = 4; // Índice da coluna a ser somada
         int rowCount = jtb_insumos_estrutura.getRowCount();

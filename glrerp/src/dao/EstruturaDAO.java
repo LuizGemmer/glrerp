@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -268,14 +267,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + "item.descricao, "
                     + "estrutura.qtde_insumo, "
                     + "estrutura.und_medida, "
-                    + "CASE "
-                    + "WHEN estrutura.und_medida = item.unidade_medida "
-                    + "THEN item.valor * estrutura.qtde_insumo "
-                    + "WHEN estrutura.und_medida = item.und_conv1 "
-                    + "THEN item.valor * item.conv2 * estrutura.qtde_insumo "
-                    + "WHEN estrutura.und_medida = item.und_conv2 "
-                    + "THEN item.valor / item.conv2 * estrutura.qtde_insumo "
-                    + "END AS valor_ponderado "
+                    + "estrutura.valor_estrutura "
                     + "FROM item, estrutura "
                     + "WHERE estrutura.insumo_id = item.id "
                     + "AND item.ativo=true "
@@ -289,7 +281,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 linha[1] = resultadoQ.getString("descricao");
                 linha[2] = resultadoQ.getDouble("qtde_insumo");
                 linha[3] = resultadoQ.getString("und_medida");
-                linha[4] = resultadoQ.getDouble("valor_ponderado");
+                linha[4] = resultadoQ.getDouble("valor_estrutura");
                 dadosTabela.add(linha);
             }
 
