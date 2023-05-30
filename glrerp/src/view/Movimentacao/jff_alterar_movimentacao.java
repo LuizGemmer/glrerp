@@ -28,18 +28,41 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
 
     private jif_Listagem_DAO parente;
     private Item item;
+    private Movimentacao movimentacao;
     private boolean keyPressed;
     private boolean inativarControles;   
-    private final String tipoMovto;
+    private String tipoMovto;
     private movimentacaoDAO dao;
     private DefaultComboBoxModel comboModel;
+    private String tipoCliente;
+    private boolean abertaComoEdiçao;
+    private boolean camposBloqueados;
     
+    public jff_alterar_movimentacao() {
+        this.abertaComoEdiçao = true;
+        ArrayList<Cliente> clientes = new ClienteDAO(this.tipoCliente).consultarTodos();
+        Cliente[] clientesArr = new Cliente[clientes.size()];
+        for (int i = 0; i < clientesArr.length; i++) {
+            clientesArr[i] = clientes.get(i);
+        }
+        this.comboModel = new DefaultComboBoxModel(clientesArr);
+        initComponents();
+        
+        this.jbt_excluir.setEnabled(false);
+        this.jbt_limpar.setEnabled(false);
+        this.jbt_salvar_alteracao.setEnabled(false);
+    }
     
     public jff_alterar_movimentacao(String tipoMovto, int idItem) {
         this.tipoMovto = tipoMovto;
+        if (this.tipoMovto.equals("venda")) {
+            this.tipoCliente = "cliente";
+        } else {
+            this.tipoCliente = "fornecedor";
+        }
 
         try {
-            ArrayList<Cliente> clientes = new ClienteDAO("fornecedor").consultarTodos();
+            ArrayList<Cliente> clientes = new ClienteDAO(this.tipoCliente).consultarTodos();
             Cliente[] clientesArr = new Cliente[clientes.size()];
             for (int i = 0; i < clientesArr.length; i++) {
                 clientesArr[i] = clientes.get(i);
@@ -366,7 +389,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
-        
+        dao.excluir(movimentacao.getId());
     }//GEN-LAST:event_jbt_excluirActionPerformed
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
@@ -377,7 +400,7 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         if (this.tipoMovto.equals("producao")) perda = Double.parseDouble(jtf_perda.getText());
         if (!this.tipoMovto.equals("producao")) cliente_id = ((Cliente) jcb_cliente.getSelectedItem()).getId();
         if (!this.tipoMovto.equals("producao")) valor = Double.parseDouble(jtf_valor.getText());
-        if (this.tipoMovto.equals("vendas")) qtde = -qtde;
+        if (this.tipoMovto.equals("venda")) qtde = -qtde;
 
         String[] datePart = jft_data.getText().split("/");
         String[] hourPart = jft_hora.getText().split(":");
@@ -397,10 +420,13 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         movto.setTipo(this.tipoMovto);
         movto.setValor(valor);
         
-        item.setQtde_estoque(item.getQtde_estoque() + qtde);
         
-        new ItemDAO().atualizar(item);
-        this.dao.salvar(movto);
+        if (this.dao.salvar(movto) == null) {
+            JOptionPane.showMessageDialog(this, "Cadastro incluído com sucesso");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "erro na inclusão do cadastro");
+        } 
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
@@ -532,16 +558,31 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
     
     @Override
     public void setDAO(Object dao) {
-        this.dao = (movimentacaoDAO) dao;
+        this.dao = new movimentacaoDAO();
+        if (this.abertaComoEdiçao) {
+            this.movimentacao = (Movimentacao) dao;
+            this.item = new ItemDAO().consultarId(movimentacao.getItem_id());
+            
+            jtf_qtde.setText(String.valueOf(movimentacao.getQtde()));
+            jtf_observacao.setText(movimentacao.getObservacao());
+            jft_data.setText(movimentacao.getData().format(DateTimeFormatter.ofPattern("dd/MM/YYYY")));
+            jft_hora.setText(movimentacao.getData().format( DateTimeFormatter.ofPattern("hh:mm")));
+            
+            this.setItem(movimentacao.getItem_id());
+        }
     }
 
     @Override
     public void setDetalhamento(boolean inativarControles) {
+        this.camposBloqueados = inativarControles;
         jtf_qtde.setEnabled(!inativarControles);
         jtf_observacao.setEnabled(!inativarControles);
         jft_data.setEnabled(!inativarControles);
         jft_hora.setEnabled(!inativarControles);
         jtf_item.setEnabled(!inativarControles);
+        jtf_perda.setEnabled(!inativarControles);
+        jtf_valor.setEnabled(!inativarControles);
+
     }
 
     @Override
@@ -551,7 +592,15 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
 
     @Override
     public void showWindow(boolean s) {
-        this.setVisible(true);
+        if (this.abertaComoEdiçao && !this.camposBloqueados){
+            JOptionPane.showMessageDialog(
+                    this.parente, 
+                    "Para garantir a integridade do historico de movimentaçoes, nao e permitido " +
+                    "a alteraçao desses registros. Favor exclua esse registro e lance novamente com" +
+                    "os valores corretos");
+        } else {
+            this.setVisible(true);
+        }
     }
 
 }

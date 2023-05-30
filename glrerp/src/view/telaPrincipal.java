@@ -15,6 +15,7 @@ import dao.userDAO;
 import view.Estrutura.jif_Cadastro_estrutura;
 import view.Grupo.jff_Alterar_grupo;
 import view.Grupo.jif_Cadastro_grupo;
+import view.Movimentacao.jff_alterar_movimentacao;
 import view.Movimentacao.jff_pesquisar_item;
 
 /**
@@ -459,6 +460,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_vendas_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jm_vendas_cadastro.setMaximumSize(null);
         jm_vendas_cadastro.setPreferredSize(new java.awt.Dimension(150, 35));
+        jm_vendas_cadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_vendas_cadastroActionPerformed(evt);
+            }
+        });
         jm_vendas.add(jm_vendas_cadastro);
 
         jm_movimentacoes.add(jm_vendas);
@@ -508,6 +514,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         jm_compras_cadastro.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jm_compras_cadastro.setMaximumSize(null);
         jm_compras_cadastro.setPreferredSize(new java.awt.Dimension(150, 35));
+        jm_compras_cadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jm_compras_cadastroActionPerformed(evt);
+            }
+        });
         jm_compras.add(jm_compras_cadastro);
 
         jm_movimentacoes.add(jm_compras);
@@ -848,7 +859,7 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private void jm_producao_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_producao_cadastroActionPerformed
         jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
-                "PRODUTO ACABADO"
+                "'PRODUTO ACABADO'", "compra"
         );
         telaPesquisa.setVisible(true);
         
@@ -866,7 +877,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jm_fornecedor_visualizarActionPerformed
 
     private void jm_compras_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_compras_visualizarActionPerformed
-        abrirListagemDAO(new movimentacaoDAO("compra"), null);
+        abrirListagemDAO(new movimentacaoDAO("compra"), new jff_alterar_movimentacao());
     }//GEN-LAST:event_jm_compras_visualizarActionPerformed
 
     private void jm_estrutura_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_estrutura_cadastroActionPerformed
@@ -884,12 +895,26 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jm_relatorio_cadastroActionPerformed
 
     private void jm_vendas_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_vendas_visualizarActionPerformed
-        abrirListagemDAO(new movimentacaoDAO("venda"), null);
+        abrirListagemDAO(new movimentacaoDAO("venda"), new jff_alterar_movimentacao());
     }//GEN-LAST:event_jm_vendas_visualizarActionPerformed
 
     private void jm_producao_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_producao_visualizarActionPerformed
-        abrirListagemDAO(new movimentacaoDAO("producao"), null);
+        abrirListagemDAO(new movimentacaoDAO("producao"), new jff_alterar_movimentacao());
     }//GEN-LAST:event_jm_producao_visualizarActionPerformed
+
+    private void jm_compras_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_compras_cadastroActionPerformed
+        jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
+                "'MATERIA-PRIMA', 'FERRAMENTA', 'OUTRO'", "compra"
+        );
+        telaPesquisa.setVisible(true);
+    }//GEN-LAST:event_jm_compras_cadastroActionPerformed
+
+    private void jm_vendas_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jm_vendas_cadastroActionPerformed
+        jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
+                "'PRODUTO ACABADO'", "venda"
+        );
+        telaPesquisa.setVisible(true);
+    }//GEN-LAST:event_jm_vendas_cadastroActionPerformed
 
     /**
      * @param args the command line arguments

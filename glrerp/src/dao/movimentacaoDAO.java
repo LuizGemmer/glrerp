@@ -2,6 +2,7 @@ package dao;
 
 import apoio.ConexaoBD;
 import apoio.IDAOT;
+import entidade.Item;
 import entidade.Movimentacao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -24,6 +25,11 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
     public movimentacaoDAO() {
         this.tipo = "";
+    }
+    
+    private void atualizarEstoques(int idItem, double soma) {
+        Item item = new ItemDAO().consultarId(idItem);
+        item.setQtde_estoque(item.getQtde_estoque() + soma);
     }
 
     @Override
@@ -50,6 +56,8 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
 
+            atualizarEstoques(o.getItem_id(), o.getQtde());
+            
             return null;
             
         } catch (Exception e) {
@@ -80,6 +88,8 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
+            atualizarEstoques(o.getItem_id(), o.getQtde());
+
             return null;
 
         } catch (Exception e) {
@@ -95,9 +105,11 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         m.setData(LocalDateTime.now());
         m.setQtde(-m.getQtde());
         m.setPerdas(-m.getPerdas());
-        m.setTipo("estorno " + m.getTipo());
+        m.setTipo(m.getTipo());
         
         this.salvar(m);
+        atualizarEstoques(m.getItem_id(), m.getQtde());
+
         return "";
     }
 
