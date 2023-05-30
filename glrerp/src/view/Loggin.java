@@ -54,7 +54,7 @@ public class Loggin extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(0, 74, 173));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\ruang\\Documents\\NetBeansProjects\\git6\\glrerp\\glrerp\\src\\images\\logo.png")); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Lucida Sans", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
