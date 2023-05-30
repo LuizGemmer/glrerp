@@ -31,6 +31,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
     public jff_Alterar_item() {
         UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
+        UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
         initComponents();
         jtf_conv1.setEnabled(false);
         jcb_Unidade_medida.setEnabled(false);

@@ -6,6 +6,7 @@ import dao.movimentacaoDAO;
 import entidade.Cliente;
 import entidade.Item;
 import entidade.Movimentacao;
+import java.awt.Color;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import view.jff_ITelaAlterarCadastro;
@@ -29,14 +31,14 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
     private Item item;
     private Movimentacao movimentacao;
     private boolean keyPressed;
-    private boolean inativarControles;   
+    private boolean inativarControles;
     private String tipoMovto;
     private movimentacaoDAO dao;
     private DefaultComboBoxModel comboModel;
     private String tipoCliente;
     private boolean abertaComoEdiçao;
     private boolean camposBloqueados;
-    
+
     public jff_alterar_movimentacao() {
         this.abertaComoEdiçao = true;
         ArrayList<Cliente> clientes = new ClienteDAO(this.tipoCliente).consultarTodos();
@@ -46,12 +48,14 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         }
         this.comboModel = new DefaultComboBoxModel(clientesArr);
         initComponents();
-        
+        UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
+        UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
+
         this.jbt_excluir.setEnabled(false);
         this.jbt_limpar.setEnabled(false);
         this.jbt_salvar_alteracao.setEnabled(false);
     }
-    
+
     public jff_alterar_movimentacao(String tipoMovto, int idItem) {
         this.tipoMovto = tipoMovto;
         if (this.tipoMovto.equals("venda")) {
@@ -67,19 +71,24 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
                 clientesArr[i] = clientes.get(i);
             }
             this.comboModel = new DefaultComboBoxModel(clientesArr);
-            
+
             initComponents();
-            
+            UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
+            UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
+
             MaskFormatter dateFormater = new MaskFormatter("##/##/####");
             jft_data.setFormatterFactory(new DefaultFormatterFactory(dateFormater));
-            
+
             MaskFormatter hourFormater = new MaskFormatter("##:##");
             jft_hora.setFormatterFactory(new DefaultFormatterFactory(hourFormater));
-            
+
             switch (tipoMovto) {
-                case "producao" -> this.initFormProducao();
-                case "compra" -> this.initFormCompra();
-                case "venda" -> this.initFormVenda();
+                case "producao" ->
+                    this.initFormProducao();
+                case "compra" ->
+                    this.initFormCompra();
+                case "venda" ->
+                    this.initFormVenda();
             }
         } catch (ParseException ex) {
             Logger.getLogger(jff_alterar_movimentacao.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,17 +99,17 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         jtf_valor.setEnabled(false);
         jcb_cliente.setEnabled(false);
     }
-    
+
     private void initFormVenda() {
         jtf_perda.setEnabled(false);
         lbl_clienteTipo.setText("Cliente");
     }
-    
+
     private void initFormCompra() {
         jtf_perda.setEnabled(false);
         lbl_clienteTipo.setText("Fornecedor");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -406,36 +415,44 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
         int cliente_id = 0;
         double valor = 0.0;
         double qtde = Double.parseDouble(jtf_qtde.getText());
-        if (this.tipoMovto.equals("producao")) perda = Double.parseDouble(jtf_perda.getText());
-        if (!this.tipoMovto.equals("producao")) cliente_id = ((Cliente) jcb_cliente.getSelectedItem()).getId();
-        if (!this.tipoMovto.equals("producao")) valor = Double.parseDouble(jtf_valor.getText());
-        if (this.tipoMovto.equals("venda")) qtde = -qtde;
+        if (this.tipoMovto.equals("producao")) {
+            perda = Double.parseDouble(jtf_perda.getText());
+        }
+        if (!this.tipoMovto.equals("producao")) {
+            cliente_id = ((Cliente) jcb_cliente.getSelectedItem()).getId();
+        }
+        if (!this.tipoMovto.equals("producao")) {
+            valor = Double.parseDouble(jtf_valor.getText());
+        }
+        if (this.tipoMovto.equals("venda")) {
+            qtde = -qtde;
+        }
 
         String[] datePart = jft_data.getText().split("/");
         String[] hourPart = jft_hora.getText().split(":");
         String str = datePart[2] + "-" + datePart[1] + "-" + datePart[0] + " " + hourPart[0] + ":" + hourPart[1];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
-        
+
         Movimentacao movto = new Movimentacao();
 
-        
         movto.setData(dateTime);
-        if (cliente_id != 0) movto.setCliente_id(cliente_id);
+        if (cliente_id != 0) {
+            movto.setCliente_id(cliente_id);
+        }
         movto.setItem_id(item.getId());
         movto.setObservacao(jtf_observacao.getText());
         movto.setPerdas(perda);
         movto.setQtde(qtde);
         movto.setTipo(this.tipoMovto);
         movto.setValor(valor);
-        
-        
+
         if (this.dao.salvar(movto) == null) {
             JOptionPane.showMessageDialog(this, "Cadastro incluído com sucesso");
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "erro na inclusão do cadastro");
-        } 
+        }
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
@@ -453,13 +470,13 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
             Object[] options = {"Sim",
                 "Não"};
             int n = JOptionPane.showOptionDialog(this,
-                "Você pode ter alterações não salvas. Tem certeza que deseja sair?",
-                "ALTERAÇÕES NÃO SALVAS",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]);
+                    "Você pode ter alterações não salvas. Tem certeza que deseja sair?",
+                    "ALTERAÇÕES NÃO SALVAS",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
             if (n == 0) {
                 this.dispose();
                 keyPressed = false;
@@ -560,24 +577,24 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
 
     public void setItem(int id) {
         this.item = new ItemDAO().consultarId(id);
-        
+
         jtf_item.setText(this.item.getDescricao());
         String tipoMotivo = this.tipoMovto.toUpperCase();
         jtf_tipo.setText(tipoMotivo);
     }
-    
+
     @Override
     public void setDAO(Object dao) {
         this.dao = new movimentacaoDAO();
         if (this.abertaComoEdiçao) {
             this.movimentacao = (Movimentacao) dao;
             this.item = new ItemDAO().consultarId(movimentacao.getItem_id());
-            
+
             jtf_qtde.setText(String.valueOf(movimentacao.getQtde()));
             jtf_observacao.setText(movimentacao.getObservacao());
             jft_data.setText(movimentacao.getData().format(DateTimeFormatter.ofPattern("dd/MM/YYYY")));
-            jft_hora.setText(movimentacao.getData().format( DateTimeFormatter.ofPattern("hh:mm")));
-            
+            jft_hora.setText(movimentacao.getData().format(DateTimeFormatter.ofPattern("hh:mm")));
+
             this.setItem(movimentacao.getItem_id());
         }
     }
@@ -602,12 +619,12 @@ public class jff_alterar_movimentacao extends javax.swing.JFrame implements jff_
 
     @Override
     public void showWindow(boolean s) {
-        if (this.abertaComoEdiçao && !this.camposBloqueados){
+        if (this.abertaComoEdiçao && !this.camposBloqueados) {
             JOptionPane.showMessageDialog(
-                    this.parente, 
-                    "Para garantir a integridade do historico de movimentaçoes, nao é permitido " +
-                    "a alteraçao desses registros. Favor exclua esse registro e lance novamente com" +
-                    "os valores corretos");
+                    this.parente,
+                    "Para garantir a integridade do historico de movimentaçoes, nao é permitido "
+                    + "a alteraçao desses registros. Favor exclua esse registro e lance novamente com"
+                    + "os valores corretos");
         } else {
             this.setVisible(true);
         }

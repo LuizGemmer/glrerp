@@ -29,6 +29,8 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         this.model = new DefaultComboBoxModel(grupoComboBox);
         initComponents();
         jtf_Email.setEditable(false);
+        UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
+        UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
     }
 
     @SuppressWarnings("unchecked")

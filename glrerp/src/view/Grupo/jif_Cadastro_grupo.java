@@ -1,6 +1,6 @@
-
 package view.Grupo;
 
+import apoio.Validacao;
 import dao.GrupoDAO;
 import entidade.Grupo;
 import javax.swing.JOptionPane;
@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
  */
 public class jif_Cadastro_grupo extends javax.swing.JInternalFrame {
 
-   
     public jif_Cadastro_grupo() {
         initComponents();
     }
@@ -49,6 +48,11 @@ public class jif_Cadastro_grupo extends javax.swing.JInternalFrame {
         jtf_Descricao.setBackground(new java.awt.Color(250, 250, 250));
         jtf_Descricao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_Descricao.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_Descricao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtf_DescricaoFocusLost(evt);
+            }
+        });
 
         jbt_fechar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_fechar.setForeground(new java.awt.Color(255, 255, 255));
@@ -85,6 +89,11 @@ public class jif_Cadastro_grupo extends javax.swing.JInternalFrame {
         jcb_Tipo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Tipo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE", "MATERIA-PRIMA", "PRODUTO ACABADO", "FERRAMENTA", "OUTRO" }));
+        jcb_Tipo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jcb_TipoFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -144,7 +153,7 @@ public class jif_Cadastro_grupo extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_limparActionPerformed
-        
+
         //Botão de limpar campos de TextField
         jtf_Descricao.setText("");
         jcb_Tipo.setSelectedIndex(0);
@@ -152,30 +161,44 @@ public class jif_Cadastro_grupo extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
-        
-        //Cadastrar novo grupo
-        //Atribuir dados inseridos pelo usuario a variaveis
-        String descGrupo = jtf_Descricao.getText().toUpperCase();
-        String tipoGrupo = jcb_Tipo.getSelectedItem().toString().toUpperCase();
+        //Faz as validações necessárias antes de salvar
+        if (Validacao.testarCombo(jcb_Tipo)
+                && Validacao.ValidarJTFObrigatorio(jtf_Descricao)) {
 
-        //Setar nomes das variaveis para o objeto grupo
-        Grupo grupo = new Grupo();
-        grupo.setDescricao(descGrupo);
-        grupo.setTipo(tipoGrupo);
-        
-        //Chamar classe GrupoDAO para salvar dados no Banco de dados
-        GrupoDAO grupoDAO = new GrupoDAO();
-        
-        //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
-        if (grupoDAO.salvar(grupo) == null){
-            JOptionPane.showMessageDialog(this, "Novo Grupo salvo com sucesso!", "GRUPO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
-            jtf_Descricao.setText("");
-            jcb_Tipo.setSelectedIndex(0);
-            jtf_Descricao.requestFocus();
-        }else{
-            JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo grupo", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            //Cadastrar novo grupo
+            //Atribuir dados inseridos pelo usuario a variaveis
+            String descGrupo = jtf_Descricao.getText().toUpperCase();
+            String tipoGrupo = jcb_Tipo.getSelectedItem().toString().toUpperCase();
+
+            //Setar nomes das variaveis para o objeto grupo
+            Grupo grupo = new Grupo();
+            grupo.setDescricao(descGrupo);
+            grupo.setTipo(tipoGrupo);
+
+            //Chamar classe GrupoDAO para salvar dados no Banco de dados
+            GrupoDAO grupoDAO = new GrupoDAO();
+
+            //Verifica se o cadastro foi bem sucessido e limpa a tela. Caso contrário apresenta mensagem de erro
+            if (grupoDAO.salvar(grupo) == null) {
+                JOptionPane.showMessageDialog(this, "Novo Grupo salvo com sucesso!", "GRUPO CADASTRADO", JOptionPane.INFORMATION_MESSAGE);
+                jtf_Descricao.setText("");
+                jcb_Tipo.setSelectedIndex(0);
+                jtf_Descricao.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao inserir dados de novo grupo", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbt_cadastrarActionPerformed
+
+    private void jtf_DescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_DescricaoFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_Descricao);
+    }//GEN-LAST:event_jtf_DescricaoFocusLost
+
+    private void jcb_TipoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_TipoFocusLost
+        Validacao.testarCombo(jcb_Tipo);
+    }//GEN-LAST:event_jcb_TipoFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

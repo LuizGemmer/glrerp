@@ -137,8 +137,10 @@ public class Validacao {
     public static boolean testarCombo(JComboBox campo) {
         //Testa se o ComboBom foi retirado da posição=0 (SELECIONE)
         if (campo.getSelectedIndex() == 0) {
+            campo.setBackground(Color.decode("#FF9696"));
             return false;
         } else {
+            campo.setBackground(Color.white);
             return true;
         }
     }
