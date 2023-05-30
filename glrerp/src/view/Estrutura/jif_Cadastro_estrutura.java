@@ -1,6 +1,7 @@
 package view.Estrutura;
 
 import apoio.CombosDAO;
+import apoio.Formatacao;
 import apoio.Validacao;
 import dao.EstruturaDAO;
 import dao.GrupoDAO;
@@ -48,6 +49,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
         //popula tabela com a estrutura já cadastrada no item
         new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
+        jtf_SomaValor.setText("R$  " + String.valueOf(Formatacao.formatarDecimal(SomarTotalValorTabela()).replace('.', ',')));
 
         //Coloca os valores referentes ao ID do item para os campos JTF
         Item item = new ItemDAO().consultarId(this.id_item_selecionado);
@@ -57,6 +59,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jtf_nome_item.setText(item.getDescricao());
         jtf_grupo_item.setText(grupo.getTipo() + " - " + grupo.getDescricao());
         jbt_editar_estrutura.setEnabled(true);
+        jlb_Valor.setText("VALOR DA ESTRUTURA POR CADA " + item.getUnidade_medida() + " =");
     }
 
     public void NomearInsumo(int id_tabela) {
@@ -102,7 +105,8 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jbt_excluir = new javax.swing.JButton();
         jbt_editar = new javax.swing.JButton();
         jcb_und_medida = new javax.swing.JComboBox<>();
-        jbt_reiniciar = new javax.swing.JButton();
+        jlb_Valor = new javax.swing.JLabel();
+        jtf_SomaValor = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
@@ -285,13 +289,20 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jcb_und_medida.setForeground(new java.awt.Color(0, 0, 0));
         jcb_und_medida.setToolTipText("");
 
-        jbt_reiniciar.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_reiniciar.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_reiniciar.setText("Editar outro Item");
-        jbt_reiniciar.setEnabled(false);
-        jbt_reiniciar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_reiniciarActionPerformed(evt);
+        jlb_Valor.setForeground(new java.awt.Color(0, 0, 0));
+        jlb_Valor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jlb_Valor.setText("Valor da Estrutura:");
+
+        jtf_SomaValor.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_SomaValor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jtf_SomaValor.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_SomaValor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtf_SomaValor.setCaretColor(new java.awt.Color(0, 0, 0));
+        jtf_SomaValor.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+        jtf_SomaValor.setEnabled(false);
+        jtf_SomaValor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtf_SomaValorKeyTyped(evt);
             }
         });
 
@@ -348,10 +359,12 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jbt_excluir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jbt_pesquisar_insumo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jbt_reiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jbt_fechar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbt_fechar))
+                                .addComponent(jlb_Valor, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtf_SomaValor, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 929, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(32, 32, 32))
         );
@@ -403,7 +416,8 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbt_fechar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbt_reiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jlb_Valor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jtf_SomaValor, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
                 .addGap(550, 550, 550))
         );
 
@@ -425,7 +439,6 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jbt_editar_estrutura.setEnabled(false);
         jbt_pesquisar_item.setEnabled(false);
         jbt_pesquisar_insumo.setEnabled(true);
-        jbt_reiniciar.setEnabled(true);
         this.editar_insumos = true;
     }//GEN-LAST:event_jbt_editar_estruturaActionPerformed
 
@@ -478,6 +491,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                 if (estruturaDAO.salvar(estrutura) == null) {
                     JOptionPane.showMessageDialog(this, "Insumo inserido com sucesso!", "SUCESSO NO CADASTRO", JOptionPane.INFORMATION_MESSAGE);
                     new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(estrutura.getItem_id()));
+                    jtf_SomaValor.setText("R$  " + String.valueOf(Formatacao.formatarDecimal(SomarTotalValorTabela()).replace('.', ',')));
                     LimparCampos();
                     jcb_und_medida.setEnabled(false);
                     jcb_und_medida.setSelectedItem(null);
@@ -519,6 +533,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             if (estruturaDAO.inativar(this.id_item_selecionado, id_IntTabela) == null) {
                 JOptionPane.showMessageDialog(this, "Insumo excluido com sucesso!", "INSUMO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
                 new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
+                jtf_SomaValor.setText("R$  " + String.valueOf(Formatacao.formatarDecimal(SomarTotalValorTabela()).replace('.', ',')));
 
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO EXCLUIR", JOptionPane.ERROR_MESSAGE);
@@ -568,16 +583,9 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtb_insumos_estruturaMouseClicked
 
-    private void jbt_reiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_reiniciarActionPerformed
-         
-        /*MENU ANTIGO 
-        if (this.apertou_editar) {
-            MensagemFecharComEdicaoEmAndamento();
-        } else {
-            //Reinicia a tela
-            ResetJif_Cadastro_Estrutura(this.DesktopPane, new jif_Cadastro_estrutura(this.DesktopPane));
-        }*/
-    }//GEN-LAST:event_jbt_reiniciarActionPerformed
+    private void jtf_SomaValorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_SomaValorKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_SomaValorKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -595,9 +603,10 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbt_inserir;
     private javax.swing.JButton jbt_pesquisar_insumo;
     private javax.swing.JButton jbt_pesquisar_item;
-    private javax.swing.JButton jbt_reiniciar;
     private javax.swing.JComboBox<String> jcb_und_medida;
+    private javax.swing.JLabel jlb_Valor;
     private javax.swing.JTable jtb_insumos_estrutura;
+    private javax.swing.JTextField jtf_SomaValor;
     private javax.swing.JTextField jtf_grupo_insumo;
     private javax.swing.JTextField jtf_grupo_item;
     private javax.swing.JTextField jtf_id_insumo;
@@ -643,5 +652,20 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         internalFrame = new jif_Cadastro_estrutura(this.DesktopPane);  // Recria o JInternalFrame
         this.DesktopPane.add(internalFrame);  // Adiciona o JInternalFrame ao JDesktopPane
         internalFrame.setVisible(true);  // Torna o JInternalFrame visível novamente
+    }
+
+    public double SomarTotalValorTabela() {
+        int columnIndex = 4; // Índice da coluna a ser somada
+        int rowCount = jtb_insumos_estrutura.getRowCount();
+        double sum = 0.00;
+
+        for (int i = 0; i < rowCount; i++) {
+            Object value = jtb_insumos_estrutura.getValueAt(i, columnIndex);
+            if (value instanceof Number) {
+                double cellValue = ((Number) value).doubleValue();
+                sum += cellValue;
+            }
+        }
+        return sum;
     }
 }

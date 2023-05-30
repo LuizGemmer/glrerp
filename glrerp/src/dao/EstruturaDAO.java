@@ -1,7 +1,6 @@
 package dao;
 
 import apoio.ConexaoBD;
-import apoio.Formatacao;
 import apoio.IDAOT;
 import entidade.Estrutura;
 import java.awt.Component;
@@ -10,14 +9,11 @@ import java.util.ArrayList;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import static javax.swing.SwingConstants.CENTER;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 
 /**
  *
@@ -37,7 +33,8 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + o.getInsumo_id() + ", "
                     + o.getQtde_insumo() + ", "
                     + "'true', "
-                    + "'" + o.getUnd_medida() + "')";
+                    + "'" + o.getUnd_medida() + "', "
+                    + o.getValor_estrutura() + ")";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
@@ -60,7 +57,8 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + "item_id=" + o.getItem_id() + ", "
                     + "insumo_id=" + o.getInsumo_id() + ", "
                     + "qtde_insumo=" + o.getQtde_insumo() + ", "
-                    + "und_medida='" + o.getUnd_medida();
+                    + "und_medida='" + o.getUnd_medida() + "', "
+                    + "valor_estrutura=" + o.getValor_estrutura();
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
@@ -131,6 +129,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
                 estrutura.setAtivo(retorno.getBoolean("ativo"));
                 estrutura.setUnd_medida(retorno.getString("und_medida"));
+                estrutura.setValor_estrutura(retorno.getDouble("valor_estrutura"));
 
                 estrut.add(estrutura);
             }
@@ -164,6 +163,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
                 estrutura.setAtivo(retorno.getBoolean("ativo"));
                 estrutura.setUnd_medida(retorno.getString("und_medida"));
+                estrutura.setValor_estrutura(retorno.getDouble("valor_estrutura"));
 
                 estruturas.add(estrutura);
             }
@@ -195,6 +195,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
                 estrutura.setAtivo(retorno.getBoolean("ativo"));
                 estrutura.setUnd_medida(retorno.getString("und_medida"));
+                estrutura.setValor_estrutura(retorno.getDouble("valor_estrutura"));
 
             }
         } catch (Exception e) {
@@ -230,6 +231,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
                 estrutura.setAtivo(retorno.getBoolean("ativo"));
                 estrutura.setUnd_medida(retorno.getString("und_medida"));
+                estrutura.setValor_estrutura(retorno.getDouble("valor_estrutura"));
 
             }
         } catch (Exception e) {
@@ -251,11 +253,12 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         ArrayList<Object[]> dadosTabela = new ArrayList<>();
 
         // Cabecalho da tabela
-        Object[] cabecalho = new Object[4];
+        Object[] cabecalho = new Object[5];
         cabecalho[0] = "ID Insumo";
         cabecalho[1] = "Insumo";
         cabecalho[2] = "Qtde Insumo";
         cabecalho[3] = "Unidade";
+        cabecalho[4] = "Valor";
 
         //Efetua a consulta na Tabela
         try {
@@ -264,7 +267,15 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + "estrutura.insumo_id, "
                     + "item.descricao, "
                     + "estrutura.qtde_insumo, "
-                    + "estrutura.und_medida "
+                    + "estrutura.und_medida, "
+                    + "CASE "
+                    + "WHEN estrutura.und_medida = item.unidade_medida "
+                    + "THEN item.valor * estrutura.qtde_insumo "
+                    + "WHEN estrutura.und_medida = item.und_conv1 "
+                    + "THEN item.valor * item.conv2 * estrutura.qtde_insumo "
+                    + "WHEN estrutura.und_medida = item.und_conv2 "
+                    + "THEN item.valor / item.conv2 * estrutura.qtde_insumo "
+                    + "END AS valor_ponderado "
                     + "FROM item, estrutura "
                     + "WHERE estrutura.insumo_id = item.id "
                     + "AND item.ativo=true "
@@ -273,11 +284,12 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                     + "ORDER BY item.descricao");
 
             while (resultadoQ.next()) {
-                Object[] linha = new Object[4];
+                Object[] linha = new Object[5];
                 linha[0] = resultadoQ.getInt("insumo_id");
                 linha[1] = resultadoQ.getString("descricao");
                 linha[2] = resultadoQ.getDouble("qtde_insumo");
                 linha[3] = resultadoQ.getString("und_medida");
+                linha[4] = resultadoQ.getDouble("valor_ponderado");
                 dadosTabela.add(linha);
             }
 
@@ -300,7 +312,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         // Redimensiona as colunas de uma tabela
         TableColumn column = null;
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        int[] columnWidths = {20, 380, 50, 50};
+        int[] columnWidths = {20, 380, 50, 50, 50};
         for (int i = 0; i < tabela.getColumnModel().getColumnCount(); i++) {
             column = tabela.getColumnModel().getColumn(i);
             column.setPreferredWidth(columnWidths[i]);
@@ -312,12 +324,14 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         TableColumn column1 = tabela.getColumnModel().getColumn(0);
         TableColumn column2 = tabela.getColumnModel().getColumn(2);
         TableColumn column3 = tabela.getColumnModel().getColumn(3);
+        TableColumn column4 = tabela.getColumnModel().getColumn(4);
         column1.setCellRenderer(centerRenderer);
         column2.setCellRenderer(centerRenderer);
         column3.setCellRenderer(centerRenderer);
+        
 
         // Formatar número Double na coluna 2
-        DefaultTableCellRenderer decimalRenderer = new DefaultTableCellRenderer() {
+        DefaultTableCellRenderer decimalRenderer2 = new DefaultTableCellRenderer() {
             private DecimalFormat decimalFormat = new DecimalFormat("#,####0.0000");
 
             @Override
@@ -335,7 +349,27 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
             }
         };
 
-        column2.setCellRenderer(decimalRenderer);
+        column2.setCellRenderer(decimalRenderer2);
+        
+        // Formatar número Double na coluna 4
+        DefaultTableCellRenderer decimalRenderer4 = new DefaultTableCellRenderer() {
+            private DecimalFormat decimalFormat = new DecimalFormat("R$  #,##0.00");
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+                    int row, int column) {
+                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                if (value instanceof Double) {
+                    double valor = (Double) value;
+                    String textoFormatado = decimalFormat.format(valor);
+                    setHorizontalAlignment(SwingConstants.LEFT);
+                    setText(textoFormatado);
+                }
+                return component;
+            }
+        };
+        column4.setCellRenderer(decimalRenderer4);
     }
 
     public void popularTabelaItensConsomemInsumoX(JTable tabela, int id) {
@@ -451,5 +485,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
     public Estrutura consultarId(int id) {
         return this.consultarId(0, 0);
     }
+    
+   
 
 }

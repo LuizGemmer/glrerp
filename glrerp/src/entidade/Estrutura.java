@@ -11,6 +11,7 @@ public class Estrutura {
     private double qtde_insumo;
     private boolean ativo;
     private String und_medida;
+    private double valor_estrutura;
 
     
     public int getItem_id() {
@@ -51,6 +52,14 @@ public class Estrutura {
 
     public void setUnd_medida(String und_medida) {
         this.und_medida = und_medida;
+    }
+
+    public double getValor_estrutura() {
+        return valor_estrutura;
+    }
+
+    public void setValor_estrutura(double valor_estrutura) {
+        this.valor_estrutura = valor_estrutura;
     }
 
     

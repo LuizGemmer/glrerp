@@ -31,7 +31,7 @@ public class Formatacao {
     }
 
     public static String formatarDecimal(double valor) {
-        NumberFormat formatter = new DecimalFormat("###0.00");
+        NumberFormat formatter = new DecimalFormat("#,##0.00");
         return (formatter.format(valor));
     }
 
