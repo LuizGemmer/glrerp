@@ -9,10 +9,14 @@ import entidade.Estrutura;
 import entidade.Grupo;
 import entidade.Item;
 import java.awt.Color;
+import java.awt.Component;
 import javax.swing.JOptionPane;
 import java.text.DecimalFormat;
+import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import view.Estrutura.jff_pesquisar;
 import view.jff_ITelaAlterarCadastro;
 import view.jif_Listagem_DAO;
@@ -37,7 +41,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_conv1.setEnabled(false);
         jcb_Unidade_medida.setEnabled(false);
         jtf_estoque.setEditable(false);
-        
+
         ToolTipManager.sharedInstance().setInitialDelay(100); // Atraso de 500 milissegundos
         ToolTipManager.sharedInstance().setDismissDelay(10000); // Duração de 3000 milissegundos
     }
@@ -498,7 +502,8 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 && Validacao.testarCombo(jcb_Grupo)
                 && Validacao.ValidarJTFObrigatorio(jtf_estoque)
                 && Validacao.testarCombo(jcb_Unidade_medida)
-                && Validacao.ValidarJTFObrigatorio(jff_valor)) {
+                && Validacao.ValidarJTFObrigatorio(jff_valor)
+                && TestarEscolhaCB(jcb_UndConv1, jcb_UndConv2)) {
 
             //Atribuir dados inseridos pelo usuario a variaveis
             String descItem = jtf_Descricao.getText().toUpperCase();
@@ -664,6 +669,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             jcb_UndConv2.setSelectedIndex(jcb_UndConv1.getSelectedIndex());
             jcb_UndConv1.setSelectedIndex(jcb_Unidade_medida.getSelectedIndex());
         }
+        TestarEscolhaCB(jcb_UndConv1, jcb_UndConv2);
     }//GEN-LAST:event_jbt_inverterActionPerformed
 
     private void jtf_DescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_DescricaoFocusLost
@@ -684,10 +690,12 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
     private void jcb_UndConv1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_UndConv1ActionPerformed
         this.keyPressed = true;
+        TestarEscolhaCB(jcb_UndConv1, jcb_UndConv2);
     }//GEN-LAST:event_jcb_UndConv1ActionPerformed
 
     private void jcb_UndConv2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_UndConv2ActionPerformed
         this.keyPressed = true;
+        TestarEscolhaCB(jcb_UndConv1, jcb_UndConv2);
     }//GEN-LAST:event_jcb_UndConv2ActionPerformed
 
     private void jff_valorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jff_valorFocusLost
@@ -847,6 +855,74 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         //Abrir novo JFrame na mesma localização do JFrame anterior
         this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
+    }
+
+    //Testa se o Combo de conversão for igual ao Combo de Unidade de medida.
+    public boolean TestarEscolhaCB(JComboBox jcombo_conv1, JComboBox jcombo_conv2) {
+        jcombo_conv1.setBackground(Color.white);
+        jcombo_conv2.setBackground(Color.white);
+
+        if (trocaInverter) {
+            if (jcombo_conv1.getSelectedIndex() == jcombo_conv2.getSelectedIndex()) {
+                jcombo_conv1.setBackground(Color.decode("#FF9696"));
+                jcombo_conv1.setRenderer(new TooltipComboBoxRenderer());
+                return false;
+            } else {
+                jcombo_conv1.setBackground(Color.white);
+                jcombo_conv1.setRenderer(new CustomComboBoxRenderer());
+                return true;
+            }
+        } else {
+            if (jcombo_conv1.getSelectedIndex() == jcombo_conv2.getSelectedIndex()) {
+                jcombo_conv2.setBackground(Color.decode("#FF9696"));
+                jcombo_conv2.setRenderer(new TooltipComboBoxRenderer());
+                return false;
+            } else {
+                jcombo_conv2.setBackground(Color.white);
+                jcombo_conv2.setRenderer(new CustomComboBoxRenderer());
+                return true;
+            }
+        }
+    }
+    //Mostra uma ToolTip no CB caso o teste TestarEscolhaCB mostre que os dois CB são iguais
+    static class TooltipComboBoxRenderer extends BasicComboBoxRenderer {
+
+        private static final String TOOLTIP_TEXT = "<html>Você não pode selecionar no campo de CONVERSÃO a mesma unidade de medida<br> que está selecionada no campo 'UNIDADE DE MEDIDA'.<br><br>Selecione outra Unidade de medida de Conversão!</html>";
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            if (isSelected) {
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
+                list.setToolTipText(TOOLTIP_TEXT);
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+            setFont(list.getFont());
+            setText((value == null) ? "" : value.toString());
+            return this;
+        }
+    }
+
+    //Retira a ToolTip no CB caso o teste TestarEscolhaCB mostre que os dois CB são diferentes
+    static class CustomComboBoxRenderer extends BasicComboBoxRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            if (isSelected) {
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
+                list.setToolTipText(null);
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+            setFont(list.getFont());
+            setText((value == null) ? "" : value.toString());
+            return this;
+        }
+
     }
 
 }

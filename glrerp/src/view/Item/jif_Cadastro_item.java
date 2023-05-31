@@ -6,8 +6,13 @@ import dao.ItemDAO;
 import entidade.Grupo;
 import entidade.Item;
 import java.awt.Color;
+import java.awt.Component;
+import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 /**
  *
@@ -25,6 +30,8 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jtf_conv1.setEnabled(false);
         jcb_UndConv1.setEnabled(false);
         UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
+        ToolTipManager.sharedInstance().setInitialDelay(0); // Atraso de 500 milissegundos
+        ToolTipManager.sharedInstance().setDismissDelay(10000); // Duração de 3000 milissegundos
     }
 
     @SuppressWarnings("unchecked")
@@ -191,6 +198,11 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jcb_UndConv1.setForeground(new java.awt.Color(0, 0, 0));
         jcb_UndConv1.setMaximumRowCount(150);
         jcb_UndConv1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
+        jcb_UndConv1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_UndConv1ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("=");
@@ -199,6 +211,11 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jcb_UndConv2.setForeground(new java.awt.Color(0, 0, 0));
         jcb_UndConv2.setMaximumRowCount(150);
         jcb_UndConv2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
+        jcb_UndConv2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_UndConv2ActionPerformed(evt);
+            }
+        });
 
         jtf_conv2.setBackground(new java.awt.Color(250, 250, 250));
         jtf_conv2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -382,7 +399,8 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                 && Validacao.testarCombo(jcb_Grupo)
                 && Validacao.ValidarJTFObrigatorio(jtf_estoque_inicial)
                 && Validacao.testarCombo(jcb_Unidade_medida)
-                && Validacao.ValidarJTFObrigatorio(jff_valor_inicial)) {
+                && Validacao.ValidarJTFObrigatorio(jff_valor_inicial)
+                && TestarEscolhaCB(jcb_UndConv1, jcb_UndConv2)) {
 
             //Atribuir dados inseridos pelo usuario a variaveis
             String descItem = jtf_Descricao.getText().toUpperCase();
@@ -451,6 +469,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             jcb_UndConv2.setSelectedIndex(jcb_UndConv1.getSelectedIndex());
             jcb_UndConv1.setSelectedIndex(jcb_Unidade_medida.getSelectedIndex());
         }
+        TestarEscolhaCB(jcb_UndConv1, jcb_UndConv2);
 
     }//GEN-LAST:event_jbt_inverterActionPerformed
 
@@ -494,6 +513,15 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         Validacao.ValidarDecimal(jtf_conv2, evt);
     }//GEN-LAST:event_jtf_conv2KeyTyped
 
+    private void jcb_UndConv2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_UndConv2ActionPerformed
+        TestarEscolhaCB(jcb_UndConv1, jcb_UndConv2);
+
+    }//GEN-LAST:event_jcb_UndConv2ActionPerformed
+
+    private void jcb_UndConv1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_UndConv1ActionPerformed
+        TestarEscolhaCB(jcb_UndConv1, jcb_UndConv2);
+    }//GEN-LAST:event_jcb_UndConv1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -535,4 +563,72 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jtf_conv2.setText("");
     }
 
+    //Testa se o Combo de conversão for igual ao Combo de Unidade de medida.
+    public boolean TestarEscolhaCB(JComboBox jcombo_conv1, JComboBox jcombo_conv2) {
+        jcombo_conv1.setBackground(Color.white);
+        jcombo_conv2.setBackground(Color.white);
+        
+        if (trocaInverter) {
+            if (jcombo_conv1.getSelectedIndex() == jcombo_conv2.getSelectedIndex()) {
+                jcombo_conv1.setBackground(Color.decode("#FF9696"));
+                jcombo_conv1.setRenderer(new TooltipComboBoxRenderer());
+                return false;
+            } else {
+                jcombo_conv1.setBackground(Color.white);
+                jcombo_conv1.setRenderer(new CustomComboBoxRenderer());
+                return true;
+            }
+        } else {
+            if (jcombo_conv1.getSelectedIndex() == jcombo_conv2.getSelectedIndex()) {
+                jcombo_conv2.setBackground(Color.decode("#FF9696"));
+                jcombo_conv2.setRenderer(new TooltipComboBoxRenderer());
+                return false;
+            } else {
+                jcombo_conv2.setBackground(Color.white);
+                jcombo_conv2.setRenderer(new CustomComboBoxRenderer());
+                return true;
+            }
+        }
+    }
+    //Mostra uma ToolTip no CB caso o teste TestarEscolhaCB mostre que os dois CB são iguais
+
+    static class TooltipComboBoxRenderer extends BasicComboBoxRenderer {
+
+        private static final String TOOLTIP_TEXT = "<html>Você não pode selecionar no campo de CONVERSÃO a mesma unidade de medida<br> que está selecionada no campo 'UNIDADE DE MEDIDA'.<br><br>Selecione outra Unidade de medida de Conversão!</html>";
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            if (isSelected) {
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
+                list.setToolTipText(TOOLTIP_TEXT);
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+            setFont(list.getFont());
+            setText((value == null) ? "" : value.toString());
+            return this;
+        }
+    }
+
+    //Retira a ToolTip no CB caso o teste TestarEscolhaCB mostre que os dois CB são diferentes
+    static class CustomComboBoxRenderer extends BasicComboBoxRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            if (isSelected) {
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
+                list.setToolTipText(null);
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+            setFont(list.getFont());
+            setText((value == null) ? "" : value.toString());
+            return this;
+        }
+
+    }
 }
