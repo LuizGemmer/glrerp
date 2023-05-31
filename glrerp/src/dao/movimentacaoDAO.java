@@ -242,6 +242,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 linha[1] = Formatacao.ajustaDataDMA(resultadoQ.getDate("data").toString());
                 linha[2] = resultadoQ.getString("tipo").toUpperCase();
                 linha[3] = Formatacao.formatarDecimal4casas(resultadoQ.getDouble("qtde"));
+
                 dadosTabela.add(linha);
             }
 
@@ -301,12 +302,14 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
             }
 
             if (tipo.equalsIgnoreCase("VENDA")) {
-                component.setBackground(Color.GREEN);
+                component.setBackground(Color.decode("#99FF99"));
+                component.setForeground(Color.BLACK);
             } else if (tipo.equalsIgnoreCase("COMPRA")) {
-                component.setBackground(Color.YELLOW);
+                component.setBackground(Color.decode("#FFFF99"));
                 component.setForeground(Color.BLACK);
             } else if (tipo.equalsIgnoreCase("PRODUCAO")) {
-                component.setBackground(Color.BLUE);
+                component.setBackground(Color.decode("#99CCFF"));
+                component.setForeground(Color.BLACK);
             } else {
                 component.setBackground(table.getBackground());
             }
