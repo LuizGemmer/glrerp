@@ -47,6 +47,8 @@
           </Border>
         </Property>
       </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
       <SubComponents>
         <Container class="raven.scroll.win11.ScrollPaneWin11" name="scrollPaneWin111">
           <Properties>

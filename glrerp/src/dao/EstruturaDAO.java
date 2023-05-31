@@ -1,6 +1,7 @@
 package dao;
 
 import apoio.ConexaoBD;
+import apoio.Formatacao;
 import apoio.IDAOT;
 import entidade.Estrutura;
 import java.awt.Component;
@@ -279,7 +280,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 Object[] linha = new Object[5];
                 linha[0] = resultadoQ.getInt("insumo_id");
                 linha[1] = resultadoQ.getString("descricao");
-                linha[2] = resultadoQ.getDouble("qtde_insumo");
+                linha[2] = Formatacao.formatarDecimal4casas(resultadoQ.getDouble("qtde_insumo"));
                 linha[3] = resultadoQ.getString("und_medida");
                 linha[4] = resultadoQ.getDouble("valor_estrutura");
                 dadosTabela.add(linha);
@@ -317,32 +318,11 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         TableColumn column2 = tabela.getColumnModel().getColumn(2);
         TableColumn column3 = tabela.getColumnModel().getColumn(3);
         TableColumn column4 = tabela.getColumnModel().getColumn(4);
+
         column1.setCellRenderer(centerRenderer);
         column2.setCellRenderer(centerRenderer);
         column3.setCellRenderer(centerRenderer);
-        
 
-        // Formatar número Double na coluna 2
-        DefaultTableCellRenderer decimalRenderer2 = new DefaultTableCellRenderer() {
-            private DecimalFormat decimalFormat = new DecimalFormat("#,####0.0000");
-
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-                    int row, int column) {
-                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-                if (value instanceof Double) {
-                    double valor = (Double) value;
-                    String textoFormatado = decimalFormat.format(valor);
-                    setHorizontalAlignment(SwingConstants.CENTER);
-                    setText(textoFormatado);
-                }
-                return component;
-            }
-        };
-
-        column2.setCellRenderer(decimalRenderer2);
-        
         // Formatar número Double na coluna 4
         DefaultTableCellRenderer decimalRenderer4 = new DefaultTableCellRenderer() {
             private DecimalFormat decimalFormat = new DecimalFormat("R$  #,##0.00");
@@ -396,7 +376,7 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
                 Object[] linha = new Object[4];
                 linha[0] = resultadoQ.getInt("item_id");
                 linha[1] = resultadoQ.getString("descricao");
-                linha[2] = resultadoQ.getDouble("qtde_insumo");
+                linha[2] = Formatacao.formatarDecimal4casas(resultadoQ.getDouble("qtde_insumo"));
                 linha[3] = resultadoQ.getString("und_medida");
                 dadosTabela.add(linha);
             }
@@ -436,26 +416,6 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         column2.setCellRenderer(centerRenderer);
         column3.setCellRenderer(centerRenderer);
 
-        // Formatar número Double na coluna 2
-        DefaultTableCellRenderer decimalRenderer = new DefaultTableCellRenderer() {
-            private DecimalFormat decimalFormat = new DecimalFormat("#,####0.0000");
-
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-                    int row, int column) {
-                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-                if (value instanceof Double) {
-                    double valor = (Double) value;
-                    String textoFormatado = decimalFormat.format(valor);
-                    setHorizontalAlignment(SwingConstants.CENTER);
-                    setText(textoFormatado);
-                }
-                return component;
-            }
-        };
-
-        column2.setCellRenderer(decimalRenderer);
     }
 
     @Override
@@ -477,7 +437,5 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
     public Estrutura consultarId(int id) {
         return this.consultarId(0, 0);
     }
-    
-   
 
 }

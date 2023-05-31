@@ -130,7 +130,7 @@ public class Main extends javax.swing.JFrame {
                     telaPesquisa.setVisible(true);
 
                 } else if (index == 8 && subIndex == 1) { // --------------------------- VISUALIZAR ESTOQUE
-                    jif_Listagem_DAO jifVis_item = new jif_Listagem_DAO(new ItemDAO(), new jff_Alterar_item());
+                    jif_Listagem_DAO jifVis_item = new jif_Listagem_DAO(new ItemDAO(), new jff_Alterar_item(), true);
                     showForm(jifVis_item);
                     jifVis_item.setTitle("VISUALIZAR - ESTOQUE");
                     jifVis_item.setVisible(true);

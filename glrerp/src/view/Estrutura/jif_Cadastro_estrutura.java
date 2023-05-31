@@ -38,7 +38,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
         //popula tabela com a estrutura já cadastrada no item
         new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
-        jtf_SomaValor.setText("R$  " + String.valueOf(Formatacao.formatarDecimal(SomarTotalValorTabela()).replace('.', ',')));
+        jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
 
         //Coloca os valores referentes ao ID do item para os campos JTF
         Item item = new ItemDAO().consultarId(this.id_item_selecionado);
@@ -289,11 +289,6 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jtf_SomaValor.setCaretColor(new java.awt.Color(0, 0, 0));
         jtf_SomaValor.setDisabledTextColor(new java.awt.Color(102, 102, 102));
         jtf_SomaValor.setEnabled(false);
-        jtf_SomaValor.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtf_SomaValorKeyTyped(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -493,7 +488,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                 if (estruturaDAO.salvar(estrutura) == null) {
                     JOptionPane.showMessageDialog(this, "Insumo inserido com sucesso!", "SUCESSO NO CADASTRO", JOptionPane.INFORMATION_MESSAGE);
                     new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(estrutura.getItem_id()));
-                    jtf_SomaValor.setText("R$  " + String.valueOf(Formatacao.formatarDecimal(SomarTotalValorTabela()).replace('.', ',')));
+                    jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
                     LimparCampos();
                     jcb_und_medida.setEnabled(false);
                     jcb_und_medida.setSelectedItem(null);
@@ -535,7 +530,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             if (estruturaDAO.inativar(this.id_item_selecionado, id_IntTabela) == null) {
                 JOptionPane.showMessageDialog(this, "Insumo excluido com sucesso!", "INSUMO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
                 new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
-                jtf_SomaValor.setText("R$  " + String.valueOf(Formatacao.formatarDecimal(SomarTotalValorTabela()).replace('.', ',')));
+                jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
 
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO EXCLUIR", JOptionPane.ERROR_MESSAGE);
@@ -584,10 +579,6 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             jbt_excluir.setEnabled(true);
         }
     }//GEN-LAST:event_jtb_insumos_estruturaMouseClicked
-
-    private void jtf_SomaValorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_SomaValorKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtf_SomaValorKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

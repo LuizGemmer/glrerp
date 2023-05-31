@@ -2,6 +2,7 @@ package view.Estrutura;
 
 import dao.EstruturaDAO;
 import dao.ItemDAO;
+import dao.movimentacaoDAO;
 import javax.swing.JOptionPane;
 import view.Item.jff_Alterar_item;
 
@@ -23,15 +24,16 @@ public class jff_pesquisar extends javax.swing.JFrame {
         initComponents();
         this.estrutura = estrutura;
         this.pesquisa = qual_pesquisa;
-        
+
         //Setar o nome dos botões e dos JLabels
         jLabel1.setText("");
         jbt_selecionar.setText("Selecionar");
         jbt_fechar.setText("Fechar");
         jbt_filtrar.setEnabled(true);
         jtf_filtro.setEnabled(true);
+        jLabel2.setText("Filtrar");
         this.setTitle("Pesquisa - Item");
-        
+
         //Popular a tabela
         new ItemDAO().popularTabela(jtb_pesquisa, "");
     }
@@ -42,7 +44,7 @@ public class jff_pesquisar extends javax.swing.JFrame {
         initComponents();
         this.item = item;
         this.item_id = item_id;
-        
+
         //Setar o nome dos botões e dos JLabels
         String item_descricao = new ItemDAO().consultarId(this.item_id).getDescricao();
         jLabel1.setText("Item a ser excluído: " + this.item_id + " - " + item_descricao);
@@ -50,12 +52,34 @@ public class jff_pesquisar extends javax.swing.JFrame {
         jbt_fechar.setText("Cancelar Exclusão");
         jbt_filtrar.setEnabled(false);
         jtf_filtro.setEnabled(false);
+        jLabel2.setText("Filtrar");
         this.setTitle("Pesquisa - Item/Uso do Insumo");
-        
+
         //Popular a tabela
         new EstruturaDAO().popularTabelaItensConsomemInsumoX(jtb_pesquisa, this.item_id);
         JOptionPane.showMessageDialog(this, "Esse item que você deseja excluir foi encontrado como sendo INSUMO na estrutura de produto(s)"
                 + "\n\n CUIDADO: Se você CONTINUAR COM A EXCLUSÃO irá retirar esse item da estrutura dos produtos listado!", "ITEM UTILIZADO COMO INSUMO EM ESTRUTURA", JOptionPane.WARNING_MESSAGE);
+    }
+
+    //contrutor Quando a tela de pesquisar for chamado pela tela JIF_LISTAGEM_DAO (ver MOVIMENTAÇÕES no ESTOQUE do ITEM)
+    public jff_pesquisar(int item_id) {
+        this.exclusao_item = false;
+        initComponents();
+        this.item_id = item_id;
+        this.pesquisa = 9; //Usado para o programa fechar a tela no jbt_fecharActionPerformed
+
+        //Setar o nome dos botões e dos JLabels
+        String item_descricao = new ItemDAO().consultarId(this.item_id).getDescricao();
+        jLabel1.setText("Movimentações do item: " + this.item_id + " - " + item_descricao);
+        jbt_selecionar.setVisible(false);
+        jbt_fechar.setText("Fechar");
+        jLabel2.setText("Filtrar por TIPO");
+        jbt_filtrar.setEnabled(true);
+        jtf_filtro.setEnabled(true);
+        this.setTitle("Movimentações do Item");
+
+        //Popular a tabela
+        new movimentacaoDAO().popularTabela(jtb_pesquisa, this.item_id, "");
     }
 
     @SuppressWarnings("unchecked")
@@ -155,9 +179,9 @@ public class jff_pesquisar extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbt_fechar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtf_filtro)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtf_filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbt_filtrar)))
                 .addContainerGap())
@@ -202,14 +226,14 @@ public class jff_pesquisar extends javax.swing.JFrame {
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
         //Botão de fechar
         //Caso a tela de pesquisa tenha sido chamado pelo JIF_CADASTRO_ESTRUTURA
-        if (this.item_id == 0) {
+        if (this.item_id == 0 || this.pesquisa == 9) {
             this.dispose();
         }//Caso a tela de pesquisa tenha sido chamado pelo JFF_ALTERAR_ITEM
         else {
             this.exclusao_item = false;
             this.dispose();
             item.ExcluirCadastroItem(exclusao_item);
-            
+
         }
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
@@ -241,14 +265,19 @@ public class jff_pesquisar extends javax.swing.JFrame {
                 this.exclusao_item = true;
                 this.dispose();
                 item.ExcluirCadastroItem(exclusao_item);
-                
+
             }
         }
 
     }//GEN-LAST:event_jbt_selecionarActionPerformed
 
     private void jbt_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_filtrarActionPerformed
-        new ItemDAO().popularTabela(jtb_pesquisa, jtf_filtro.getText());
+        if(this.pesquisa == 9){
+            new movimentacaoDAO().popularTabela(jtb_pesquisa, this.item_id, jtf_filtro.getText());
+        } else{
+            new ItemDAO().popularTabela(jtb_pesquisa, jtf_filtro.getText());
+        }
+        
     }//GEN-LAST:event_jbt_filtrarActionPerformed
 
     public static void main(String args[]) {

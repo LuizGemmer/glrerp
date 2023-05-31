@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import view.Estrutura.jff_pesquisar;
 
 /**
  *
@@ -18,12 +19,28 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     private final IDAOT DAOObject;
     private final jff_ITelaAlterarCadastro telaAlterar;
     private final DefaultTableModel tableModel;
+    private boolean telaEstoque = false; //Se for aberto pelo menu no acesso de ESTOQUE a variavel será true
 
     public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar) {
         this.DAOObject = dao;
         this.telaAlterar = telaAlterar;
-
         initComponents();
+        jbt_movimentacao.setVisible(false);
+
+        this.tableModel = (DefaultTableModel) jTable1.getModel();
+        this.setTableColumns();
+        this.setTableItems("");
+    }
+
+    //Método chamado apenas no menu ESTOQUE
+    public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar, boolean telaEstoque) {
+        this.telaEstoque = telaEstoque;
+        this.DAOObject = dao;
+        this.telaAlterar = telaAlterar;
+        initComponents();
+        jbt_movimentacao.setVisible(this.telaEstoque);
+        jbt_detalhar.setVisible(!this.telaEstoque);
+        jbt_alterar.setVisible(!this.telaEstoque);
 
         this.tableModel = (DefaultTableModel) jTable1.getModel();
         this.setTableColumns();
@@ -43,6 +60,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         jtf_Buscar = new javax.swing.JTextField();
         jbt_alterar = new javax.swing.JButton();
         jbt_detalhar = new javax.swing.JButton();
+        jbt_movimentacao = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
@@ -121,29 +139,40 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
             }
         });
 
+        jbt_movimentacao.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_movimentacao.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_movimentacao.setText("Movimentações");
+        jbt_movimentacao.setEnabled(false);
+        jbt_movimentacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbt_movimentacaoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(384, Short.MAX_VALUE)
-                .addComponent(jbt_detalhar)
-                .addGap(18, 18, 18)
-                .addComponent(jbt_alterar)
-                .addGap(359, 359, 359))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 25, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jbt_movimentacao)
+                        .addGap(235, 235, 235)
+                        .addComponent(jbt_detalhar)
                         .addGap(18, 18, 18)
-                        .addComponent(jtf_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbt_visualizar))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jbt_fechar)
+                        .addComponent(jbt_alterar)
+                        .addGap(266, 266, 266)
+                        .addComponent(jbt_fechar))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(18, 18, 18)
+                            .addComponent(jtf_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jbt_visualizar))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 945, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,7 +188,8 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbt_fechar)
                     .addComponent(jbt_detalhar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbt_alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbt_alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbt_movimentacao, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
 
@@ -227,7 +257,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
             centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
             jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
             jTable1.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-            
+
         } else {
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -248,6 +278,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         this.setTableItems(jtf_Buscar.getText());
         jbt_alterar.setEnabled(false);
         jbt_detalhar.setEnabled(false);
+        jbt_movimentacao.setEnabled(false);
     }//GEN-LAST:event_jbt_visualizarActionPerformed
 
     private void jbt_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_alterarActionPerformed
@@ -273,7 +304,15 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         //Habilitar botões de alteração e detalhamento somente quando selecionar uma linha na tabela
         jbt_alterar.setEnabled(true);
         jbt_detalhar.setEnabled(true);
+        jbt_movimentacao.setEnabled(true);
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jbt_movimentacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_movimentacaoActionPerformed
+        String id_tabela = String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+        int id_IntTabela = Integer.parseInt(id_tabela);
+        jff_pesquisar movimentacoes = new jff_pesquisar(id_IntTabela);
+        movimentacoes.setVisible(true);
+    }//GEN-LAST:event_jbt_movimentacaoActionPerformed
 
     private int buscarNaTabela() {
         //Buscar o cliente de acordo com a linha selecionada na tabela de visualização
@@ -281,7 +320,6 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         int IDAOTid = Integer.parseInt(((Vector) this.tableModel.getDataVector().elementAt(rowIndex)).elementAt(0).toString());
         return IDAOTid;
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -291,6 +329,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbt_alterar;
     private javax.swing.JButton jbt_detalhar;
     private javax.swing.JButton jbt_fechar;
+    private javax.swing.JButton jbt_movimentacao;
     private javax.swing.JButton jbt_visualizar;
     private javax.swing.JTextField jtf_Buscar;
     // End of variables declaration//GEN-END:variables

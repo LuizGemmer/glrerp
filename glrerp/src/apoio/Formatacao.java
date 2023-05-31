@@ -30,8 +30,18 @@ public class Formatacao {
         campo.setText(df.format(Double.parseDouble(campo.getText())));
     }
 
-    public static String formatarDecimal(double valor) {
+    public static String formatarDecimal2casas(double valor) {
         NumberFormat formatter = new DecimalFormat("#,##0.00");
+        return (formatter.format(valor));
+    }
+    
+    public static String formatarDecimal2casasRS(double valor) {
+        NumberFormat formatter = new DecimalFormat("R$  #,##0.00");
+        return (formatter.format(valor));
+    }
+    
+    public static String formatarDecimal4casas(double valor) {
+        NumberFormat formatter = new DecimalFormat("#,####0.0000");
         return (formatter.format(valor));
     }
 
