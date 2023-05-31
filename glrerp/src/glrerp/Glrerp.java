@@ -12,9 +12,6 @@ import view.Menu.raven.main.Main;
 public class Glrerp {
 
     public static void main(String[] args) {
-/*
-        MensagemInicial();
-
         //Testa se tem conexão com o banco de dados PostgreSQL
         if (ConexaoBD.getInstance().getConnection() != null) {
             new Loggin(new Main(), true).setVisible(true);
@@ -23,8 +20,8 @@ public class Glrerp {
             JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de Dados!", "ERRO BANCO DE DADOS", JOptionPane.ERROR_MESSAGE);
             MensagemInicial();
         }
-*/
-        new Main().setVisible(true);
+        
+        //new Main().setVisible(true);
     }
 
     public static void MensagemInicial() {

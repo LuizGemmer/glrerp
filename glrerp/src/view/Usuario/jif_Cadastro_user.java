@@ -1,5 +1,7 @@
 package view.Usuario;
 
+import apoio.BCryptEncryption;
+import static apoio.BCryptEncryption.encryptPassword;
 import apoio.Validacao;
 import dao.userDAO;
 import entidade.User;
@@ -217,7 +219,7 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
 
     private void jbt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_cadastrarActionPerformed
         if (EmailExistente()) {
-            JOptionPane.showMessageDialog(this, "E-mail já cadastrado. Digite outro email válido!", "E-MAIL JÁ CADASTRADO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "E-mail já cadastrado. Digite um email válido!", "E-MAIL JÁ CADASTRADO", JOptionPane.ERROR_MESSAGE);
         } else {
             //Faz as validações necessárias antes de salvar
             if (Validacao.testarCombo(jcb_Hierarquia)
@@ -229,15 +231,15 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
                 //Cadastrar novo Usuário
                 //Atribuir dados inseridos pelo usuario a variaveis
                 String nomeUser = jtf_Nome.getText().toUpperCase();
-                char[] password = jpf_Senha.getPassword();
-                String passwd = String.valueOf(password);
+                BCryptEncryption encriptar = new BCryptEncryption();
+                String hashedPassword = new BCryptEncryption().encryptPassword(jpf_Senha.getPassword());
                 String hierarquiaUser = jcb_Hierarquia.getSelectedItem().toString().toUpperCase();
                 String email = jtf_email.getText();
 
                 //Setar nomes das variaveis para o objeto User
                 User user = new User();
                 user.setNome(nomeUser);
-                user.setSenha(passwd);
+                user.setSenha(hashedPassword);
                 user.setHierarquia(hierarquiaUser);
                 user.setEmail(email);
 

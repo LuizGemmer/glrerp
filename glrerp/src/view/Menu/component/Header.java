@@ -17,7 +17,7 @@ public class Header extends javax.swing.JPanel {
     @Override
     protected void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
-        g2.setPaint(new GradientPaint(0, 0, new Color(13,71,161), 0, getHeight(), new Color(13,71,161)));
+        g2.setPaint(new GradientPaint(0, 0, new Color(0,74,173), 0, getHeight(), new Color(13,71,161)));
         g2.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
         g2.dispose();
         super.paintComponent(grphcs);

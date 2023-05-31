@@ -1,7 +1,12 @@
 package view;
 
+import apoio.BCryptEncryption;
+import dao.userDAO;
+import entidade.User;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import view.Menu.raven.main.Main;
 
@@ -11,12 +16,15 @@ import view.Menu.raven.main.Main;
  */
 public class Loggin extends javax.swing.JDialog {
 
+    boolean booleanEmail = false;
+    boolean senha = false;
+    String nome;
+
     public Loggin(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+        super(parent, "Loggin", true);
         initComponents();
         this.setLocationRelativeTo(null);
 
-                
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -50,7 +58,7 @@ public class Loggin extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jPanel3.setBackground(new java.awt.Color(13, 71, 161));
+        jPanel3.setBackground(new java.awt.Color(0, 74, 173));
 
         jPanel1.setBackground(new java.awt.Color(0, 74, 173));
 
@@ -98,7 +106,7 @@ public class Loggin extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(52, 52, 52)
+                .addGap(45, 45, 45)
                 .addComponent(jLabel4)
                 .addGap(49, 49, 49)
                 .addComponent(jLabel3)
@@ -126,15 +134,22 @@ public class Loggin extends javax.swing.JDialog {
         jtf_email.setBackground(new java.awt.Color(238, 238, 238));
         jtf_email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_email.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_email.setText("admin@glr.com");
         jtf_email.setBorder(null);
         jtf_email.setCaretColor(new java.awt.Color(0, 0, 0));
 
         jpf_passwd.setBackground(new java.awt.Color(238, 238, 238));
         jpf_passwd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_passwd.setForeground(new java.awt.Color(0, 0, 0));
+        jpf_passwd.setText("admin");
         jpf_passwd.setBorder(null);
         jpf_passwd.setCaretColor(new java.awt.Color(0, 0, 0));
         jpf_passwd.setDisabledTextColor(new java.awt.Color(250, 250, 250));
+        jpf_passwd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jpf_passwdKeyPressed(evt);
+            }
+        });
 
         jbt_Acessar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_Acessar.setForeground(new java.awt.Color(255, 255, 255));
@@ -255,31 +270,14 @@ public class Loggin extends javax.swing.JDialog {
     }//GEN-LAST:event_jbt_sairActionPerformed
 
     private void jbt_AcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_AcessarActionPerformed
-        /*String email = jtf_email.getText();
-        //Criptografa a senha para posteriormente comparar com a senha criptografada no BD
-        char[] passwd = jpf_passwd.getPassword();
-        
-        
-        ArrayList<User> users = new ArrayList();
-        users = new userDAO().consultarTodos();
-
-        //Verifica se algum usuario e senha batem com o que o usuario digitou
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getEmail().equals(email)) {
-                this.hide();
-                new Main().setVisible(true);
-                exibirMensagemDeBoasVindas(users.get(i).getNome());
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Usuario ou Senha incorreto", "ERRO BANCO DE DADOS", JOptionPane.ERROR_MESSAGE);
-                jpf_passwd.setText("");
-            }
-        }*/
-
-        this.hide();
-        new Main().setVisible(true);
-        exibirMensagemDeBoasVindas("'NOME'");
+        AcessarSistema();
     }//GEN-LAST:event_jbt_AcessarActionPerformed
+
+    private void jpf_passwdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jpf_passwdKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            AcessarSistema();
+        }
+    }//GEN-LAST:event_jpf_passwdKeyPressed
 
     /**
      * @param args the command line arguments
@@ -349,7 +347,7 @@ public class Loggin extends javax.swing.JDialog {
 
         Thread thread = new Thread(() -> {
             try {
-                Thread.sleep(10000); // Aguarda 10 segundos
+                Thread.sleep(5000); // Aguarda 10 segundos
                 dialog.dispose(); // Fecha o diálogo
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -359,6 +357,32 @@ public class Loggin extends javax.swing.JDialog {
         thread.start(); // Inicia a thread
 
         dialog.setVisible(true); // Exibe o diálogo
+    }
+
+    private void AcessarSistema() {
+        String email = jtf_email.getText();
+
+        ArrayList<User> users = new ArrayList();
+        users = new userDAO().consultarTodos();
+
+        //Verifica se algum usuario e senha batem com o que o usuario digitou
+        for (int i = 0; i < users.size(); i++) {
+
+            if (users.get(i).getEmail().equals(email)) {
+                this.booleanEmail = true;
+                if (BCryptEncryption.verifyPassword(jpf_passwd.getPassword(), users.get(i).getSenha())) {
+                    System.out.println(users.get(i).getSenha());
+                    this.senha = true;
+                    this.nome = (users.get(i).getNome());
+                }
+            }
+        }
+
+        if (this.booleanEmail && this.senha) {
+            this.hide();
+            new Main().setVisible(true);
+            exibirMensagemDeBoasVindas(this.nome);
+        }
     }
 
 }

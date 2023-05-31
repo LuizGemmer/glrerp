@@ -58,7 +58,7 @@ public class Main extends javax.swing.JFrame {
                     showForm(jifVis_cliente);
                     jifVis_cliente.setTitle("VISUALIZAR - CLIENTES");
                     jifVis_cliente.setVisible(true);
-
+                    
                 } else if (index == 0 && subIndex == 2) { // --------------------------- CADASTRAR CLIENTES
                     jif_Cadastro_cliente jif_cad_cliente = new jif_Cadastro_cliente(true);
                     showForm(jif_cad_cliente);
@@ -103,7 +103,7 @@ public class Main extends javax.swing.JFrame {
                     jif_cad_est.setVisible(true);
 
                 } else if (index == 5 && subIndex == 1) { // --------------------------- VISUALIZAR VENDAS
-                    abrirListagemDAO(new movimentacaoDAO("venda"), null, "vendas");
+                    abrirListagemDAO(new movimentacaoDAO("venda"), new jff_alterar_movimentacao(), "vendas");
 
                 } else if (index == 5 && subIndex == 2) { // --------------------------- CADASTRAR VENDAS
                     jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
@@ -112,7 +112,7 @@ public class Main extends javax.swing.JFrame {
                     telaPesquisa.setVisible(true);
 
                 } else if (index == 6 && subIndex == 1) { // --------------------------- VISUALIZAR COMPRAS
-                    abrirListagemDAO(new movimentacaoDAO("compra"), null, "Compras");
+                    abrirListagemDAO(new movimentacaoDAO("compra"), new jff_alterar_movimentacao(), "Compras");
 
                 } else if (index == 6 && subIndex == 2) { // --------------------------- CADASTRAR COMPRAS
                     jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
@@ -121,7 +121,7 @@ public class Main extends javax.swing.JFrame {
                     telaPesquisa.setVisible(true);
 
                 } else if (index == 7 && subIndex == 1) { // --------------------------- VISUALIZAR PRODUÇÃO
-                    abrirListagemDAO(new movimentacaoDAO("producao"), null, "Produção");
+                    abrirListagemDAO(new movimentacaoDAO("producao"), new jff_alterar_movimentacao(), "Produção");
 
                 } else if (index == 7 && subIndex == 2) { // --------------------------- CADASTRAR PRODUÇÃO
                     jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
