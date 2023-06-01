@@ -86,6 +86,7 @@ public class jif_Cadastro_user extends javax.swing.JInternalFrame {
 
         jbt_cadastrar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_cadastrar.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_cadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/salvar18x18.png"))); // NOI18N
         jbt_cadastrar.setText("Cadastrar");
         jbt_cadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

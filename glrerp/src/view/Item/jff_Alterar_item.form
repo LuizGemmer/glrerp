@@ -292,6 +292,9 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/images/salvar18x18.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Alterar cadastro"/>
               </Properties>
               <Events>
@@ -399,10 +402,13 @@
             <Component class="javax.swing.JButton" name="jbt_excluir">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="a1" green="47" red="d" type="rgb"/>
+                  <Color blue="0" green="0" red="99" type="rgb"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/images/excluir18x18.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Excluir cadastro"/>
               </Properties>
@@ -486,7 +492,7 @@
                 </Property>
                 <Property name="maximumRowCount" type="int" value="150"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="24">
+                  <StringArray count="19">
                     <StringItem index="0" value="SELECIONE"/>
                     <StringItem index="1" value="und"/>
                     <StringItem index="2" value="caixa"/>
@@ -506,11 +512,6 @@
                     <StringItem index="16" value="kg"/>
                     <StringItem index="17" value="g"/>
                     <StringItem index="18" value="mg"/>
-                    <StringItem index="19" value=""/>
-                    <StringItem index="20" value=""/>
-                    <StringItem index="21" value=""/>
-                    <StringItem index="22" value=""/>
-                    <StringItem index="23" value=""/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -628,6 +629,7 @@
               </Properties>
               <Events>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtf_conv2KeyPressed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtf_conv2KeyTyped"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="jcb_UndConv2">

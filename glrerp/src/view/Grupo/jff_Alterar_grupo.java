@@ -108,6 +108,7 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
 
         jbt_salvar_alteracao.setBackground(new java.awt.Color(13, 71, 161));
         jbt_salvar_alteracao.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_salvar_alteracao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/salvar18x18.png"))); // NOI18N
         jbt_salvar_alteracao.setText("Alterar cadastro");
         jbt_salvar_alteracao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,8 +152,9 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jbt_excluir.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_excluir.setBackground(new java.awt.Color(153, 0, 0));
         jbt_excluir.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_excluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/excluir18x18.png"))); // NOI18N
         jbt_excluir.setText("Excluir cadastro");
         jbt_excluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,7 +196,7 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
                                 .addComponent(jbt_salvar_alteracao)
                                 .addGap(18, 18, 18)
                                 .addComponent(jbt_excluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 312, Short.MAX_VALUE)
                                 .addComponent(jbt_limpar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)

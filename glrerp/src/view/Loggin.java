@@ -371,7 +371,6 @@ public class Loggin extends javax.swing.JDialog {
             if (users.get(i).getEmail().equals(email)) {
                 this.booleanEmail = true;
                 if (BCryptEncryption.verifyPassword(jpf_passwd.getPassword(), users.get(i).getSenha())) {
-                    System.out.println(users.get(i).getSenha());
                     this.senha = true;
                     this.nome = (users.get(i).getNome());
                 }

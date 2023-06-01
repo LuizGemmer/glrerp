@@ -159,6 +159,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
         jbt_pesquisar_item.setBackground(new java.awt.Color(13, 71, 161));
         jbt_pesquisar_item.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_pesquisar_item.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pesquisar18x18.png"))); // NOI18N
         jbt_pesquisar_item.setText("Pesquisar");
         jbt_pesquisar_item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,6 +194,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
         jbt_pesquisar_insumo.setBackground(new java.awt.Color(13, 71, 161));
         jbt_pesquisar_insumo.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_pesquisar_insumo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pesquisar18x18.png"))); // NOI18N
         jbt_pesquisar_insumo.setText("Pesquisar");
         jbt_pesquisar_insumo.setEnabled(false);
         jbt_pesquisar_insumo.addActionListener(new java.awt.event.ActionListener() {
@@ -245,6 +247,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
         jbt_inserir.setBackground(new java.awt.Color(13, 71, 161));
         jbt_inserir.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_inserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/salvar18x18.png"))); // NOI18N
         jbt_inserir.setText("Inserir/Salvar");
         jbt_inserir.setEnabled(false);
         jbt_inserir.addActionListener(new java.awt.event.ActionListener() {
@@ -253,8 +256,9 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             }
         });
 
-        jbt_excluir.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_excluir.setBackground(new java.awt.Color(153, 0, 0));
         jbt_excluir.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_excluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/excluir18x18.png"))); // NOI18N
         jbt_excluir.setText("Excluir");
         jbt_excluir.setEnabled(false);
         jbt_excluir.addActionListener(new java.awt.event.ActionListener() {
@@ -263,8 +267,9 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             }
         });
 
-        jbt_editar.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_editar.setBackground(new java.awt.Color(0, 102, 0));
         jbt_editar.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar18x18.png"))); // NOI18N
         jbt_editar.setText("Editar");
         jbt_editar.setEnabled(false);
         jbt_editar.addActionListener(new java.awt.event.ActionListener() {
@@ -297,7 +302,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -311,8 +316,8 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                                 .addComponent(jtf_nome_item, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jtf_grupo_item, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jbt_pesquisar_item, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jbt_pesquisar_item, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbt_editar_estrutura))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 33, Short.MAX_VALUE)
@@ -365,14 +370,14 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtf_grupo_item, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(22, 22, 22))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbt_pesquisar_item, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbt_editar_estrutura, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbt_editar_estrutura, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                            .addComponent(jbt_pesquisar_item, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(44, 44, 44)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

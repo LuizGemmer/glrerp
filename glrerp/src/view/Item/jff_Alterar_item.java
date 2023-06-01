@@ -38,9 +38,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
         UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
         initComponents();
-        jtf_conv1.setEnabled(false);
-        jcb_Unidade_medida.setEnabled(false);
-        jtf_estoque.setEditable(false);
 
         ToolTipManager.sharedInstance().setInitialDelay(100); // Atraso de 500 milissegundos
         ToolTipManager.sharedInstance().setDismissDelay(10000); // Duração de 3000 milissegundos
@@ -140,6 +137,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
         jbt_salvar_alteracao.setBackground(new java.awt.Color(13, 71, 161));
         jbt_salvar_alteracao.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_salvar_alteracao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/salvar18x18.png"))); // NOI18N
         jbt_salvar_alteracao.setText("Alterar cadastro");
         jbt_salvar_alteracao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,8 +191,9 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jbt_excluir.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_excluir.setBackground(new java.awt.Color(153, 0, 0));
         jbt_excluir.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_excluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/excluir18x18.png"))); // NOI18N
         jbt_excluir.setText("Excluir cadastro");
         jbt_excluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,7 +238,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Unidade_medida.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Unidade_medida.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Unidade_medida.setMaximumRowCount(150);
-        jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg", "", "", "", "", "" }));
+        jcb_Unidade_medida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "und", "caixa", "pacote", "fração", "m", "m²", "m linear", "cm", "mm", "L", "mL", "m³", "cm³", "dm³", "ton", "kg", "g", "mg" }));
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -283,6 +282,9 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_conv2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtf_conv2KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtf_conv2KeyTyped(evt);
             }
         });
 
@@ -492,6 +494,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jta_Observacao.setText("");
         jff_valor.setText("");
         jtf_Descricao.requestFocus();
+
     }//GEN-LAST:event_jbt_limparActionPerformed
 
     private void jbt_salvar_alteracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvar_alteracaoActionPerformed
@@ -576,8 +579,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             System.out.println("aqui 2");
             ExcluirCadastroItem(true);
         }
-
-
     }//GEN-LAST:event_jbt_excluirActionPerformed
 
     public void ExcluirCadastroItem(boolean confirmar) {
@@ -707,6 +708,10 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         this.keyPressed = true;
     }//GEN-LAST:event_jff_valorKeyTyped
 
+    private void jtf_conv2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_conv2KeyTyped
+        Validacao.ValidarDecimal(jtf_conv2, evt);
+    }//GEN-LAST:event_jtf_conv2KeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -778,6 +783,16 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         int index = new ItemDAO().indexCBUnidadeMedida(this.item.getUnidade_medida());
         int indexUC1 = new ItemDAO().indexCBUnidadeMedida(this.item.getUnd_conv1());
         int indexUC2 = new ItemDAO().indexCBUnidadeMedida(this.item.getUnd_conv2());
+
+        //Ajustar comportamento dos botões e labels
+        jtf_conv1.setEnabled(false);
+        jcb_Unidade_medida.setEnabled(false);
+        jtf_estoque.setEditable(false);
+        jbt_salvar_alteracao.setText("Alterar Cadastro");
+        jbt_excluir.setVisible(true);
+        this.trocaInverter = false;
+        jLabel6.setText("Estoque Atual");
+        jLabel3.setText("Unidade de Medida");
 
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.item.getId());
@@ -884,6 +899,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             }
         }
     }
+
     //Mostra uma ToolTip no CB caso o teste TestarEscolhaCB mostre que os dois CB são iguais
     static class TooltipComboBoxRenderer extends BasicComboBoxRenderer {
 

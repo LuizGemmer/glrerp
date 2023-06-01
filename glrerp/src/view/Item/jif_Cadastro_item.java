@@ -7,12 +7,14 @@ import entidade.Grupo;
 import entidade.Item;
 import java.awt.Color;
 import java.awt.Component;
+import java.text.DecimalFormat;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
+import view.Estrutura.jff_pesquisar;
 
 /**
  *
@@ -21,6 +23,7 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
     private boolean trocaInverter = false;
+    private int item_id;
 
     public jif_Cadastro_item() {
         initComponents();
@@ -46,7 +49,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jbt_limpar = new javax.swing.JButton();
         jbt_cadastrar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jtf_estoque_inicial = new javax.swing.JTextField();
+        jtf_estoque = new javax.swing.JTextField();
         jcb_Grupo = new javax.swing.JComboBox();
         jcb_Unidade_medida = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
@@ -62,7 +65,8 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jbt_inverter = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jff_valor_inicial = new javax.swing.JFormattedTextField();
+        jff_valor = new javax.swing.JFormattedTextField();
+        jbt_duplicar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
@@ -116,6 +120,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
         jbt_cadastrar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_cadastrar.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_cadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/salvar18x18.png"))); // NOI18N
         jbt_cadastrar.setText("Cadastrar");
         jbt_cadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,18 +132,18 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Conversão");
 
-        jtf_estoque_inicial.setBackground(new java.awt.Color(250, 250, 250));
-        jtf_estoque_inicial.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jtf_estoque_inicial.setForeground(new java.awt.Color(0, 0, 0));
-        jtf_estoque_inicial.setCaretColor(new java.awt.Color(0, 0, 0));
-        jtf_estoque_inicial.addFocusListener(new java.awt.event.FocusAdapter() {
+        jtf_estoque.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_estoque.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtf_estoque.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_estoque.setCaretColor(new java.awt.Color(0, 0, 0));
+        jtf_estoque.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jtf_estoque_inicialFocusLost(evt);
+                jtf_estoqueFocusLost(evt);
             }
         });
-        jtf_estoque_inicial.addKeyListener(new java.awt.event.KeyAdapter() {
+        jtf_estoque.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtf_estoque_inicialKeyTyped(evt);
+                jtf_estoqueKeyTyped(evt);
             }
         });
 
@@ -242,18 +247,28 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel10.setText("*Valor Unitário");
 
-        jff_valor_inicial.setBackground(new java.awt.Color(250, 250, 250));
-        jff_valor_inicial.setForeground(new java.awt.Color(0, 0, 0));
-        jff_valor_inicial.setCaretColor(new java.awt.Color(0, 0, 0));
-        jff_valor_inicial.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jff_valor_inicial.addFocusListener(new java.awt.event.FocusAdapter() {
+        jff_valor.setBackground(new java.awt.Color(250, 250, 250));
+        jff_valor.setForeground(new java.awt.Color(0, 0, 0));
+        jff_valor.setCaretColor(new java.awt.Color(0, 0, 0));
+        jff_valor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jff_valor.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jff_valor_inicialFocusLost(evt);
+                jff_valorFocusLost(evt);
             }
         });
-        jff_valor_inicial.addKeyListener(new java.awt.event.KeyAdapter() {
+        jff_valor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jff_valor_inicialKeyTyped(evt);
+                jff_valorKeyTyped(evt);
+            }
+        });
+
+        jbt_duplicar.setBackground(new java.awt.Color(51, 102, 255));
+        jbt_duplicar.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_duplicar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/duplicar18x18.png"))); // NOI18N
+        jbt_duplicar.setText("Duplicar um Item");
+        jbt_duplicar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbt_duplicarActionPerformed(evt);
             }
         });
 
@@ -276,8 +291,8 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                                    .addComponent(jff_valor_inicial))
+                                    .addComponent(jtf_estoque, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                                    .addComponent(jff_valor))
                                 .addGap(290, 290, 290))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(95, 95, 95)
@@ -286,6 +301,8 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jbt_cadastrar)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbt_duplicar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jbt_limpar)
                                 .addGap(6, 6, 6))
@@ -342,14 +359,14 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(164, 164, 164)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtf_estoque_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtf_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)
                             .addComponent(jLabel3))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jff_valor_inicial, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jff_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -370,11 +387,13 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbt_limpar)
                         .addComponent(jbt_fechar))
-                    .addComponent(jbt_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbt_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbt_duplicar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(25, 25, 25))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel6, jtf_Descricao, jtf_estoque_inicial});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel6, jtf_Descricao, jtf_estoque});
 
         getContentPane().add(jPanel1);
 
@@ -397,18 +416,18 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         //Fazer as validações de campos antes de salvar.
         if (Validacao.ValidarJTFObrigatorio(jtf_Descricao)
                 && Validacao.testarCombo(jcb_Grupo)
-                && Validacao.ValidarJTFObrigatorio(jtf_estoque_inicial)
+                && Validacao.ValidarJTFObrigatorio(jtf_estoque)
                 && Validacao.testarCombo(jcb_Unidade_medida)
-                && Validacao.ValidarJTFObrigatorio(jff_valor_inicial)
+                && Validacao.ValidarJTFObrigatorio(jff_valor)
                 && TestarEscolhaCB(jcb_UndConv1, jcb_UndConv2)) {
 
             //Atribuir dados inseridos pelo usuario a variaveis
             String descItem = jtf_Descricao.getText().toUpperCase();
             Grupo cb = (Grupo) jcb_Grupo.getSelectedItem();
-            double estoqueItem = Double.parseDouble(jtf_estoque_inicial.getText().replace(',', '.'));
+            double estoqueItem = Double.parseDouble(jtf_estoque.getText().replace(',', '.'));
             String unidadeMedida = jcb_Unidade_medida.getSelectedItem().toString();
             String obs = jta_Observacao.getText();
-            double valorItem = Double.parseDouble(jff_valor_inicial.getText().replace(',', '.'));
+            double valorItem = Double.parseDouble(jff_valor.getText().replace(',', '.'));
 
             double conv1;
             double conv2;
@@ -489,25 +508,25 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         Validacao.testarCombo(jcb_Grupo);
     }//GEN-LAST:event_jcb_GrupoFocusLost
 
-    private void jtf_estoque_inicialFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_estoque_inicialFocusLost
-        Validacao.ValidarJTFObrigatorio(jtf_estoque_inicial);
-    }//GEN-LAST:event_jtf_estoque_inicialFocusLost
+    private void jtf_estoqueFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_estoqueFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_estoque);
+    }//GEN-LAST:event_jtf_estoqueFocusLost
 
     private void jcb_Unidade_medidaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcb_Unidade_medidaFocusLost
         Validacao.testarCombo(jcb_Unidade_medida);
     }//GEN-LAST:event_jcb_Unidade_medidaFocusLost
 
-    private void jff_valor_inicialFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jff_valor_inicialFocusLost
-        Validacao.ValidarJTFObrigatorio(jff_valor_inicial);
-    }//GEN-LAST:event_jff_valor_inicialFocusLost
+    private void jff_valorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jff_valorFocusLost
+        Validacao.ValidarJTFObrigatorio(jff_valor);
+    }//GEN-LAST:event_jff_valorFocusLost
 
-    private void jff_valor_inicialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jff_valor_inicialKeyTyped
-        Validacao.ValidarDecimal(jff_valor_inicial, evt);
-    }//GEN-LAST:event_jff_valor_inicialKeyTyped
+    private void jff_valorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jff_valorKeyTyped
+        Validacao.ValidarDecimal(jff_valor, evt);
+    }//GEN-LAST:event_jff_valorKeyTyped
 
-    private void jtf_estoque_inicialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_estoque_inicialKeyTyped
-        Validacao.ValidarDecimal(jtf_estoque_inicial, evt);
-    }//GEN-LAST:event_jtf_estoque_inicialKeyTyped
+    private void jtf_estoqueKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_estoqueKeyTyped
+        Validacao.ValidarDecimal(jtf_estoque, evt);
+    }//GEN-LAST:event_jtf_estoqueKeyTyped
 
     private void jtf_conv2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_conv2KeyTyped
         Validacao.ValidarDecimal(jtf_conv2, evt);
@@ -521,6 +540,11 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     private void jcb_UndConv1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_UndConv1ActionPerformed
         TestarEscolhaCB(jcb_UndConv1, jcb_UndConv2);
     }//GEN-LAST:event_jcb_UndConv1ActionPerformed
+
+    private void jbt_duplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_duplicarActionPerformed
+        jff_pesquisar pesquisar = new jff_pesquisar(this);
+        pesquisar.setVisible(true);
+    }//GEN-LAST:event_jbt_duplicarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -536,6 +560,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton jbt_cadastrar;
+    private javax.swing.JButton jbt_duplicar;
     private javax.swing.JButton jbt_fechar;
     private javax.swing.JButton jbt_inverter;
     private javax.swing.JButton jbt_limpar;
@@ -543,21 +568,21 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox jcb_UndConv1;
     private javax.swing.JComboBox jcb_UndConv2;
     private javax.swing.JComboBox jcb_Unidade_medida;
-    private javax.swing.JFormattedTextField jff_valor_inicial;
+    private javax.swing.JFormattedTextField jff_valor;
     private javax.swing.JTextArea jta_Observacao;
     private javax.swing.JTextField jtf_Descricao;
     private javax.swing.JTextField jtf_conv1;
     private javax.swing.JTextField jtf_conv2;
-    private javax.swing.JTextField jtf_estoque_inicial;
+    private javax.swing.JTextField jtf_estoque;
     // End of variables declaration//GEN-END:variables
 
     private void LimparCampos() {
         jtf_Descricao.setText("");
         jcb_Grupo.setSelectedIndex(0);
-        jtf_estoque_inicial.setText("");
+        jtf_estoque.setText("");
         jcb_Unidade_medida.setSelectedIndex(0);
         jta_Observacao.setText("");
-        jff_valor_inicial.setText("");
+        jff_valor.setText("");
         jcb_UndConv1.setSelectedIndex(0);
         jcb_UndConv2.setSelectedIndex(0);
         jtf_conv2.setText("");
@@ -567,7 +592,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     public boolean TestarEscolhaCB(JComboBox jcombo_conv1, JComboBox jcombo_conv2) {
         jcombo_conv1.setBackground(Color.white);
         jcombo_conv2.setBackground(Color.white);
-        
+
         if (trocaInverter) {
             if (jcombo_conv1.getSelectedIndex() == jcombo_conv2.getSelectedIndex()) {
                 jcombo_conv1.setBackground(Color.decode("#FF9696"));
@@ -630,5 +655,34 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             return this;
         }
 
+    }
+
+    public void DuplicarItem(int item_dup_id) {
+        this.item_id = item_dup_id;
+        Item item = new ItemDAO().consultarId(this.item_id);
+        LimparCampos();
+
+        //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
+        int index = new ItemDAO().indexCBUnidadeMedida(item.getUnidade_medida());
+        int indexUC1 = new ItemDAO().indexCBUnidadeMedida(item.getUnd_conv1());
+        int indexUC2 = new ItemDAO().indexCBUnidadeMedida(item.getUnd_conv2());
+        jtf_Descricao.setText(item.getDescricao() + " (CÓPIA)");
+        jtf_estoque.setText(new DecimalFormat("#.####").format(item.getQtde_estoque()).replace('.', ','));
+        jta_Observacao.setText(item.getObservacao());
+        jtf_conv1.setText(new DecimalFormat("#.####").format(item.getConv1()).replace('.', ','));
+        jtf_conv2.setText(new DecimalFormat("#.####").format(item.getConv2()).replace('.', ','));
+        jcb_Unidade_medida.setSelectedIndex(index);
+        jcb_UndConv1.setSelectedIndex(indexUC1);
+        jcb_UndConv2.setSelectedIndex(indexUC2);
+        jff_valor.setText(new DecimalFormat("#.####").format(item.getValor()).replace('.', ','));
+        if (jcb_Unidade_medida.getSelectedIndex() == jcb_UndConv2.getSelectedIndex()) {
+            this.trocaInverter = true;
+            jcb_UndConv2.setEnabled(!trocaInverter);
+            jcb_UndConv1.setEnabled(trocaInverter);
+        } else {
+            this.trocaInverter = false;
+            jcb_UndConv2.setEnabled(!trocaInverter);
+            jcb_UndConv1.setEnabled(trocaInverter);
+        }
     }
 }

@@ -5,6 +5,7 @@ import dao.ItemDAO;
 import dao.movimentacaoDAO;
 import javax.swing.JOptionPane;
 import view.Item.jff_Alterar_item;
+import view.Item.jif_Cadastro_item;
 
 /**
  *
@@ -13,8 +14,9 @@ import view.Item.jff_Alterar_item;
 public class jff_pesquisar extends javax.swing.JFrame {
 
     private jif_Cadastro_estrutura estrutura;
+    private jif_Cadastro_item cadItem;
     private jff_Alterar_item item;
-    private int pesquisa;
+    private int pesquisa; //=1: Retorna um item para a tela estrutura. =2: Retorna um insumo para a tela de estrutura. =3: Retorna um item para a tela de cadastro de ITEM. =9: Mostra movimentações do ESTOQUE
     private int item_id;
     private boolean exclusao_item;
 
@@ -38,7 +40,28 @@ public class jff_pesquisar extends javax.swing.JFrame {
         new ItemDAO().popularTabela(jtb_pesquisa, "");
     }
 
-    //contrutor Quando a tela de pesquisar for chamado pela tela JFF_ALTERAR_ITEM
+    //contrutor Quando a tela de pesquisar for chamado pela tela JIF_CADASTRO_ITEM
+    public jff_pesquisar(jif_Cadastro_item cadItem) {
+        this.item_id = 0;
+        initComponents();
+        this.cadItem = cadItem;
+        this.pesquisa = 3;
+        
+
+        //Setar o nome dos botões e dos JLabels
+        jLabel1.setText("Selecione um item para duplicar");
+        jbt_selecionar.setText("Selecionar");
+        jbt_fechar.setText("Fechar");
+        jbt_filtrar.setEnabled(true);
+        jtf_filtro.setEnabled(true);
+        jLabel2.setText("Filtrar");
+        this.setTitle("Pesquisa - Item");
+
+        //Popular a tabela
+        new ItemDAO().popularTabela(jtb_pesquisa, "");
+    }
+    
+    //contrutor Quando a tela de pesquisar for chamado pela tela JFF_ALTERAR_ITEM. É CHAMADO SOMENTE SE O ITEM A SER EXCLUÍDO ESTA COMO INSUMO EM ALGUMA ESTRUTURA
     public jff_pesquisar(jff_Alterar_item item, int item_id) {
         this.exclusao_item = false;
         initComponents();
@@ -245,10 +268,14 @@ public class jff_pesquisar extends javax.swing.JFrame {
 
             if (this.pesquisa == 1) {
                 estrutura.NomearItem(id_IntTabela);
-            } else {
+            } else if (this.pesquisa == 2)  {
                 estrutura.NomearInsumo(id_IntTabela);
+            } else if (this.pesquisa == 3){
+                cadItem.DuplicarItem(id_IntTabela);
             }
+            
             this.dispose();
+            
         } //Caso a tela de pesquisa tenha sido chamado pelo JFF_ALTERAR_ITEM
         else {
             Object[] options = {"Sim",
