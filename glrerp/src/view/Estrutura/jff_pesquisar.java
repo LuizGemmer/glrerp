@@ -3,6 +3,8 @@ package view.Estrutura;
 import dao.EstruturaDAO;
 import dao.ItemDAO;
 import dao.movimentacaoDAO;
+import entidade.Estrutura;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import view.Item.jff_Alterar_item;
 import view.Item.jif_Cadastro_item;
@@ -16,7 +18,14 @@ public class jff_pesquisar extends javax.swing.JFrame {
     private jif_Cadastro_estrutura estrutura;
     private jif_Cadastro_item cadItem;
     private jff_Alterar_item item;
-    private int pesquisa; //=1: Retorna um item para a tela estrutura. =2: Retorna um insumo para a tela de estrutura. =3: Retorna um item para a tela de cadastro de ITEM. =9: Mostra movimentações do ESTOQUE
+    private int pesquisa;
+    //PRIVATE INT PESQUISA - SIGNIFICADOS:
+    //=1: Retorna um item para a tela estrutura. 
+    //=2: Retorna um insumo para a tela de estrutura. 
+    //=3: Retorna um item para a tela de cadastro de ITEM. 
+    //=4: Retorna a estrutura de um item para ser Duplicada na tela de Estrutura. 
+    //=9: Mostra movimentações do ESTOQUE
+
     private int item_id;
     private boolean exclusao_item;
 
@@ -38,6 +47,28 @@ public class jff_pesquisar extends javax.swing.JFrame {
 
         //Popular a tabela
         new ItemDAO().popularTabela(jtb_pesquisa, "");
+
+    }
+
+    //contrutor Quando a tela de pesquisar for chamado pela tela JIF_CADASTRO_ESTRUTURA na hora de Duplicar Estrutura
+    public jff_pesquisar(jif_Cadastro_estrutura estrutura, int qual_pesquisa, int item_id) {
+        this.item_id = item_id;
+        initComponents();
+        this.estrutura = estrutura;
+        this.pesquisa = qual_pesquisa;
+
+        //Setar o nome dos botões e dos JLabels
+        jLabel1.setText("Itens com Estruturas cadastradas: ");
+        jbt_selecionar.setText("Selecionar");
+        jbt_fechar.setText("Fechar");
+        jbt_filtrar.setEnabled(true);
+        jtf_filtro.setEnabled(true);
+        jLabel2.setText("Filtrar");
+        this.setTitle("Pesquisa - Item");
+
+        //Popular a tabela
+        new ItemDAO().popularTabelaComEstruturaAtiva(jtb_pesquisa, "");
+
     }
 
     //contrutor Quando a tela de pesquisar for chamado pela tela JIF_CADASTRO_ITEM
@@ -46,7 +77,6 @@ public class jff_pesquisar extends javax.swing.JFrame {
         initComponents();
         this.cadItem = cadItem;
         this.pesquisa = 3;
-        
 
         //Setar o nome dos botões e dos JLabels
         jLabel1.setText("Selecione um item para duplicar");
@@ -60,7 +90,7 @@ public class jff_pesquisar extends javax.swing.JFrame {
         //Popular a tabela
         new ItemDAO().popularTabela(jtb_pesquisa, "");
     }
-    
+
     //contrutor Quando a tela de pesquisar for chamado pela tela JFF_ALTERAR_ITEM. É CHAMADO SOMENTE SE O ITEM A SER EXCLUÍDO ESTA COMO INSUMO EM ALGUMA ESTRUTURA
     public jff_pesquisar(jff_Alterar_item item, int item_id) {
         this.exclusao_item = false;
@@ -181,6 +211,7 @@ public class jff_pesquisar extends javax.swing.JFrame {
 
         jbt_filtrar.setBackground(new java.awt.Color(13, 71, 161));
         jbt_filtrar.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_filtrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pesquisar18x18.png"))); // NOI18N
         jbt_filtrar.setText("Pesquisar");
         jbt_filtrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,17 +227,17 @@ public class jff_pesquisar extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jbt_selecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbt_fechar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jtf_filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbt_filtrar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbt_filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 774, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -214,10 +245,10 @@ public class jff_pesquisar extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtf_filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbt_filtrar)
+                    .addComponent(jtf_filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbt_filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -225,7 +256,7 @@ public class jff_pesquisar extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbt_selecionar)
                     .addComponent(jbt_fechar))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -249,9 +280,9 @@ public class jff_pesquisar extends javax.swing.JFrame {
     private void jbt_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_fecharActionPerformed
         //Botão de fechar
         //Caso a tela de pesquisa tenha sido chamado pelo JIF_CADASTRO_ESTRUTURA
-        if (this.item_id == 0 || this.pesquisa == 9) {
+        if (this.item_id == 0 || this.pesquisa == 9 || (this.item_id > 0 && this.pesquisa == 4)) {
             this.dispose();
-        }//Caso a tela de pesquisa tenha sido chamado pelo JFF_ALTERAR_ITEM
+        } //Caso a tela de pesquisa tenha sido chamado pelo JFF_ALTERAR_ITEM
         else {
             this.exclusao_item = false;
             this.dispose();
@@ -262,20 +293,24 @@ public class jff_pesquisar extends javax.swing.JFrame {
 
     private void jbt_selecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_selecionarActionPerformed
         //Caso a tela de pesquisa tenha sido chamado pelo JIF_CADASTRO_ESTRUTURA
-        if (this.item_id == 0) {
+        if (this.item_id == 0 || (this.item_id > 0 && this.pesquisa == 4)) {
             String id_tabela = String.valueOf(jtb_pesquisa.getValueAt(jtb_pesquisa.getSelectedRow(), 0));
             int id_IntTabela = Integer.parseInt(id_tabela);
 
             if (this.pesquisa == 1) {
                 estrutura.NomearItem(id_IntTabela);
-            } else if (this.pesquisa == 2)  {
+            } else if (this.pesquisa == 2) {
                 estrutura.NomearInsumo(id_IntTabela);
-            } else if (this.pesquisa == 3){
+            } else if (this.pesquisa == 3) {
                 cadItem.DuplicarItem(id_IntTabela);
+            } else if (this.pesquisa == 4) {
+                ArrayList<Estrutura> est = new ArrayList<>();
+                est = new EstruturaDAO().consultarItemID(id_IntTabela);
+                this.estrutura.DuplicarEstrutura(est);
             }
-            
+
             this.dispose();
-            
+
         } //Caso a tela de pesquisa tenha sido chamado pelo JFF_ALTERAR_ITEM
         else {
             Object[] options = {"Sim",
@@ -299,12 +334,12 @@ public class jff_pesquisar extends javax.swing.JFrame {
     }//GEN-LAST:event_jbt_selecionarActionPerformed
 
     private void jbt_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_filtrarActionPerformed
-        if(this.pesquisa == 9){
+        if (this.pesquisa == 9) {
             new movimentacaoDAO().popularTabela(jtb_pesquisa, this.item_id, jtf_filtro.getText());
-        } else{
+        } else {
             new ItemDAO().popularTabela(jtb_pesquisa, jtf_filtro.getText());
         }
-        
+
     }//GEN-LAST:event_jbt_filtrarActionPerformed
 
     public static void main(String args[]) {

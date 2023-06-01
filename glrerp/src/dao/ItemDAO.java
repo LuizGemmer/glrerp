@@ -34,12 +34,12 @@ public class ItemDAO implements IDAOT<Item> {
                     + o.getQtde_estoque() + ", "
                     + "'true', "
                     + "'" + o.getUnidade_medida() + "', "
-                    + "'" + o.getObservacao() +  "', "  
+                    + "'" + o.getObservacao() + "', "
                     + o.getConv1() + ", "
                     + "'" + o.getUnd_conv1() + "', "
                     + o.getConv2() + ", "
                     + "'" + o.getUnd_conv2() + "', "
-                    + o.getValor() + " ) " ;
+                    + o.getValor() + " ) ";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
@@ -305,7 +305,7 @@ public class ItemDAO implements IDAOT<Item> {
 
         //Efetua a consulta na Tabela
         try {
-            if(grupo.equals("")) {
+            if (grupo.equals("")) {
                 resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
                         + "SELECT "
                         + "item.id AS item_id, item.descricao, grupo.tipo, grupo.descricao AS gp_descricao "
@@ -318,15 +318,15 @@ public class ItemDAO implements IDAOT<Item> {
                         + "ORDER BY item.descricao");
             } else {
                 resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT "
-                    + "item.id AS item_id, item.descricao, grupo.tipo, grupo.descricao AS gp_descricao "
-                    + "FROM item, grupo "
-                    + "WHERE item.id_grupo = grupo.id "
-                    + "AND item.ativo=true "
-                    + "AND (item.descricao ILIKE '%" + criterio + "%' "
-                    + "OR grupo.descricao ILIKE '%" + criterio + "%') "
-                    + "AND grupo.tipo in (" + grupo + ") "
-                    + "ORDER BY item.descricao");
+                        + "SELECT "
+                        + "item.id AS item_id, item.descricao, grupo.tipo, grupo.descricao AS gp_descricao "
+                        + "FROM item, grupo "
+                        + "WHERE item.id_grupo = grupo.id "
+                        + "AND item.ativo=true "
+                        + "AND (item.descricao ILIKE '%" + criterio + "%' "
+                        + "OR grupo.descricao ILIKE '%" + criterio + "%') "
+                        + "AND grupo.tipo in (" + grupo + ") "
+                        + "ORDER BY item.descricao");
             }
 
             while (resultadoQ.next()) {
@@ -369,9 +369,80 @@ public class ItemDAO implements IDAOT<Item> {
         column = tabela.getColumnModel().getColumn(0);
         column.setCellRenderer(centerRenderer);
     }
-    
+
     public void popularTabela(JTable tabela, String criterio) {
         this.popularTabela(tabela, criterio, "");
+    }
+
+    public void popularTabelaComEstruturaAtiva(JTable tabela, String criterio) {
+        ResultSet resultadoQ;
+
+        // Dados da Tabela
+        ArrayList<Object[]> dadosTabela = new ArrayList<>();
+
+        // Cabecalho da tabela
+        Object[] cabecalho = new Object[4];
+        cabecalho[0] = "ID";
+        cabecalho[1] = "Descrição";
+        cabecalho[2] = "Grupo - Tipo";
+        cabecalho[3] = "Grupo - Descrição";
+
+        //Efetua a consulta na Tabela
+        try {
+            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                    + "SELECT "
+                    + "item.id AS item_id, item.descricao, grupo.tipo, grupo.descricao AS gp_descricao "
+                    + "FROM item "
+                    + "INNER JOIN grupo ON item.id_grupo = grupo.id "
+                    + "INNER JOIN estrutura ON item.id = estrutura.item_id "
+                    + "WHERE item.ativo=true "
+                    + "AND estrutura.ativo = true "
+                    + "AND EXISTS (SELECT 1 FROM estrutura WHERE estrutura.item_id = item.id AND estrutura.insumo_id IS NOT NULL AND estrutura.ativo = true) "
+                    + "AND (item.descricao ILIKE '%" + criterio + "%' "
+                    + "OR grupo.descricao ILIKE '%" + criterio + "%' "
+                    + "OR grupo.tipo ILIKE '%" + criterio + "%') "
+                    + "GROUP BY item.id, grupo.tipo, grupo.descricao, item.descricao "
+                    + "ORDER BY item.descricao");
+
+            while (resultadoQ.next()) {
+                Object[] linha = new Object[4];
+                linha[0] = resultadoQ.getInt("item_id");
+                linha[1] = resultadoQ.getString("descricao");
+                linha[2] = resultadoQ.getString("tipo");
+                linha[3] = resultadoQ.getString("gp_descricao");
+                dadosTabela.add(linha);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao popular tabela: " + e);
+        }
+
+        tabela.setModel(new DefaultTableModel(
+                dadosTabela.toArray(new Object[0][0]), cabecalho) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+                // if (column == 3){return true} else {return false}
+            }
+        });
+
+        // Altera o número de selecao de linhas da tabela
+        tabela.setSelectionMode(0);
+
+        // Redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        int[] columnWidths = {30, 270, 50, 150};
+        for (int i = 0; i < tabela.getColumnModel().getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            column.setPreferredWidth(columnWidths[i]);
+        }
+
+        // Alinhar dados da coluna 1 no centro da celula da tabela
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        column = tabela.getColumnModel().getColumn(0);
+        column.setCellRenderer(centerRenderer);
     }
 
 }

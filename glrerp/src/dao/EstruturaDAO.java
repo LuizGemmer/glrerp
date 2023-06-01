@@ -174,8 +174,72 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
 
         return estruturas;
     }
+    
+    public ArrayList<Estrutura> consultarItemID(int item_id) {
+        ArrayList<Estrutura> estruturas = new ArrayList();
 
-    public Estrutura consultarId(int item_id, int insumo_id) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                    + "FROM estrutura "
+                    + "WHERE ativo=true "
+                    + "AND item_id=" + item_id;
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+
+            while (retorno.next()) {
+                Estrutura estrutura = new Estrutura();
+
+                estrutura.setItem_id(retorno.getInt("item_id"));
+                estrutura.setInsumo_id(retorno.getInt("insumo_id"));
+                estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
+                estrutura.setAtivo(retorno.getBoolean("ativo"));
+                estrutura.setUnd_medida(retorno.getString("und_medida"));
+                estrutura.setValor_estrutura(retorno.getDouble("valor_estrutura"));
+
+                estruturas.add(estrutura);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro " + e);
+        }
+
+        return estruturas;
+    }
+
+    @Override
+    public Estrutura consultarId(int item_id) {
+        Estrutura estrutura = new Estrutura();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                    + "FROM estrutura "
+                    + "WHERE ativo=true "
+                    + "AND item_id=" + item_id;
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+            while (retorno.next()) {
+                estrutura.setItem_id(retorno.getInt("item_id"));
+                estrutura.setInsumo_id(retorno.getInt("insumo_id"));
+                estrutura.setQtde_insumo(retorno.getDouble("qtde_insumo"));
+                estrutura.setAtivo(retorno.getBoolean("ativo"));
+                estrutura.setUnd_medida(retorno.getString("und_medida"));
+                estrutura.setValor_estrutura(retorno.getDouble("valor_estrutura"));
+
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de Estrutura " + e);
+        }
+
+        return estrutura;
+    }
+    
+    public Estrutura consultarIdItemInsumo(int item_id, int insumo_id) {
         Estrutura estrutura = new Estrutura();
 
         try {
@@ -431,11 +495,6 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
     @Override
     public ArrayList<Estrutura> consultar(String criterio) {
         return this.consultar(0, 0);
-    }
-
-    @Override
-    public Estrutura consultarId(int id) {
-        return this.consultarId(0, 0);
     }
 
 }

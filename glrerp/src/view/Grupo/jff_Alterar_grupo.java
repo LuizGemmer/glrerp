@@ -21,6 +21,9 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
     private boolean keyPressed;
     private boolean inativarControles;
     private DefaultComboBoxModel model;
+    Color buttonDisableColor = new Color(51, 51, 51);
+    Color buttonBlueColor = new Color(13, 71, 161);
+    Color buttonRedColor = new Color(153, 0, 0);
 
     public jff_Alterar_grupo() {
 
@@ -431,6 +434,7 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         jll_id.setText("" + this.grupo.getId());
         jtf_Descricao.setText(this.grupo.getDescricao());
         jcb_Tipo.setSelectedIndex(index);
+        this.keyPressed = false;
     }
 
     @Override
@@ -438,8 +442,14 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         this.inativarControles = inativarControles;
         if (inativarControles) {
             jInternalFrame1.setTitle("Detalhar Cadastro");
+            jbt_excluir.setBackground(buttonDisableColor);
+            jbt_limpar.setBackground(buttonDisableColor);
+            jbt_salvar_alteracao.setBackground(buttonDisableColor);
         } else {
             jInternalFrame1.setTitle("Alterar/Excluir");
+            jbt_excluir.setBackground(buttonRedColor);
+            jbt_limpar.setBackground(buttonBlueColor);
+            jbt_salvar_alteracao.setBackground(buttonBlueColor);
         }
         jtf_Descricao.setEditable(!inativarControles);
         jcb_Tipo.setEnabled(!inativarControles);

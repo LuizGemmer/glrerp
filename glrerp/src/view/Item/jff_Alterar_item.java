@@ -33,6 +33,9 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private boolean keyPressed;
     private boolean inativarControles;
     private boolean confirma_exclusao;
+    Color buttonDisableColor = new Color(51, 51, 51);
+    Color buttonBlueColor = new Color(13, 71, 161);
+    Color buttonRedColor = new Color(153, 0, 0);
 
     public jff_Alterar_item() {
         UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
@@ -783,7 +786,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         int index = new ItemDAO().indexCBUnidadeMedida(this.item.getUnidade_medida());
         int indexUC1 = new ItemDAO().indexCBUnidadeMedida(this.item.getUnd_conv1());
         int indexUC2 = new ItemDAO().indexCBUnidadeMedida(this.item.getUnd_conv2());
-
+        
         //Ajustar comportamento dos botões e labels
         jtf_conv1.setEnabled(false);
         jcb_Unidade_medida.setEnabled(false);
@@ -820,6 +823,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             jcb_UndConv1.setEnabled(false);
             jcb_UndConv2.setEnabled(false);
             jbt_inverter.setEnabled(false);
+            jbt_inverter.setBackground(buttonDisableColor);
         } else {
             if (jcb_UndConv1.getSelectedIndex() == jcb_Unidade_medida.getSelectedIndex()) {
                 jcb_UndConv1.setEnabled(false);
@@ -834,6 +838,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 jtf_conv2.setEnabled(true);
             }
         }
+        keyPressed = false;
     }
 
     @Override
@@ -841,8 +846,16 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         this.inativarControles = inativarControles;
         if (inativarControles) {
             jInternalFrame1.setTitle("Detalhar Cadastro");
+            jbt_excluir.setBackground(buttonDisableColor);
+            jbt_salvar_alteracao.setBackground(buttonDisableColor);
+            jbt_inverter.setBackground(buttonDisableColor);
+            jbt_limpar.setBackground(buttonDisableColor);
         } else {
             jInternalFrame1.setTitle("Alterar/Excluir");
+            jbt_excluir.setBackground(buttonRedColor);
+            jbt_salvar_alteracao.setBackground(buttonBlueColor);
+            jbt_inverter.setBackground(buttonBlueColor);
+            jbt_limpar.setBackground(buttonBlueColor);
         }
         jtf_Descricao.setEditable(!inativarControles);
         jcb_Grupo.setEnabled(!inativarControles);

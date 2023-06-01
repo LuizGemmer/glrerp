@@ -282,7 +282,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                         .addGap(77, 77, 77)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(393, 393, 393)
                                 .addComponent(jbt_inverter))
                             .addGroup(jPanel1Layout.createSequentialGroup()

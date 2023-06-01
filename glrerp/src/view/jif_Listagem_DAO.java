@@ -1,6 +1,7 @@
 package view;
 
 import apoio.IDAOT;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.SwingConstants;
@@ -20,6 +21,9 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     private final jff_ITelaAlterarCadastro telaAlterar;
     private final DefaultTableModel tableModel;
     private boolean telaEstoque = false; //Se for aberto pelo menu no acesso de ESTOQUE a variavel será true
+    Color buttonDisableColor = new Color(51, 51, 51);
+    Color buttonBlueColor = new Color(13, 71, 161);
+    Color buttonGreenColor = new Color(0, 102, 0);
 
     public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar) {
         this.DAOObject = dao;
@@ -120,7 +124,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         jtf_Buscar.setForeground(new java.awt.Color(0, 0, 0));
         jtf_Buscar.setCaretColor(new java.awt.Color(0, 0, 0));
 
-        jbt_alterar.setBackground(new java.awt.Color(0, 102, 0));
+        jbt_alterar.setBackground(new java.awt.Color(51, 51, 51));
         jbt_alterar.setForeground(new java.awt.Color(255, 255, 255));
         jbt_alterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/editar30x30.png"))); // NOI18N
         jbt_alterar.setToolTipText("Alterar Cadastro");
@@ -131,7 +135,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
             }
         });
 
-        jbt_detalhar.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_detalhar.setBackground(new java.awt.Color(51, 51, 51));
         jbt_detalhar.setForeground(new java.awt.Color(255, 255, 255));
         jbt_detalhar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/detalahar30x30.png"))); // NOI18N
         jbt_detalhar.setToolTipText("Detalhar Cadastro");
@@ -142,7 +146,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
             }
         });
 
-        jbt_movimentacao.setBackground(new java.awt.Color(13, 71, 161));
+        jbt_movimentacao.setBackground(new java.awt.Color(51, 51, 51));
         jbt_movimentacao.setForeground(new java.awt.Color(255, 255, 255));
         jbt_movimentacao.setText("Movimentações");
         jbt_movimentacao.setEnabled(false);
@@ -285,8 +289,11 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     private void jbt_visualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_visualizarActionPerformed
         this.setTableItems(jtf_Buscar.getText());
         jbt_alterar.setEnabled(false);
+        jbt_alterar.setBackground(buttonDisableColor);
         jbt_detalhar.setEnabled(false);
+        jbt_detalhar.setBackground(buttonDisableColor);
         jbt_movimentacao.setEnabled(false);
+        jbt_movimentacao.setBackground(buttonDisableColor);
     }//GEN-LAST:event_jbt_visualizarActionPerformed
 
     private void jbt_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_alterarActionPerformed
@@ -311,8 +318,11 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         //Habilitar botões de alteração e detalhamento somente quando selecionar uma linha na tabela
         jbt_alterar.setEnabled(true);
+        jbt_alterar.setBackground(buttonGreenColor);
         jbt_detalhar.setEnabled(true);
+        jbt_detalhar.setBackground(buttonBlueColor);
         jbt_movimentacao.setEnabled(true);
+        jbt_movimentacao.setBackground(buttonBlueColor);
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jbt_movimentacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_movimentacaoActionPerformed

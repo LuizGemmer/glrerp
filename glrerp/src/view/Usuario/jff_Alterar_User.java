@@ -23,6 +23,9 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
     private boolean keyPressed;
     private boolean inativarControles = false;
     private DefaultComboBoxModel model;
+    Color buttonDisableColor = new Color(51, 51, 51);
+    Color buttonBlueColor = new Color(13, 71, 161);
+    Color buttonRedColor = new Color(153, 0, 0);
 
     public jff_Alterar_User() {
         Grupo[] grupoComboBox = new GrupoDAO().consultarComboBox();
@@ -473,7 +476,7 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         jtf_Nome.setText(this.user.getNome());
         jcb_Hierarquia.setSelectedIndex(index);
         jtf_Email.setText(this.user.getEmail());
-
+        this.keyPressed = false;
     }
 
     @Override
@@ -481,13 +484,19 @@ public class jff_Alterar_User extends javax.swing.JFrame implements jff_ITelaAlt
         this.inativarControles = inativarControles;
         if (inativarControles) {
             jInternalFrame1.setTitle("Detalhar Cadastro");
+            jbt_excluir.setBackground(buttonDisableColor);
+            jbt_limpar.setBackground(buttonDisableColor);
+            jbt_salvar_alteracao.setBackground(buttonDisableColor);
         } else {
             jInternalFrame1.setTitle("Alterar/Excluir");
+            jbt_excluir.setBackground(buttonRedColor);
+            jbt_limpar.setBackground(buttonBlueColor);
+            jbt_salvar_alteracao.setBackground(buttonBlueColor);
         }
         jtf_Nome.setEditable(!inativarControles);
         jpf_Senha.setEnabled(false);
         jcb_Hierarquia.setEnabled(!inativarControles);
-        UIManager.put("ComboBox.disabledForeground",Color.DARK_GRAY);
+        UIManager.put("ComboBox.disabledForeground", Color.DARK_GRAY);
         jbt_excluir.setEnabled(!inativarControles);
         jbt_limpar.setEnabled(!inativarControles);
         jbt_salvar_alteracao.setEnabled(!inativarControles);

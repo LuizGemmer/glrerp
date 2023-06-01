@@ -19,6 +19,9 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
     private Cliente cliente;
     private boolean keyPressed;
     private boolean inativarControles;
+    Color buttonDisableColor = new Color(51, 51, 51);
+    Color buttonBlueColor = new Color(13, 71, 161);
+    Color buttonRedColor = new Color(153, 0, 0);
 
     public jff_Alterar_cliente() {
         initComponents();
@@ -573,6 +576,7 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         jff_Cpf.setText(Formatacao.removerFormatacao(this.cliente.getCpf()));
         jtf_End.setText(this.cliente.getEndereco());
         jff_Telefone.setText(Formatacao.removerFormatacao(this.cliente.getTelefone()));
+        this.keyPressed = false;
     }
 
     @Override
@@ -580,8 +584,16 @@ public class jff_Alterar_cliente extends javax.swing.JFrame implements jff_ITela
         this.inativarControles = inativarControles;
         if (inativarControles) {
             jInternalFrame1.setTitle("Detalhar Cadastro");
+            jbt_alterarCpfCnpj.setBackground(buttonDisableColor);
+            jbt_excluir.setBackground(buttonDisableColor);
+            jbt_limpar.setBackground(buttonDisableColor);
+            jbt_salvar_alteracao.setBackground(buttonDisableColor);
         } else {
             jInternalFrame1.setTitle("Alterar/Excluir");
+            jbt_alterarCpfCnpj.setBackground(buttonBlueColor);
+            jbt_excluir.setBackground(buttonRedColor);
+            jbt_limpar.setBackground(buttonBlueColor);
+            jbt_salvar_alteracao.setBackground(buttonBlueColor);
         }
         jtf_Nome.setEditable(!inativarControles);
         jtf_email.setEditable(!inativarControles);
