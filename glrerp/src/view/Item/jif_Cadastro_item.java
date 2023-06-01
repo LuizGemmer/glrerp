@@ -2,6 +2,7 @@ package view.Item;
 
 import apoio.CombosDAO;
 import apoio.Validacao;
+import dao.GrupoDAO;
 import dao.ItemDAO;
 import entidade.Grupo;
 import entidade.Item;
@@ -67,6 +68,8 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jff_valor = new javax.swing.JFormattedTextField();
         jbt_duplicar = new javax.swing.JButton();
+        jtf_estoqueMin = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setBorder(null);
@@ -272,28 +275,26 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             }
         });
 
+        jtf_estoqueMin.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_estoqueMin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtf_estoqueMin.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_estoqueMin.setCaretColor(new java.awt.Color(0, 0, 0));
+        jtf_estoqueMin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtf_estoqueMinKeyTyped(evt);
+            }
+        });
+
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("Estoque Mínimo");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(393, 393, 393)
-                                .addComponent(jbt_inverter))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtf_estoque, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                                    .addComponent(jff_valor))
-                                .addGap(290, 290, 290))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(95, 95, 95)
                         .addComponent(jLabel7)
@@ -333,15 +334,36 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                                         .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)
-                                        .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jtf_estoqueMin, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(37, 37, 37)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)))
                 .addComponent(jbt_fechar)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(393, 393, 393)
+                        .addComponent(jbt_inverter))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtf_estoque, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                            .addComponent(jff_valor))
+                        .addGap(290, 290, 290)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -360,13 +382,15 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
                         .addGap(164, 164, 164)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtf_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel3))))
+                            .addComponent(jtf_estoqueMin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jff_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jff_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -428,6 +452,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             String unidadeMedida = jcb_Unidade_medida.getSelectedItem().toString();
             String obs = jta_Observacao.getText();
             double valorItem = Double.parseDouble(jff_valor.getText().replace(',', '.'));
+            double estoqueMinItem = Double.parseDouble(jtf_estoqueMin.getText().replace(',', '.'));
 
             double conv1;
             double conv2;
@@ -458,6 +483,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             item.setUnd_conv1(und_conv1);
             item.setUnd_conv2(und_conv2);
             item.setValor(valorItem);
+            item.setQtde_estoque_min(estoqueMinItem);
 
             //Chamar classe ItemDAO para salvar dados no Banco de dados
             ItemDAO itemDAO = new ItemDAO();
@@ -546,10 +572,15 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         pesquisar.setVisible(true);
     }//GEN-LAST:event_jbt_duplicarActionPerformed
 
+    private void jtf_estoqueMinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_estoqueMinKeyTyped
+        Validacao.ValidarDecimal(jtf_estoqueMin, evt);
+    }//GEN-LAST:event_jtf_estoqueMinKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
@@ -574,6 +605,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtf_conv1;
     private javax.swing.JTextField jtf_conv2;
     private javax.swing.JTextField jtf_estoque;
+    private javax.swing.JTextField jtf_estoqueMin;
     // End of variables declaration//GEN-END:variables
 
     private void LimparCampos() {
@@ -583,6 +615,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
         jcb_Unidade_medida.setSelectedIndex(0);
         jta_Observacao.setText("");
         jff_valor.setText("");
+        jtf_estoqueMin.setText("");
         jcb_UndConv1.setSelectedIndex(0);
         jcb_UndConv2.setSelectedIndex(0);
         jtf_conv2.setText("");
@@ -664,10 +697,12 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
 
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         int index = new ItemDAO().indexCBUnidadeMedida(item.getUnidade_medida());
+        System.out.println(index);
         int indexUC1 = new ItemDAO().indexCBUnidadeMedida(item.getUnd_conv1());
         int indexUC2 = new ItemDAO().indexCBUnidadeMedida(item.getUnd_conv2());
         jtf_Descricao.setText(item.getDescricao() + " (CÓPIA)");
         jtf_estoque.setText(new DecimalFormat("#.####").format(item.getQtde_estoque()).replace('.', ','));
+        jtf_estoqueMin.setText(new DecimalFormat("#.####").format(item.getQtde_estoque_min()).replace('.', ','));
         jta_Observacao.setText(item.getObservacao());
         jtf_conv1.setText(new DecimalFormat("#.####").format(item.getConv1()).replace('.', ','));
         jtf_conv2.setText(new DecimalFormat("#.####").format(item.getConv2()).replace('.', ','));
@@ -684,5 +719,11 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             jcb_UndConv2.setEnabled(!trocaInverter);
             jcb_UndConv1.setEnabled(trocaInverter);
         }
+        //retornar o valor selecionado ao Combo Box GRUPO
+        new CombosDAO().popularCombo("grupo", jcb_Grupo);
+        Grupo cb = new Grupo();
+        cb.setId(item.getId_grupo());
+        cb.setDescricao(new GrupoDAO().consultarId(item.getId_grupo()).getDescricao());
+        new CombosDAO().definirComboGrupo(jcb_Grupo, cb);
     }
 }

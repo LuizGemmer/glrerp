@@ -72,13 +72,13 @@
                               <Component id="jtf_grupo_item" alignment="1" min="-2" pref="555" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="jbt_pesquisar_item" min="-2" pref="114" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jbt_editar_estrutura" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jbt_duplicar" min="-2" pref="181" max="-2" attributes="0"/>
+                              <Component id="jbt_duplicar" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">

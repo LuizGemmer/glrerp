@@ -42,6 +42,7 @@ create table item (
 	conv2 double precision,
 	und_conv2 varchar(45),
 	valor decimal (10,2) not null,
+	qtde_estoque_min double precision null,
 	primary key(id),
 	constraint fk_id_grupo foreign key (id_grupo) references grupo (id)
 );

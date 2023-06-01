@@ -18,6 +18,15 @@ public class Item {
     private double conv2;
     private String und_conv2;
     private double valor;
+    private double qtde_estoque_min;
+
+    public double getQtde_estoque_min() {
+        return qtde_estoque_min;
+    }
+
+    public void setQtde_estoque_min(double qtde_estoque_min) {
+        this.qtde_estoque_min = qtde_estoque_min;
+    }
     
         
     public int getId() {

@@ -80,6 +80,8 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jff_valor = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jtf_estoqueMin = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -331,6 +333,25 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jLabel11.setText("*Valor Unitário");
         jLabel11.setToolTipText("<html><p>O \"<b>VALOR UNITÁRIO</b>\" é atualizado automaticamente quando é feita uma nova compra do item</p> <br><br> <p>O valor novo é um valor ponderado, feito pela fórmula abaixo:</p> <p><b> [(Ea x Pa) + (Cn + Pn)] / (Ea + Cn) </b></p> <br> <p> Onde: <br> Ea = Estoque anterior a compra <br> Pa = Preço da compra anterior <br> Cn = Quantidade da nova compra <br> Pn = Preço da nova compra <br><br> Mas você pode alterar esse valor manualmente mesmo assim.</p> </html>");
 
+        jtf_estoqueMin.setBackground(new java.awt.Color(250, 250, 250));
+        jtf_estoqueMin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtf_estoqueMin.setForeground(new java.awt.Color(0, 0, 0));
+        jtf_estoqueMin.setCaretColor(new java.awt.Color(0, 0, 0));
+        jtf_estoqueMin.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        jtf_estoqueMin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtf_estoqueMinKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtf_estoqueMinKeyTyped(evt);
+            }
+        });
+
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel12.setText("Estoque Mínimo");
+        jLabel12.setToolTipText("<html><p>O \"<b>VALOR UNITÁRIO</b>\" é atualizado automaticamente quando é feita uma nova compra do item</p> <br><br> <p>O valor novo é um valor ponderado, feito pela fórmula abaixo:</p> <p><b> [(Ea x Pa) + (Cn + Pn)] / (Ea + Cn) </b></p> <br> <p> Onde: <br> Ea = Estoque anterior a compra <br> Pa = Preço da compra anterior <br> Cn = Quantidade da nova compra <br> Pn = Preço da nova compra <br><br> Mas você pode alterar esse valor manualmente mesmo assim.</p> </html>");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -361,30 +382,34 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jbt_limpar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jtf_Descricao, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jScrollPane1)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jtf_estoque)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jtf_conv1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jcb_UndConv1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jLabel10)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jtf_conv2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jcb_UndConv2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jbt_inverter)))
-                                    .addComponent(jff_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtf_Descricao, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane1)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jtf_estoque)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jcb_Unidade_medida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jtf_conv1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jcb_UndConv1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jtf_conv2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jcb_UndConv2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jbt_inverter))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jff_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jtf_estoqueMin, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -398,32 +423,34 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(58, 58, 58)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jtf_Descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jcb_Grupo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jff_valor, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtf_conv1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcb_UndConv1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10)
-                            .addComponent(jtf_conv2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcb_UndConv2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbt_inverter)
-                            .addComponent(jLabel9))
-                        .addGap(26, 26, 26))
+                            .addComponent(jLabel11)
+                            .addComponent(jtf_estoqueMin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtf_conv1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_UndConv1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(jtf_conv2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_UndConv2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbt_inverter)
+                    .addComponent(jLabel9))
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -496,6 +523,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_Grupo.setSelectedIndex(0);
         jta_Observacao.setText("");
         jff_valor.setText("");
+        jtf_estoqueMin.setText("");
         jtf_Descricao.requestFocus();
 
     }//GEN-LAST:event_jbt_limparActionPerformed
@@ -516,6 +544,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             Grupo cb = (Grupo) jcb_Grupo.getSelectedItem();
             String obs = jta_Observacao.getText();
             double valorItem = Double.parseDouble(jff_valor.getText().replace(',', '.'));
+            double estoqueMinItem = Double.parseDouble(jtf_estoqueMin.getText().replace(',', '.'));
 
             double conv1;
             double conv2;
@@ -545,6 +574,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             item.setUnd_conv1(und_conv1);
             item.setUnd_conv2(und_conv2);
             item.setValor(valorItem);
+            item.setQtde_estoque_min(estoqueMinItem);
 
             //Chamar classe ItemDAO para salvar dados no Banco de dados
             ItemDAO itemDAO = new ItemDAO();
@@ -563,7 +593,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     }//GEN-LAST:event_jbt_salvar_alteracaoActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
-
         //pegar do JTL o ID do item
         String id = jll_id.getText();
         int id_item = Integer.parseInt(id);
@@ -577,9 +606,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         if (estrutura.getItem_id() > 0) {
             jff_pesquisar jff_pesquisar = new jff_pesquisar(this, id_item);
             jff_pesquisar.setVisible(true);
-            System.out.println("aqui 1");
         } else {
-            System.out.println("aqui 2");
             ExcluirCadastroItem(true);
         }
     }//GEN-LAST:event_jbt_excluirActionPerformed
@@ -593,7 +620,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
 
         if (this.confirma_exclusao) {
             if (estrutura.getItem_id() > 0) {
-                System.out.println("aqui 3");
                 //Excluir cadastro
                 //Setar SITUAÇÃO=FALSE mo objeto
                 Item item = new Item();
@@ -613,7 +639,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
                 }
 
             } else {
-                System.out.println("aqui 4");
                 Object[] options = {"Sim",
                     "Não"};
                 int n = JOptionPane.showOptionDialog(this,
@@ -715,6 +740,14 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         Validacao.ValidarDecimal(jtf_conv2, evt);
     }//GEN-LAST:event_jtf_conv2KeyTyped
 
+    private void jtf_estoqueMinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_estoqueMinKeyTyped
+        Validacao.ValidarDecimal(jtf_estoqueMin, evt);
+    }//GEN-LAST:event_jtf_estoqueMinKeyTyped
+
+    private void jtf_estoqueMinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_estoqueMinKeyPressed
+        this.keyPressed = true;
+    }//GEN-LAST:event_jtf_estoqueMinKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -752,6 +785,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
@@ -778,6 +812,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     private javax.swing.JTextField jtf_conv1;
     private javax.swing.JTextField jtf_conv2;
     private javax.swing.JTextField jtf_estoque;
+    private javax.swing.JTextField jtf_estoqueMin;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -786,7 +821,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         int index = new ItemDAO().indexCBUnidadeMedida(this.item.getUnidade_medida());
         int indexUC1 = new ItemDAO().indexCBUnidadeMedida(this.item.getUnd_conv1());
         int indexUC2 = new ItemDAO().indexCBUnidadeMedida(this.item.getUnd_conv2());
-        
+
         //Ajustar comportamento dos botões e labels
         jtf_conv1.setEnabled(false);
         jcb_Unidade_medida.setEnabled(false);
@@ -794,8 +829,6 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jbt_salvar_alteracao.setText("Alterar Cadastro");
         jbt_excluir.setVisible(true);
         this.trocaInverter = false;
-        jLabel6.setText("Estoque Atual");
-        jLabel3.setText("Unidade de Medida");
 
         //Recuperar os valores do ID selecionado na tabela e setando eles nos TextsFields para alteração
         jll_id.setText("" + this.item.getId());
@@ -808,6 +841,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
         jcb_UndConv1.setSelectedIndex(indexUC1);
         jcb_UndConv2.setSelectedIndex(indexUC2);
         jff_valor.setText(new DecimalFormat("#.####").format(this.item.getValor()).replace('.', ','));
+        jtf_estoqueMin.setText(new DecimalFormat("#.####").format(this.item.getQtde_estoque_min()).replace('.', ','));
 
         //retornar o valor selecionado ao Combo Box GRUPO
         new CombosDAO().popularCombo("grupo", jcb_Grupo);
@@ -858,6 +892,7 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             jbt_limpar.setBackground(buttonBlueColor);
         }
         jtf_Descricao.setEditable(!inativarControles);
+        jtf_estoqueMin.setEditable(!inativarControles);
         jcb_Grupo.setEnabled(!inativarControles);
         jta_Observacao.setEditable(!inativarControles);
         jcb_UndConv1.setEnabled(!inativarControles);
