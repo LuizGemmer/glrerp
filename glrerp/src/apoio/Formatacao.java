@@ -44,6 +44,11 @@ public class Formatacao {
         NumberFormat formatter = new DecimalFormat("#,####0.0000");
         return (formatter.format(valor));
     }
+    
+    public static double ArredondarDecimal4casas(double valor) {
+       DecimalFormat df = new DecimalFormat("#.####");
+        return (Double.parseDouble(df.format(valor).replace(",", ".")));
+    }
 
     public static JFormattedTextField getTelefone() {
         return getFormatado("(##) #####-####");

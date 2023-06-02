@@ -148,9 +148,9 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         if (this.tipoMovimentacao == "compra" || this.tipoMovimentacao == "venda") {
             jtf_valor.setEnabled(true);
             jlb_und_valor.setText("/ " + item.getUnidade_medida());
-            if (this.tipoMovimentacao == "venda") {
-                jtf_valor.setText(String.valueOf(Formatacao.formatarDecimal2casas(item.getValor())));
-            }
+        }
+        if (this.tipoMovimentacao == "venda") {
+            jtf_valor.setText(String.valueOf(Formatacao.formatarDecimal2casas(item.getValor())));
         }
         jta_obs.setEnabled(true);
         jbt_inserir.setEnabled(true);
@@ -621,17 +621,18 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                     .addComponent(jbt_pesquisar_item, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtf_qtde_item, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jcb_und_medida, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jtf_perda, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jlb_perda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbt_inserir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbt_decoracao, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlb_valor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jtf_valor, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jlb_und_valor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlb_und_valor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtf_qtde_item, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jcb_und_medida, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                        .addComponent(jtf_perda, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                        .addComponent(jlb_perda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbt_inserir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbt_decoracao, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jlb_valor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jtf_valor, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -697,44 +698,55 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_pesquisar_itemActionPerformed
 
     private void jbt_inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_inserirActionPerformed
-        // Adição de linhas na tabela e ao ArrayList
-        String itemDesc = jtf_id_item.getText() + " -|- " + jtf_nome_item.getText();
-        double QtdeItem = Double.parseDouble(jtf_qtde_item.getText().replace(",", "."));
-        String und = jcb_und_medida.getSelectedItem().toString();
-        double valorUnd = Double.parseDouble(jtf_valor.getText().replace(",", "."));
-        double subTotal;
-        String obs = jta_obs.getText();
+        if (Validacao.ValidarEstoque(this.id_item_selecionado,
+                Double.parseDouble(jtf_qtde_item.getText().replace(",", ".")),
+                jcb_und_medida.getSelectedItem().toString(),
+                jtb_itens,
+                this.tipoMovimentacao)) {
 
-        Item item = new ItemDAO().consultarId(this.id_item_selecionado);
-        if (item.getUnidade_medida().equals(und)) {
-            subTotal = valorUnd * QtdeItem;
-        } else if (und.equals(item.getUnd_conv1())) {
-            subTotal = valorUnd * item.getConv2() * QtdeItem;
-        } else {
-            subTotal = valorUnd / item.getConv2() * QtdeItem;
-        }
+            // Adição de linhas na tabela e ao ArrayList
+            if (this.tipoMovimentacao == "venda" || this.tipoMovimentacao == "compra") {
+                String itemDesc = jtf_id_item.getText() + " -|- " + jtf_nome_item.getText();
+                double QtdeItem = Double.parseDouble(jtf_qtde_item.getText().replace(",", "."));
+                String und = jcb_und_medida.getSelectedItem().toString();
+                double valorUnd = Double.parseDouble(jtf_valor.getText().replace(",", "."));
+                double subTotal;
+                String obs = jta_obs.getText();
 
-        //Na VENDA a OBS fica personalizada com desconto/acrescimo de valor
-        if (this.tipoMovimentacao == "venda") {
-            if (valorUnd < item.getValor()) {
-                obs = "Desconto de R$ " + Formatacao.formatarDecimal2casas(item.getValor() - valorUnd) + "/" + item.getUnidade_medida() + " | " + obs;
+                Item item = new ItemDAO().consultarId(this.id_item_selecionado);
+                if (item.getUnidade_medida().equals(und)) {
+                    subTotal = valorUnd * QtdeItem;
+                } else if (und.equals(item.getUnd_conv1())) {
+                    subTotal = valorUnd * item.getConv2() * QtdeItem;
+                } else {
+                    subTotal = valorUnd / item.getConv2() * QtdeItem;
+                }
+
+                //Na VENDA a OBS fica personalizada com desconto/acrescimo de valor
+                if (this.tipoMovimentacao == "venda") {
+                    if (valorUnd < item.getValor()) {
+                        obs = "Desconto de R$ " + Formatacao.formatarDecimal2casas(item.getValor() - valorUnd) + "/" + item.getUnidade_medida() + " | " + obs;
+                    }
+                    if (valorUnd > item.getValor()) {
+                        obs = "Acrescimo de R$ " + Formatacao.formatarDecimal2casas(valorUnd - item.getValor()) + "/" + item.getUnidade_medida() + " | " + obs;
+                    }
+                }
+
+                //Adicionar os itens da linha em um Objeto
+                Object[] novaLinha = {this.linhasTabela,
+                    itemDesc,
+                    obs,
+                    Formatacao.formatarDecimal4casas(QtdeItem),
+                    und,
+                    Formatacao.formatarDecimal2casasRS(valorUnd),
+                    Formatacao.formatarDecimal2casasRS(subTotal)};
+
+                model.addRow(novaLinha);
+                this.linhasTabela++;
+            } else {
+
             }
-            if (valorUnd > item.getValor()) {
-                obs = "Acrescimo de R$ " + Formatacao.formatarDecimal2casas(valorUnd - item.getValor()) + "/" + item.getUnidade_medida() + " | " + obs;
-            }
         }
-
-        //Adicionar os itens da linha em um Objeto
-        Object[] novaLinha = {this.linhasTabela,
-            itemDesc,
-            obs,
-            Formatacao.formatarDecimal4casas(QtdeItem),
-            und,
-            Formatacao.formatarDecimal2casasRS(valorUnd),
-            Formatacao.formatarDecimal2casasRS(subTotal)};
-
-        model.addRow(novaLinha);
-        this.linhasTabela++;
 
         /*
         this.apertou_editar = false;
@@ -1080,17 +1092,17 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             // Definição das colunas da tabela
             model.addColumn("Nº");
             model.addColumn("ID -|- Item");
-            model.addColumn("Qtde");
-            model.addColumn("Perda");
-            model.addColumn("Und");
             model.addColumn("Observação");
+            model.addColumn("Qtde");
+            model.addColumn("Und");
+            model.addColumn("Perda");
             model.addColumn("ID Pedido");
 
             // Centralizar conteúdo dascolunas
             centralizarConteudoColuna(0);
-            centralizarConteudoColuna(2);
             centralizarConteudoColuna(3);
             centralizarConteudoColuna(4);
+            centralizarConteudoColuna(5);
             centralizarConteudoColuna(6);
 
             //ajusta o tamanho da fonte
@@ -1131,6 +1143,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
         // Aplicar o renderer à coluna específica da tabela
         jtb_itens.getColumnModel().getColumn(columnIndex).setCellRenderer(renderer);
+
     }
 
     public class CustomRenderer extends DefaultTableCellRenderer {

@@ -4,9 +4,15 @@
  */
 package apoio;
 
+import dao.EstruturaDAO;
+import dao.ItemDAO;
+import entidade.Estrutura;
+import entidade.Item;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -77,13 +83,13 @@ public class Validacao {
 
     public static boolean validarDataFormatada(String dataComFormato) {
         String[] hora = dataComFormato.split("/");
-            if(Integer.parseInt(hora[0]) < 24 && Integer.parseInt(hora[1]) < 60) {
-                return true;
-            } else{
-                return false;
-            }
+        if (Integer.parseInt(hora[0]) < 24 && Integer.parseInt(hora[1]) < 60) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    
+
     public static boolean validarHoraFormatada(String horaComFormato) {
         String[] data = horaComFormato.split(":");
         return (validarDataDMA(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])));
@@ -244,6 +250,109 @@ public class Validacao {
         return true;
 
     }
-    
-    
+
+    public static boolean ValidarEstoque(int id_item, double qtde, String und, JTable tabela, String tipoMovimento) {
+        boolean estoqueOk = true;
+        if (!tipoMovimento.equals("compra")) {
+            int id_insumo = 0;
+            Item itemEstoque = new ItemDAO().consultarId(id_item);
+            Item insumoEstoque = new ItemDAO().consultarId(id_insumo);
+            ArrayList<Estrutura> estruturaItem = new EstruturaDAO().consultarItemID(id_item);
+            int rowCount = tabela.getRowCount();
+            ArrayList<Object[]> columnData = new ArrayList<>();
+            double consumoItem = ConverterQtdeEstoque(id_item, qtde, und);
+            double estoqueItem = itemEstoque.getQtde_estoque();
+            ArrayList<Object[]> estoqueEstrutura = new ArrayList<>();
+            ArrayList<Object[]> consumoEstrutura = new ArrayList<>();
+
+            if (tipoMovimento.equals("producao")) {
+                double qtdaEstoqueInsumo;
+                double qtdeConsumoInsumo;
+                for (int j = 0; j < estruturaItem.size(); j++) {
+                    id_insumo = estruturaItem.get(j).getInsumo_id();
+                    qtdaEstoqueInsumo = insumoEstoque.getQtde_estoque();
+                    Object[] objetoEstoque = new Object[]{id_insumo, qtdaEstoqueInsumo};
+                    estoqueEstrutura.add(objetoEstoque);
+
+                    qtdeConsumoInsumo = ConverterQtdeEstoque(id_item, qtde, und) * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
+                    Object[] objetoConsumo = new Object[]{id_insumo, qtdeConsumoInsumo};
+                    consumoEstrutura.add(objetoConsumo);
+                }
+            }
+
+            for (int row = 0; row < rowCount; row++) {
+                String Column1 = tabela.getValueAt(row, 1).toString();
+                String[] parts = Column1.split(" -|- ");
+
+                Object valueColumn1 = parts[0];
+                Object valueColumn3 = Double.parseDouble(tabela.getValueAt(row, 3).toString().replace(",", "."));
+                Object valueColumn4 = tabela.getValueAt(row, 4);
+
+                Object[] rowData = {valueColumn1, valueColumn3, valueColumn4};
+                columnData.add(rowData);
+            }
+
+            for (int i = 0; i < columnData.size(); i++) {
+                Object[] rowData = columnData.get(i);
+                Object valueId = rowData[0];
+                Object valueQtde = rowData[1];
+                Object valueUnd = rowData[2];
+
+                if (tipoMovimento.equals("venda") && Integer.parseInt(valueId.toString()) == id_item) {
+                    consumoItem = consumoItem + ConverterQtdeEstoque(id_item, Double.parseDouble(valueQtde.toString()), valueUnd.toString());
+                }
+
+                if (tipoMovimento.equals("producao") && Integer.parseInt(valueId.toString()) == id_item) {
+                    double qtdeConsumoInsumo;
+                    for (int j = 0; j < estruturaItem.size(); j++) {
+                        id_insumo = estruturaItem.get(j).getInsumo_id();
+                        qtdeConsumoInsumo = ConverterQtdeEstoque(id_item, Double.parseDouble(valueQtde.toString()), valueUnd.toString()) * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
+
+                        Object[] object = consumoEstrutura.get(i);
+                        int idInsumo = Integer.parseInt(object[0].toString());
+                        double novoConsumo = Double.parseDouble(object[1].toString()) + qtdeConsumoInsumo;
+                        consumoEstrutura.clear();
+                        Object[] objetoConsumo = new Object[]{id_insumo, novoConsumo};
+                        consumoEstrutura.add(objetoConsumo);
+                    }
+                }
+            }
+
+            if (tipoMovimento.equals("venda")) {
+                if (Formatacao.ArredondarDecimal4casas(consumoItem) > Formatacao.ArredondarDecimal4casas(estoqueItem)) {
+                    estoqueOk = false;
+                }
+            } else {
+                double qtdeConsumoInsumo;
+                double qtdeEstoqueInsumo;
+                for (int i = 0; i < consumoEstrutura.size(); i++) {
+                    Object[] objectConsumo = consumoEstrutura.get(i);
+                    Object[] objectEstoque = estoqueEstrutura.get(i);
+                    id_insumo = estruturaItem.get(i).getInsumo_id();
+                    qtdeConsumoInsumo = Formatacao.ArredondarDecimal4casas(Double.parseDouble(objectConsumo[1].toString()));
+                    qtdeEstoqueInsumo = Formatacao.ArredondarDecimal4casas(Double.parseDouble(objectEstoque[1].toString()));
+
+                    if (qtdeConsumoInsumo > qtdeEstoqueInsumo) {
+                        estoqueOk = false;
+                    }
+                }
+            }
+        }
+        return estoqueOk;
+    }
+
+    public static double ConverterQtdeEstoque(int id_item, double qtde, String und) {
+        Item itemEstoque = new ItemDAO().consultarId(id_item);
+        double consumoEstoque;
+        if (itemEstoque.getUnidade_medida().equals(und)) {
+            consumoEstoque = qtde;
+        } else if (und.equals(itemEstoque.getUnd_conv1())) {
+            consumoEstoque = qtde * itemEstoque.getConv2();
+        } else {
+            consumoEstoque = qtde / itemEstoque.getConv2();
+        }
+
+        return consumoEstoque;
+    }
+
 }

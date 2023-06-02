@@ -179,17 +179,19 @@
                       <Component id="jLabel7" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jtf_qtde_item" alignment="3" pref="34" max="32767" attributes="0"/>
-                      <Component id="jLabel9" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jcb_und_medida" alignment="3" pref="34" max="32767" attributes="0"/>
-                      <Component id="jtf_perda" alignment="3" pref="34" max="32767" attributes="0"/>
-                      <Component id="jlb_perda" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jbt_inserir" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                      <Component id="jbt_decoracao" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                      <Component id="jlb_valor" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jtf_valor" alignment="3" pref="34" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jlb_und_valor" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jtf_qtde_item" alignment="3" pref="34" max="32767" attributes="0"/>
+                          <Component id="jLabel9" alignment="3" max="32767" attributes="0"/>
+                          <Component id="jcb_und_medida" alignment="3" pref="34" max="32767" attributes="0"/>
+                          <Component id="jtf_perda" alignment="3" pref="34" max="32767" attributes="0"/>
+                          <Component id="jlb_perda" alignment="3" max="32767" attributes="0"/>
+                          <Component id="jbt_inserir" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="jbt_decoracao" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="jlb_valor" alignment="3" max="32767" attributes="0"/>
+                          <Component id="jtf_valor" alignment="3" pref="34" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
