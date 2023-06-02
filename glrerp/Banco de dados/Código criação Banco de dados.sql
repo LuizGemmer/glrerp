@@ -71,13 +71,14 @@ id serial not null,
 	perda double precision not null,
 	observacao varchar (500),
 	id_pedido int null,
+	id_grupo_movimentacao int not null,
 	primary key(id),
 	constraint fk_item_id foreign key (item_id) references item (id),
 	constraint fk_cliente_id foreign key (cliente_id) references cliente (id)
 );
 
 create table movimentacao_usuario(
-movimentacao_id int not null,
+	movimentacao_id int not null,
 	usuario_id int not null,
 	primary key (movimentacao_id),
 	constraint fk_movimentacao_id foreign key (movimentacao_id) references movimentacao (id),

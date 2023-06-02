@@ -57,7 +57,8 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 + "'" + o.getQtde() + "', "
                 + "'" + o.getPerdas() + "', "
                 + "'" + o.getObservacao() + "', "
-                + "'" + o.getId_pedido() + "');";
+                + "'" + o.getId_pedido() + "' "
+                + "'" + o.getId_grupo_movimentacao() + ");";
 
         //Salvar movimentacao no banco de dados
         try {
@@ -72,7 +73,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
         } catch (Exception e) {
             System.out.println(sql);
-            System.out.println("Erro ao inserir cadastro de movimentacao/Fornecedor " + e);
+            System.out.println("Erro ao inserir cadastro de movimentacao " + e);
             return e.toString();
         }
     }
@@ -89,11 +90,12 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                     + "data='" + o.getData() + "', "
                     + "item_id='" + o.getItem_id() + "', "
                     + "cliente_id='" + o.getCliente_id() + "', "
-                    + "valor='" + o.getValor() + "' "
-                    + "qtde='" + o.getQtde() + "' "
-                    + "perda='" + o.getPerdas() + "' "
-                    + "observacao='" + o.getObservacao() + "' "
-                    + "id_pedido='" + o.getId_pedido() + "' "
+                    + "valor='" + o.getValor() + "', "
+                    + "qtde='" + o.getQtde() + "', "
+                    + "perda='" + o.getPerdas() + "', "
+                    + "observacao='" + o.getObservacao() + "', "
+                    + "id_pedido='" + o.getId_pedido() + "', "
+                    + "id_grupo_movimentacao=" + o.getId_grupo_movimentacao() + " "
                     + "WHERE id='" + o.getId() + "'";
 
             int retorno = st.executeUpdate(sql);
@@ -115,11 +117,10 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         m.setData(LocalDateTime.now());
         m.setQtde(-m.getQtde());
         m.setPerdas(-m.getPerdas());
+        m.setValor(-m.getValor());
         m.setTipo(m.getTipo());
 
         this.salvar(m);
-        atualizarEstoques(m.getItem_id(), m.getQtde());
-
         return "";
     }
 

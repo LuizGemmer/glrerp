@@ -1,12 +1,19 @@
 package dao;
 
 import apoio.ConexaoBD;
+import apoio.Formatacao;
 import apoio.IDAOT;
 import entidade.Cliente;
+import java.awt.Component;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -202,8 +209,71 @@ public class ClienteDAO implements IDAOT<Cliente> {
         return new String[]{"Id", "Nome", "CPF/CNPJ"};
     }
 
-    public void popularTabela(JTable jtb_pesquisa, String text) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void popularTabela(JTable tabela, String clienteOuFornecedor, String criterio) {
+        ResultSet resultadoQ;
+
+        // Dados da Tabela
+        ArrayList<Object[]> dadosTabela = new ArrayList<>();
+
+        // Cabecalho da tabela
+        Object[] cabecalho = new Object[3];
+        cabecalho[0] = "ID";
+        cabecalho[1] = "Nome";
+        cabecalho[2] = "CPF/CNPJ";
+
+        //Efetua a consulta na Tabela
+        try {
+            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                    + "SELECT * "
+                    + "FROM cliente "
+                    + "WHERE tipo='" + clienteOuFornecedor + "' "
+                    + "AND ativo=true "
+                    + "AND (nome ILIKE '%" + criterio + "%' "
+                    + "OR cpf ILIKE '%" + criterio + "%') "
+                    + "ORDER BY nome");
+
+            while (resultadoQ.next()) {
+                Object[] linha = new Object[3];
+                linha[0] = resultadoQ.getInt("id");
+                linha[1] = resultadoQ.getString("nome");
+                linha[2] = resultadoQ.getString("cpf");
+
+                dadosTabela.add(linha);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao popular tabela: " + e);
+        }
+
+        tabela.setModel(new DefaultTableModel(
+                dadosTabela.toArray(new Object[0][0]), cabecalho) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+                // if (column == 3){return true} else {return false}
+            }
+        });
+
+        // Altera o número de selecao de linhas da tabela
+        tabela.setSelectionMode(0);
+
+        // Redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        int[] columnWidths = {20, 380, 50};
+        for (int i = 0; i < tabela.getColumnModel().getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            column.setPreferredWidth(columnWidths[i]);
+        }
+
+        // Alinhar dados da coluna 1 no centro da celula da tabela
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        TableColumn column1 = tabela.getColumnModel().getColumn(0);
+        TableColumn column2 = tabela.getColumnModel().getColumn(2);
+
+        column1.setCellRenderer(centerRenderer);
+        column2.setCellRenderer(centerRenderer);
     }
 
 }

@@ -18,7 +18,8 @@ import view.Item.jff_Alterar_item;
 import view.Item.jif_Cadastro_item;
 import view.Menu.raven.menu.MenuEvent;
 import view.Movimentacao.jff_alterar_movimentacao;
-import view.Movimentacao.jff_pesquisar_item;
+import view.Movimentacao.jff_pesquisar_item_cliente;
+import view.Movimentacao.jif_Cadastro_movimentacao;
 import view.Movimentacao.jif_alterar_movimentacao;
 import view.Relatorio.jif_relatorio;
 import view.Usuario.jff_Alterar_User;
@@ -30,7 +31,7 @@ public class Main extends javax.swing.JFrame {
 
     private final jif_Cadastro_cliente tipo;
     private jif_Listagem_DAO visualizarIsOpen;
-    public jff_pesquisar_item telapesq;
+    public jff_pesquisar_item_cliente telapesq;
 
     private void abrirListagemDAO(IDAOT dao, jff_ITelaAlterarCadastro tela, String titulo) {
         jif_Listagem_DAO telaListagem = new jif_Listagem_DAO(dao, tela);
@@ -58,7 +59,7 @@ public class Main extends javax.swing.JFrame {
                     showForm(jifVis_cliente);
                     jifVis_cliente.setTitle("VISUALIZAR - CLIENTES");
                     jifVis_cliente.setVisible(true);
-                    
+
                 } else if (index == 0 && subIndex == 2) { // --------------------------- CADASTRAR CLIENTES
                     jif_Cadastro_cliente jif_cad_cliente = new jif_Cadastro_cliente(true);
                     showForm(jif_cad_cliente);
@@ -101,33 +102,30 @@ public class Main extends javax.swing.JFrame {
                     jif_Cadastro_estrutura jif_cad_est = new jif_Cadastro_estrutura();
                     showForm(jif_cad_est);
                     jif_cad_est.setVisible(true);
-
-                } else if (index == 5 && subIndex == 1) { // --------------------------- VISUALIZAR VENDAS
-                    abrirListagemDAO(new movimentacaoDAO("venda"), new jff_alterar_movimentacao(), "vendas");
-
-                } else if (index == 5 && subIndex == 2) { // --------------------------- CADASTRAR VENDAS
-                    jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
-                            "'PRODUTO ACABADO'", "venda"
-                    );
-                    telaPesquisa.setVisible(true);
-
-                } else if (index == 6 && subIndex == 1) { // --------------------------- VISUALIZAR COMPRAS
+                    
+                } else if (index == 5 && subIndex == 1) { // --------------------------- VISUALIZAR COMPRAS
                     abrirListagemDAO(new movimentacaoDAO("compra"), new jff_alterar_movimentacao(), "Compras");
 
-                } else if (index == 6 && subIndex == 2) { // --------------------------- CADASTRAR COMPRAS
-                    jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
-                            "'MATERIA-PRIMA', 'FERRAMENTA', 'OUTRO'", "compra"
-                    );
-                    telaPesquisa.setVisible(true);
-
-                } else if (index == 7 && subIndex == 1) { // --------------------------- VISUALIZAR PRODUÇÃO
+                } else if (index == 5 && subIndex == 2) { // --------------------------- CADASTRAR COMPRAS
+                    jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("compra");
+                    showForm(cadastro_movimentacao);
+                    cadastro_movimentacao.setVisible(true);
+                    
+                } else if (index == 6 && subIndex == 1) { // --------------------------- VISUALIZAR PRODUÇÃO
                     abrirListagemDAO(new movimentacaoDAO("producao"), new jff_alterar_movimentacao(), "Produção");
 
-                } else if (index == 7 && subIndex == 2) { // --------------------------- CADASTRAR PRODUÇÃO
-                    jff_pesquisar_item telaPesquisa = new jff_pesquisar_item(
-                            "'PRODUTO ACABADO'", "producao"
-                    );
-                    telaPesquisa.setVisible(true);
+                } else if (index == 6 && subIndex == 2) { // --------------------------- CADASTRAR PRODUÇÃO
+                    jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("producao");
+                    showForm(cadastro_movimentacao);
+                    cadastro_movimentacao.setVisible(true);
+
+                } else if (index == 7 && subIndex == 1) { // --------------------------- VISUALIZAR VENDAS
+                    abrirListagemDAO(new movimentacaoDAO("venda"), new jff_alterar_movimentacao(), "Vendas");
+
+                } else if (index == 7 && subIndex == 2) { // --------------------------- CADASTRAR VENDAS
+                    jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("venda");
+                    showForm(cadastro_movimentacao);
+                    cadastro_movimentacao.setVisible(true);
 
                 } else if (index == 8 && subIndex == 1) { // --------------------------- VISUALIZAR ESTOQUE
                     jif_Listagem_DAO jifVis_item = new jif_Listagem_DAO(new ItemDAO(), new jff_Alterar_item(), true);

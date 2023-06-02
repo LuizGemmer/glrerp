@@ -76,7 +76,16 @@ public class Validacao {
     }
 
     public static boolean validarDataFormatada(String dataComFormato) {
-        String[] data = dataComFormato.split("/");
+        String[] hora = dataComFormato.split("/");
+            if(Integer.parseInt(hora[0]) < 24 && Integer.parseInt(hora[1]) < 60) {
+                return true;
+            } else{
+                return false;
+            }
+    }
+    
+    public static boolean validarHoraFormatada(String horaComFormato) {
+        String[] data = horaComFormato.split(":");
         return (validarDataDMA(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])));
     }
 

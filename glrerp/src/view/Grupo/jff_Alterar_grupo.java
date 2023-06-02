@@ -169,7 +169,7 @@ public class jff_Alterar_grupo extends javax.swing.JFrame implements jff_ITelaAl
         jcb_Tipo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jcb_Tipo.setForeground(new java.awt.Color(0, 0, 0));
         jcb_Tipo.setMaximumRowCount(150);
-        jcb_Tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "MATERIA-PRIMA", "PRODUTO ACABADO", "FERRAMENTA", "OUTRO" }));
+        jcb_Tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE", "MATERIA-PRIMA", "PRODUTO ACABADO", "FERRAMENTA", "SERVICO", "OUTRO" }));
         jcb_Tipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jcb_Tipo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {

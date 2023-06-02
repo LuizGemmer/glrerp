@@ -1,36 +1,48 @@
 package view.Movimentacao;
 
+import dao.ClienteDAO;
 import dao.ItemDAO;
-import dao.movimentacaoDAO;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author ruang
  */
-public class jff_pesquisar_item extends javax.swing.JFrame {
+public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
 
-    private int item_id;
-    private String grupoTipo;
-    private String menuSelecionado;
+    private int item_id; //Id de cliente ou item selecionado na tabela de pesquisa
+    private int pesquisa_item_cliente; //=2: Pesquisa de cliente. =1: Pesquisa de fornecedor. =3: Pesquisa de item
+    private String menuSelecionado; //compra, venda ou producao
+    private jif_Cadastro_movimentacao jif_cadastroMovimentacao;
+    private String grupoTipo; //Vai vir a String da tela JIF_CADASTRO_MOVIMENTACAO. Se for nova compra retorna ('MATERIA-PRIMA', 'OUTRO', 'FERRAMENTA'). Se for Venda retorna ('PRODUTO ACABADO', 'OUTRO')
 
-    //contrutor Quando a tela de pesquisar for chamado pela tela JIF_CADASTRO_ESTRUTURA
-    public jff_pesquisar_item(String tipoGrupoItem, String menuSelecionado) {
-        this.item_id = 0;
-        this.grupoTipo = tipoGrupoItem;
+    public jff_pesquisar_item_cliente(jif_Cadastro_movimentacao tela, String menuSelecionado, int item_cliente, String grupoTipo) {
+        this.pesquisa_item_cliente = item_cliente;
         this.menuSelecionado = menuSelecionado;
+        this.jif_cadastroMovimentacao = tela;
+        this.grupoTipo = grupoTipo;
         initComponents();
 
-        //Setar o nome dos botões e dos JLabels
-        jLabel1.setText("");
-        jbt_selecionar.setText("Selecionar");
-        jbt_fechar.setText("Fechar");
-        jbt_filtrar.setEnabled(true);
-        jtf_filtro.setEnabled(true);
-        this.setTitle("Pesquisa - Item");
+        if (this.pesquisa_item_cliente == 2) {
+            //Setar o nome dos botões e dos JLabels
+            jLabel1.setText("Clientes Cadastrados");
+            this.setTitle("Pesquisa - Cliente");
+            //Popular a tabela
+            new ClienteDAO().popularTabela(jtb_pesquisa, "cliente", "");
+        } else if (this.pesquisa_item_cliente == 1) {
+            //Setar o nome dos botões e dos JLabels
+            jLabel1.setText("Fornecedores Cadastrados");
+            this.setTitle("Pesquisa - Fornecedor");
+            //Popular a tabela
+            new ClienteDAO().popularTabela(jtb_pesquisa, "fornecedor", "");
+        } else if (this.pesquisa_item_cliente == 3) {
+            //Setar o nome dos botões e dos JLabels
+            jLabel1.setText("Itens Cadastrados");
+            this.setTitle("Pesquisa - Itens");
+            //Popular a tabela
+            new ItemDAO().popularTabela(jtb_pesquisa, "", this.grupoTipo);
+        }
 
-        //Popular a tabela
-        new ItemDAO().popularTabela(jtb_pesquisa, "", this.grupoTipo);
     }
 
     @SuppressWarnings("unchecked")
@@ -54,7 +66,7 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 450));
 
         jLabel1.setBackground(new java.awt.Color(250, 250, 250));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("jLabel1");
@@ -124,16 +136,17 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jbt_selecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbt_fechar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jtf_filtro)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtf_filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbt_filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -142,12 +155,13 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtf_filtro, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbt_filtrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtf_filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addComponent(jbt_filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -184,23 +198,29 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
         );
 
         if (this.item_id == 0) {
-            JOptionPane.showMessageDialog(this, "Selecione um registro na tabela acima");
+            JOptionPane.showMessageDialog(this, "Selecione um registro na tabela acima", "ERRO", JOptionPane.ERROR_MESSAGE);
         } else {
-            jff_alterar_movimentacao telaAlterar = new jff_alterar_movimentacao(this.menuSelecionado, item_id);
-            telaAlterar.setDAO(new movimentacaoDAO(this.menuSelecionado));
-            telaAlterar.setItem(item_id);
-            telaAlterar.showWindow(true);
+            if (this.pesquisa_item_cliente == 1 || this.pesquisa_item_cliente == 2) {
+                jif_cadastroMovimentacao.NomearCliente(this.item_id);
+            } else if (this.pesquisa_item_cliente == 3) {//ITEM
+                jif_cadastroMovimentacao.NomearItem(this.item_id);
+            }
             this.dispose();
         }
     }//GEN-LAST:event_jbt_selecionarActionPerformed
 
 
     private void jbt_filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_filtrarActionPerformed
-        new ItemDAO().popularTabela(
-                jtb_pesquisa,
-                jtf_filtro.getText(),
-                this.grupoTipo
-        );
+        if (this.pesquisa_item_cliente == 1) {
+            //Popular a tabela
+            new ClienteDAO().popularTabela(jtb_pesquisa, "cliente", jtf_filtro.getText());
+        } else if (this.pesquisa_item_cliente == 2) {
+            //Popular a tabela
+            new ClienteDAO().popularTabela(jtb_pesquisa, "fornecedor", jtf_filtro.getText());
+        } else if (this.pesquisa_item_cliente == 3) {
+            //Popular a tabela
+            new ItemDAO().popularTabela(jtb_pesquisa, jtf_filtro.getText(), this.grupoTipo);
+        }
     }//GEN-LAST:event_jbt_filtrarActionPerformed
 
     public static void main(String args[]) {
@@ -217,14 +237,16 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jff_pesquisar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_pesquisar_item_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jff_pesquisar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_pesquisar_item_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jff_pesquisar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_pesquisar_item_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jff_pesquisar_item.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jff_pesquisar_item_cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -247,5 +269,4 @@ public class jff_pesquisar_item extends javax.swing.JFrame {
     private javax.swing.JTable jtb_pesquisa;
     private javax.swing.JTextField jtf_filtro;
     // End of variables declaration//GEN-END:variables
-
 }

@@ -114,7 +114,21 @@ public class Formatacao {
             System.err.println(e);
         }
     }
-
+    
+    public static void formatarHora(JFormattedTextField campo) {
+        try {
+            MaskFormatter m = new MaskFormatter();
+            m.setMask("##:##");
+            m.setPlaceholderCharacter(' ');
+            m.setAllowsInvalid(false);
+            campo.setFormatterFactory(null);
+            campo.setFormatterFactory(new DefaultFormatterFactory(m));
+            campo.setValue(null);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    
     public static void formatarCPF(JFormattedTextField campo) {
         try {
             MaskFormatter m = new MaskFormatter();
@@ -199,7 +213,7 @@ public class Formatacao {
 
     public static String getDataHoraAtual() {
         Date now = new Date();
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        DateFormat df = new SimpleDateFormat("HH:mm");
         String dataHoje = df.format(now);
 
         return dataHoje;

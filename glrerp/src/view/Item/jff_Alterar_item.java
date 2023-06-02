@@ -559,8 +559,16 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
             } else {
                 conv1 = Double.parseDouble(jtf_conv1.getText().replace(',', '.'));
                 conv2 = Double.parseDouble(jtf_conv2.getText().replace(',', '.'));
-                und_conv1 = jcb_UndConv1.getSelectedItem().toString();
-                und_conv2 = jcb_UndConv2.getSelectedItem().toString();
+                if (jcb_UndConv1.getSelectedIndex() == 0) {
+                    und_conv1 = "";
+                } else {
+                    und_conv1 = jcb_UndConv1.getSelectedItem().toString();
+                }
+                if (jcb_UndConv2.getSelectedIndex() == 0) {
+                    und_conv2 = "";
+                } else {
+                    und_conv2 = jcb_UndConv2.getSelectedItem().toString();
+                }
             }
 
             //Setar nomes das variaveis para o objeto Item

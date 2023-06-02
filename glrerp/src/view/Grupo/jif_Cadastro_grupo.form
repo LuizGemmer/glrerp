@@ -197,12 +197,13 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
+              <StringArray count="6">
                 <StringItem index="0" value="SELECIONE"/>
                 <StringItem index="1" value="MATERIA-PRIMA"/>
                 <StringItem index="2" value="PRODUTO ACABADO"/>
                 <StringItem index="3" value="FERRAMENTA"/>
-                <StringItem index="4" value="OUTRO"/>
+                <StringItem index="4" value="SERVICO"/>
+                <StringItem index="5" value="OUTRO"/>
               </StringArray>
             </Property>
           </Properties>

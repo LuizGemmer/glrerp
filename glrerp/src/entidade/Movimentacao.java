@@ -1,7 +1,5 @@
-
 package entidade;
 
-import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 
@@ -10,19 +8,22 @@ import java.time.LocalDateTime;
  * @author ruang
  */
 public class Movimentacao {
+
     private int id;
     private String tipo;
     private LocalDateTime data;
     private int item_id;
     private int cliente_id;
-    private int id_pedido;
     private double valor;
     private double qtde;
     private double perdas;
     private String observacao;
+    private int id_pedido;
+    private int id_grupo_movimentacao;
 
-    public Movimentacao() {}
-    
+    public Movimentacao() {
+    }
+
     public Movimentacao(ResultSet retorno) {
         try {
             this.setId(retorno.getInt("id"));
@@ -35,11 +36,12 @@ public class Movimentacao {
             this.setPerdas(retorno.getDouble("perda"));
             this.setObservacao(retorno.getString("observacao"));
             this.setId_pedido(retorno.getInt("id"));
+            this.setId_grupo_movimentacao(retorno.getInt("id_grupo_movimentacao"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
-    
+
     public int getId() {
         return id;
     }
@@ -118,5 +120,13 @@ public class Movimentacao {
 
     public void setId_pedido(int id_pedido) {
         this.id_pedido = id_pedido;
-    }   
+    }
+
+    public int getId_grupo_movimentacao() {
+        return id_grupo_movimentacao;
+    }
+
+    public void setId_grupo_movimentacao(int id_grupo_movimentacao) {
+        this.id_grupo_movimentacao = id_grupo_movimentacao;
+    }
 }

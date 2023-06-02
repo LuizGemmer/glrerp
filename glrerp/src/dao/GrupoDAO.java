@@ -193,8 +193,10 @@ public class GrupoDAO implements IDAOT<Grupo> {
             indexCBUM = 2;
         } else if (stringUnd.equals("FERRAMENTA")) {
             indexCBUM = 3;
-        } else {
+        } else if (stringUnd.equals("SERVICO")) {
             indexCBUM = 4;
+        } else {
+            indexCBUM = 5;
         }
 
         System.out.println("index= " + indexCBUM);
