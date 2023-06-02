@@ -701,6 +701,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         if (Validacao.ValidarEstoque(this.id_item_selecionado,
                 Double.parseDouble(jtf_qtde_item.getText().replace(",", ".")),
                 jcb_und_medida.getSelectedItem().toString(),
+                Double.parseDouble(jtf_perda.getText().replace(",", ".")),
                 jtb_itens,
                 this.tipoMovimentacao)) {
 

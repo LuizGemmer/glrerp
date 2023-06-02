@@ -251,7 +251,7 @@ public class Validacao {
 
     }
 
-    public static boolean ValidarEstoque(int id_item, double qtde, String und, JTable tabela, String tipoMovimento) {
+    public static boolean ValidarEstoque(int id_item, double qtde, String und, double perda, JTable tabela, String tipoMovimento) {
         boolean estoqueOk = true;
         if (!tipoMovimento.equals("compra")) {
             int id_insumo = 0;
@@ -274,7 +274,8 @@ public class Validacao {
                     Object[] objetoEstoque = new Object[]{id_insumo, qtdaEstoqueInsumo};
                     estoqueEstrutura.add(objetoEstoque);
 
-                    qtdeConsumoInsumo = ConverterQtdeEstoque(id_item, qtde, und) * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
+                    qtdeConsumoInsumo = (ConverterQtdeEstoque(id_item, qtde, und) + perda)
+                            * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
                     Object[] objetoConsumo = new Object[]{id_insumo, qtdeConsumoInsumo};
                     consumoEstrutura.add(objetoConsumo);
                 }
@@ -287,6 +288,7 @@ public class Validacao {
                 Object valueColumn1 = parts[0];
                 Object valueColumn3 = Double.parseDouble(tabela.getValueAt(row, 3).toString().replace(",", "."));
                 Object valueColumn4 = tabela.getValueAt(row, 4);
+                Object valueColumn6 = Double.parseDouble(tabela.getValueAt(row, 6).toString().replace(",", "."));
 
                 Object[] rowData = {valueColumn1, valueColumn3, valueColumn4};
                 columnData.add(rowData);
@@ -297,6 +299,7 @@ public class Validacao {
                 Object valueId = rowData[0];
                 Object valueQtde = rowData[1];
                 Object valueUnd = rowData[2];
+                Object valuePerda = rowData[3];
 
                 if (tipoMovimento.equals("venda") && Integer.parseInt(valueId.toString()) == id_item) {
                     consumoItem = consumoItem + ConverterQtdeEstoque(id_item, Double.parseDouble(valueQtde.toString()), valueUnd.toString());
@@ -306,7 +309,8 @@ public class Validacao {
                     double qtdeConsumoInsumo;
                     for (int j = 0; j < estruturaItem.size(); j++) {
                         id_insumo = estruturaItem.get(j).getInsumo_id();
-                        qtdeConsumoInsumo = ConverterQtdeEstoque(id_item, Double.parseDouble(valueQtde.toString()), valueUnd.toString()) * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
+                        qtdeConsumoInsumo = (ConverterQtdeEstoque(id_item, Double.parseDouble(valueQtde.toString()), valueUnd.toString()) + Double.parseDouble(valuePerda.toString()))
+                                * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
 
                         Object[] object = consumoEstrutura.get(i);
                         int idInsumo = Integer.parseInt(object[0].toString());
