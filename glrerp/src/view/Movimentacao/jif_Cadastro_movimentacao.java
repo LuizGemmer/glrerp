@@ -107,7 +107,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             jbt_nova_movimentacao.setBackground(buttonBlueColor);
             jlb_perda.setVisible(true);
             jtf_perda.setVisible(true);
-            jlb_cliente_fornecedor.setText("Cliente");
+            jlb_cliente_fornecedor.setText("Pedido");
             jtf_cpf_cliente.setEnabled(false);
             jtf_nome_cliente.setEnabled(false);
             jtf_cpf_cliente.setEnabled(false);
@@ -130,6 +130,9 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         jtf_id_cliente.setText(String.valueOf(cliente.getId()));
         jtf_nome_cliente.setText(cliente.getNome());
         jtf_cpf_cliente.setText(cliente.getCpf());
+        jbt_nova_movimentacao.setEnabled(true);
+        jbt_nova_movimentacao.setBackground(buttonBlueColor);
+        jbt_nova_movimentacao.requestFocus();
     }
 
     public void NomearItem(int id_tabela) {
@@ -157,6 +160,9 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         jbt_inserir.setBackground(buttonBlueColor);
         jbt_decoracao.setEnabled(true);
         jbt_decoracao.setBackground(buttonLightBlueColor);
+        jbt_nova_movimentacao.setEnabled(true);
+        jbt_nova_movimentacao.setBackground(buttonBlueColor);
+        jbt_nova_movimentacao.requestFocus();
 
         //retornar o valor selecionado ao Combo Box Und_medida a partir da tabela ITEM no BD
         new CombosDAO().popularComboUndMedida(this.id_item_selecionado, jcb_und_medida);
@@ -686,9 +692,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private void jbt_pesquisar_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_pesquisar_clienteActionPerformed
         jff_pesquisar_item_cliente jff_pesquisar = new jff_pesquisar_item_cliente(this, this.tipoMovimentacao, this.pesquisar_cliente_item, this.grupoTipo);
         jff_pesquisar.setVisible(true);
-        jbt_nova_movimentacao.setEnabled(true);
-        jbt_nova_movimentacao.setBackground(buttonBlueColor);
-        jbt_nova_movimentacao.requestFocus();
     }//GEN-LAST:event_jbt_pesquisar_clienteActionPerformed
 
     private void jbt_pesquisar_itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_pesquisar_itemActionPerformed
@@ -698,21 +701,30 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_pesquisar_itemActionPerformed
 
     private void jbt_inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_inserirActionPerformed
+        double perda;
+        try {
+            perda = Double.parseDouble(jtf_id_cliente.getText());
+        } catch (Exception e) {
+            perda = 0;
+        }
+
+        String itemDesc = jtf_id_item.getText() + " -|- " + jtf_nome_item.getText();
+        double QtdeItem = Double.parseDouble(jtf_qtde_item.getText().replace(",", "."));
+        String und = jcb_und_medida.getSelectedItem().toString();
+        String obs = jta_obs.getText();
+
+        //Validar se possui estoque do item ou do insumo para nova Venda/Produção
         if (Validacao.ValidarEstoque(this.id_item_selecionado,
-                Double.parseDouble(jtf_qtde_item.getText().replace(",", ".")),
-                jcb_und_medida.getSelectedItem().toString(),
-                Double.parseDouble(jtf_perda.getText().replace(",", ".")),
+                QtdeItem,
+                und,
+                perda,
                 jtb_itens,
                 this.tipoMovimentacao)) {
 
             // Adição de linhas na tabela e ao ArrayList
             if (this.tipoMovimentacao == "venda" || this.tipoMovimentacao == "compra") {
-                String itemDesc = jtf_id_item.getText() + " -|- " + jtf_nome_item.getText();
-                double QtdeItem = Double.parseDouble(jtf_qtde_item.getText().replace(",", "."));
-                String und = jcb_und_medida.getSelectedItem().toString();
                 double valorUnd = Double.parseDouble(jtf_valor.getText().replace(",", "."));
                 double subTotal;
-                String obs = jta_obs.getText();
 
                 Item item = new ItemDAO().consultarId(this.id_item_selecionado);
                 if (item.getUnidade_medida().equals(und)) {
@@ -744,9 +756,30 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
                 model.addRow(novaLinha);
                 this.linhasTabela++;
-            } else {
 
+            } else {
+                int pedido;
+                try {
+                    pedido = Integer.parseInt(jtf_id_cliente.getText());
+                } catch (Exception e) {
+                    pedido = 0;
+                }
+
+                //Adicionar os itens da linha em um Objeto
+                Object[] novaLinha = {this.linhasTabela,
+                    itemDesc,
+                    obs,
+                    Formatacao.formatarDecimal4casas(QtdeItem),
+                    und,
+                    Formatacao.formatarDecimal4casas(perda),
+                    pedido};
+
+                model.addRow(novaLinha);
+                this.linhasTabela++;
             }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Item sem estoque suficiente.", "ITEM SEM ESTOQUE", JOptionPane.ERROR_MESSAGE);
         }
 
         /*
@@ -1078,7 +1111,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             centralizarConteudoColuna(3);
             centralizarConteudoColuna(4);
             centralizarConteudoColuna(5);
-            centralizarConteudoColuna(6);
 
             //ajusta o tamanho da fonte
             int fontSize = 10; // Defina o tamanho da fonte desejado
@@ -1109,7 +1141,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             //ajusta o tamanho da fonte
             int fontSize = 10; // Defina o tamanho da fonte desejado
             TableColumn column = jtb_itens.getColumnModel().getColumn(5);
-            column.setCellRenderer(new CustomRenderer(fontSize));
+            column.setCellRenderer(new CustomRenderer2(fontSize));
         }
         // Ajustar tamanho das colunas
 
