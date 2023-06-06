@@ -11,7 +11,6 @@ import entidade.Item;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -83,17 +82,18 @@ public class Validacao {
     }
 
     public static boolean validarDataFormatada(String dataComFormato) {
-        String[] hora = dataComFormato.split("/");
+        String[] data = dataComFormato.split("/");
+        return (validarDataDMA(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+
+    }
+
+    public static boolean validarHoraFormatada(String horaComFormato) {
+        String[] hora = horaComFormato.split(":");
         if (Integer.parseInt(hora[0]) < 24 && Integer.parseInt(hora[1]) < 60) {
             return true;
         } else {
             return false;
         }
-    }
-
-    public static boolean validarHoraFormatada(String horaComFormato) {
-        String[] data = horaComFormato.split(":");
-        return (validarDataDMA(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])));
     }
 
     public static boolean validarTelefone(String campo) {
@@ -263,27 +263,13 @@ public class Validacao {
             double estoqueItem = itemEstoque.getQtde_estoque();
 
             int id_insumo;
+            double qtdeConsumoInsumoAdicionado;
+            double qtdeConsumoInsumo;
+            double qtdaEstoqueInsumo;
             Item insumoEstoque;
-            ArrayList<Estrutura> estruturaItem = new EstruturaDAO().consultarItemID(id_item);
-            ArrayList<Object[]> estoqueEstrutura = new ArrayList<>();
+            ArrayList<Estrutura> estruturaItem;
+            ArrayList<Object[]> estoqueEstruturaTabela = new ArrayList<>();
             ArrayList<Object[]> consumoEstrutura = new ArrayList<>();
-
-            if (tipoMovimento.equals("producao")) {
-                double qtdaEstoqueInsumo;
-                double qtdeConsumoInsumo;
-                for (int j = 0; j < estruturaItem.size(); j++) {
-                    id_insumo = estruturaItem.get(j).getInsumo_id();
-                    insumoEstoque = new ItemDAO().consultarId(id_insumo);
-                    qtdaEstoqueInsumo = insumoEstoque.getQtde_estoque();
-                    Object[] objetoEstoque = new Object[]{id_insumo, qtdaEstoqueInsumo};
-                    estoqueEstrutura.add(objetoEstoque);
-
-                    qtdeConsumoInsumo = (consumoItem + perda)
-                            * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
-                    Object[] objetoConsumo = new Object[]{id_insumo, qtdeConsumoInsumo};
-                    consumoEstrutura.add(objetoConsumo);
-                }
-            }
 
             for (int row = 0; row < rowCount; row++) {
                 String Column1 = tabela.getValueAt(row, 1).toString();
@@ -298,6 +284,24 @@ public class Validacao {
                 columnData.add(rowData);
             }
 
+            if (tipoMovimento.equals("producao")) {
+                estruturaItem = new EstruturaDAO().consultarItemID(id_item);
+                for (int j = 0; j < estruturaItem.size(); j++) {
+                    id_insumo = estruturaItem.get(j).getInsumo_id();
+                    insumoEstoque = new ItemDAO().consultarId(id_insumo);
+                    qtdaEstoqueInsumo = insumoEstoque.getQtde_estoque();
+                    Object[] objetoEstoque = new Object[]{id_insumo, qtdaEstoqueInsumo};
+                    estoqueEstruturaTabela.add(objetoEstoque);
+
+                    qtdeConsumoInsumo = (consumoItem + perda)
+                            * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
+                    Object[] objetoConsumo = new Object[]{id_insumo, qtdeConsumoInsumo};
+                    System.out.println("id_insumo " + id_insumo);
+                    System.out.println("qtdeConsumoInsumo " + qtdeConsumoInsumo);
+                    consumoEstrutura.add(objetoConsumo);
+                }
+            }
+
             for (int i = 0; i < columnData.size(); i++) {
                 Object[] rowData = columnData.get(i);
                 Object valueId = rowData[0];
@@ -309,16 +313,52 @@ public class Validacao {
                     consumoItem = consumoItem + ConverterQtdeEstoque(id_item, Double.parseDouble(valueQtde.toString()), valueUnd.toString());
                 }
 
-                if (tipoMovimento.equals("producao") && Integer.parseInt(valueId.toString()) == id_item) {
-                    double qtdeConsumoInsumo;
-                    for (int j = 0; j < estruturaItem.size(); j++) {
-                        id_insumo = estruturaItem.get(j).getInsumo_id();
-                        qtdeConsumoInsumo = (ConverterQtdeEstoque(id_item, Double.parseDouble(valueQtde.toString()), valueUnd.toString()) + Double.parseDouble(valuePerda.toString()))
-                                * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
+                if (tipoMovimento.equals("producao")) {
+                    estruturaItem = new EstruturaDAO().consultarItemID(Integer.parseInt(valueId.toString()));
 
-                        Object[] object = consumoEstrutura.get(j);
-                        double novoConsumo = Double.parseDouble(object[1].toString()) + qtdeConsumoInsumo;
-                        object[1] = novoConsumo;
+                    for (int j = 0; j < estruturaItem.size(); j++) {
+                        boolean id_insumo_encontrado_estoque = false;
+                        boolean id_insumo_encontrado_consumo = false;
+
+                        //VERIFICAR ESTOQUE E ARMAZENAR VALORES NUMA ARRAYLIST
+                        id_insumo = estruturaItem.get(j).getInsumo_id();
+
+                        //Testar se o insumo do item a ser adicionado ja está na lista de insumoEstoque
+                        for (int k = 0; k < estoqueEstruturaTabela.size(); k++) {
+                            Object[] estoqueTabela = estoqueEstruturaTabela.get(k);
+                            if (Integer.parseInt(estoqueTabela[0].toString()) == id_insumo) {
+                                id_insumo_encontrado_estoque = true;
+                            }
+                        }
+
+                        if (!id_insumo_encontrado_estoque) {
+                            insumoEstoque = new ItemDAO().consultarId(id_insumo);
+                            qtdaEstoqueInsumo = insumoEstoque.getQtde_estoque();
+                            Object[] objetoEstoque = new Object[]{id_insumo, qtdaEstoqueInsumo};
+                            estoqueEstruturaTabela.add(objetoEstoque);
+                        }
+
+                        //VERIFICAR CONSUMO E ARMAZENAR VALORES NUMA ARRAYLIST
+                        //Testar se o insumo do item a ser adicionado ja está na lista de consumoEstrutura
+                        for (int k = 0; k < consumoEstrutura.size(); k++) {
+                            Object[] consumoTabela = consumoEstrutura.get(k);
+
+                            if (Integer.parseInt(consumoTabela[0].toString()) == id_insumo) {
+                                id_insumo_encontrado_consumo = true;
+                                qtdeConsumoInsumo = (ConverterQtdeEstoque(Integer.parseInt(valueId.toString()), Double.parseDouble(valueQtde.toString()), valueUnd.toString()) + Double.parseDouble(valuePerda.toString()))
+                                        * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
+                                double novoConsumo = Double.parseDouble(consumoTabela[1].toString()) + qtdeConsumoInsumo;
+                                consumoTabela[1] = novoConsumo;
+                            }
+                        }
+
+                        if (!id_insumo_encontrado_consumo) {
+                            qtdeConsumoInsumoAdicionado = (ConverterQtdeEstoque(Integer.parseInt(valueId.toString()), Double.parseDouble(valueQtde.toString()), valueUnd.toString()) + Double.parseDouble(valuePerda.toString()))
+                                    * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
+                            Object[] object = new Object[]{id_insumo, qtdeConsumoInsumoAdicionado};
+                            consumoEstrutura.add(object);
+                        }
+
                     }
                 }
             }
@@ -328,15 +368,15 @@ public class Validacao {
                     estoqueOk = false;
                 }
             } else {
-                double qtdeConsumoInsumo;
+
                 double qtdeEstoqueInsumo;
+                System.out.println("Descrição: Consumo | Estoque");
                 for (int i = 0; i < consumoEstrutura.size(); i++) {
                     Object[] objectConsumo = consumoEstrutura.get(i);
-                    Object[] objectEstoque = estoqueEstrutura.get(i);
+                    Object[] objectEstoque = estoqueEstruturaTabela.get(i);
                     qtdeConsumoInsumo = Formatacao.ArredondarDecimal4casas(Double.parseDouble(objectConsumo[1].toString()));
                     qtdeEstoqueInsumo = Formatacao.ArredondarDecimal4casas(Double.parseDouble(objectEstoque[1].toString()));
 
-                    System.out.println("Descrição: Consumo | Estoque");
                     System.out.print("ID: " + objectConsumo[0].toString());
                     System.out.println(" | " + objectEstoque[0].toString());
                     System.out.print("Qtde: " + qtdeConsumoInsumo);
