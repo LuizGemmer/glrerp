@@ -20,7 +20,6 @@ import view.Menu.raven.menu.MenuEvent;
 import view.Movimentacao.jff_alterar_movimentacao;
 import view.Movimentacao.jff_pesquisar_item_cliente;
 import view.Movimentacao.jif_Cadastro_movimentacao;
-import view.Movimentacao.jif_alterar_movimentacao;
 import view.Relatorio.jif_relatorio;
 import view.Usuario.jff_Alterar_User;
 import view.Usuario.jif_Cadastro_user;

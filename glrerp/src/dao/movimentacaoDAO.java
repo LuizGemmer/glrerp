@@ -150,6 +150,40 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         return movimentacoes;
     }
 
+    public ArrayList<Object[]> consultarValorItensTotalGrupo(String tipo) {
+        ArrayList<Object[]> movimentacoes = new ArrayList();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT id_grupo_movimentacao, SUM(valor) AS total_valor, COUNT(*) AS total_itens, "
+                    + "cliente_id, SUM(perda) AS total_perda, data, tipo "
+                    + "FROM movimentacao "
+                    + "WHERE tipo='" + tipo + "' "
+                    + "GROUP BY id_grupo_movimentacao, data, cliente_id, tipo "
+                    + "ORDER BY data";
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+            while (retorno.next()) {
+                Object[] dados = new Object[7];
+                dados[0] = retorno.getInt(Integer.parseInt("id_grupo_movimentacao"));
+                dados[1] = retorno.getDouble(Formatacao.formatarDecimal2casasRS(Double.parseDouble("total_valor")));
+                dados[2] = retorno.getInt(Integer.parseInt("total_itens"));
+                dados[3] = retorno.getInt(Integer.parseInt("cliente_id"));
+                dados[4] = retorno.getDouble(Formatacao.formatarDecimal4casas(Double.parseDouble("total_perda")));
+                dados[5] = retorno.getDate(Formatacao.ajustaDataDMA("data"));
+                dados[6] = retorno.getString("tipo");
+                movimentacoes.add(dados);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de movimentacao/Fornecedor " + e);
+        }
+
+        return movimentacoes;
+    }
+
     @Override
     public ArrayList<Movimentacao> consultar(String criterio) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -212,33 +246,65 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
     @Override
     public ArrayList<String[]> paraListagemTabela(String filtro) {
-        ArrayList<Movimentacao> movimentacoes = consultarTodos(this.tipo);
+        ArrayList<Object[]> grupoMov = new movimentacaoDAO().consultarValorItensTotalGrupo(this.tipo);
 
         ArrayList<String[]> tableData = new ArrayList();
-        for (Movimentacao movimentacao : movimentacoes) {
-            String[] data = {
-                Integer.toString(movimentacao.getId()),
-                movimentacao.getTipo(),
-                this.formater.format(movimentacao.getItem_id()),
-                this.formater.format(movimentacao.getQtde()),
-                "R$ " + this.formater.format(movimentacao.getValor()),
-                movimentacao.getObservacao()
-            };
+        if (this.tipo.equals("producao")) {
+            for (int i = 0; i < grupoMov.size(); i++) {
+                Object[] dados = grupoMov.get(i);
 
-            if (filtro.equals("")) {
-                tableData.add(data);
-            } else if (data[1].contains(filtro.toUpperCase())
-                    || data[2].contains(filtro.toUpperCase())) {
-                tableData.add(data);
+                String[] data = {
+                    dados[0].toString(),
+                    dados[5].toString(),
+                    dados[6].toString().toUpperCase(),
+                    dados[2].toString(),
+                    dados[4].toString(),
+                    dados[1].toString()};
+
+                if (filtro.equals("")) {
+                    tableData.add(data);
+                } else if (data[5].contains(filtro.toUpperCase())
+                        || data[4].contains(filtro.toUpperCase())) {
+                    tableData.add(data);
+                }
+            }
+
+        } else {
+            for (int i = 0; i < grupoMov.size(); i++) {
+                Object[] dados = grupoMov.get(i);
+
+                String[] data = {
+                    dados[0].toString(),
+                    dados[5].toString(),
+                    dados[6].toString().toUpperCase(),
+                    String.valueOf(new ClienteDAO().consultarIdComInativos(Integer.parseInt(dados[3].toString())).getNome()),
+                    String.valueOf(new ClienteDAO().consultarIdComInativos(Integer.parseInt(dados[3].toString())).getCpf()),
+                    dados[2].toString(),
+                    dados[1].toString()};
+
+                if (filtro.equals("")) {
+                    tableData.add(data);
+                } else if (data[3].contains(filtro.toUpperCase())
+                        || data[4].contains(filtro.toUpperCase())) {
+                    tableData.add(data);
+                }
             }
         }
-
         return tableData;
     }
 
     @Override
     public String[] getTableColumns() {
         return new String[]{"Id", "Tipo", "Item", "Qtde", "Valor", "Observação"};
+    }
+
+    public String[] getTableColumnsMovimentacao(String tipo) {
+        if(tipo.equals("producao")){
+            return new String[]{"Id", "Data", "Tipo", "Itens", "Perda", "Valor Total"};
+        } else{
+            return new String[]{"Id", "Data", "Tipo", "Cliente/Fornecedor", "CPF/CNPJ", "Itens", "Valor Total"};
+        }
+        
     }
 
     public void popularTabela(JTable tabela, int id, String criterio) {

@@ -35,6 +35,18 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         this.setTableColumns();
         this.setTableItems("");
     }
+    
+    //Método chamado apenas no menu Visualizar movimentações
+    public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar, String tipoMotivo) {
+        this.DAOObject = dao;
+        this.telaAlterar = telaAlterar;
+        initComponents();
+        jbt_movimentacao.setVisible(false);
+
+        this.tableModel = (DefaultTableModel) jTable1.getModel();
+        this.setTableColumns();
+        this.setTableItems("");
+    }
 
     //Método chamado apenas no menu ESTOQUE
     public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar, boolean telaEstoque) {

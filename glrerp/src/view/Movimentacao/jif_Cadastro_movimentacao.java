@@ -69,7 +69,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         //Configurar a tabela
         InserirTabela();
         ConfigurarBotoesJTF();
-
     }
 
     public void NomearCliente(int id_tabela) {

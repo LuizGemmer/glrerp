@@ -175,6 +175,37 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
         return cliente;
     }
+    
+    public Cliente consultarIdComInativos(int id) {
+        Cliente cliente = new Cliente();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = ""
+                    + "SELECT * "
+                    + "FROM cliente "
+                    + "WHERE id=" + id;
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+            while (retorno.next()) {
+
+                cliente.setId(retorno.getInt("id"));
+                cliente.setNome(retorno.getString("nome"));
+                cliente.setCpf(retorno.getString("cpf"));
+                cliente.setEmail(retorno.getString("email"));
+                cliente.setTelefone(retorno.getString("telefone"));
+                cliente.setEndereco(retorno.getString("endereco"));
+                cliente.setTipo(retorno.getString("tipo"));
+
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de Cliente/Fornecedor " + e);
+        }
+
+        return cliente;
+    }
 
     @Override
     public ArrayList<Cliente> consultarTodos() {
