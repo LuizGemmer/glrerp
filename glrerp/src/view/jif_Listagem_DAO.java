@@ -35,18 +35,6 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         this.setTableColumns();
         this.setTableItems("");
     }
-    
-    //Método chamado apenas no menu Visualizar movimentações
-    public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar, String tipoMotivo) {
-        this.DAOObject = dao;
-        this.telaAlterar = telaAlterar;
-        initComponents();
-        jbt_movimentacao.setVisible(false);
-
-        this.tableModel = (DefaultTableModel) jTable1.getModel();
-        this.setTableColumns();
-        this.setTableItems("");
-    }
 
     //Método chamado apenas no menu ESTOQUE
     public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar, boolean telaEstoque) {
@@ -202,13 +190,10 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtf_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbt_visualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(7, 7, 7))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbt_alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbt_detalhar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                            .addComponent(jLabel1)))
+                    .addComponent(jbt_alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbt_detalhar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -261,6 +246,36 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
             column3.setPreferredWidth(70);
             TableColumn column4 = columnModel.getColumn(4);
             column4.setPreferredWidth(300);
+
+        } else if (jTable1.getColumnCount() == 6) {
+            TableColumn column0 = columnModel.getColumn(0);
+            column0.setPreferredWidth(70);
+            TableColumn column1 = columnModel.getColumn(1);
+            column1.setPreferredWidth(400);
+            TableColumn column2 = columnModel.getColumn(2);
+            column2.setPreferredWidth(115);
+            TableColumn column3 = columnModel.getColumn(3);
+            column3.setPreferredWidth(70);
+            TableColumn column4 = columnModel.getColumn(4);
+            column4.setPreferredWidth(300);
+            TableColumn column5 = columnModel.getColumn(5);
+            column5.setPreferredWidth(300);
+
+        } else if (jTable1.getColumnCount() == 7) {
+            TableColumn column0 = columnModel.getColumn(0);
+            column0.setPreferredWidth(70);
+            TableColumn column1 = columnModel.getColumn(1);
+            column1.setPreferredWidth(100);
+            TableColumn column2 = columnModel.getColumn(2);
+            column2.setPreferredWidth(100);
+            TableColumn column3 = columnModel.getColumn(3);
+            column3.setPreferredWidth(400);
+            TableColumn column4 = columnModel.getColumn(4);
+            column4.setPreferredWidth(140);
+            TableColumn column5 = columnModel.getColumn(5);
+            column5.setPreferredWidth(70);
+            TableColumn column6 = columnModel.getColumn(6);
+            column6.setPreferredWidth(150);
         }
 
     }
@@ -282,6 +297,14 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
             jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
             jTable1.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 
+        } else if (jTable1.getColumnCount() == 7) {
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+            jTable1.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+            jTable1.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+            jTable1.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+            
         } else {
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);

@@ -28,7 +28,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
     private DecimalFormat formater = new DecimalFormat("#.####");
 
     public movimentacaoDAO(String tipo) {
-        this.tipo = " where tipo='" + tipo + "'";
+        this.tipo = " where tipo='" + tipo + "' ";
     }
 
     public movimentacaoDAO() {
@@ -156,23 +156,22 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "SELECT id_grupo_movimentacao, SUM(valor) AS total_valor, COUNT(*) AS total_itens, "
+            String sql = "SELECT id_grupo_movimentacao, SUM(valor*qtde) AS total_valor, COUNT(*) AS total_itens, "
                     + "cliente_id, SUM(perda) AS total_perda, data, tipo "
                     + "FROM movimentacao "
-                    + "WHERE tipo='" + tipo + "' "
+                    + "" + tipo + ""
                     + "GROUP BY id_grupo_movimentacao, data, cliente_id, tipo "
                     + "ORDER BY data";
 
             ResultSet retorno = st.executeQuery(sql);
-            System.out.println("SQL: " + sql);
             while (retorno.next()) {
                 Object[] dados = new Object[7];
-                dados[0] = retorno.getInt(Integer.parseInt("id_grupo_movimentacao"));
-                dados[1] = retorno.getDouble(Formatacao.formatarDecimal2casasRS(Double.parseDouble("total_valor")));
-                dados[2] = retorno.getInt(Integer.parseInt("total_itens"));
-                dados[3] = retorno.getInt(Integer.parseInt("cliente_id"));
-                dados[4] = retorno.getDouble(Formatacao.formatarDecimal4casas(Double.parseDouble("total_perda")));
-                dados[5] = retorno.getDate(Formatacao.ajustaDataDMA("data"));
+                dados[0] = retorno.getInt("id_grupo_movimentacao");
+                dados[1] = retorno.getDouble("total_valor");
+                dados[2] = retorno.getInt("total_itens");
+                dados[3] = retorno.getInt("cliente_id");
+                dados[4] = retorno.getDouble("total_perda");
+                dados[5] = retorno.getDate("data");
                 dados[6] = retorno.getString("tipo");
                 movimentacoes.add(dados);
             }
@@ -247,23 +246,30 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
     @Override
     public ArrayList<String[]> paraListagemTabela(String filtro) {
         ArrayList<Object[]> grupoMov = new movimentacaoDAO().consultarValorItensTotalGrupo(this.tipo);
-
+        /*
+        dados[0] = retorno.getInt("id_grupo_movimentacao");
+                dados[1] = retorno.getDouble("total_valor");
+                dados[2] = retorno.getInt("total_itens");
+                dados[3] = retorno.getInt("cliente_id");
+                dados[4] = retorno.getDouble("total_perda");
+                dados[5] = retorno.getDate(Formatacao.ajustaDataDMA("data"));
+                dados[6] = retorno.getString("tipo");
+         */
         ArrayList<String[]> tableData = new ArrayList();
-        if (this.tipo.equals("producao")) {
+        if (this.tipo.contains("producao")) {
             for (int i = 0; i < grupoMov.size(); i++) {
                 Object[] dados = grupoMov.get(i);
 
                 String[] data = {
                     dados[0].toString(),
-                    dados[5].toString(),
+                    Formatacao.ajustaDataDMA(dados[5].toString()),
                     dados[6].toString().toUpperCase(),
                     dados[2].toString(),
-                    dados[4].toString(),
-                    dados[1].toString()};
+                    dados[4].toString()};
 
                 if (filtro.equals("")) {
                     tableData.add(data);
-                } else if (data[5].contains(filtro.toUpperCase())
+                } else if (data[1].contains(filtro.toUpperCase())
                         || data[4].contains(filtro.toUpperCase())) {
                     tableData.add(data);
                 }
@@ -272,15 +278,21 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         } else {
             for (int i = 0; i < grupoMov.size(); i++) {
                 Object[] dados = grupoMov.get(i);
+                double valor;
+                if (Double.parseDouble(dados[1].toString()) < 0) {
+                    valor = Double.parseDouble(dados[1].toString()) * -1;
+                } else{
+                    valor = Double.parseDouble(dados[1].toString());
+                }
 
                 String[] data = {
                     dados[0].toString(),
-                    dados[5].toString(),
+                    Formatacao.ajustaDataDMA(dados[5].toString()),
                     dados[6].toString().toUpperCase(),
                     String.valueOf(new ClienteDAO().consultarIdComInativos(Integer.parseInt(dados[3].toString())).getNome()),
                     String.valueOf(new ClienteDAO().consultarIdComInativos(Integer.parseInt(dados[3].toString())).getCpf()),
                     dados[2].toString(),
-                    dados[1].toString()};
+                    Formatacao.formatarDecimal2casasRS(valor)};
 
                 if (filtro.equals("")) {
                     tableData.add(data);
@@ -295,16 +307,11 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
     @Override
     public String[] getTableColumns() {
-        return new String[]{"Id", "Tipo", "Item", "Qtde", "Valor", "Observação"};
-    }
-
-    public String[] getTableColumnsMovimentacao(String tipo) {
-        if(tipo.equals("producao")){
-            return new String[]{"Id", "Data", "Tipo", "Itens", "Perda", "Valor Total"};
-        } else{
+        if (this.tipo.contains("producao")) {
+            return new String[]{"Id", "Data", "Tipo", "Itens", "Perda"};
+        } else {
             return new String[]{"Id", "Data", "Tipo", "Cliente/Fornecedor", "CPF/CNPJ", "Itens", "Valor Total"};
         }
-        
     }
 
     public void popularTabela(JTable tabela, int id, String criterio) {
@@ -403,6 +410,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         column2.setCellRenderer(centerRenderer);
         column4.setCellRenderer(centerRenderer);
         column5.setCellRenderer(centerRenderer);
+
     }
 
     static class CustomTableCellRenderer extends DefaultTableCellRenderer {
