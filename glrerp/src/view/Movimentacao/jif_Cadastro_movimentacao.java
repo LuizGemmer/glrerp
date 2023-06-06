@@ -6,12 +6,16 @@ import apoio.Validacao;
 import dao.ClienteDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
+import dao.movimentacaoDAO;
 import entidade.Cliente;
 import entidade.Grupo;
 import entidade.Item;
+import entidade.Movimentacao;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -34,6 +38,13 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private String tipoMovimentacao; //Retorna, ao abrir essa tela, qual o tipo de movimentação (compra, venda ou producao)
     private String grupoTipo; //Vai vir a String da tela JIF_CADASTRO_MOVIMENTACAO. Se for nova compra retorna ('MATERIA-PRIMA', 'OUTRO', 'FERRAMENTA'). Se for Venda retorna ('PRODUTO ACABADO', 'OUTRO')
     private int linhasTabela = 1;
+    private boolean validarEstoque = true;
+    private int itemIdSemEstoque;
+    private double qtdeItemConsumo;
+    private double qtdeItemEstoque;
+    private int idGrupoMovimentacao = 0;
+    double perda;
+    double valorUnd;
     ArrayList<ArrayList<Object>> dadosTabela = new ArrayList<>();
 
     //Criação da tabela contendo os itens
@@ -57,66 +68,8 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
         //Configurar a tabela
         InserirTabela();
+        ConfigurarBotoesJTF();
 
-        //Configurar labels e texts Fields de acordo com o tipo de movimentação que foi aberta 
-        jbt_decoracao.setVisible(true);
-        jbt_decoracao.setBackground(buttonDisableColor);
-        jlb_perda.setVisible(false);
-        jtf_perda.setVisible(false);
-        jbt_pedido.setVisible(false);
-        jtf_nome_cliente.setEnabled(false);
-        jtf_cpf_cliente.setEnabled(false);
-        jbt_pesquisar_cliente.setEnabled(true);
-        jbt_pesquisar_cliente.setBackground(buttonBlueColor);
-        jbt_nova_movimentacao.setEnabled(false);
-        jbt_nova_movimentacao.setBackground(buttonDisableColor);
-        jbt_pedido.setVisible(true);
-        jbt_pedido.setBackground(buttonBlueColor);
-        jbt_pedido.setEnabled(true);
-        jtf_valor.setVisible(true);
-        jlb_und_valor.setVisible(true);
-        jlb_valor.setVisible(true);
-        jtf_SomaValor.setVisible(true);
-        jlb_ValorTotal.setVisible(true);
-        jbt_pesquisar_item.setVisible(true);
-
-        if (this.tipoMovimentacao == "compra") {
-            this.pesquisar_cliente_item = 1;
-            this.grupoTipo = "'MATERIA-PRIMA', 'FERRAMENTA', 'SERVICO', 'OUTRO'";
-            this.setTitle("Nova Movimentação - COMPRA");
-            jbt_nova_movimentacao.setText("NOVA COMPRA");
-            jbt_decoracao.setVisible(false);
-            jlb_cliente_fornecedor.setText("*Fornecedor");
-            jbt_pedido.setVisible(false);
-
-        } else if (this.tipoMovimentacao == "venda") {
-            this.pesquisar_cliente_item = 2;
-            this.grupoTipo = "'PRODUTO ACABADO', 'SERVICO', 'OUTRO'";
-            this.setTitle("Nova Movimentação - VENDA");
-            jbt_nova_movimentacao.setText("NOVA VENDA");
-            jlb_cliente_fornecedor.setText("*Cliente");
-
-        } else if (this.tipoMovimentacao == "producao") {
-            this.grupoTipo = "'PRODUTO ACABADO'";
-            this.setTitle("Nova Movimentação - PRODUÇÃO");
-            jbt_nova_movimentacao.setText("NOVA PRODUÇÃO");
-            jbt_nova_movimentacao.setEnabled(true);
-            jbt_nova_movimentacao.setBackground(buttonBlueColor);
-            jlb_perda.setVisible(true);
-            jtf_perda.setVisible(true);
-            jlb_cliente_fornecedor.setText("Pedido");
-            jtf_cpf_cliente.setEnabled(false);
-            jtf_nome_cliente.setEnabled(false);
-            jtf_cpf_cliente.setEnabled(false);
-            jbt_pesquisar_cliente.setEnabled(false);
-            jbt_pesquisar_cliente.setBackground(buttonDisableColor);
-            jtf_valor.setVisible(false);
-            jlb_und_valor.setVisible(true);
-            jlb_valor.setVisible(false);
-            jtf_SomaValor.setVisible(false);
-            jlb_ValorTotal.setVisible(false);
-        }
-        System.out.println(this.tipoMovimentacao + "  " + this.grupoTipo);
     }
 
     public void NomearCliente(int id_tabela) {
@@ -145,11 +98,11 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         jcb_und_medida.setEnabled(true);
         jtf_perda.setEnabled(true);
         jtf_qtde_item.setEnabled(true);
-        if (this.tipoMovimentacao == "compra" || this.tipoMovimentacao == "venda") {
+        if ("compra".equals(this.tipoMovimentacao) || "venda".equals(this.tipoMovimentacao)) {
             jtf_valor.setEnabled(true);
             jlb_und_valor.setText("/ " + item.getUnidade_medida());
         }
-        if (this.tipoMovimentacao == "venda") {
+        if ("venda".equals(this.tipoMovimentacao)) {
             jtf_valor.setText(String.valueOf(Formatacao.formatarDecimal2casas(item.getValor())));
         }
         jta_obs.setEnabled(true);
@@ -720,161 +673,29 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_pesquisar_itemActionPerformed
 
     private void jbt_inserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_inserirActionPerformed
-        double perda;
-        if (this.tipoMovimentacao == "producao") {
-            perda = Double.parseDouble(jtf_perda.getText().replace(",", "."));
-        } else {
-            perda = 0;
-        }
 
-        String itemDesc = jtf_id_item.getText() + " -|- " + jtf_nome_item.getText();
-        double QtdeItem = Double.parseDouble(jtf_qtde_item.getText().replace(",", "."));
-        String und = jcb_und_medida.getSelectedItem().toString();
-        String obs = jta_obs.getText();
-
-        //Validar se possui estoque do item ou do insumo para nova Venda/Produção
-        if (Validacao.ValidarEstoque(this.id_item_selecionado,
-                QtdeItem,
-                und,
-                perda,
-                jtb_itens,
-                this.tipoMovimentacao)) {
-
-            // Adição de linhas na tabela e ao ArrayList
-            if (this.tipoMovimentacao == "venda" || this.tipoMovimentacao == "compra") {
-                double valorUnd = Double.parseDouble(jtf_valor.getText().replace(",", "."));
-                double subTotal;
-
-                Item item = new ItemDAO().consultarId(this.id_item_selecionado);
-                if (item.getUnidade_medida().equals(und)) {
-                    subTotal = valorUnd * QtdeItem;
-                } else if (und.equals(item.getUnd_conv1())) {
-                    subTotal = valorUnd * item.getConv2() * QtdeItem;
-                } else {
-                    subTotal = valorUnd / item.getConv2() * QtdeItem;
-                }
-
-                //Na VENDA a OBS fica personalizada com desconto/acrescimo de valor
-                if (this.tipoMovimentacao == "venda") {
-                    if (valorUnd < item.getValor()) {
-                        obs = "Desconto de R$ " + Formatacao.formatarDecimal2casas(item.getValor() - valorUnd) + "/" + item.getUnidade_medida() + " | " + obs;
-                    }
-                    if (valorUnd > item.getValor()) {
-                        obs = "Acrescimo de R$ " + Formatacao.formatarDecimal2casas(valorUnd - item.getValor()) + "/" + item.getUnidade_medida() + " | " + obs;
-                    }
-                }
-
-                //Adicionar os itens da linha em um Objeto
-                Object[] novaLinha = {this.linhasTabela,
-                    itemDesc,
-                    obs,
-                    Formatacao.formatarDecimal4casas(QtdeItem),
-                    und,
-                    Formatacao.formatarDecimal2casasRS(valorUnd),
-                    Formatacao.formatarDecimal2casasRS(subTotal)};
-
-                model.addRow(novaLinha);
-                this.linhasTabela++;
-
-                jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
-
+        if ("producao".equals(this.tipoMovimentacao)) {
+            if (Validacao.ValidarJTFObrigatorio(jtf_perda)) {
+                this.perda = Double.parseDouble(jtf_perda.getText().replace(",", "."));
+                jtf_valor.setText("0");
+                this.valorUnd = 0;
+                InserirDadosTabela();
             } else {
-                int pedido;
-                try {
-                    pedido = Integer.parseInt(jtf_id_cliente.getText());
-                } catch (Exception e) {
-                    pedido = 0;
-                }
-
-                //Adicionar os itens da linha em um Objeto
-                Object[] novaLinha = {this.linhasTabela,
-                    itemDesc,
-                    obs,
-                    Formatacao.formatarDecimal4casas(QtdeItem),
-                    und,
-                    Formatacao.formatarDecimal4casas(perda),
-                    pedido};
-
-                model.addRow(novaLinha);
-                this.linhasTabela++;
+                JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
             }
-            LimparCampos();
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Item sem estoque suficiente.", "ITEM SEM ESTOQUE", JOptionPane.ERROR_MESSAGE);
-            jtf_qtde_item.requestFocus();
         }
 
-        jtf_SomaItens.setText(String.valueOf(jtb_itens.getRowCount()));
-        jbt_pesquisar_item.setEnabled(true);
-        jbt_pesquisar_item.setBackground(buttonBlueColor);
-        this.apertou_editar = false;
-
-
-        /*
-        this.apertou_editar = false;
-        //Validar se os campos obrigatórios foram preenchidos corretamente
-        if (Validacao.ValidarJTFObrigatorio(jtf_qtde_item)
-                && Validacao.ValidarJTFObrigatorio(jtf_nome_item)) {
-
-            //Valida se o insumo a ser inserido na estrutura já consta na mesma. 
-            //Caso o insumo já esteja na esturua ele mostra uma mensagem de erro. 
-            //Também não permite que o proprio item seja usado como insumo.
-            if (this.id_insumo_selecionado == this.id_item_selecionado) {
-                JOptionPane.showMessageDialog(this, "Você não pode inserir como Insumo o próprio item a qual se refere a estrutura!", "ERRO AO SALVAR (INSUMO IGUAL AO ITEM)", JOptionPane.ERROR_MESSAGE);
-
-            } else if (this.id_insumo_selecionado == new EstruturaDAO().consultarIdItemInsumo(this.id_item_selecionado, this.id_insumo_selecionado).getInsumo_id()) {
-                JOptionPane.showMessageDialog(this, "Você já inseriu esse insumo como compenente dessa estrutura de item. \n"
-                        + "Edite o insumo correspondente ou exclua-o antes de inserir-lo novamente.", "INSUMO DUPLICADO NÃO PERMITIDO", JOptionPane.ERROR_MESSAGE);
+        if (!"producao".equals(this.tipoMovimentacao)) {
+            if (Validacao.ValidarJTFObrigatorio(jtf_valor)) {
+                this.valorUnd = Double.parseDouble(jtf_valor.getText().replace(",", "."));
+                jtf_perda.setText("0");
+                this.perda = 0;
+                InserirDadosTabela();
             } else {
-                //Salvar item da estrutura no BD
-                int id_item = Integer.parseInt(jtf_id_cliente.getText());
-                int id_insumo = Integer.parseInt(jtf_id_item.getText());
-                double qtde_insumo = Double.parseDouble(jtf_qtde_item.getText().replace(',', '.'));
-                String und_medida = String.valueOf(jcb_und_medida.getSelectedItem());
-                //Pegar o valor do item e inserir na estrutura o valor ponderado por insumo
-                double valor_estrutura = 0;
-                Item itemDAO = new ItemDAO().consultarId(this.id_insumo_selecionado);
-                if (und_medida.equals(itemDAO.getUnidade_medida())) {
-                    valor_estrutura = itemDAO.getValor() * qtde_insumo;
-                } else if (und_medida.equals(itemDAO.getUnd_conv1())) {
-                    valor_estrutura = itemDAO.getValor() * itemDAO.getConv2() * qtde_insumo;
-                } else if (und_medida.equals(itemDAO.getUnd_conv2())) {
-                    valor_estrutura = itemDAO.getValor() / itemDAO.getConv2() * qtde_insumo;
-                } else {
-                    valor_estrutura = 0;
-                }
-
-                Estrutura estrutura = new Estrutura();
-                estrutura.setItem_id(id_item);
-                estrutura.setInsumo_id(id_insumo);
-                estrutura.setQtde_insumo(qtde_insumo);
-                estrutura.setUnd_medida(und_medida);
-                estrutura.setValor_estrutura(valor_estrutura);
-
-                EstruturaDAO estruturaDAO = new EstruturaDAO();
-                if (estruturaDAO.salvar(estrutura) == null) {
-                    JOptionPane.showMessageDialog(this, "Insumo inserido com sucesso!", "SUCESSO NO CADASTRO", JOptionPane.INFORMATION_MESSAGE);
-                    new EstruturaDAO().popularTabelaInsumos(jtb_itens, String.valueOf(estrutura.getItem_id()));
-                    jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
-                    LimparCampos();
-                    jcb_und_medida.setEnabled(false);
-                    jcb_und_medida.setSelectedItem(null);
-                    jbt_pesquisar_item.requestFocus();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir dados no banco de dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-                }
+                JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
-            jbt_pesquisar_item.requestFocus();
         }
-        jbt_pesquisar_item.setEnabled(true);
-        jbt_pesquisar_item.setBackground(buttonBlueColor);
-        jbt_editar.setEnabled(false);
-        jbt_editar.setBackground(buttonDisableColor);
-        jbt_excluir.setEnabled(false);
-        jbt_excluir.setBackground(buttonDisableColor);*/
+
     }//GEN-LAST:event_jbt_inserirActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
@@ -889,7 +710,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                 options,
                 options[0]);
         if (n == 0) {
-            this.apertou_editar = false;
 
             //Excluir item da tabela        
             int rowIndex = jtb_itens.getSelectedRow();
@@ -905,8 +725,14 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         jbt_excluir.setBackground(buttonDisableColor);
 
         jtf_SomaItens.setText(String.valueOf(jtb_itens.getRowCount()));
-        if (this.tipoMovimentacao != "producao") {
+        if (!"producao".equals(this.tipoMovimentacao)) {
             jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
+        }
+
+        if (jtb_itens.getRowCount() == 0) {
+            jbt_salvar.setEnabled(false);
+            jbt_salvar.setBackground(buttonDisableColor);
+            this.apertou_editar = false;
         }
 
     }//GEN-LAST:event_jbt_excluirActionPerformed
@@ -935,7 +761,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         //Puxar o valor setado anteriormente de unidade de medida para o ComboBox
         String und_medidaTabela = String.valueOf(jtb_itens.getValueAt(jtb_itens.getSelectedRow(), 4));
         jcb_und_medida.setSelectedItem(und_medidaTabela);
-        if (this.tipoMovimentacao == "producao") {
+        if ("producao".equals(this.tipoMovimentacao)) {
             jtf_perda.setText(String.valueOf(jtb_itens.getValueAt(jtb_itens.getSelectedRow(), 5)).replace(".", ","));
         } else {
             jtf_valor.setText(String.valueOf(jtb_itens.getValueAt(jtb_itens.getSelectedRow(), 5)).replace(".", ",").replace("R$  ", ""));
@@ -985,13 +811,142 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtf_valorKeyTyped
 
     private void jbt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvarActionPerformed
-        for (int i = 0; i < model.getRowCount(); i++) {
-            ArrayList<Object> linha = new ArrayList<>();
-            for (int j = 0; j < model.getColumnCount(); j++) {
-                linha.add(model.getValueAt(i, j));
+        ArrayList<Movimentacao> m = new movimentacaoDAO().consultarUltimaIdGrupoMovimentacao();
+        this.idGrupoMovimentacao = m.get(0).getId_grupo_movimentacao() + 1;
+        String dataHora = Formatacao.ajustaDataAMD(jff_Data.getText()) + " " + jff_Hora.getText();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime data = LocalDateTime.parse(dataHora, formatter);
+        int pedidoId = 0;
+        boolean salvarOk = true;
+
+        int rowCount = jtb_itens.getRowCount();
+
+        if ("producao".equals(this.tipoMovimentacao)) {
+            for (int row = 0; row < rowCount; row++) {
+                String Column1 = jtb_itens.getValueAt(row, 1).toString();
+                String[] parts = Column1.split(" -|- ");
+
+                int idItem = Integer.parseInt(parts[0].toString());
+                double qtde = Double.parseDouble(jtb_itens.getValueAt(row, 3).toString().replace(",", "."));
+                String und = jtb_itens.getValueAt(row, 4).toString();
+                double perda = Double.parseDouble(jtb_itens.getValueAt(row, 5).toString().replace(",", "."));
+                String obs = jtb_itens.getValueAt(row, 2).toString();
+                int idPedido = Integer.parseInt(jtb_itens.getValueAt(row, 6).toString());
+
+                Item item = new ItemDAO().consultarId(Integer.parseInt(parts[0]));
+                if (item.getUnidade_medida().equals(und)) {
+                    qtde = qtde;
+                } else if (und.equals(item.getUnd_conv1())) {
+                    qtde = item.getConv2() * qtde;
+                } else {
+                    qtde = qtde / item.getConv2();
+                }
+
+                //Salvar itens no BD
+                Movimentacao mov = new Movimentacao();
+                mov.setTipo(this.tipoMovimentacao);
+                mov.setData(data);
+                mov.setItem_id(idItem);
+                mov.setCliente_id(0);
+                mov.setValor(0);
+                mov.setQtde(qtde);
+                mov.setPerdas(perda);
+                mov.setObservacao(obs);
+                mov.setId_pedido(pedidoId);
+                mov.setId_grupo_movimentacao(this.idGrupoMovimentacao);
+
+                movimentacaoDAO movDAO = new movimentacaoDAO();
+                if (movDAO.salvar(mov) != null) {
+                    salvarOk = false;
+                }
+
+                ArrayList<Object[]> dadosAjusteEstoqueInsumos = Validacao.AjustarEstoqueInsumosProdução(idItem, qtde, perda);
+                for (int i = 0; i < dadosAjusteEstoqueInsumos.size(); i++) {
+
+                    Object[] dados = dadosAjusteEstoqueInsumos.get(i);
+                    int id_insumo = Integer.parseInt(dados[0].toString());
+                    System.out.println("id_insumo " + id_insumo);
+                    double qtde_insumo = Double.parseDouble(dados[1].toString());
+                    System.out.println("qtde_insumo " + qtde_insumo);
+                    
+                    if (new ItemDAO().atualizarEstoque(id_insumo, qtde_insumo) != null) {
+                        JOptionPane.showMessageDialog(this, "Erro ao inserir dados no banco de dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
-            this.dadosTabela.add(linha);
+
+        } else {
+            for (int row = 0; row < rowCount; row++) {
+                int clienteId = Integer.parseInt(jtf_id_cliente.getText());
+                String Column1 = jtb_itens.getValueAt(row, 1).toString();
+                String[] parts = Column1.split(" -|- ");
+
+                int idItem = Integer.parseInt(parts[0].toString());
+                double qtde = Double.parseDouble(jtb_itens.getValueAt(row, 3).toString().replace(",", "."));
+                String und = jtb_itens.getValueAt(row, 4).toString();
+                double valorUnitario = Double.parseDouble(jtb_itens.getValueAt(row, 5).toString().replace(",", ".").replace("R$  ", ""));
+                String obs = jtb_itens.getValueAt(row, 2).toString();
+
+                Item item = new ItemDAO().consultarId(Integer.parseInt(parts[0]));
+                if (item.getUnidade_medida().equals(und)) {
+                    qtde = qtde;
+                } else if (und.equals(item.getUnd_conv1())) {
+                    qtde = item.getConv2() * qtde;
+                } else {
+                    qtde = qtde / item.getConv2();
+                }
+
+                //Salvar itens no BD
+                Movimentacao mov = new Movimentacao();
+                mov.setTipo(this.tipoMovimentacao);
+                mov.setData(data);
+                mov.setItem_id(idItem);
+                mov.setCliente_id(clienteId);
+                mov.setValor(valorUnitario);
+                if ("venda".equals(this.tipoMovimentacao)) {
+                    mov.setQtde(qtde * (-1));
+                } else {
+                    mov.setQtde(qtde);
+                }
+                mov.setPerdas(0);
+                mov.setObservacao(obs);
+                mov.setId_pedido(pedidoId);
+                mov.setId_grupo_movimentacao(this.idGrupoMovimentacao);
+
+                movimentacaoDAO movDAO = new movimentacaoDAO();
+                if (movDAO.salvar(mov) != null) {
+                    salvarOk = false;
+                }
+            }
         }
+        if (salvarOk) {
+            JOptionPane.showMessageDialog(this,
+                    "Nova "
+                    + this.tipoMovimentacao.toUpperCase()
+                    + " salva com sucesso!",
+                    "SUCESSO NA MOVIMENTAÇÃO",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            LimparCampos();
+            model.setRowCount(0);
+            jtf_SomaItens.setText(String.valueOf(jtb_itens.getRowCount()));
+            if (this.tipoMovimentacao != "producao") {
+                jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
+            }
+            jbt_salvar.setEnabled(false);
+            jbt_salvar.setBackground(buttonDisableColor);
+            this.apertou_editar = false;
+            jbt_editar.setEnabled(false);
+            jbt_editar.setBackground(buttonDisableColor);
+            jbt_excluir.setEnabled(false);
+            jbt_excluir.setBackground(buttonDisableColor);
+            ConfigurarBotoesJTF();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao inserir dados no banco de dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_jbt_salvarActionPerformed
 
     private void jtf_qtde_itemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_qtde_itemFocusLost
@@ -1065,6 +1020,79 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         return sum;
     }
 
+    private void ConfigurarBotoesJTF() {
+        //Configurar labels e texts Fields de acordo com o tipo de movimentação que foi aberta 
+        jtf_id_cliente.setText("");
+        jtf_nome_cliente.setText("");
+        jtf_cpf_cliente.setText("");
+        jff_Data.setText("");
+        jff_Hora.setText("");
+        jtf_qtde_item.setEnabled(false);
+        jtf_perda.setEnabled(false);
+        jtf_valor.setEnabled(false);
+        jcb_und_medida.setEnabled(false);
+        jbt_pesquisar_item.setEnabled(false);
+        jbt_pesquisar_item.setBackground(buttonDisableColor);
+        jbt_decoracao.setVisible(true);
+        jbt_decoracao.setBackground(buttonDisableColor);
+        jlb_perda.setVisible(false);
+        jtf_perda.setVisible(false);
+        jbt_pedido.setVisible(false);
+        jtf_nome_cliente.setEnabled(false);
+        jtf_cpf_cliente.setEnabled(false);
+        jbt_pesquisar_cliente.setEnabled(true);
+        jbt_pesquisar_cliente.setBackground(buttonBlueColor);
+        jbt_nova_movimentacao.setEnabled(false);
+        jbt_nova_movimentacao.setBackground(buttonDisableColor);
+        jbt_pedido.setVisible(true);
+        jbt_pedido.setBackground(buttonBlueColor);
+        jbt_pedido.setEnabled(true);
+        jtf_valor.setVisible(true);
+        jlb_und_valor.setVisible(true);
+        jlb_valor.setVisible(true);
+        jtf_SomaValor.setVisible(true);
+        jlb_ValorTotal.setVisible(true);
+        jbt_pesquisar_item.setVisible(true);
+
+        if ("compra".equals(this.tipoMovimentacao)) {
+            this.pesquisar_cliente_item = 1;
+            this.grupoTipo = "'MATERIA-PRIMA', 'FERRAMENTA', 'SERVICO', 'OUTRO'";
+            this.setTitle("Nova Movimentação - COMPRA");
+            jbt_nova_movimentacao.setText("NOVA COMPRA");
+            jbt_decoracao.setVisible(false);
+            jlb_cliente_fornecedor.setText("*Fornecedor");
+            jbt_pedido.setVisible(false);
+
+        } else if ("venda".equals(this.tipoMovimentacao)) {
+            this.pesquisar_cliente_item = 2;
+            this.grupoTipo = "'PRODUTO ACABADO', 'SERVICO', 'OUTRO'";
+            this.setTitle("Nova Movimentação - VENDA");
+            jbt_nova_movimentacao.setText("NOVA VENDA");
+            jlb_cliente_fornecedor.setText("*Cliente");
+
+        } else if ("producao".equals(this.tipoMovimentacao)) {
+            this.grupoTipo = "'PRODUTO ACABADO'";
+            this.setTitle("Nova Movimentação - PRODUÇÃO");
+            jbt_nova_movimentacao.setText("NOVA PRODUÇÃO");
+            jbt_nova_movimentacao.setEnabled(true);
+            jbt_nova_movimentacao.setBackground(buttonBlueColor);
+            jlb_perda.setVisible(true);
+            jtf_perda.setVisible(true);
+            jlb_cliente_fornecedor.setText("Pedido");
+            jtf_cpf_cliente.setEnabled(false);
+            jtf_nome_cliente.setEnabled(false);
+            jtf_cpf_cliente.setEnabled(false);
+            jbt_pesquisar_cliente.setEnabled(false);
+            jbt_pesquisar_cliente.setBackground(buttonDisableColor);
+            jtf_valor.setVisible(false);
+            jlb_und_valor.setVisible(true);
+            jlb_valor.setVisible(false);
+            jtf_SomaValor.setVisible(false);
+            jlb_ValorTotal.setVisible(false);
+        }
+        jbt_pesquisar_cliente.requestFocus();
+    }
+
     private void LimparCampos() {
         jtf_id_item.setText("");
         jtf_nome_item.setText("");
@@ -1080,9 +1108,9 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         Object[] options = {"Sim",
             "Não"};
         int n = JOptionPane.showOptionDialog(this,
-                "Você começou a editar uma movimentação de item e não salvou as alterações. "
-                + "\n Se você sair agora sem INSERIR/SALVAR essa movimentação será EXCLUÍDA! "
-                + "\n\nTem certeza que deseja sair e excluir essa movimentação?",
+                "Você começou a fazer uma nova movimentação de item e não salvou as alterações. "
+                + "\n Se você sair agora sem SALVAR todas as movimentações da lista serão EXCLUÍDAS! "
+                + "\n\nTem certeza que deseja sair e excluir essas movimentações?",
                 "ALTERAÇÕES NÃO SALVAS",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -1095,7 +1123,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         } else {
             jbt_inserir.requestFocus(true);
         }
-
     }
 
     private boolean ValidarData() {
@@ -1120,7 +1147,134 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         }
     }
 
-    public void InserirTabela() {
+    private void InserirDadosTabela() {
+
+        //Validar se os campos obrigatórios foram preenchidos corretamente
+        if (Validacao.ValidarJTFObrigatorio(jtf_qtde_item)) {
+
+            //Pegar valores dos campos JTF
+            String itemDesc = jtf_id_item.getText() + " -|- " + jtf_nome_item.getText();
+            double QtdeItem = Double.parseDouble(jtf_qtde_item.getText().replace(",", "."));
+            String und = jcb_und_medida.getSelectedItem().toString();
+            String obs = jta_obs.getText();
+
+            //Validar se possui estoque do item ou do insumo para nova Venda/Produção
+            for (int i = 0; i < Validacao.ValidarEstoque(this.id_item_selecionado,
+                    QtdeItem,
+                    und,
+                    perda,
+                    jtb_itens,
+                    this.tipoMovimentacao).size(); i++) {
+
+                Object[] dadosValidacaoEstoque = Validacao.ValidarEstoque(this.id_item_selecionado,
+                        QtdeItem,
+                        und,
+                        perda,
+                        jtb_itens,
+                        this.tipoMovimentacao).get(i);
+
+                this.validarEstoque = Boolean.parseBoolean(dadosValidacaoEstoque[0].toString());
+                if (!this.validarEstoque) {
+                    this.itemIdSemEstoque = Integer.parseInt(dadosValidacaoEstoque[1].toString());
+                    this.qtdeItemConsumo = Double.parseDouble(dadosValidacaoEstoque[2].toString());
+                    this.qtdeItemEstoque = Double.parseDouble(dadosValidacaoEstoque[3].toString());
+                }
+                break;
+            }
+
+            if (this.validarEstoque) {
+
+                // Adição de linhas na tabela e ao ArrayList
+                if (this.tipoMovimentacao == "venda" || this.tipoMovimentacao == "compra") {
+                    double subTotal;
+
+                    Item item = new ItemDAO().consultarId(this.id_item_selecionado);
+                    if (item.getUnidade_medida().equals(und)) {
+                        subTotal = valorUnd * QtdeItem;
+                    } else if (und.equals(item.getUnd_conv1())) {
+                        subTotal = valorUnd * item.getConv2() * QtdeItem;
+                    } else {
+                        subTotal = valorUnd / item.getConv2() * QtdeItem;
+                    }
+
+                    //Na VENDA a OBS fica personalizada com desconto/acrescimo de valor
+                    if ("venda".equals(this.tipoMovimentacao)) {
+                        if (valorUnd < item.getValor()) {
+                            obs = "Desconto de R$ " + Formatacao.formatarDecimal2casas(item.getValor() - valorUnd) + "/" + item.getUnidade_medida() + " | " + obs;
+                        }
+                        if (valorUnd > item.getValor()) {
+                            obs = "Acrescimo de R$ " + Formatacao.formatarDecimal2casas(valorUnd - item.getValor()) + "/" + item.getUnidade_medida() + " | " + obs;
+                        }
+                    }
+
+                    //Adicionar os itens da linha em um Objeto
+                    Object[] novaLinha = {this.linhasTabela,
+                        itemDesc,
+                        obs,
+                        Formatacao.formatarDecimal4casas(QtdeItem),
+                        und,
+                        Formatacao.formatarDecimal2casasRS(valorUnd),
+                        Formatacao.formatarDecimal2casasRS(subTotal)};
+
+                    model.addRow(novaLinha);
+                    this.linhasTabela++;
+
+                    jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
+
+                } else {
+                    int pedido;
+                    try {
+                        pedido = Integer.parseInt(jtf_id_cliente.getText());
+                    } catch (Exception e) {
+                        pedido = 0;
+                    }
+
+                    //Adicionar os itens da linha em um Objeto
+                    Object[] novaLinha = {this.linhasTabela,
+                        itemDesc,
+                        obs,
+                        Formatacao.formatarDecimal4casas(QtdeItem),
+                        und,
+                        Formatacao.formatarDecimal4casas(perda),
+                        pedido};
+
+                    model.addRow(novaLinha);
+                    this.linhasTabela++;
+                }
+                LimparCampos();
+                jbt_inserir.setEnabled(false);
+                jbt_inserir.setBackground(buttonDisableColor);
+                jbt_salvar.setEnabled(true);
+                jbt_salvar.setBackground(buttonBlueColor);
+                jbt_pesquisar_item.requestFocus();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Item "
+                        + this.itemIdSemEstoque + " - " + new ItemDAO().consultarId(this.itemIdSemEstoque).getDescricao()
+                        + " sem estoque suficiente.\n\n"
+                        + "Quantidade a ser consumida = "
+                        + this.qtdeItemConsumo
+                        + "\nQuantidade em estoque = "
+                        + this.qtdeItemEstoque, "ITEM SEM ESTOQUE", JOptionPane.ERROR_MESSAGE);
+                jtf_qtde_item.requestFocus();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Você possui campos obrigatórios (*) em branco ou preenchidos incorretamente. Verifique!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            jbt_pesquisar_item.requestFocus();
+        }
+
+        this.apertou_editar = true;
+        jtf_SomaItens.setText(String.valueOf(jtb_itens.getRowCount()));
+        jbt_pesquisar_item.setEnabled(true);
+        jbt_pesquisar_item.setBackground(buttonBlueColor);
+        jbt_editar.setEnabled(false);
+        jbt_editar.setBackground(buttonDisableColor);
+        jbt_excluir.setEnabled(false);
+        jbt_excluir.setBackground(buttonDisableColor);
+
+    }
+
+    private void InserirTabela() {
         //Inserir o modelo da tabela
         model = new DefaultTableModel() {
             @Override
@@ -1128,11 +1282,9 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                 return false; // Tornar todas as células não editáveis
             }
         };
-
         jtb_itens.setModel(model);
 
-        if (this.tipoMovimentacao == "compra" || this.tipoMovimentacao
-                == "venda") {
+        if ("compra".equals(this.tipoMovimentacao) || "venda".equals(this.tipoMovimentacao)) {
             // Definição das colunas da tabela
             model.addColumn("Nº");
             model.addColumn("ID -|- Item");
@@ -1180,15 +1332,12 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             column.setCellRenderer(new CustomRenderer2(fontSize));
         }
         // Ajustar tamanho das colunas
-
-        ajustarTamanhoColunas(
-                this.tipoMovimentacao);
-
+        ajustarTamanhoColunas(this.tipoMovimentacao);
     }
 
     private void ajustarTamanhoColunas(String tipoMovimentacao) {
         // Definir o tamanho manual das colunas (menos da última)
-        if (this.tipoMovimentacao == "compra" || this.tipoMovimentacao == "venda") {
+        if ("compra".equals(this.tipoMovimentacao) || "venda".equals(this.tipoMovimentacao)) {
             int[] columnWidths = {5, 270, 200, 50, 10, 80};
             for (int i = 0; i < columnWidths.length; i++) {
                 TableColumn column = jtb_itens.getColumnModel().getColumn(i);
@@ -1231,10 +1380,8 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             Font font = cell.getFont();
             font = font.deriveFont(Font.PLAIN, fontSize);
             cell.setFont(font);
-
             return cell;
         }
-
     }
 
     public class CustomRenderer2 extends DefaultTableCellRenderer {
@@ -1254,8 +1401,8 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             Font font = cell.getFont();
             font = font.deriveFont(Font.PLAIN, fontSize);
             cell.setFont(font);
-
             return cell;
         }
     }
+
 }

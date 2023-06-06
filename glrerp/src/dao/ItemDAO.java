@@ -84,6 +84,26 @@ public class ItemDAO implements IDAOT<Item> {
         }
     }
 
+    public String atualizarEstoque(int id_item, double qtde_a_subtrair) {
+
+        //Atualizar estoqeu de um item
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE item SET "
+                    + "qtde_estoque = qtde_estoque - " + qtde_a_subtrair + " "
+                    + "WHERE id=" + id_item;
+
+            System.out.println("SQL: " + sql);
+            int retorno = st.executeUpdate(sql);
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar Item " + e);
+            return e.toString();
+        }
+    }
+
     @Override
     public String excluir(int id) {
 

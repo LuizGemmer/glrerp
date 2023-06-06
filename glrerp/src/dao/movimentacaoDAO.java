@@ -51,14 +51,14 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 + "(default, "
                 + "'" + o.getTipo() + "', "
                 + "'" + o.getData() + "', "
-                + "'" + o.getItem_id() + "', "
+                + "" + o.getItem_id() + ", "
                 + "" + cliente_id + ", "
-                + "'" + o.getValor() + "', "
-                + "'" + o.getQtde() + "', "
-                + "'" + o.getPerdas() + "', "
+                + "" + o.getValor() + ", "
+                + "" + o.getQtde() + ", "
+                + "" + o.getPerdas() + ", "
                 + "'" + o.getObservacao() + "', "
-                + "'" + o.getId_pedido() + "' "
-                + "'" + o.getId_grupo_movimentacao() + ");";
+                + "" + o.getId_pedido() + ", "
+                + "" + o.getId_grupo_movimentacao() + ");";
 
         //Salvar movimentacao no banco de dados
         try {
@@ -179,6 +179,32 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         return m;
     }
 
+    public ArrayList consultarUltimaIdGrupoMovimentacao() {
+        ArrayList<Movimentacao> movimentacao = new ArrayList();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = ""
+                    + "SELECT "
+                    + "MAX(id_grupo_movimentacao) AS id_grupo_movimentacao "
+                    + "FROM movimentacao";
+
+            ResultSet retorno = st.executeQuery(sql);
+            System.out.println("SQL: " + sql);
+            while (retorno.next()) {
+                Movimentacao mov = new Movimentacao();
+                mov.setId_grupo_movimentacao(retorno.getInt("id_grupo_movimentacao"));
+
+                movimentacao.add(mov);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de Item " + e);
+        }
+
+        return movimentacao;
+    }
+
     @Override
     public ArrayList<Movimentacao> consultarTodos() {
         return this.consultarTodos("");
@@ -222,27 +248,48 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         ArrayList<Object[]> dadosTabela = new ArrayList<>();
 
         // Cabecalho da tabela
-        Object[] cabecalho = new Object[4];
-        cabecalho[0] = "ID";
-        cabecalho[1] = "Data";
-        cabecalho[2] = "Tipo";
-        cabecalho[3] = "Quantidade";
+        Object[] cabecalho = new Object[8];
+        cabecalho[0] = "ID Movimentação";
+        cabecalho[1] = "ID";
+        cabecalho[2] = "Data";
+        cabecalho[3] = "Tipo";
+        cabecalho[4] = "Quantidade";
+        cabecalho[5] = "Und";
+        cabecalho[6] = "Valor Unitário";
+        cabecalho[7] = "Sub Total";
 
         //Efetua a consulta na Tabela
         try {
             resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
-                    + "SELECT * "
-                    + "FROM movimentacao "
-                    + "WHERE item_id=" + id + " "
-                    + "AND tipo ILIKE '%" + criterio + "%' "
-                    + "ORDER BY data");
+                    + "SELECT movimentacao.id_grupo_movimentacao AS mov_grupo, "
+                    + "movimentacao.id AS mov_id, "
+                    + "movimentacao.data AS mov_data, "
+                    + "movimentacao.tipo AS mov_tipo, "
+                    + "movimentacao.qtde AS mov_qtde, "
+                    + "item.unidade_medida AS item_und, "
+                    + "movimentacao.valor AS mov_valor "
+                    + "FROM movimentacao, item "
+                    + "WHERE movimentacao.item_id = item.id "
+                    + "AND movimentacao.item_id=" + id + " "
+                    + "AND movimentacao.tipo ILIKE '%" + criterio + "%' "
+                    + "ORDER BY data ");
 
             while (resultadoQ.next()) {
-                Object[] linha = new Object[4];
-                linha[0] = resultadoQ.getInt("id");
-                linha[1] = Formatacao.ajustaDataDMA(resultadoQ.getDate("data").toString());
-                linha[2] = resultadoQ.getString("tipo").toUpperCase();
-                linha[3] = Formatacao.formatarDecimal4casas(resultadoQ.getDouble("qtde"));
+                String[] parts = resultadoQ.getString("mov_data").split(" ");
+                String[] partsHora = parts[1].split(":");
+                String data = Formatacao.ajustaDataDMA(parts[0].toString());
+                String hora = partsHora[0] + ":" + partsHora[1];
+
+                Object[] linha = new Object[8];
+                linha[0] = resultadoQ.getInt("mov_grupo");
+                linha[1] = resultadoQ.getInt("mov_id");
+                linha[2] = (data + " " + hora);
+                linha[3] = resultadoQ.getString("mov_tipo").toUpperCase();
+                linha[4] = Formatacao.formatarDecimal4casas(resultadoQ.getDouble("mov_qtde"));
+                linha[5] = resultadoQ.getString("item_und");
+                linha[6] = Formatacao.formatarDecimal2casasRS(resultadoQ.getDouble("mov_valor"));
+                linha[7] = Formatacao.formatarDecimal2casasRS(Double.parseDouble(linha[4].toString().replace(",", "."))
+                        * Double.parseDouble(linha[6].toString().replace("R$  ", "").replace(",", ".")));
 
                 dadosTabela.add(linha);
             }
@@ -264,13 +311,13 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         tabela.setSelectionMode(0);
 
         // Personalização das cores das linhas da tabela
-        TableColumn tipoColumn = tabela.getColumnModel().getColumn(2);
+        TableColumn tipoColumn = tabela.getColumnModel().getColumn(3);
         tipoColumn.setCellRenderer(new CustomTableCellRenderer());
 
         // Redimensiona as colunas de uma tabela
         TableColumn column = null;
         tabela.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        int[] columnWidths = {20, 200, 200, 50};
+        int[] columnWidths = {50, 10, 60, 40, 50, 30, 40, 60};
         for (int i = 0; i < tabela.getColumnModel().getColumnCount(); i++) {
             column = tabela.getColumnModel().getColumn(i);
             column.setPreferredWidth(columnWidths[i]);
@@ -281,11 +328,15 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         TableColumn column0 = tabela.getColumnModel().getColumn(0);
         TableColumn column1 = tabela.getColumnModel().getColumn(1);
-        TableColumn column3 = tabela.getColumnModel().getColumn(3);
+        TableColumn column2 = tabela.getColumnModel().getColumn(2);
+        TableColumn column4 = tabela.getColumnModel().getColumn(4);
+        TableColumn column5 = tabela.getColumnModel().getColumn(5);
 
         column0.setCellRenderer(centerRenderer);
         column1.setCellRenderer(centerRenderer);
-        column3.setCellRenderer(centerRenderer);
+        column2.setCellRenderer(centerRenderer);
+        column4.setCellRenderer(centerRenderer);
+        column5.setCellRenderer(centerRenderer);
     }
 
     static class CustomTableCellRenderer extends DefaultTableCellRenderer {
@@ -296,7 +347,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
             String tipo = ((String) value).toUpperCase(); // Converter para letras maiúsculas
 
-            if (column == 2) { // Verificar a coluna 2 (índice 2)
+            if (column == 3) { // Verificar a coluna 3 
                 setHorizontalAlignment(SwingConstants.CENTER); // Alinhamento centralizado
             } else {
                 setHorizontalAlignment(SwingConstants.LEFT); // Alinhamento padrão à esquerda
