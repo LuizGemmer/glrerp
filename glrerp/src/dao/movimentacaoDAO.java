@@ -35,11 +35,6 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         this.tipo = "";
     }
 
-    private void atualizarEstoques(int idItem, double soma) {
-        Item item = new ItemDAO().consultarId(idItem);
-        item.setQtde_estoque(item.getQtde_estoque() + soma);
-    }
-
     @Override
     public String salvar(Movimentacao o) {
         String cliente_id = "NULL";
@@ -66,9 +61,6 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
-
-            atualizarEstoques(o.getItem_id(), o.getQtde());
-
             return null;
 
         } catch (Exception e) {
@@ -100,7 +92,6 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
             int retorno = st.executeUpdate(sql);
             System.out.println("SQL: " + sql);
-            atualizarEstoques(o.getItem_id(), o.getQtde());
 
             return null;
 
@@ -188,9 +179,8 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public Movimentacao consultarId(int id) {
-        Movimentacao m = new Movimentacao();
+    public ArrayList<Movimentacao> consultarIdGrupoMovimentacao(int id) {
+        ArrayList<Movimentacao> movimentacoes = new ArrayList();
 
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
@@ -198,18 +188,18 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
             String sql = ""
                     + "SELECT * "
                     + "FROM movimentacao "
-                    + "WHERE id=" + id + ";";
+                    + "WHERE id_grupo_movimentacao=" + id + ";";
 
             ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);
             while (retorno.next()) {
-                m = new Movimentacao(retorno);
+                Movimentacao m = new Movimentacao(retorno);
+                movimentacoes.add(m);
             }
         } catch (Exception e) {
             System.out.println("Erro ao consultar cadastro de movimentacao/Fornecedor " + e);
         }
-
-        return m;
+        return movimentacoes;
     }
 
     public ArrayList consultarUltimaIdGrupoMovimentacao() {
@@ -246,15 +236,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
     @Override
     public ArrayList<String[]> paraListagemTabela(String filtro) {
         ArrayList<Object[]> grupoMov = new movimentacaoDAO().consultarValorItensTotalGrupo(this.tipo);
-        /*
-        dados[0] = retorno.getInt("id_grupo_movimentacao");
-                dados[1] = retorno.getDouble("total_valor");
-                dados[2] = retorno.getInt("total_itens");
-                dados[3] = retorno.getInt("cliente_id");
-                dados[4] = retorno.getDouble("total_perda");
-                dados[5] = retorno.getDate(Formatacao.ajustaDataDMA("data"));
-                dados[6] = retorno.getString("tipo");
-         */
+
         ArrayList<String[]> tableData = new ArrayList();
         if (this.tipo.contains("producao")) {
             for (int i = 0; i < grupoMov.size(); i++) {
@@ -281,7 +263,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 double valor;
                 if (Double.parseDouble(dados[1].toString()) < 0) {
                     valor = Double.parseDouble(dados[1].toString()) * -1;
-                } else{
+                } else {
                     valor = Double.parseDouble(dados[1].toString());
                 }
 
@@ -411,6 +393,15 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         column4.setCellRenderer(centerRenderer);
         column5.setCellRenderer(centerRenderer);
 
+    }
+
+    @Override
+    public Movimentacao consultarId(int id) {
+        this.consultarIdGrupoMovimentacao(id);
+        Movimentacao m = new Movimentacao();
+
+        m = consultarIdGrupoMovimentacao(id).get(0);
+        return m;
     }
 
     static class CustomTableCellRenderer extends DefaultTableCellRenderer {

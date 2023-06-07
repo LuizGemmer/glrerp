@@ -35,7 +35,7 @@ public class Movimentacao {
             this.setQtde(retorno.getDouble("qtde"));
             this.setPerdas(retorno.getDouble("perda"));
             this.setObservacao(retorno.getString("observacao"));
-            this.setId_pedido(retorno.getInt("id"));
+            this.setId_pedido(retorno.getInt("id_pedido"));
             this.setId_grupo_movimentacao(retorno.getInt("id_grupo_movimentacao"));
         } catch (Exception e) {
             System.out.println(e.getMessage());

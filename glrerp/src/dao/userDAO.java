@@ -4,8 +4,9 @@ import apoio.ConexaoBD;
 import apoio.IDAOT;
 import entidade.User;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 /**
  *
@@ -17,18 +18,21 @@ public class userDAO implements IDAOT<User> {
     public String salvar(User o) {
         //Salvar Usuário no banco de dados
         try {
-            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            Connection connection = ConexaoBD.getInstance().getConnection();
 
-            String sql = "INSERT INTO usuario VALUES "
-                    + "(default, "
-                    + "'" + o.getNome() + "', "
-                    + "'" + o.getSenha() + "', "
-                    + "'" + o.getHierarquia() + "', "
-                    + "'true', "
-                    + "'" + o.getEmail() + "')";
+            String sql = "INSERT "
+                    + "INTO usuario (nome, senha, hierarquia, ativo, email) "
+                    + "VALUES (?, ?, ?, true, ?)";
 
-            System.out.println("SQL: " + sql);
-            int retorno = st.executeUpdate(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, o.getNome());
+            statement.setString(2, o.getSenha());
+            statement.setString(3, o.getHierarquia());
+            statement.setString(4, o.getEmail());
+
+            int retorno = statement.executeUpdate();
+            System.out.println("SQL: " + statement.toString());
+
             return null;
 
         } catch (Exception e) {
@@ -41,15 +45,19 @@ public class userDAO implements IDAOT<User> {
     public String atualizar(User o) {
         //Atualizar um Usuário
         try {
-            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            Connection connection = ConexaoBD.getInstance().getConnection();
+            String sql = "UPDATE usuario "
+                    + "SET nome = ?, hierarquia = ? "
+                    + "WHERE id = ?";
 
-            String sql = "UPDATE usuario SET "
-                    + "nome='" + o.getNome() + "', "
-                    + "hierarquia='" + o.getHierarquia() + "' "
-                    + "WHERE id=" + o.getId();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, o.getNome());
+            statement.setString(2, o.getHierarquia());
+            statement.setInt(3, o.getId());
 
-            int retorno = st.executeUpdate(sql);
-            System.out.println("SQL: " + sql);
+            int retorno = statement.executeUpdate();
+            System.out.println("SQL: " + statement.toString());
+
             return null;
 
         } catch (Exception e) {
@@ -61,14 +69,17 @@ public class userDAO implements IDAOT<User> {
     @Override
     public String excluir(int id) {
         try {
-            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            Connection connection = ConexaoBD.getInstance().getConnection();
+            String sql = "UPDATE usuario "
+                    + "SET ativo = false "
+                    + "WHERE id = ?";
 
-            String sql = "UPDATE usuario SET "
-                    + "ativo=false "
-                    + "WHERE id=" + id;
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
 
-            int retorno = st.executeUpdate(sql);
-            System.out.println("SQL: " + sql);
+            int retorno = statement.executeUpdate();
+            System.out.println("SQL: " + statement.toString());
+
             return null;
 
         } catch (Exception e) {
@@ -79,20 +90,19 @@ public class userDAO implements IDAOT<User> {
 
     @Override
     public ArrayList<User> consultarTodos() {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-
         ArrayList<User> users = new ArrayList();
 
         try {
-            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-
-            String sql = ""
-                    + "select * "
-                    + "from usuario "
+            Connection connection = ConexaoBD.getInstance().getConnection();
+            String sql = "SELECT * "
+                    + "FROM usuario "
                     + "WHERE ativo = true "
-                    + "order by nome";
+                    + "ORDER BY nome";
 
-            ResultSet retorno = st.executeQuery(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            ResultSet retorno = statement.executeQuery();
+            System.out.println("SQL: " + statement.toString());
             while (retorno.next()) {
                 User user = new User();
 
@@ -108,7 +118,6 @@ public class userDAO implements IDAOT<User> {
         } catch (Exception e) {
             System.out.println("Erro ao consultar Usuários " + e);
         }
-
         return users;
     }
 
@@ -122,15 +131,16 @@ public class userDAO implements IDAOT<User> {
         User user = new User();
 
         try {
-            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-
-            String sql = ""
-                    + "SELECT * "
+            Connection connection = ConexaoBD.getInstance().getConnection();
+            String sql = "SELECT * "
                     + "FROM usuario "
-                    + "WHERE id=" + id;
+                    + "WHERE id = ?";
 
-            ResultSet retorno = st.executeQuery(sql);
-            System.out.println("SQL: " + sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet retorno = statement.executeQuery();
+            System.out.println("SQL: " + statement.toString());
             while (retorno.next()) {
 
                 user.setId(retorno.getInt("id"));
@@ -142,9 +152,7 @@ public class userDAO implements IDAOT<User> {
         } catch (Exception e) {
             System.out.println("Erro ao consultar cadastro de Usuário " + e);
         }
-
         return user;
-
     }
 
     @Override
@@ -164,13 +172,11 @@ public class userDAO implements IDAOT<User> {
                 tableData.add(data);
             } else if (data[1].contains(filtro.toUpperCase())
                     || data[2].contains(filtro.toUpperCase())
-                    ||data[3].contains(filtro.toUpperCase())) {
+                    || data[3].contains(filtro.toUpperCase())) {
                 tableData.add(data);
             }
         }
-
         return tableData;
-        
     }
 
     @Override

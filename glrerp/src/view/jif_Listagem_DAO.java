@@ -35,6 +35,19 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         this.setTableColumns();
         this.setTableItems("");
     }
+    
+    //Método chamado apenas no menu MOVIMENTACAO
+    public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar, String telaMovimentacao) {
+        this.DAOObject = dao;
+        this.telaAlterar = telaAlterar;
+        initComponents();
+        jbt_movimentacao.setVisible(false);
+        jbt_alterar.setVisible(false);
+
+        this.tableModel = (DefaultTableModel) jTable1.getModel();
+        this.setTableColumns();
+        this.setTableItems("");
+    }
 
     //Método chamado apenas no menu ESTOQUE
     public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar, boolean telaEstoque) {
@@ -303,6 +316,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
             jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
             jTable1.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
             jTable1.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+            jTable1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
             jTable1.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
             
         } else {

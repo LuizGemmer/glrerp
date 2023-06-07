@@ -30,7 +30,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
     Color buttonLightBlueColor = new Color(51, 102, 255);
     Color buttonRedColor = new Color(153, 0, 0);
     Color buttonGreenColor = new Color(0, 102, 0);
-
+    
     public jif_Cadastro_estrutura() {
         initComponents();
         jcb_und_medida.setEnabled(false);
@@ -536,6 +536,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jbt_editar.setBackground(buttonDisableColor);
         jbt_excluir.setEnabled(false);
         jbt_excluir.setBackground(buttonDisableColor);
+        
     }//GEN-LAST:event_jbt_inserirActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed

@@ -915,14 +915,12 @@ public class jff_Alterar_item extends javax.swing.JFrame implements jff_ITelaAlt
     }
 
     @Override
-    public void setTelaParente(jif_Listagem_DAO tela
-    ) {
+    public void setTelaParente(jif_Listagem_DAO tela) {
         this.parente = tela;
     }
 
     @Override
-    public void showWindow(boolean s
-    ) {
+    public void showWindow(boolean s) {
         //Abrir novo JFrame na mesma localização do JFrame anterior
         this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
