@@ -30,7 +30,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
     Color buttonLightBlueColor = new Color(51, 102, 255);
     Color buttonRedColor = new Color(153, 0, 0);
     Color buttonGreenColor = new Color(0, 102, 0);
-    
+
     public jif_Cadastro_estrutura() {
         initComponents();
         jcb_und_medida.setEnabled(false);
@@ -43,7 +43,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
 
         //popula tabela com a estrutura já cadastrada no item
         new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
-        jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
+        jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
 
         //Coloca os valores referentes ao ID do item para os campos JTF
         Item item = new ItemDAO().consultarId(this.id_item_selecionado);
@@ -517,7 +517,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
                 if (estruturaDAO.salvar(estrutura) == null) {
                     JOptionPane.showMessageDialog(this, "Insumo inserido com sucesso!", "SUCESSO NO CADASTRO", JOptionPane.INFORMATION_MESSAGE);
                     new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(estrutura.getItem_id()));
-                    jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
+                    jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
                     LimparCampos();
                     jcb_und_medida.setEnabled(false);
                     jcb_und_medida.setSelectedItem(null);
@@ -536,7 +536,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         jbt_editar.setBackground(buttonDisableColor);
         jbt_excluir.setEnabled(false);
         jbt_excluir.setBackground(buttonDisableColor);
-        
+
     }//GEN-LAST:event_jbt_inserirActionPerformed
 
     private void jbt_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_excluirActionPerformed
@@ -564,7 +564,7 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             if (estruturaDAO.inativar(this.id_item_selecionado, id_IntTabela) == null) {
                 JOptionPane.showMessageDialog(this, "Insumo excluido com sucesso!", "INSUMO EXCLUÍDO", JOptionPane.INFORMATION_MESSAGE);
                 new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
-                jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
+                jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
 
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao atualizar dados!", "ERRO AO EXCLUIR", JOptionPane.ERROR_MESSAGE);
@@ -701,11 +701,9 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
         double sum = 0.00;
 
         for (int i = 0; i < rowCount; i++) {
-            Object value = jtb_insumos_estrutura.getValueAt(i, columnIndex);
-            if (value instanceof Number) {
-                double cellValue = ((Number) value).doubleValue();
-                sum += cellValue;
-            }
+            String valorTabela = jtb_insumos_estrutura.getValueAt(i, columnIndex).toString().replaceAll("[^\\d.,]", "");
+            double value = Double.parseDouble(valorTabela);
+            sum += value;
         }
         return sum;
     }
@@ -754,6 +752,6 @@ public class jif_Cadastro_estrutura extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Erro duplicar estrutura!", "ERRO AO DUPLICAR", JOptionPane.ERROR_MESSAGE);
         }
         new EstruturaDAO().popularTabelaInsumos(jtb_insumos_estrutura, String.valueOf(this.id_item_selecionado));
-        jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
+        jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
     }
 }

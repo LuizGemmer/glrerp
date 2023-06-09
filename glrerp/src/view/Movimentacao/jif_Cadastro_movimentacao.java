@@ -6,11 +6,13 @@ import apoio.Validacao;
 import dao.ClienteDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
+import dao.Movimentacao_UserDAO;
 import dao.movimentacaoDAO;
 import entidade.Cliente;
 import entidade.Grupo;
 import entidade.Item;
 import entidade.Movimentacao;
+import entidade.Movimentacao_User;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -24,6 +26,7 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import view.Loggin;
 
 /**
  *
@@ -44,6 +47,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private double qtdeItemEstoque;
     private int idGrupoMovimentacao = 0;
     private boolean salvarOk = true;
+    private int user_id;
     double perda;
     double valorUnd;
     ArrayList<ArrayList<Object>> dadosTabela = new ArrayList<>();
@@ -58,8 +62,9 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     Color buttonRedColor = new Color(153, 0, 0);
     Color buttonGreenColor = new Color(0, 102, 0);
 
-    public jif_Cadastro_movimentacao(String tipoMovimentacao) {
+    public jif_Cadastro_movimentacao(String tipoMovimentacao, int user_id) {
         this.tipoMovimentacao = tipoMovimentacao;
+        this.user_id = user_id;
         initComponents();
         Formatacao.formatarData(jff_Data);
         Formatacao.formatarHora(jff_Hora);
@@ -725,7 +730,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
         jtf_SomaItens.setText(String.valueOf(jtb_itens.getRowCount()));
         if (!"producao".equals(this.tipoMovimentacao)) {
-            jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
+            jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
         }
 
         if (jtb_itens.getRowCount() == 0) {
@@ -837,7 +842,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             model.setRowCount(0);
             jtf_SomaItens.setText(String.valueOf(jtb_itens.getRowCount()));
             if (this.tipoMovimentacao != "producao") {
-                jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
+                jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
             }
             jbt_salvar.setEnabled(false);
             jbt_salvar.setBackground(buttonDisableColor);
@@ -895,7 +900,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                 Object[] dados = dadosValorInsumos.get(i);
                 int id_insumo = Integer.parseInt(dados[0].toString());
                 double qtde_insumo = Double.parseDouble(dados[1].toString());
-                valorProduto = valorProduto + ((qtde_insumo * new ItemDAO().consultarId(id_insumo).getValor())/qtde);
+                valorProduto = valorProduto + ((qtde_insumo * new ItemDAO().consultarId(id_insumo).getValor()) / qtde);
             }
 
             //Salvar itens no BD
@@ -915,6 +920,8 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             if (movDAO.salvar(mov) != null) {
                 this.salvarOk = false;
             }
+            
+            SalvarUserMovimentacao();
 
             //Dar baixa do estoque nos insumos de uma produção
             ArrayList<Object[]> dadosAjusteEstoqueInsumos = Validacao.AjustarEstoqueInsumosProdução(idItem, qtde, perda);
@@ -941,6 +948,8 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                 if (new ItemDAO().atualizarEstoque(id_insumo, qtde_insumo) != null) {
                     JOptionPane.showMessageDialog(this, "Erro ao inserir dados no banco de dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
                 }
+                
+                SalvarUserMovimentacao();
             }
         }
     }
@@ -967,7 +976,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                 qtde = qtde / item.getConv2();
             }
 
-            //Salvar itens no BD
+            //Salvar itens no BD movimentacao
             Movimentacao mov = new Movimentacao();
             mov.setTipo(this.tipoMovimentacao);
             mov.setData(data);
@@ -988,6 +997,8 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             if (movDAO.salvar(mov) != null) {
                 this.salvarOk = false;
             }
+
+            SalvarUserMovimentacao();
         }
     }
 
@@ -1035,17 +1046,30 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtf_valor;
     // End of variables declaration//GEN-END:variables
 
+    public void SalvarUserMovimentacao(){
+        //salvar movimentacao na tabela movimentacao_user
+            int ultimaID = new movimentacaoDAO().consultarUltimaIdMovimentacao();
+            Movimentacao_User movUser = new Movimentacao_User();
+            movUser.setUsuario_id(this.user_id);
+            movUser.setMovimentacao_id(ultimaID);
+
+            Movimentacao_UserDAO movUserDAO = new Movimentacao_UserDAO();
+            if (movUserDAO.salvar(movUser) != null) {
+                this.salvarOk = false;
+            }
+    }
+    
     public double SomarTotalValorTabela() {
         int columnIndex = 6; // Índice da coluna a ser somada
         int rowCount = jtb_itens.getRowCount();
         double sum = 0.00;
 
         for (int i = 0; i < rowCount; i++) {
-            Object value = Double.parseDouble(jtb_itens.getValueAt(i, columnIndex).toString().replace("R$  ", "").replace(",", "."));
-            if (value instanceof Number) {
-                double cellValue = ((Number) value).doubleValue();
-                sum += cellValue;
-            }
+            String valorTabela = jtb_itens.getValueAt(i, columnIndex).toString().replaceAll("[^\\d.,]", "");
+            valorTabela = valorTabela.replace(".", "");
+            valorTabela = valorTabela.replace(",", ".");
+            double value = Double.parseDouble(valorTabela);
+            sum += value;
         }
         return sum;
     }
@@ -1210,7 +1234,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                     this.qtdeItemEstoque = Double.parseDouble(dadosValidacaoEstoque[3].toString());
                     break;
                 }
-                
+
             }
 
             if (this.validarEstoque) {
@@ -1249,9 +1273,8 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
                     model.addRow(novaLinha);
                     this.linhasTabela++;
-
-                    jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()).replace('.', ',')));
-
+                    jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
+                    
                 } else {
                     int pedido;
                     try {

@@ -234,6 +234,30 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         return this.consultarTodos("");
     }
 
+    public int consultarUltimaIdMovimentacao() {
+        int movimentacao = 0;
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = ""
+                    + "SELECT "
+                    + "MAX(id) AS id "
+                    + "FROM movimentacao";
+
+            System.out.println("SQL: " + sql);
+            ResultSet retorno = st.executeQuery(sql);
+            while (retorno.next()) {
+                movimentacao = retorno.getInt("id");
+
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de Movimentacao " + e);
+        }
+
+        return movimentacao;
+    }
+
     @Override
     public ArrayList<String[]> paraListagemTabela(String filtro) {
         ArrayList<Object[]> grupoMov = new movimentacaoDAO().consultarValorItensTotalGrupo(this.tipo);
@@ -330,7 +354,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                     + "WHERE movimentacao.item_id = item.id "
                     + "AND movimentacao.item_id=" + id + " "
                     + "AND movimentacao.tipo ILIKE '%" + criterio + "%' "
-                    + "ORDER BY data ");
+                    + "ORDER BY mov_grupo DESC");
 
             while (resultadoQ.next()) {
                 String[] parts = resultadoQ.getString("mov_data").split(" ");
@@ -338,13 +362,12 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 String data = Formatacao.ajustaDataDMA(parts[0].toString());
                 String hora = partsHora[0] + ":" + partsHora[1];
                 double qtde;
-                if(resultadoQ.getDouble("mov_qtde")<0){
-                    qtde = resultadoQ.getDouble("mov_qtde") *-1;
-                } else{
+                if (resultadoQ.getDouble("mov_qtde") < 0) {
+                    qtde = resultadoQ.getDouble("mov_qtde") * -1;
+                } else {
                     qtde = resultadoQ.getDouble("mov_qtde");
                 }
-                
-                
+
                 Object[] linha = new Object[8];
                 linha[0] = resultadoQ.getInt("mov_grupo");
                 linha[1] = resultadoQ.getInt("mov_id");

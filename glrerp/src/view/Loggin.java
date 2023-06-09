@@ -19,6 +19,7 @@ public class Loggin extends javax.swing.JDialog {
 
     boolean booleanEmail = false;
     boolean senha = false;
+    public int id_user;
     String nome;
 
     public Loggin(java.awt.Frame parent, boolean modal) {
@@ -377,15 +378,19 @@ public class Loggin extends javax.swing.JDialog {
                     if (BCryptEncryption.verifyPassword(jpf_passwd.getPassword(), users.get(i).getSenha())) {
                         this.senha = true;
                         this.nome = (users.get(i).getNome());
+                        this.id_user = users.get(i).getId();
                     }
                 }
             }
 
             if (this.booleanEmail && this.senha) {
+
                 jpf_passwd.setText("");
                 jtf_email.setText("");
                 this.hide();
-                new Main().setVisible(true);
+                Main main = new Main();
+                main.UsuarioId(this.id_user);
+                main.setVisible(true);
                 exibirMensagemDeBoasVindas(this.nome);
             } else {
                 JOptionPane.showMessageDialog(this, "E-mail ou Senha incorreto! Tente novamente.", "E-MAIL OU SENHA INCORRETO", JOptionPane.ERROR_MESSAGE);

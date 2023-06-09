@@ -31,6 +31,7 @@ public class Main extends javax.swing.JFrame {
     private final jif_Cadastro_cliente tipo;
     private jif_Listagem_DAO visualizarIsOpen;
     public jff_pesquisar_item_cliente telapesq;
+    private int user_id;
 
     private void abrirListagemDAO(IDAOT dao, jff_ITelaAlterarCadastro tela, String titulo) {
         jif_Listagem_DAO telaListagem = new jif_Listagem_DAO(dao, tela, "");
@@ -106,7 +107,7 @@ public class Main extends javax.swing.JFrame {
                     abrirListagemDAO(new movimentacaoDAO("compra"), new jff_Visualizar_movimentacao("compra", 0), "Compras");
 
                 } else if (index == 5 && subIndex == 2) { // --------------------------- CADASTRAR COMPRAS
-                    jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("compra");
+                    jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("compra", user_id);
                     showForm(cadastro_movimentacao);
                     cadastro_movimentacao.setVisible(true);
 
@@ -114,7 +115,7 @@ public class Main extends javax.swing.JFrame {
                     abrirListagemDAO(new movimentacaoDAO("producao"), new jff_Visualizar_movimentacao("producao", 0), "Produção");
 
                 } else if (index == 6 && subIndex == 2) { // --------------------------- CADASTRAR PRODUÇÃO
-                    jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("producao");
+                    jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("producao", user_id);
                     showForm(cadastro_movimentacao);
                     cadastro_movimentacao.setVisible(true);
 
@@ -122,7 +123,7 @@ public class Main extends javax.swing.JFrame {
                     abrirListagemDAO(new movimentacaoDAO("venda"), new jff_Visualizar_movimentacao("venda", 0), "Vendas");
 
                 } else if (index == 7 && subIndex == 2) { // --------------------------- CADASTRAR VENDAS
-                    jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("venda");
+                    jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("venda", user_id);
                     showForm(cadastro_movimentacao);
                     cadastro_movimentacao.setVisible(true);
 
@@ -161,6 +162,10 @@ public class Main extends javax.swing.JFrame {
         body.add(com);
         body.repaint();
         body.revalidate();
+    }
+    
+    public void UsuarioId(int usuario){
+        this.user_id = usuario;
     }
     
     @SuppressWarnings("unchecked")

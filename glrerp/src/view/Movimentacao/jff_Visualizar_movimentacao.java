@@ -380,7 +380,7 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
             this.linhasTabela++;
         }
         
-        jtf_SomaValor.setText(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela()));
+       jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
         jtf_SomaItens.setText(String.valueOf(model.getRowCount()));
     }
     
@@ -405,13 +405,13 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
         int columnIndex = 6; // Índice da coluna a ser somada
         int rowCount = jtb_itens.getRowCount();
         double sum = 0.00;
-        
+
         for (int i = 0; i < rowCount; i++) {
-            Object value = Double.parseDouble(jtb_itens.getValueAt(i, columnIndex).toString().replace("R$  ", "").replace(",", "."));
-            if (value instanceof Number) {
-                double cellValue = ((Number) value).doubleValue();
-                sum += cellValue;
-            }
+            String valorTabela = jtb_itens.getValueAt(i, columnIndex).toString().replaceAll("[^\\d.,]", "");
+            valorTabela = valorTabela.replace(".", "");
+            valorTabela = valorTabela.replace(",", ".");
+            double value = Double.parseDouble(valorTabela);
+            sum += value;
         }
         return sum;
     }
