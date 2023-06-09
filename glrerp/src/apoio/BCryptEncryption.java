@@ -15,14 +15,5 @@ public class BCryptEncryption {
         String passwordString = new String(password);
         return BCrypt.checkpw(passwordString, hashedPassword);
     }
-
-    /*public static void main(String[] args) {
-        String password = "myPassword123";
-        String hashedPassword = encryptPassword(password);
-        System.out.println("Senha criptografada em bcrypt: " + hashedPassword);
-
-        // Verificar se a senha original corresponde à senha criptografada
-        boolean isPasswordMatch = verifyPassword(password, hashedPassword);
-        System.out.println("A senha corresponde à senha criptografada: " + isPasswordMatch);
-    }*/
+    
 }

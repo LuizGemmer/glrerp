@@ -35,7 +35,7 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
         this.setTableColumns();
         this.setTableItems("");
     }
-    
+
     //Método chamado apenas no menu MOVIMENTACAO
     public jif_Listagem_DAO(IDAOT dao, jff_ITelaAlterarCadastro telaAlterar, String telaMovimentacao) {
         this.DAOObject = dao;
@@ -264,9 +264,9 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
             TableColumn column0 = columnModel.getColumn(0);
             column0.setPreferredWidth(70);
             TableColumn column1 = columnModel.getColumn(1);
-            column1.setPreferredWidth(400);
+            column1.setPreferredWidth(100);
             TableColumn column2 = columnModel.getColumn(2);
-            column2.setPreferredWidth(115);
+            column2.setPreferredWidth(150);
             TableColumn column3 = columnModel.getColumn(3);
             column3.setPreferredWidth(70);
             TableColumn column4 = columnModel.getColumn(4);
@@ -318,7 +318,16 @@ public class jif_Listagem_DAO extends javax.swing.JInternalFrame {
             jTable1.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
             jTable1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
             jTable1.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
-            
+
+        } else if (jTable1.getColumnCount() == 6) {
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+            jTable1.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+            jTable1.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+            jTable1.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+            jTable1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+
         } else {
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);

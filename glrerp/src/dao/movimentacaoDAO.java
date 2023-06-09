@@ -152,7 +152,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                     + "FROM movimentacao "
                     + "" + tipo + ""
                     + "GROUP BY id_grupo_movimentacao, data, cliente_id, tipo "
-                    + "ORDER BY data";
+                    + "ORDER BY id_grupo_movimentacao DESC";
 
             ResultSet retorno = st.executeQuery(sql);
             while (retorno.next()) {
@@ -179,7 +179,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public ArrayList<Movimentacao> consultarIdGrupoMovimentacao(int id) {
+    public ArrayList<Movimentacao> consultarIdGrupoMovimentacao(int id, String tipo) {
         ArrayList<Movimentacao> movimentacoes = new ArrayList();
 
         try {
@@ -188,16 +188,17 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
             String sql = ""
                     + "SELECT * "
                     + "FROM movimentacao "
-                    + "WHERE id_grupo_movimentacao=" + id + ";";
+                    + "" + tipo + " "
+                    + "AND id_grupo_movimentacao=" + id + "";
 
-            ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);
+            ResultSet retorno = st.executeQuery(sql);
             while (retorno.next()) {
                 Movimentacao m = new Movimentacao(retorno);
                 movimentacoes.add(m);
             }
         } catch (Exception e) {
-            System.out.println("Erro ao consultar cadastro de movimentacao/Fornecedor " + e);
+            System.out.println("Erro ao consultar cadastro de movimentacao " + e);
         }
         return movimentacoes;
     }
@@ -247,7 +248,8 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                     Formatacao.ajustaDataDMA(dados[5].toString()),
                     dados[6].toString().toUpperCase(),
                     dados[2].toString(),
-                    dados[4].toString()};
+                    Formatacao.formatarDecimal4casas(Double.parseDouble(dados[4].toString())),
+                    Formatacao.formatarDecimal2casasRS(Double.parseDouble(dados[1].toString()))};
 
                 if (filtro.equals("")) {
                     tableData.add(data);
@@ -279,6 +281,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 if (filtro.equals("")) {
                     tableData.add(data);
                 } else if (data[3].contains(filtro.toUpperCase())
+                        || data[1].contains(filtro.toUpperCase())
                         || data[4].contains(filtro.toUpperCase())) {
                     tableData.add(data);
                 }
@@ -290,7 +293,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
     @Override
     public String[] getTableColumns() {
         if (this.tipo.contains("producao")) {
-            return new String[]{"Id", "Data", "Tipo", "Itens", "Perda"};
+            return new String[]{"Id", "Data", "Tipo", "Itens", "Perda", "Valor Total"};
         } else {
             return new String[]{"Id", "Data", "Tipo", "Cliente/Fornecedor", "CPF/CNPJ", "Itens", "Valor Total"};
         }
@@ -334,13 +337,20 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 String[] partsHora = parts[1].split(":");
                 String data = Formatacao.ajustaDataDMA(parts[0].toString());
                 String hora = partsHora[0] + ":" + partsHora[1];
-
+                double qtde;
+                if(resultadoQ.getDouble("mov_qtde")<0){
+                    qtde = resultadoQ.getDouble("mov_qtde") *-1;
+                } else{
+                    qtde = resultadoQ.getDouble("mov_qtde");
+                }
+                
+                
                 Object[] linha = new Object[8];
                 linha[0] = resultadoQ.getInt("mov_grupo");
                 linha[1] = resultadoQ.getInt("mov_id");
                 linha[2] = (data + " " + hora);
                 linha[3] = resultadoQ.getString("mov_tipo").toUpperCase();
-                linha[4] = Formatacao.formatarDecimal4casas(resultadoQ.getDouble("mov_qtde"));
+                linha[4] = Formatacao.formatarDecimal4casas(qtde);
                 linha[5] = resultadoQ.getString("item_und");
                 linha[6] = Formatacao.formatarDecimal2casasRS(resultadoQ.getDouble("mov_valor"));
                 linha[7] = Formatacao.formatarDecimal2casasRS(Double.parseDouble(linha[4].toString().replace(",", "."))
@@ -397,10 +407,10 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
     @Override
     public Movimentacao consultarId(int id) {
-        this.consultarIdGrupoMovimentacao(id);
+        this.consultarIdGrupoMovimentacao(id, this.tipo);
         Movimentacao m = new Movimentacao();
 
-        m = consultarIdGrupoMovimentacao(id).get(0);
+        m = consultarIdGrupoMovimentacao(id, this.tipo).get(0);
         return m;
     }
 
@@ -426,6 +436,9 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 component.setForeground(Color.BLACK);
             } else if (tipo.equalsIgnoreCase("PRODUCAO")) {
                 component.setBackground(Color.decode("#99CCFF"));
+                component.setForeground(Color.BLACK);
+            } else if (tipo.equalsIgnoreCase("CONSUMO")) {
+                component.setBackground(Color.decode("#FF9999"));
                 component.setForeground(Color.BLACK);
             } else {
                 component.setBackground(table.getBackground());

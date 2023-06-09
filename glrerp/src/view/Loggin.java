@@ -1,6 +1,7 @@
 package view;
 
 import apoio.BCryptEncryption;
+import apoio.Validacao;
 import dao.userDAO;
 import entidade.User;
 import java.awt.event.KeyEvent;
@@ -118,9 +119,9 @@ public class Loggin extends javax.swing.JDialog {
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel4.setBackground(new java.awt.Color(250, 250, 250));
+        jPanel4.setBackground(new java.awt.Color(238, 238, 238));
 
-        jPanel2.setBackground(new java.awt.Color(238, 238, 238));
+        jPanel2.setBackground(new java.awt.Color(250, 250, 250));
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -131,14 +132,14 @@ public class Loggin extends javax.swing.JDialog {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Senha");
 
-        jtf_email.setBackground(new java.awt.Color(238, 238, 238));
+        jtf_email.setBackground(new java.awt.Color(250, 250, 250));
         jtf_email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtf_email.setForeground(new java.awt.Color(0, 0, 0));
         jtf_email.setText("admin@glr.com");
         jtf_email.setBorder(null);
         jtf_email.setCaretColor(new java.awt.Color(0, 0, 0));
 
-        jpf_passwd.setBackground(new java.awt.Color(238, 238, 238));
+        jpf_passwd.setBackground(new java.awt.Color(250, 250, 250));
         jpf_passwd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jpf_passwd.setForeground(new java.awt.Color(0, 0, 0));
         jpf_passwd.setText("admin");
@@ -360,27 +361,38 @@ public class Loggin extends javax.swing.JDialog {
     }
 
     private void AcessarSistema() {
-        String email = jtf_email.getText();
+        if (Validacao.ValidarJTFObrigatorio(jtf_email)
+                && Validacao.ValidarPasswdObrigatorio(jpf_passwd)) {
 
-        ArrayList<User> users = new ArrayList();
-        users = new userDAO().consultarTodos();
+            String email = jtf_email.getText();
 
-        //Verifica se algum usuario e senha batem com o que o usuario digitou
-        for (int i = 0; i < users.size(); i++) {
+            ArrayList<User> users = new ArrayList();
+            users = new userDAO().consultarTodos();
 
-            if (users.get(i).getEmail().equals(email)) {
-                this.booleanEmail = true;
-                if (BCryptEncryption.verifyPassword(jpf_passwd.getPassword(), users.get(i).getSenha())) {
-                    this.senha = true;
-                    this.nome = (users.get(i).getNome());
+            //Verifica se algum usuario e senha batem com o que o usuario digitou
+            for (int i = 0; i < users.size(); i++) {
+
+                if (users.get(i).getEmail().equals(email)) {
+                    this.booleanEmail = true;
+                    if (BCryptEncryption.verifyPassword(jpf_passwd.getPassword(), users.get(i).getSenha())) {
+                        this.senha = true;
+                        this.nome = (users.get(i).getNome());
+                    }
                 }
             }
-        }
 
-        if (this.booleanEmail && this.senha) {
-            this.hide();
-            new Main().setVisible(true);
-            exibirMensagemDeBoasVindas(this.nome);
+            if (this.booleanEmail && this.senha) {
+                jpf_passwd.setText("");
+                jtf_email.setText("");
+                this.hide();
+                new Main().setVisible(true);
+                exibirMensagemDeBoasVindas(this.nome);
+            } else {
+                JOptionPane.showMessageDialog(this, "E-mail ou Senha incorreto! Tente novamente.", "E-MAIL OU SENHA INCORRETO", JOptionPane.ERROR_MESSAGE);
+                jpf_passwd.setText("");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Você possui campos em branco para preencher", "E-MAIL OU SENHA EM BRANCO!", JOptionPane.WARNING_MESSAGE);
         }
     }
 
