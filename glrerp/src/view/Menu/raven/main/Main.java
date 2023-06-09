@@ -1,6 +1,7 @@
 package view.Menu.raven.main;
 
 import apoio.IDAOT;
+import dao.AdicionaisDAO;
 import dao.ClienteDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
@@ -9,6 +10,8 @@ import dao.userDAO;
 import view.Menu.component.DefaultForm;
 import java.awt.Component;
 import javax.swing.JFrame;
+import view.Adicionais.jff_Alterar_adicionais;
+import view.Adicionais.jif_Cadastro_adicionais;
 import view.Cliente.jff_Alterar_cliente;
 import view.Cliente.jif_Cadastro_cliente;
 import view.Estrutura.jif_Cadastro_estrutura;
@@ -98,54 +101,65 @@ public class Main extends javax.swing.JFrame {
                     showForm(jif_cad_grupo);
                     jif_cad_grupo.setVisible(true);
 
-                } else if (index == 4 && subIndex == 1) { // --------------------------- CADASTRAR ESTRUTURA
+                } else if (index == 4 && subIndex == 1) { // --------------------------- VISUALIZAR ADICIONAIS
+                    jif_Listagem_DAO jifVis_adicionais = new jif_Listagem_DAO(new AdicionaisDAO(), new jff_Alterar_adicionais());
+                    showForm(jifVis_adicionais);
+                    jifVis_adicionais.setTitle("VISUALIZAR - DECORATIVOS");
+                    jifVis_adicionais.setVisible(true);
+
+                } else if (index == 4 && subIndex == 2) { // --------------------------- CADASTRAR ADICIONAIS
+                    jif_Cadastro_adicionais jif_cad_adicionais = new jif_Cadastro_adicionais();
+                    showForm(jif_cad_adicionais);
+                    jif_cad_adicionais.setVisible(true);
+
+                } else if (index == 5 && subIndex == 1) { // --------------------------- CADASTRAR ESTRUTURA
                     jif_Cadastro_estrutura jif_cad_est = new jif_Cadastro_estrutura();
                     showForm(jif_cad_est);
                     jif_cad_est.setVisible(true);
 
-                } else if (index == 5 && subIndex == 1) { // --------------------------- VISUALIZAR COMPRAS
+                } else if (index == 6 && subIndex == 1) { // --------------------------- VISUALIZAR COMPRAS
                     abrirListagemDAO(new movimentacaoDAO("compra"), new jff_Visualizar_movimentacao("compra", 0), "Compras");
 
-                } else if (index == 5 && subIndex == 2) { // --------------------------- CADASTRAR COMPRAS
+                } else if (index == 6 && subIndex == 2) { // --------------------------- CADASTRAR COMPRAS
                     jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("compra", user_id);
                     showForm(cadastro_movimentacao);
                     cadastro_movimentacao.setVisible(true);
 
-                } else if (index == 6 && subIndex == 1) { // --------------------------- VISUALIZAR PRODUÇÃO
+                } else if (index == 7 && subIndex == 1) { // --------------------------- VISUALIZAR PRODUÇÃO
                     abrirListagemDAO(new movimentacaoDAO("producao"), new jff_Visualizar_movimentacao("producao", 0), "Produção");
 
-                } else if (index == 6 && subIndex == 2) { // --------------------------- CADASTRAR PRODUÇÃO
+                } else if (index == 7 && subIndex == 2) { // --------------------------- CADASTRAR PRODUÇÃO
                     jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("producao", user_id);
                     showForm(cadastro_movimentacao);
                     cadastro_movimentacao.setVisible(true);
 
-                } else if (index == 7 && subIndex == 1) { // --------------------------- VISUALIZAR VENDAS
+                } else if (index == 8 && subIndex == 1) { // --------------------------- VISUALIZAR VENDAS
                     abrirListagemDAO(new movimentacaoDAO("venda"), new jff_Visualizar_movimentacao("venda", 0), "Vendas");
 
-                } else if (index == 7 && subIndex == 2) { // --------------------------- CADASTRAR VENDAS
+                } else if (index == 8 && subIndex == 2) { // --------------------------- CADASTRAR VENDAS
                     jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("venda", user_id);
                     showForm(cadastro_movimentacao);
                     cadastro_movimentacao.setVisible(true);
 
-                } else if (index == 8 && subIndex == 1) { // --------------------------- VISUALIZAR ESTOQUE
+                } else if (index == 9 && subIndex == 1) { // --------------------------- VISUALIZAR ESTOQUE
                     jif_Listagem_DAO jifVis_item = new jif_Listagem_DAO(new ItemDAO(), new jff_Alterar_item(), true);
                     showForm(jifVis_item);
                     jifVis_item.setTitle("VISUALIZAR - ESTOQUE");
                     jifVis_item.setVisible(true);
 
-                } else if (index == 9 && subIndex == 1) { // --------------------------- VISUALIZAR RELATÓRIOS
+                } else if (index == 10 && subIndex == 1) { // --------------------------- VISUALIZAR RELATÓRIOS
                     jif_relatorio jif_rel = new jif_relatorio();
                     showForm(jif_rel);
                     jif_rel.setVisible(true);
 
-                } else if (index == 10 && subIndex == 1) { // --------------------------- VISUALIZAR USUARIO
+                } else if (index == 11 && subIndex == 1) { // --------------------------- VISUALIZAR USUARIO
                     jif_Listagem_DAO jif_listagem_user = new jif_Listagem_DAO(new userDAO(), new jff_Alterar_User());
 
                     jif_listagem_user.setTitle("VISUALIZAR - USUÁRIOS");
                     showForm(jif_listagem_user);
                     jif_listagem_user.setVisible(true);
 
-                } else if (index == 10 && subIndex == 2) { // --------------------------- CADASTRAR USUARIO
+                } else if (index == 11 && subIndex == 2) { // --------------------------- CADASTRAR USUARIO
                     jif_Cadastro_user jif_cad_user = new jif_Cadastro_user();
                     showForm(jif_cad_user);
                     jif_cad_user.setVisible(true);
@@ -163,11 +177,11 @@ public class Main extends javax.swing.JFrame {
         body.repaint();
         body.revalidate();
     }
-    
-    public void UsuarioId(int usuario){
+
+    public void UsuarioId(int usuario) {
         this.user_id = usuario;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

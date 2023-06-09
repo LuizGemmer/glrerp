@@ -85,6 +85,26 @@ create table movimentacao_usuario(
 	constraint fk_usuario_id foreign key (usuario_id) references usuario (id)
 );
 
+create table adicionais(
+	id serial not null,
+	descricao varchar(150) not null,
+	valor decimal (10,2) not null,
+	ativo boolean not null,
+	primary key (id)
+);
+
+create table movimentacao_adicionais(
+	movimentacao_id int not null,
+	adicionais_id int not null,
+	qtde double precision not null,
+	valor decimal(10,2) not null,
+	observacao varchar (500),
+	primary key(movimentacao_id),
+	constraint fk_movimentacao_id foreign key (movimentacao_id) references movimentacao (id),
+	constraint fk_adicionais_id foreign key (adicionais_id) references adicionais (id)
+);
+
+
 
 CREATE OR REPLACE FUNCTION calcular_valor_estrutura()
   RETURNS TRIGGER AS
