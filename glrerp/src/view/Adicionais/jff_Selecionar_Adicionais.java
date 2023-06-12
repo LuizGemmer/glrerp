@@ -6,20 +6,27 @@ import apoio.Validacao;
 import dao.ClienteDAO;
 import dao.GrupoDAO;
 import dao.ItemDAO;
+import dao.Movimentacao_UserDAO;
 import dao.movimentacaoDAO;
 import entidade.Cliente;
 import entidade.Grupo;
 import entidade.Item;
 import entidade.Movimentacao;
-import entidade.Movimentacao_Adicionais;
+import entidade.Movimentacao_User;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import view.Adicionais.jff_Selecionar_adicionais;
+import javax.swing.table.TableColumn;
+import view.Loggin;
 
 /**
  *
@@ -33,8 +40,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private boolean apertou_editar = false; //Variavel que fica TRUE quando seleciona um insumo já cadastrado na estrutura para edição. Caso seja clicado em FECHAR ou REINICIAR antes de salvar, gerará uma mensagem de aviso.
     private String tipoMovimentacao; //Retorna, ao abrir essa tela, qual o tipo de movimentação (compra, venda ou producao)
     private String grupoTipo; //Vai vir a String da tela JIF_CADASTRO_MOVIMENTACAO. Se for nova compra retorna ('MATERIA-PRIMA', 'OUTRO', 'FERRAMENTA'). Se for Venda retorna ('PRODUTO ACABADO', 'OUTRO')
-    private ArrayList<Movimentacao_Adicionais> movimentacao_adicionais;
-    private boolean possuiAdicional;
     private int linhasTabela = 1;
     private boolean validarEstoque = true;
     private int itemIdSemEstoque;
@@ -42,12 +47,14 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private double qtdeItemEstoque;
     private int idGrupoMovimentacao = 0;
     private boolean salvarOk = true;
-    private String adicionais;
-    double valorAdicionais;
     private int user_id;
     double perda;
     double valorUnd;
-    private DefaultTableModel model;
+    ArrayList<ArrayList<Object>> dadosTabela = new ArrayList<>();
+
+    //Criação da tabela contendo os itens
+    private static ArrayList<Object[]> dados = new ArrayList<>();
+    private static DefaultTableModel model;
 
     Color buttonDisableColor = new Color(51, 51, 51);
     Color buttonBlueColor = new Color(13, 71, 161);
@@ -66,7 +73,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
 
         //Configurar a tabela
-        this.model = Apoio_CadastroMovimentacao.InserirTabela(jtb_itens, this.tipoMovimentacao);
+        InserirTabela();
         ConfigurarBotoesJTF();
     }
 
@@ -106,8 +113,8 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         jta_obs.setEnabled(true);
         jbt_inserir.setEnabled(true);
         jbt_inserir.setBackground(buttonBlueColor);
-        jbt_adicionais.setEnabled(true);
-        jbt_adicionais.setBackground(buttonLightBlueColor);
+        jbt_decoracao.setEnabled(true);
+        jbt_decoracao.setBackground(buttonLightBlueColor);
 
         //retornar o valor selecionado ao Combo Box Und_medida a partir da tabela ITEM no BD
         new CombosDAO().popularComboUndMedida(this.id_item_selecionado, jcb_und_medida);
@@ -151,7 +158,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jta_obs = new javax.swing.JTextArea();
-        jbt_adicionais = new javax.swing.JButton();
+        jbt_decoracao = new javax.swing.JButton();
         jlb_valor = new javax.swing.JLabel();
         jtf_valor = new javax.swing.JTextField();
         jbt_salvar = new javax.swing.JButton();
@@ -421,13 +428,13 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         jta_obs.setEnabled(false);
         jScrollPane2.setViewportView(jta_obs);
 
-        jbt_adicionais.setBackground(new java.awt.Color(51, 51, 51));
-        jbt_adicionais.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_adicionais.setText("Adicionais");
-        jbt_adicionais.setEnabled(false);
-        jbt_adicionais.addActionListener(new java.awt.event.ActionListener() {
+        jbt_decoracao.setBackground(new java.awt.Color(51, 51, 51));
+        jbt_decoracao.setForeground(new java.awt.Color(255, 255, 255));
+        jbt_decoracao.setText("Decorativos");
+        jbt_decoracao.setEnabled(false);
+        jbt_decoracao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_adicionaisActionPerformed(evt);
+                jbt_decoracaoActionPerformed(evt);
             }
         });
 
@@ -539,7 +546,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jtf_perda, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbt_adicionais))
+                                                .addComponent(jbt_decoracao))
                                             .addComponent(jtf_grupo_item, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -602,7 +609,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                         .addComponent(jtf_perda, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                         .addComponent(jlb_perda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbt_inserir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jbt_adicionais, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbt_decoracao, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jlb_valor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jtf_valor, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)))
                 .addGap(7, 7, 7)
@@ -661,14 +668,12 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
     private void jbt_pesquisar_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_pesquisar_clienteActionPerformed
         jff_pesquisar_item_cliente jff_pesquisar = new jff_pesquisar_item_cliente(this, this.tipoMovimentacao, this.pesquisar_cliente_item, this.grupoTipo);
-        jff_pesquisar.setLocationRelativeTo(this);
         jff_pesquisar.setVisible(true);
     }//GEN-LAST:event_jbt_pesquisar_clienteActionPerformed
 
     private void jbt_pesquisar_itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_pesquisar_itemActionPerformed
         this.pesquisar_cliente_item = 3;
         jff_pesquisar_item_cliente jff_pesquisar = new jff_pesquisar_item_cliente(this, this.tipoMovimentacao, this.pesquisar_cliente_item, this.grupoTipo);
-        jff_pesquisar.setLocationRelativeTo(this);
         jff_pesquisar.setVisible(true);
     }//GEN-LAST:event_jbt_pesquisar_itemActionPerformed
 
@@ -744,20 +749,10 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         this.apertou_editar = true;
         //Editar quantidade Insumo na Estrutura
         int rowIndex = jtb_itens.getSelectedRow();
-        String Column1 = String.valueOf(jtb_itens.getValueAt(rowIndex, 1));
+        String Column1 = String.valueOf(jtb_itens.getValueAt(jtb_itens.getSelectedRow(), 1));
         String[] parts = Column1.split(" -|- ");
         int id_item_edicao = Integer.parseInt(parts[0]);
         LimparCampos();
-
-        //Puxar Adicionais
-        String columnAdicionais = String.valueOf(jtb_itens.getValueAt(rowIndex, 7));
-        if (!columnAdicionais.equals("")) {
-            this.possuiAdicional = true;
-            if (!this.movimentacao_adicionais.isEmpty()) {
-                this.movimentacao_adicionais.clear();
-            }
-            this.movimentacao_adicionais = Apoio_CadastroMovimentacao.ConverterAdicionaisStringToMovimentacao_Adicionais(columnAdicionais);
-        }
 
         //puxar valores da tabela para os JTF correspondentes
         NomearItem(id_item_edicao);
@@ -773,20 +768,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         if ("producao".equals(this.tipoMovimentacao)) {
             jtf_perda.setText(String.valueOf(jtb_itens.getValueAt(jtb_itens.getSelectedRow(), 5)).replace(".", ","));
         } else {
-            if (jtb_itens.getValueAt(rowIndex, 7).toString().equals("")) {
-                jtf_valor.setText(String.valueOf(jtb_itens.getValueAt(jtb_itens.getSelectedRow(), 5)).replace(".", ",").replace("R$  ", ""));
-
-            } else {
-                double subTotalAdicionais = 0;
-                for (int i = 0; i < this.movimentacao_adicionais.size(); i++) {
-                    double qtdeAdicional = movimentacao_adicionais.get(i).getQtde();
-                    double valorAdicional = movimentacao_adicionais.get(i).getValor();
-                    subTotalAdicionais = subTotalAdicionais + (qtdeAdicional * valorAdicional);
-                }
-                String valorTabela = String.valueOf(jtb_itens.getValueAt(jtb_itens.getSelectedRow(), 5)).replace(".", "").replace(",", ".").replace("R$  ", "");
-                double valorUnitarioItem = Double.parseDouble(valorTabela) - subTotalAdicionais;
-                jtf_valor.setText(String.valueOf(valorUnitarioItem).replace(".", ","));
-            }
+            jtf_valor.setText(String.valueOf(jtb_itens.getValueAt(jtb_itens.getSelectedRow(), 5)).replace(".", ",").replace("R$  ", ""));
         }
 
         //Excluir item da tabela        
@@ -824,16 +806,9 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         Validacao.ValidarDecimal(jtf_perda, evt);
     }//GEN-LAST:event_jtf_perdaKeyTyped
 
-    private void jbt_adicionaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_adicionaisActionPerformed
-        jff_Selecionar_adicionais jff_sel_adicionais;
-        if (this.possuiAdicional) {
-            jff_sel_adicionais = new jff_Selecionar_adicionais(this, this.id_item_selecionado, this.movimentacao_adicionais);
-        } else {
-            jff_sel_adicionais = new jff_Selecionar_adicionais(this, this.id_item_selecionado);
-        }
-        jff_sel_adicionais.setLocationRelativeTo(this);
-        jff_sel_adicionais.setVisible(true);
-    }//GEN-LAST:event_jbt_adicionaisActionPerformed
+    private void jbt_decoracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_decoracaoActionPerformed
+        JOptionPane.showMessageDialog(this, "Função em implementação, ainda não está disponível!", "FUNÇÃO EM IMPLEMENTAÇÃO", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jbt_decoracaoActionPerformed
 
     private void jtf_valorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtf_valorKeyTyped
         Validacao.ValidarDecimal(jtf_valor, evt);
@@ -849,29 +824,13 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         int rowCount = jtb_itens.getRowCount();
 
         if ("producao".equals(this.tipoMovimentacao)) {
-            MensagemSucessoSalvar(Apoio_CadastroMovimentacao.SalvarProducao(this, jtb_itens, rowCount, data, this.tipoMovimentacao, this.idGrupoMovimentacao, this.user_id));
+            SalvarProducao(jtb_itens, rowCount, data);
 
         } else {
-            MensagemSucessoSalvar(Apoio_CadastroMovimentacao.SalvarVendaCompra(jtb_itens, rowCount, data, jtf_id_cliente, this.tipoMovimentacao, this.idGrupoMovimentacao, this.user_id));
-
+            SalvarVendaCompra(jtb_itens, rowCount, data);
         }
 
-    }//GEN-LAST:event_jbt_salvarActionPerformed
-
-    private void jtf_qtde_itemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_qtde_itemFocusLost
-        Validacao.ValidarJTFObrigatorio(jtf_qtde_item);
-    }//GEN-LAST:event_jtf_qtde_itemFocusLost
-
-    private void jtf_valorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_valorFocusLost
-        Validacao.ValidarJTFObrigatorio(jtf_valor);
-    }//GEN-LAST:event_jtf_valorFocusLost
-
-    private void jtf_perdaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_perdaFocusLost
-        Validacao.ValidarJTFObrigatorio(jtf_perda);
-    }//GEN-LAST:event_jtf_perdaFocusLost
-
-    private void MensagemSucessoSalvar(boolean o) {
-        if (o) {
+        if (salvarOk) {
             JOptionPane.showMessageDialog(this,
                     "Nova "
                     + this.tipoMovimentacao.toUpperCase()
@@ -897,7 +856,152 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao inserir dados no banco de dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
         }
+
+
+    }//GEN-LAST:event_jbt_salvarActionPerformed
+
+    private void jtf_qtde_itemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_qtde_itemFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_qtde_item);
+    }//GEN-LAST:event_jtf_qtde_itemFocusLost
+
+    private void jtf_valorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_valorFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_valor);
+    }//GEN-LAST:event_jtf_valorFocusLost
+
+    private void jtf_perdaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtf_perdaFocusLost
+        Validacao.ValidarJTFObrigatorio(jtf_perda);
+    }//GEN-LAST:event_jtf_perdaFocusLost
+
+    private void SalvarProducao(JTable jtb_itens, int rowCount, LocalDateTime data) {
+        for (int row = 0; row < rowCount; row++) {
+            String Column1 = jtb_itens.getValueAt(row, 1).toString();
+            String[] parts = Column1.split(" -|- ");
+
+            int idItem = Integer.parseInt(parts[0].toString());
+            double qtde = Double.parseDouble(jtb_itens.getValueAt(row, 3).toString().replace(",", "."));
+            String und = jtb_itens.getValueAt(row, 4).toString();
+            double perda = Double.parseDouble(jtb_itens.getValueAt(row, 5).toString().replace(",", "."));
+            String obs = jtb_itens.getValueAt(row, 2).toString();
+            int idPedido = Integer.parseInt(jtb_itens.getValueAt(row, 6).toString());
+
+            Item item = new ItemDAO().consultarId(Integer.parseInt(parts[0]));
+            if (item.getUnidade_medida().equals(und)) {
+                qtde = qtde;
+            } else if (und.equals(item.getUnd_conv1())) {
+                qtde = item.getConv2() * qtde;
+            } else {
+                qtde = qtde / item.getConv2();
+            }
+
+            ArrayList<Object[]> dadosValorInsumos = Validacao.AjustarEstoqueInsumosProdução(idItem, qtde, perda);
+            double valorProduto = 0;
+            for (int i = 0; i < dadosValorInsumos.size(); i++) {
+
+                Object[] dados = dadosValorInsumos.get(i);
+                int id_insumo = Integer.parseInt(dados[0].toString());
+                double qtde_insumo = Double.parseDouble(dados[1].toString());
+                valorProduto = valorProduto + ((qtde_insumo * new ItemDAO().consultarId(id_insumo).getValor()) / qtde);
+            }
+
+            //Salvar itens no BD
+            Movimentacao mov = new Movimentacao();
+            mov.setTipo(this.tipoMovimentacao);
+            mov.setData(data);
+            mov.setItem_id(idItem);
+            mov.setCliente_id(0);
+            mov.setValor(valorProduto);
+            mov.setQtde(qtde);
+            mov.setPerdas(perda);
+            mov.setObservacao(obs);
+            mov.setId_pedido(idPedido);
+            mov.setId_grupo_movimentacao(this.idGrupoMovimentacao);
+
+            movimentacaoDAO movDAO = new movimentacaoDAO();
+            if (movDAO.salvar(mov) != null) {
+                this.salvarOk = false;
+            }
+            
+            SalvarUserMovimentacao();
+
+            //Dar baixa do estoque nos insumos de uma produção
+            ArrayList<Object[]> dadosAjusteEstoqueInsumos = Validacao.AjustarEstoqueInsumosProdução(idItem, qtde, perda);
+            for (int i = 0; i < dadosAjusteEstoqueInsumos.size(); i++) {
+
+                Object[] dados = dadosAjusteEstoqueInsumos.get(i);
+                int id_insumo = Integer.parseInt(dados[0].toString());
+                double qtde_insumo = Double.parseDouble(dados[1].toString());
+                double valorInsumo = new ItemDAO().consultarId(id_insumo).getValor();
+
+                Movimentacao movInsumo = new Movimentacao();
+                movInsumo.setTipo("consumo");
+                movInsumo.setData(data);
+                movInsumo.setItem_id(id_insumo);
+                movInsumo.setCliente_id(0);
+                movInsumo.setValor(valorInsumo);
+                movInsumo.setQtde(qtde_insumo);
+                movInsumo.setPerdas(0);
+                movInsumo.setObservacao("");
+                movInsumo.setId_pedido(idPedido);
+                movInsumo.setId_grupo_movimentacao(this.idGrupoMovimentacao);
+                new movimentacaoDAO().salvar(movInsumo);
+
+                if (new ItemDAO().atualizarEstoque(id_insumo, qtde_insumo) != null) {
+                    JOptionPane.showMessageDialog(this, "Erro ao inserir dados no banco de dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                SalvarUserMovimentacao();
+            }
+        }
     }
+
+    private void SalvarVendaCompra(JTable jtb_itens, int rowCount, LocalDateTime data) {
+        for (int row = 0; row < rowCount; row++) {
+            int clienteId = Integer.parseInt(jtf_id_cliente.getText());
+            String Column1 = jtb_itens.getValueAt(row, 1).toString();
+            String[] parts = Column1.split(" -|- ");
+            int pedidoId = 0;
+
+            int idItem = Integer.parseInt(parts[0].toString());
+            double qtde = Double.parseDouble(jtb_itens.getValueAt(row, 3).toString().replace(",", "."));
+            String und = jtb_itens.getValueAt(row, 4).toString();
+            double valorUnitario = Double.parseDouble(jtb_itens.getValueAt(row, 5).toString().replace(",", ".").replace("R$  ", ""));
+            String obs = jtb_itens.getValueAt(row, 2).toString();
+
+            Item item = new ItemDAO().consultarId(Integer.parseInt(parts[0]));
+            if (item.getUnidade_medida().equals(und)) {
+                qtde = qtde;
+            } else if (und.equals(item.getUnd_conv1())) {
+                qtde = item.getConv2() * qtde;
+            } else {
+                qtde = qtde / item.getConv2();
+            }
+
+            //Salvar itens no BD movimentacao
+            Movimentacao mov = new Movimentacao();
+            mov.setTipo(this.tipoMovimentacao);
+            mov.setData(data);
+            mov.setItem_id(idItem);
+            mov.setCliente_id(clienteId);
+            mov.setValor(valorUnitario);
+            if ("venda".equals(this.tipoMovimentacao)) {
+                mov.setQtde(qtde * (-1));
+            } else {
+                mov.setQtde(qtde);
+            }
+            mov.setPerdas(0);
+            mov.setObservacao(obs);
+            mov.setId_pedido(pedidoId);
+            mov.setId_grupo_movimentacao(this.idGrupoMovimentacao);
+
+            movimentacaoDAO movDAO = new movimentacaoDAO();
+            if (movDAO.salvar(mov) != null) {
+                this.salvarOk = false;
+            }
+
+            SalvarUserMovimentacao();
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel11;
@@ -907,7 +1011,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JButton jbt_adicionais;
+    private javax.swing.JButton jbt_decoracao;
     private javax.swing.JButton jbt_editar;
     private javax.swing.JButton jbt_excluir;
     private javax.swing.JButton jbt_fechar;
@@ -942,6 +1046,19 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtf_valor;
     // End of variables declaration//GEN-END:variables
 
+    public void SalvarUserMovimentacao(){
+        //salvar movimentacao na tabela movimentacao_user
+            int ultimaID = new movimentacaoDAO().consultarUltimaIdMovimentacao();
+            Movimentacao_User movUser = new Movimentacao_User();
+            movUser.setUsuario_id(this.user_id);
+            movUser.setMovimentacao_id(ultimaID);
+
+            Movimentacao_UserDAO movUserDAO = new Movimentacao_UserDAO();
+            if (movUserDAO.salvar(movUser) != null) {
+                this.salvarOk = false;
+            }
+    }
+    
     public double SomarTotalValorTabela() {
         int columnIndex = 6; // Índice da coluna a ser somada
         int rowCount = jtb_itens.getRowCount();
@@ -970,8 +1087,8 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         jcb_und_medida.setEnabled(false);
         jbt_pesquisar_item.setEnabled(false);
         jbt_pesquisar_item.setBackground(buttonDisableColor);
-        jbt_adicionais.setVisible(true);
-        jbt_adicionais.setBackground(buttonDisableColor);
+        jbt_decoracao.setVisible(true);
+        jbt_decoracao.setBackground(buttonDisableColor);
         jlb_perda.setVisible(false);
         jtf_perda.setVisible(false);
         jbt_pedido.setVisible(false);
@@ -996,7 +1113,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             this.grupoTipo = "'MATERIA-PRIMA', 'FERRAMENTA', 'SERVICO', 'OUTRO'";
             this.setTitle("Nova Movimentação - COMPRA");
             jbt_nova_movimentacao.setText("NOVA COMPRA");
-            jbt_adicionais.setVisible(false);
+            jbt_decoracao.setVisible(false);
             jlb_cliente_fornecedor.setText("*Fornecedor");
             jbt_pedido.setVisible(false);
 
@@ -1016,7 +1133,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             jlb_perda.setVisible(true);
             jtf_perda.setVisible(true);
             jlb_cliente_fornecedor.setText("Pedido");
-            jbt_adicionais.setVisible(false);
             jtf_cpf_cliente.setEnabled(false);
             jtf_nome_cliente.setEnabled(false);
             jtf_cpf_cliente.setEnabled(false);
@@ -1040,14 +1156,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         jtf_valor.setText("");
         jta_obs.setText("");
         jtf_perda.setText("");
-        if (this.possuiAdicional) {
-            this.movimentacao_adicionais.clear();
-        }
-    }
-
-    public void ImportarAdicioanis(boolean salvouAdicional, ArrayList<Movimentacao_Adicionais> mov_adicionais) {
-        this.movimentacao_adicionais = mov_adicionais;
-        this.possuiAdicional = salvouAdicional;
     }
 
     private void MensagemFecharComEdicaoEmAndamento() {
@@ -1132,12 +1240,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
             if (this.validarEstoque) {
 
                 // Adição de linhas na tabela e ao ArrayList
-                if ("venda".equals(this.tipoMovimentacao) || "compra".equals(this.tipoMovimentacao)) {
-
-                    //Inserir Adicionais
-                    InserirAdicionais();
-
-                    valorUnd = valorUnd + valorAdicionais;
+                if (this.tipoMovimentacao == "venda" || this.tipoMovimentacao == "compra") {
                     double subTotal;
 
                     Item item = new ItemDAO().consultarId(this.id_item_selecionado);
@@ -1149,6 +1252,16 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                         subTotal = valorUnd / item.getConv2() * QtdeItem;
                     }
 
+                    //Na VENDA a OBS fica personalizada com desconto/acrescimo de valor
+                    if ("venda".equals(this.tipoMovimentacao)) {
+                        if (valorUnd < item.getValor()) {
+                            obs = "Desconto de R$ " + Formatacao.formatarDecimal2casas(item.getValor() - valorUnd) + "/" + item.getUnidade_medida() + " | " + obs;
+                        }
+                        if (valorUnd > item.getValor()) {
+                            obs = "Acrescimo de R$ " + Formatacao.formatarDecimal2casas(valorUnd - item.getValor()) + "/" + item.getUnidade_medida() + " | " + obs;
+                        }
+                    }
+
                     //Adicionar os itens da linha em um Objeto
                     Object[] novaLinha = {this.linhasTabela,
                         itemDesc,
@@ -1156,13 +1269,12 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                         Formatacao.formatarDecimal4casas(QtdeItem),
                         und,
                         Formatacao.formatarDecimal2casasRS(valorUnd),
-                        Formatacao.formatarDecimal2casasRS(subTotal),
-                        adicionais};
+                        Formatacao.formatarDecimal2casasRS(subTotal)};
 
                     model.addRow(novaLinha);
                     this.linhasTabela++;
                     jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
-
+                    
                 } else {
                     int pedido;
                     try {
@@ -1171,9 +1283,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                         pedido = 0;
                     }
 
-                    //Inserir Adicionais
-                    InserirAdicionais();
-
                     //Adicionar os itens da linha em um Objeto
                     Object[] novaLinha = {this.linhasTabela,
                         itemDesc,
@@ -1181,8 +1290,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                         Formatacao.formatarDecimal4casas(QtdeItem),
                         und,
                         Formatacao.formatarDecimal4casas(perda),
-                        pedido,
-                        adicionais};
+                        pedido};
 
                     model.addRow(novaLinha);
                     this.linhasTabela++;
@@ -1190,8 +1298,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                 LimparCampos();
                 jbt_inserir.setEnabled(false);
                 jbt_inserir.setBackground(buttonDisableColor);
-                jbt_adicionais.setEnabled(false);
-                jbt_adicionais.setBackground(buttonDisableColor);
                 jbt_salvar.setEnabled(true);
                 jbt_salvar.setBackground(buttonBlueColor);
                 jbt_pesquisar_item.requestFocus();
@@ -1215,7 +1321,6 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         }
 
         this.apertou_editar = true;
-
         jtf_SomaItens.setText(String.valueOf(jtb_itens.getRowCount()));
         jbt_pesquisar_item.setEnabled(true);
         jbt_pesquisar_item.setBackground(buttonBlueColor);
@@ -1226,14 +1331,134 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
     }
 
-    private void InserirAdicionais() {
-        if (this.possuiAdicional) {
-            Object[] retorno = Apoio_CadastroMovimentacao.InserirAdicionais(this.movimentacao_adicionais, this.adicionais, this.valorAdicionais, this.possuiAdicional);
-            this.valorAdicionais = Double.parseDouble(retorno[1].toString());
-            this.adicionais = retorno[0].toString();
+    private void InserirTabela() {
+        //Inserir o modelo da tabela
+        model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Tornar todas as células não editáveis
+            }
+        };
+        jtb_itens.setModel(model);
+
+        if ("compra".equals(this.tipoMovimentacao) || "venda".equals(this.tipoMovimentacao)) {
+            // Definição das colunas da tabela
+            model.addColumn("Nº");
+            model.addColumn("ID -|- Item");
+            model.addColumn("Observação");
+            model.addColumn("Qtde");
+            model.addColumn("Und");
+            model.addColumn("Valor Unitário");
+            model.addColumn("Sub-Total");
+
+            // Centralizar conteúdo dascolunas
+            centralizarConteudoColuna(0);
+            centralizarConteudoColuna(3);
+            centralizarConteudoColuna(4);
+            centralizarConteudoColuna(5);
+
+            //ajusta o tamanho da fonte
+            int fontSize = 10; // Defina o tamanho da fonte desejado
+            TableColumn column0 = jtb_itens.getColumnModel().getColumn(0);
+            TableColumn column2 = jtb_itens.getColumnModel().getColumn(2);
+            TableColumn column4 = jtb_itens.getColumnModel().getColumn(4);
+            column0.setCellRenderer(new CustomRenderer2(fontSize));
+            column2.setCellRenderer(new CustomRenderer(fontSize));
+            column4.setCellRenderer(new CustomRenderer2(fontSize));
+
         } else {
-            this.valorAdicionais = 0;
-            this.adicionais = "";
+            // Definição das colunas da tabela
+            model.addColumn("Nº");
+            model.addColumn("ID -|- Item");
+            model.addColumn("Observação");
+            model.addColumn("Qtde");
+            model.addColumn("Und");
+            model.addColumn("Perda");
+            model.addColumn("ID Pedido");
+
+            // Centralizar conteúdo dascolunas
+            centralizarConteudoColuna(0);
+            centralizarConteudoColuna(3);
+            centralizarConteudoColuna(4);
+            centralizarConteudoColuna(5);
+            centralizarConteudoColuna(6);
+
+            //ajusta o tamanho da fonte
+            int fontSize = 10; // Defina o tamanho da fonte desejado
+            TableColumn column = jtb_itens.getColumnModel().getColumn(5);
+            column.setCellRenderer(new CustomRenderer2(fontSize));
+        }
+        // Ajustar tamanho das colunas
+        ajustarTamanhoColunas(this.tipoMovimentacao);
+    }
+
+    private void ajustarTamanhoColunas(String tipoMovimentacao) {
+        // Definir o tamanho manual das colunas (menos da última)
+        if ("compra".equals(this.tipoMovimentacao) || "venda".equals(this.tipoMovimentacao)) {
+            int[] columnWidths = {5, 270, 200, 50, 10, 80};
+            for (int i = 0; i < columnWidths.length; i++) {
+                TableColumn column = jtb_itens.getColumnModel().getColumn(i);
+                column.setPreferredWidth(columnWidths[i]);
+            }
+        } else {
+            int[] columnWidths = {50, 300, 80, 80, 100, 100};
+            for (int i = 0; i < columnWidths.length; i++) {
+                TableColumn column = jtb_itens.getColumnModel().getColumn(i);
+                column.setPreferredWidth(columnWidths[i]);
+            }
+        }
+        // Configurar a última coluna para redimensionar automaticamente
+        jtb_itens.setAutoResizeMode(jtb_itens.AUTO_RESIZE_LAST_COLUMN);
+    }
+
+    private void centralizarConteudoColuna(int columnIndex) {
+        // Criar um objeto DefaultTableCellRenderer para centralizar o conteúdo da coluna
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Aplicar o renderer à coluna específica da tabela
+        jtb_itens.getColumnModel().getColumn(columnIndex).setCellRenderer(renderer);
+
+    }
+
+    public class CustomRenderer extends DefaultTableCellRenderer {
+
+        private int fontSize;
+
+        public CustomRenderer(int fontSize) {
+            this.fontSize = fontSize;
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            // Define o tamanho da fonte
+            Font font = cell.getFont();
+            font = font.deriveFont(Font.PLAIN, fontSize);
+            cell.setFont(font);
+            return cell;
+        }
+    }
+
+    public class CustomRenderer2 extends DefaultTableCellRenderer {
+
+        private int fontSize;
+
+        public CustomRenderer2(int fontSize) {
+            this.fontSize = fontSize;
+            setHorizontalAlignment(SwingConstants.CENTER);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            // Define o tamanho da fonte
+            Font font = cell.getFont();
+            font = font.deriveFont(Font.PLAIN, fontSize);
+            cell.setFont(font);
+            return cell;
         }
     }
 

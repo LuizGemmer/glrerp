@@ -276,12 +276,12 @@ public class Validacao {
             String Column1 = tabela.getValueAt(row, 1).toString();
             String[] parts = Column1.split(" -|- ");
 
-            Object valueColumn1 = parts[0];
-            Object valueColumn3 = Double.parseDouble(tabela.getValueAt(row, 3).toString().replace(",", "."));
-            Object valueColumn4 = tabela.getValueAt(row, 4);
-            Object valueColumn5 = Double.parseDouble(tabela.getValueAt(row, 5).toString().replace(",", ".").replace("R$  ", ""));
+            Object idItem = parts[0];
+            Object qtdeItem = Double.parseDouble(tabela.getValueAt(row, 3).toString().replace(",", "."));
+            Object undMedidaItem = tabela.getValueAt(row, 4);
+            Object perdaItem = Double.parseDouble(tabela.getValueAt(row, 5).toString().replace(",", ".").replace("R$  ", ""));
 
-            Object[] rowData = {valueColumn1, valueColumn3, valueColumn4, valueColumn5};
+            Object[] rowData = {idItem, qtdeItem, undMedidaItem, perdaItem};
             columnData.add(rowData);
         }
 
@@ -372,17 +372,11 @@ public class Validacao {
         } else if (tipoMovimento.equals("producao")) {
 
             double qtdeEstoqueInsumo;
-            System.out.println("Descrição: Consumo | Estoque");
             for (int i = 0; i < consumoEstrutura.size(); i++) {
                 Object[] objectConsumo = consumoEstrutura.get(i);
                 Object[] objectEstoque = estoqueEstruturaTabela.get(i);
                 qtdeConsumoInsumo = Formatacao.ArredondarDecimal4casas(Double.parseDouble(objectConsumo[1].toString()));
                 qtdeEstoqueInsumo = Formatacao.ArredondarDecimal4casas(Double.parseDouble(objectEstoque[1].toString()));
-
-                System.out.print("ID: " + objectConsumo[0].toString());
-                System.out.println(" | " + objectEstoque[0].toString());
-                System.out.print("Qtde: " + qtdeConsumoInsumo);
-                System.out.println(" | " + qtdeEstoqueInsumo);
 
                 if (qtdeConsumoInsumo > qtdeEstoqueInsumo) {
                     estoqueOk = false;
@@ -421,13 +415,13 @@ public class Validacao {
             id_insumo = estruturaItem.get(j).getInsumo_id();
             qtdeConsumoInsumo = (qtde_Item + perda)
                     * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
-            
+
             System.out.println("OBJ id_insumo " + id_insumo);
             System.out.println("OBJ qtdeConsumoInsumo " + qtdeConsumoInsumo);
             Object[] dado = {id_insumo, qtdeConsumoInsumo};
             retornoInsumos.add(dado);
         }
-       return retornoInsumos;
+        return retornoInsumos;
     }
 
 }

@@ -99,7 +99,6 @@ create table movimentacao_adicionais(
 	qtde double precision not null,
 	valor decimal(10,2) not null,
 	observacao varchar (500),
-	primary key(movimentacao_id),
 	constraint fk_movimentacao_id foreign key (movimentacao_id) references movimentacao (id),
 	constraint fk_adicionais_id foreign key (adicionais_id) references adicionais (id)
 );

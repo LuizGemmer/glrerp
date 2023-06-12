@@ -119,7 +119,7 @@
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="jtf_perda" min="-2" pref="100" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jbt_adicionais" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jbt_decoracao" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="jtf_grupo_item" min="-2" pref="298" max="-2" attributes="0"/>
                                           </Group>
@@ -197,7 +197,7 @@
                           <Component id="jtf_perda" alignment="3" pref="34" max="32767" attributes="0"/>
                           <Component id="jlb_perda" alignment="3" max="32767" attributes="0"/>
                           <Component id="jbt_inserir" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                          <Component id="jbt_adicionais" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="jbt_decoracao" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                           <Component id="jlb_valor" alignment="3" max="32767" attributes="0"/>
                           <Component id="jtf_valor" alignment="3" pref="34" max="32767" attributes="0"/>
                       </Group>
@@ -715,7 +715,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="jbt_adicionais">
+        <Component class="javax.swing.JButton" name="jbt_decoracao">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="33" type="rgb"/>
@@ -723,11 +723,11 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Adicionais"/>
+            <Property name="text" type="java.lang.String" value="Decorativos"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbt_adicionaisActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbt_decoracaoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jlb_valor">

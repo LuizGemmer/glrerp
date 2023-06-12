@@ -3,9 +3,11 @@ package view.Movimentacao;
 import apoio.Formatacao;
 import dao.ClienteDAO;
 import dao.ItemDAO;
+import dao.Movimentacao_AdicionaisDAO;
 import dao.movimentacaoDAO;
 import entidade.Item;
 import entidade.Movimentacao;
+import entidade.Movimentacao_Adicionais;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -25,7 +27,7 @@ import view.jif_Listagem_DAO;
  * @author ruang
  */
 public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements jff_ITelaAlterarCadastro {
-    
+
     private String tipoMovimentacao; //Retorna, ao abrir essa tela, qual o tipo de movimentação (compra, venda ou producao)
     private int linhasTabela = 1;
     private int idGrupoMovimentacao;
@@ -34,11 +36,11 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
     private Movimentacao movimentacao;
     private movimentacaoDAO dao;
     private ArrayList<Movimentacao> mov;
+    private ArrayList<Movimentacao_Adicionais> mov_adiciconais;
 
     //Criação da tabela contendo os itens
-    private static ArrayList<Object[]> dados = new ArrayList<>();
-    private static DefaultTableModel model;
-    
+    private DefaultTableModel model;
+
     public jff_Visualizar_movimentacao(String tipoMovimentacao, int idItem) {
         this.tipoMovimentacao = tipoMovimentacao;
         initComponents();
@@ -48,10 +50,10 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
         UIManager.put("ComboBox.disabledBackground", Color.RGBtoHSB(250, 250, 250, null));
 
         //Configurar a tabela
-        InserirTabela();
+        this.model = Apoio_CadastroMovimentacao.InserirTabela(jtb_itens, this.tipoMovimentacao);
         ConfigurarBotoesJTF();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -327,34 +329,43 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
         this.tipoMovimentacao = movimentacao.getTipo();
         String SQLtipo = "WHERE tipo='" + this.tipoMovimentacao + "' ";
         this.mov = new movimentacaoDAO().consultarIdGrupoMovimentacao(this.idGrupoMovimentacao, SQLtipo);
-                
+
         jff_Data.setText(mov.get(0).getData().format(DateTimeFormatter.ofPattern("dd/MM/YYYY")));
         jff_Hora.setText(mov.get(0).getData().format(DateTimeFormatter.ofPattern("HH:mm")));
         jtf_pedido.setText(String.valueOf(mov.get(0).getId_pedido()));
         jtf_movimentacao.setText(String.valueOf(this.idGrupoMovimentacao));
-        
+
         if (!this.tipoMovimentacao.equals("producao")) {
             jtf_id_cliente.setText(String.valueOf(mov.get(0).getCliente_id()));
             jtf_nome_cliente.setText(new ClienteDAO().consultarIdComInativos(mov.get(0).getCliente_id()).getNome());
             jtf_cpf_cliente.setText(String.valueOf(new ClienteDAO().consultarIdComInativos(mov.get(0).getCliente_id()).getCpf()));
         }
-        
+
         model.setRowCount(0);
         for (Movimentacao movimentacao : this.mov) {
             Object[] rowData;
             item = new ItemDAO().consultarId(movimentacao.getItem_id());
             String idDescricaoItem = item.getId() + " --|-- " + item.getDescricao();
-             String subTotal;
-             double qtde;
-            if(movimentacao.getQtde()<0){
-                qtde = movimentacao.getQtde() *-1;
+            String subTotal;
+            double qtde;
+            if (movimentacao.getQtde() < 0) {
+                qtde = movimentacao.getQtde() * -1;
                 subTotal = Formatacao.formatarDecimal2casasRS(movimentacao.getValor() * qtde);
-                
-            } else{
+
+            } else {
                 subTotal = Formatacao.formatarDecimal2casasRS(movimentacao.getValor() * movimentacao.getQtde());
                 qtde = movimentacao.getQtde();
             }
-                        
+
+            this.mov_adiciconais = new Movimentacao_AdicionaisDAO().consultarTodosIdMovimentacao(movimentacao.getId());
+            String adicionais = "";
+            boolean possuiAdicional = false;
+            if (!this.mov_adiciconais.isEmpty()) {
+                possuiAdicional = true;
+                Object[] dadosAdicionais = Apoio_CadastroMovimentacao.InserirAdicionais(this.mov_adiciconais, adicionais, 0, possuiAdicional);
+                adicionais = dadosAdicionais[0].toString();
+            }
+
             if ("compra".equals(this.tipoMovimentacao) || "venda".equals(this.tipoMovimentacao)) {
                 rowData = new Object[]{
                     this.linhasTabela,
@@ -363,7 +374,8 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
                     Formatacao.formatarDecimal4casas(qtde),
                     item.getUnidade_medida(),
                     Formatacao.formatarDecimal2casasRS(movimentacao.getValor()),
-                    subTotal
+                    subTotal,
+                    adicionais
                 };
             } else {
                 rowData = new Object[]{
@@ -373,34 +385,35 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
                     Formatacao.formatarDecimal4casas(qtde),
                     item.getUnidade_medida(),
                     Formatacao.formatarDecimal4casas(movimentacao.getPerdas()),
-                    movimentacao.getId_pedido()
+                    movimentacao.getId_pedido(),
+                    adicionais
                 };
             }
             model.addRow(rowData);
             this.linhasTabela++;
         }
-        
-       jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
-        jtf_SomaItens.setText(String.valueOf(model.getRowCount()));
+
+        jtf_SomaValor.setText(String.valueOf(Formatacao.formatarDecimal2casasRS(SomarTotalValorTabela())));
+        jtf_SomaItens.setText(String.valueOf(this.model.getRowCount()));
     }
-    
+
     @Override
     public void setDetalhamento(boolean inativarControles) {
-        
+
     }
-    
+
     @Override
     public void setTelaParente(jif_Listagem_DAO tela) {
         this.parente = tela;
     }
-    
+
     @Override
     public void showWindow(boolean s) {
         //Abrir novo JFrame na mesma localização do JFrame anterior
         this.setLocation(this.parente.getLocationOnScreen());
         this.setVisible(s);
     }
-    
+
     public double SomarTotalValorTabela() {
         int columnIndex = 6; // Índice da coluna a ser somada
         int rowCount = jtb_itens.getRowCount();
@@ -415,20 +428,20 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
         }
         return sum;
     }
-    
+
     private void ConfigurarBotoesJTF() {
         //Configurar labels e texts Fields de acordo com o tipo de movimentação que foi aberta 
         jtf_SomaValor.setVisible(true);
         jlb_ValorTotal.setVisible(true);
-        
+
         if ("compra".equals(this.tipoMovimentacao)) {
             this.setTitle("Nova Movimentação - COMPRA");
             jlb_cliente_fornecedor.setText("*Fornecedor");
-            
+
         } else if ("venda".equals(this.tipoMovimentacao)) {
             this.setTitle("Nova Movimentação - VENDA");
             jlb_cliente_fornecedor.setText("*Cliente");
-            
+
         } else if ("producao".equals(this.tipoMovimentacao)) {
             this.setTitle("Nova Movimentação - PRODUÇÃO");
             jlb_cliente_fornecedor.setText("Pedido");
@@ -439,8 +452,8 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
             jlb_ValorTotal.setVisible(false);
         }
     }
-    
-    private void InserirTabela() {
+
+    /*private void InserirTabela() {
         //Inserir o modelo da tabela
         model = new DefaultTableModel() {
             @Override
@@ -570,5 +583,5 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
             return cell;
         }
     }
-    
+     */
 }

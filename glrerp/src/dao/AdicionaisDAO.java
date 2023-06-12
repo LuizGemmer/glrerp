@@ -8,6 +8,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -178,4 +183,66 @@ public class AdicionaisDAO implements IDAOT<Adicionais> {
         return new String[]{"Id", "Descrição", "Valor"};
     }
 
+    public void popularTabela(JTable tabela, String criterio) {
+        ResultSet resultadoQ;
+
+        // Dados da Tabela
+        ArrayList<Object[]> dadosTabela = new ArrayList<>();
+
+        // Cabecalho da tabela
+        Object[] cabecalho = new Object[3];
+        cabecalho[0] = "ID";
+        cabecalho[1] = "Descrição";
+        cabecalho[2] = "Valor";
+
+        //Efetua a consulta na Tabela
+        try {
+            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                    + "SELECT * "
+                    + "FROM adicionais "
+                    + "WHERE ativo=true "
+                    + "AND (descricao ILIKE '%" + criterio + "%') "
+                    + "ORDER BY descricao");
+            
+            while (resultadoQ.next()) {
+                Object[] linha = new Object[3];
+                linha[0] = resultadoQ.getInt("id");
+                linha[1] = resultadoQ.getString("descricao");
+                linha[2] = Formatacao.formatarDecimal2casasRS(resultadoQ.getDouble("valor"));
+
+                dadosTabela.add(linha);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao popular tabela: " + e);
+        }
+
+        tabela.setModel(new DefaultTableModel(
+                dadosTabela.toArray(new Object[0][0]), cabecalho) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+                // if (column == 3){return true} else {return false}
+            }
+        });
+
+        // Altera o número de selecao de linhas da tabela
+        tabela.setSelectionMode(0);
+
+        // Redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        int[] columnWidths = {20, 380, 50};
+        for (int i = 0; i < tabela.getColumnModel().getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            column.setPreferredWidth(columnWidths[i]);
+        }
+
+        // Alinhar dados da coluna 1 no centro da celula da tabela
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        TableColumn column1 = tabela.getColumnModel().getColumn(0);
+
+        column1.setCellRenderer(centerRenderer);
+    }
 }

@@ -1,8 +1,10 @@
 package view.Movimentacao;
 
+import dao.AdicionaisDAO;
 import dao.ClienteDAO;
 import dao.ItemDAO;
 import javax.swing.JOptionPane;
+import view.Adicionais.jff_Selecionar_adicionais;
 
 /**
  *
@@ -11,9 +13,10 @@ import javax.swing.JOptionPane;
 public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
 
     private int item_id; //Id de cliente ou item selecionado na tabela de pesquisa
-    private int pesquisa_item_cliente; //=2: Pesquisa de cliente. =1: Pesquisa de fornecedor. =3: Pesquisa de item
+    private int pesquisa_item_cliente; //=2: Pesquisa de cliente. =1: Pesquisa de fornecedor. =3: Pesquisa de item. =4: Pesquisa de adicionais
     private String menuSelecionado; //compra, venda ou producao
     private jif_Cadastro_movimentacao jif_cadastroMovimentacao;
+    private jff_Selecionar_adicionais jff_Selecionar_adicionais;
     private String grupoTipo; //Vai vir a String da tela JIF_CADASTRO_MOVIMENTACAO. Se for nova compra retorna ('MATERIA-PRIMA', 'OUTRO', 'FERRAMENTA'). Se for Venda retorna ('PRODUTO ACABADO', 'OUTRO')
 
     public jff_pesquisar_item_cliente(jif_Cadastro_movimentacao tela, String menuSelecionado, int item_cliente, String grupoTipo) {
@@ -43,6 +46,18 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
             new ItemDAO().popularTabela(jtb_pesquisa, "", this.grupoTipo);
         }
 
+    }
+
+    public jff_pesquisar_item_cliente(jff_Selecionar_adicionais tela, int item_cliente) {
+        this.pesquisa_item_cliente = item_cliente;
+        this.jff_Selecionar_adicionais = tela;
+        initComponents();
+
+        //Setar o nome dos botões e dos JLabels
+        jLabel1.setText("Adicionais Cadastrados");
+        this.setTitle("Pesquisa - Adicionais");
+        //Popular a tabela
+        new AdicionaisDAO().popularTabela(jtb_pesquisa, "");
     }
 
     @SuppressWarnings("unchecked")
@@ -193,9 +208,7 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jbt_fecharActionPerformed
 
     private void jbt_selecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_selecionarActionPerformed
-        this.item_id = Integer.parseInt(
-                String.valueOf(jtb_pesquisa.getValueAt(jtb_pesquisa.getSelectedRow(), 0))
-        );
+        this.item_id = Integer.parseInt(String.valueOf(jtb_pesquisa.getValueAt(jtb_pesquisa.getSelectedRow(), 0)));
 
         if (this.item_id == 0) {
             JOptionPane.showMessageDialog(this, "Selecione um registro na tabela acima", "ERRO", JOptionPane.ERROR_MESSAGE);
@@ -204,6 +217,8 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
                 jif_cadastroMovimentacao.NomearCliente(this.item_id);
             } else if (this.pesquisa_item_cliente == 3) {//ITEM
                 jif_cadastroMovimentacao.NomearItem(this.item_id);
+            } else if (this.pesquisa_item_cliente == 4) { //ADICIONAIS
+                jff_Selecionar_adicionais.NomearAdicionais(this.item_id);
             }
             this.dispose();
         }
@@ -220,6 +235,9 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
         } else if (this.pesquisa_item_cliente == 3) {
             //Popular a tabela
             new ItemDAO().popularTabela(jtb_pesquisa, jtf_filtro.getText(), this.grupoTipo);
+        } else if (this.pesquisa_item_cliente == 4) {
+            //Popular a tabela
+            new AdicionaisDAO().popularTabela(jtb_pesquisa, jtf_filtro.getText());
         }
     }//GEN-LAST:event_jbt_filtrarActionPerformed
 

@@ -181,14 +181,16 @@ public class EstruturaDAO implements IDAOT<Estrutura> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "SELECT * "
-                    + "FROM estrutura "
-                    + "WHERE ativo=true "
-                    + "AND item_id=" + item_id;
+            String sql = "SELECT estrutura.item_id, estrutura.insumo_id, estrutura.qtde_insumo, estrutura.ativo, estrutura.und_medida, estrutura.valor_estrutura "
+                    + "FROM estrutura, item "
+                    + "WHERE estrutura.insumo_id = item.id "
+                    + "AND estrutura.ativo=true "
+                    + "AND item.ativo=true "
+                    + "AND estrutura.item_id=" + item_id;
 
-            ResultSet retorno = st.executeQuery(sql);
             System.out.println("SQL: " + sql);
-
+            ResultSet retorno = st.executeQuery(sql);
+            
             while (retorno.next()) {
                 Estrutura estrutura = new Estrutura();
 
