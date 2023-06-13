@@ -205,12 +205,13 @@ public class Apoio_CadastroMovimentacao {
             String Column1 = jtb_itens.getValueAt(row, 1).toString();
             String[] parts = Column1.split(" -|- ");
             int pedidoId = idGrupoMovimentacao;
-            String situacaoPedido = "Em Aberto";
+            ArrayList<Movimentacao> m = new movimentacaoDAO().consultarUltimaIdGrupoMovimentacao();
+            idGrupoMovimentacao = m.get(0).getId_grupo_movimentacao() + 1;
             int idItem = Integer.parseInt(parts[0].toString());
             double qtde = Double.parseDouble(jtb_itens.getValueAt(row, 3).toString().replace(".", "").replace(",", "."));
             String und = jtb_itens.getValueAt(row, 4).toString();
-            double valorUnitario = Double.parseDouble(jtb_itens.getValueAt(row, 5).toString().replace(".", "").replace(",", ".").replace("R$  ", ""));
             String obs = jtb_itens.getValueAt(row, 2).toString();
+            String situacaoPedido;
 
             Item item = new ItemDAO().consultarId(Integer.parseInt(parts[0]));
             if (item.getUnidade_medida().equals(und)) {
@@ -221,11 +222,64 @@ public class Apoio_CadastroMovimentacao {
                 qtde = qtde / item.getConv2();
             }
 
-            if (jtb_itens.getValueAt(row, 0).toString().equals("NOVO")) {
-                //Salvar itens no BD movimentacao
+            if (tipoMovimentacao.equals("pedido venda")) {
+                situacaoPedido = "Em Aberto";
+                double valorUnitario = Double.parseDouble(jtb_itens.getValueAt(row, 5).toString().replace(".", "").replace(",", ".").replace("R$  ", ""));
 
-            } else {
+                if (jtb_itens.getValueAt(row, 0).toString().equals("NOVO")) {
+                    //Salvar itens no BD movimentacao
+                    Movimentacao mov = new Movimentacao();
+                    mov.setTipo(tipoMovimentacao);
+                    mov.setData(data);
+                    mov.setItem_id(idItem);
+                    mov.setCliente_id(clienteId);
+                    mov.setValor(valorUnitario);
+                    mov.setQtde(qtde);
+                    mov.setPerdas(0);
+                    mov.setObservacao(obs);
+                    mov.setId_pedido(pedidoId);
+                    mov.setId_grupo_movimentacao(idGrupoMovimentacao);
+                    mov.setSituacao_pedido(situacaoPedido);
+
+                    movimentacaoDAO movDAO = new movimentacaoDAO();
+                    if (movDAO.salvar(mov) != null) {
+                        salvarOk = false;
+                    }
+
+                    salvarOk = SalvarUserMovimentacao(user_id);
+                    salvarOk = SalvarAdicionaisBD(row, jtb_itens);
+
+                } else {
+                    int movimentacaoId = Integer.parseInt(jtb_itens.getValueAt(row, 0).toString());
+                    //Atualizar itens no BD movimentacao
+                    Movimentacao mov = new Movimentacao();
+                    mov.setTipo(tipoMovimentacao);
+                    mov.setData(data);
+                    mov.setItem_id(idItem);
+                    mov.setCliente_id(clienteId);
+                    mov.setValor(valorUnitario);
+                    mov.setQtde(qtde);
+                    mov.setPerdas(0);
+                    mov.setObservacao(obs);
+                    mov.setId_pedido(pedidoId);
+                    mov.setId_grupo_movimentacao(idGrupoMovimentacao);
+                    mov.setSituacao_pedido(situacaoPedido);
+                    mov.setId(movimentacaoId);
+
+                    movimentacaoDAO movDAO = new movimentacaoDAO();
+                    if (movDAO.atualizar(mov) != null) {
+                        salvarOk = false;
+                    }
+
+                    salvarOk = AtualizarAdicionaisBD(row, jtb_itens, movimentacaoId);
+                }
+
+            } else if (tipoMovimentacao.equals("producao")) {
+                situacaoPedido = "Produzido";
                 int movimentacaoId = Integer.parseInt(jtb_itens.getValueAt(row, 0).toString());
+                double perda = Double.parseDouble(jtb_itens.getValueAt(row, 5).toString().replace(",", "."));
+                double valorUnitario = new movimentacaoDAO().consultarIdMov(movimentacaoId).getValor();
+
                 //Atualizar itens no BD movimentacao
                 Movimentacao mov = new Movimentacao();
                 mov.setTipo(tipoMovimentacao);
@@ -234,7 +288,7 @@ public class Apoio_CadastroMovimentacao {
                 mov.setCliente_id(clienteId);
                 mov.setValor(valorUnitario);
                 mov.setQtde(qtde);
-                mov.setPerdas(0);
+                mov.setPerdas(perda);
                 mov.setObservacao(obs);
                 mov.setId_pedido(pedidoId);
                 mov.setId_grupo_movimentacao(idGrupoMovimentacao);
@@ -246,7 +300,61 @@ public class Apoio_CadastroMovimentacao {
                     salvarOk = false;
                 }
 
-                salvarOk = AtualizarAdicionaisBD(row, jtb_itens, movimentacaoId);
+                //Dar baixa do estoque nos insumos de uma produção
+                ArrayList<Object[]> dadosAjusteEstoqueInsumos = Validacao.AjustarEstoqueInsumosProdução(idItem, qtde, perda);
+                for (int i = 0; i < dadosAjusteEstoqueInsumos.size(); i++) {
+
+                    Object[] dados = dadosAjusteEstoqueInsumos.get(i);
+                    int id_insumo = Integer.parseInt(dados[0].toString());
+                    double qtde_insumo = Double.parseDouble(dados[1].toString());
+                    double valorInsumo = new ItemDAO().consultarId(id_insumo).getValor();
+
+                    Movimentacao movInsumo = new Movimentacao();
+                    movInsumo.setTipo("consumo");
+                    movInsumo.setData(data);
+                    movInsumo.setItem_id(id_insumo);
+                    movInsumo.setCliente_id(0);
+                    movInsumo.setValor(valorInsumo);
+                    movInsumo.setQtde(qtde_insumo);
+                    movInsumo.setPerdas(0);
+                    movInsumo.setObservacao("");
+                    movInsumo.setId_pedido(pedidoId);
+                    movInsumo.setId_grupo_movimentacao(idGrupoMovimentacao);
+                    movInsumo.setSituacao_pedido("");
+                    new movimentacaoDAO().salvar(movInsumo);
+
+                    if (new ItemDAO().atualizarEstoque(id_insumo, qtde_insumo) != null) {
+                        JOptionPane.showMessageDialog(null, "Erro ao inserir dados no banco de dados!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    salvarOk = SalvarUserMovimentacao(user_id);
+                }
+
+            } else if (tipoMovimentacao.equals("venda")) {
+                situacaoPedido = "Vendido";
+                int movimentacaoId = Integer.parseInt(jtb_itens.getValueAt(row, 0).toString());
+                double perda = new movimentacaoDAO().consultarIdMov(movimentacaoId).getValor();
+                double valorUnitario = Double.parseDouble(jtb_itens.getValueAt(row, 5).toString().replace(",", "."));
+
+                //Atualizar itens no BD movimentacao
+                Movimentacao mov = new Movimentacao();
+                mov.setTipo(tipoMovimentacao);
+                mov.setData(data);
+                mov.setItem_id(idItem);
+                mov.setCliente_id(clienteId);
+                mov.setValor(valorUnitario);
+                mov.setQtde(qtde);
+                mov.setPerdas(perda);
+                mov.setObservacao(obs);
+                mov.setId_pedido(pedidoId);
+                mov.setId_grupo_movimentacao(idGrupoMovimentacao);
+                mov.setSituacao_pedido(situacaoPedido);
+                mov.setId(movimentacaoId);
+
+                movimentacaoDAO movDAO = new movimentacaoDAO();
+                if (movDAO.atualizar(mov) != null) {
+                    salvarOk = false;
+                }
             }
         }
         salvarOk = ExcluirMovimentacao(itemExluidoEdicaoPedido);
@@ -261,9 +369,10 @@ public class Apoio_CadastroMovimentacao {
                 Movimentacao_AdicionaisDAO movAdicDAO = new Movimentacao_AdicionaisDAO();
                 Movimentacao_UserDAO movUserDAO = new Movimentacao_UserDAO();
                 movimentacaoDAO mov = new movimentacaoDAO();
-                if (movAdicDAO.excluir(Integer.parseInt(movimentacaoId[i])) != null
-                        && movUserDAO.excluir(Integer.parseInt(movimentacaoId[i])) != null
-                        && mov.excluir(Integer.parseInt(movimentacaoId[i])) != null) {
+                int movId = Integer.parseInt(movimentacaoId[i]);
+                if (movAdicDAO.excluir(movId) != null
+                        || movUserDAO.excluir(movId) != null
+                        || mov.excluir(movId) != null) {
                     salvarOk = false;
                 }
             }

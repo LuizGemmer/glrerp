@@ -48,7 +48,8 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     private String adicionais;
     double valorAdicionais;
     private int user_id;
-    private int idMovimentacao;
+    private boolean inserirNovoEmEdicaoPedido = false;
+    private String idMovimentacao;
     double perda;
     double valorUnd;
     boolean pressPedido = false;
@@ -93,7 +94,13 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         this.pressPedido = true;
         this.id_grupo_selecionado = id_tabela;
 
-        this.mov = new movimentacaoDAO().consultarIdGrupoMovimentacao(this.id_grupo_selecionado, "WHERE");
+        if (this.tipoMovimentacao.equals("venda")) {
+            this.mov = new movimentacaoDAO().consultarIdGrupoMovimentacaoEspecial(this.id_grupo_selecionado, "Produzido");
+
+        } else {
+            this.mov = new movimentacaoDAO().consultarIdGrupoMovimentacaoEspecial(this.id_grupo_selecionado, "Em aberto");
+
+        }
         InserirDadosPedidosNaTabela();
 
         //Coloca os valores referentes ao ID do pedido para os campos JTF
@@ -110,10 +117,18 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         jff_Hora.setText(dataOriginal.format(timeFormatter));
 
         jbt_nova_movimentacaoActionPerformed(null);
+        if (this.tipoMovimentacao.equals("producao")) {
+            jbt_pesquisar_item.setEnabled(false);
+            jbt_pesquisar_item.setBackground(buttonDisableColor);
+        }
+        this.movimentacao_adicionais.clear();
     }
 
     public void NomearItem(int id_tabela) {
         this.id_item_selecionado = id_tabela;
+        if (this.pressPedido) {
+            this.inserirNovoEmEdicaoPedido = true;
+        }
 
         //Coloca os valores referentes ao ID do item para os campos JTF
         Item item = new ItemDAO().consultarId(this.id_item_selecionado);
@@ -748,12 +763,16 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
             //Excluir item da tabela        
             int rowIndex = jtb_itens.getSelectedRow();
-            if (this.pressPedido 
+            if (this.pressPedido
                     && this.tipoMovimentacao.equals("pedido venda")
                     && !jtb_itens.getValueAt(rowIndex, 0).toString().equals("NOVO")) {
-                this.itensExcluidosEdicaoPedido = this.itensExcluidosEdicaoPedido
-                        + ","
-                        + (jtb_itens.getValueAt(rowIndex, 0).toString());
+                if (this.itensExcluidosEdicaoPedido.equals("")) {
+                    this.itensExcluidosEdicaoPedido = jtb_itens.getValueAt(rowIndex, 0).toString();
+                } else {
+                    this.itensExcluidosEdicaoPedido = this.itensExcluidosEdicaoPedido
+                            + ","
+                            + jtb_itens.getValueAt(rowIndex, 0).toString();
+                }
             }
 
             if (rowIndex >= 0) {
@@ -792,7 +811,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         String[] parts = Column1.split(" -|- ");
         int id_item_edicao = Integer.parseInt(parts[0]);
         if (this.pressPedido) {
-            this.idMovimentacao = Integer.parseInt(jtb_itens.getValueAt(rowIndex, 0).toString());
+            this.idMovimentacao = jtb_itens.getValueAt(rowIndex, 0).toString();
             if (this.tipoMovimentacao.equals("producao")) {
                 this.idGrupoMovimentacao = Integer.parseInt(jtb_itens.getValueAt(rowIndex, 6).toString());
             }
@@ -811,6 +830,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
         //puxar valores da tabela para os JTF correspondentes
         NomearItem(id_item_edicao);
+        this.inserirNovoEmEdicaoPedido = false;
         jtf_qtde_item.setText(String.valueOf(jtb_itens.getValueAt(jtb_itens.getSelectedRow(), 3)).replace(".", ","));
         jta_obs.setText(String.valueOf(jtb_itens.getValueAt(jtb_itens.getSelectedRow(), 2)));
         jtf_qtde_item.requestFocus();
@@ -903,15 +923,59 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
     private void jbt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_salvarActionPerformed
         ArrayList<Movimentacao> m = new movimentacaoDAO().consultarUltimaIdGrupoMovimentacao();
-        this.idGrupoMovimentacao = m.get(0).getId_grupo_movimentacao() + 1;
+        if (this.pressPedido
+                && (this.tipoMovimentacao.equals("pedido venda"))
+                || (this.tipoMovimentacao.equals("producao"))) {
+            this.idGrupoMovimentacao = this.id_grupo_selecionado;
+        } else {
+            this.idGrupoMovimentacao = m.get(0).getId_grupo_movimentacao() + 1;
+        }
         String dataHora = Formatacao.ajustaDataAMD(jff_Data.getText()) + " " + jff_Hora.getText();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime data = LocalDateTime.parse(dataHora, formatter);
 
         int rowCount = jtb_itens.getRowCount();
 
-        if ("producao".equals(this.tipoMovimentacao)) {
+        if ("producao".equals(this.tipoMovimentacao) && !this.pressPedido) {
             MensagemSucessoSalvar(Apoio_CadastroMovimentacao.SalvarProducao(this, jtb_itens, rowCount, data, this.tipoMovimentacao, this.idGrupoMovimentacao, this.user_id));
+
+        } else if (this.tipoMovimentacao.equals("producao") && this.pressPedido) {
+
+            //Validar se possui estoque do item ou do insumo para nova Venda/Produção
+            for (int i = 0; i < Validacao.ValidarEstoqueProducaoPedidoProducao(jtb_itens).size(); i++) {
+
+                Object[] dadosValidacaoEstoque = Validacao.ValidarEstoqueProducaoPedidoProducao(jtb_itens).get(i);
+
+                this.validarEstoque = Boolean.parseBoolean(dadosValidacaoEstoque[0].toString());
+                if (!this.validarEstoque) {
+                    this.itemIdSemEstoque = Integer.parseInt(dadosValidacaoEstoque[1].toString());
+                    this.qtdeItemConsumo = Double.parseDouble(dadosValidacaoEstoque[2].toString());
+                    this.qtdeItemEstoque = Double.parseDouble(dadosValidacaoEstoque[3].toString());
+                    break;
+                }
+            }
+
+            if (this.validarEstoque) {
+                MensagemSucessoSalvar(Apoio_CadastroMovimentacao.AtualizarPedido(jtb_itens, rowCount, data, jtf_id_cliente, this.tipoMovimentacao, this.idGrupoMovimentacao, this.user_id, this.itensExcluidosEdicaoPedido));
+            } else {
+                JOptionPane.showMessageDialog(this, "Item "
+                        + this.itemIdSemEstoque + " - " + new ItemDAO().consultarId(this.itemIdSemEstoque).getDescricao()
+                        + " sem estoque suficiente.\n\n"
+                        + "Quantidade a ser consumida = "
+                        + Formatacao.formatarDecimal4casas(this.qtdeItemConsumo)
+                        + " " + new ItemDAO().consultarId(this.itemIdSemEstoque).getUnidade_medida()
+                        + "\nQuantidade em estoque = "
+                        + Formatacao.formatarDecimal4casas(this.qtdeItemEstoque) + " "
+                        + new ItemDAO().consultarId(this.itemIdSemEstoque).getUnidade_medida(),
+                        "ITEM SEM ESTOQUE", JOptionPane.ERROR_MESSAGE);
+                jtf_qtde_item.requestFocus();
+            }
+
+        } else if (this.tipoMovimentacao.equals("pedido venda") && this.pressPedido) {
+            MensagemSucessoSalvar(Apoio_CadastroMovimentacao.AtualizarPedido(jtb_itens, rowCount, data, jtf_id_cliente, this.tipoMovimentacao, this.idGrupoMovimentacao, this.user_id, this.itensExcluidosEdicaoPedido));
+
+        } else if (this.tipoMovimentacao.equals("venda") && this.pressPedido) {
+            MensagemSucessoSalvar(Apoio_CadastroMovimentacao.AtualizarPedido(jtb_itens, rowCount, data, jtf_id_cliente, this.tipoMovimentacao, this.idGrupoMovimentacao, this.user_id, this.itensExcluidosEdicaoPedido));
 
         } else {
             MensagemSucessoSalvar(Apoio_CadastroMovimentacao.SalvarVendaCompra(jtb_itens, rowCount, data, jtf_id_cliente, this.tipoMovimentacao, this.idGrupoMovimentacao, this.user_id));
@@ -1223,11 +1287,15 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
                         subTotal = valorUnd / item.getConv2() * QtdeItem;
                     }
 
-                    int numero;
+                    String numero;
                     if (this.pressPedido) {
-                        numero = this.idMovimentacao;
+                        if (this.inserirNovoEmEdicaoPedido) {
+                            numero = "NOVO";
+                        } else {
+                            numero = this.idMovimentacao;
+                        }
                     } else {
-                        numero = this.linhasTabela;
+                        numero = String.valueOf(this.linhasTabela);
                     }
 
                     //Adicionar os itens da linha em um Objeto
@@ -1246,13 +1314,13 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
 
                 } else {
                     int pedido;
-                    int numero;
+                    String numero;
                     if (this.pressPedido) {
                         pedido = this.idGrupoMovimentacao;
                         numero = this.idMovimentacao;
                     } else {
                         pedido = 0;
-                        numero = this.linhasTabela;
+                        numero = String.valueOf(this.linhasTabela);
                     }
 
                     //Inserir Adicionais
@@ -1301,8 +1369,13 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
         this.apertou_editar = true;
 
         jtf_SomaItens.setText(String.valueOf(jtb_itens.getRowCount()));
-        jbt_pesquisar_item.setEnabled(true);
-        jbt_pesquisar_item.setBackground(buttonBlueColor);
+        if (this.tipoMovimentacao.equals("producao") && this.pressPedido) {
+            jbt_pesquisar_item.setEnabled(false);
+            jbt_pesquisar_item.setBackground(buttonDisableColor);
+        } else {
+            jbt_pesquisar_item.setEnabled(true);
+            jbt_pesquisar_item.setBackground(buttonBlueColor);
+        }
         jbt_editar.setEnabled(false);
         jbt_editar.setBackground(buttonDisableColor);
         jbt_excluir.setEnabled(false);

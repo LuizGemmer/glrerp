@@ -109,7 +109,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         try {
             Connection connection = ConexaoBD.getInstance().getConnection();
             String sql = "DELETE FROM movimentacao "
-                    + "WHERE movimentacao_id = ?";
+                    + "WHERE id = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
@@ -158,15 +158,15 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT id_grupo_movimentacao, SUM(valor*qtde) AS total_valor, COUNT(*) AS total_itens, "
-                    + "cliente_id, SUM(perda) AS total_perda, data, tipo "
+                    + "cliente_id, SUM(perda) AS total_perda, data, tipo, situacao_pedido "
                     + "FROM movimentacao "
                     + "" + tipo + ""
-                    + "GROUP BY id_grupo_movimentacao, data, cliente_id, tipo "
+                    + "GROUP BY id_grupo_movimentacao, data, cliente_id, tipo, situacao_pedido "
                     + "ORDER BY id_grupo_movimentacao DESC";
 
             ResultSet retorno = st.executeQuery(sql);
             while (retorno.next()) {
-                Object[] dados = new Object[7];
+                Object[] dados = new Object[8];
                 dados[0] = retorno.getInt("id_grupo_movimentacao");
                 dados[1] = retorno.getDouble("total_valor");
                 dados[2] = retorno.getInt("total_itens");
@@ -174,6 +174,7 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 dados[4] = retorno.getDouble("total_perda");
                 dados[5] = retorno.getDate("data");
                 dados[6] = retorno.getString("tipo");
+                dados[7] = retorno.getString("situacao_pedido");
                 movimentacoes.add(dados);
             }
 
@@ -199,9 +200,33 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                     + "SELECT * "
                     + "FROM movimentacao "
                     + "" + tipo + ""
-                    + " id_grupo_movimentacao=" + id + "";
+                    + "AND id_grupo_movimentacao=" + id + "";
 
-            System.out.println("SQL: " + sql);
+            System.out.println(" SQL: " + sql);
+            ResultSet retorno = st.executeQuery(sql);
+            while (retorno.next()) {
+                Movimentacao m = new Movimentacao(retorno);
+                movimentacoes.add(m);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de movimentacao " + e);
+        }
+        return movimentacoes;
+    }
+
+    public ArrayList<Movimentacao> consultarIdGrupoMovimentacaoEspecial(int id, String criterio) {
+        ArrayList<Movimentacao> movimentacoes = new ArrayList();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = ""
+                    + "SELECT * "
+                    + "FROM movimentacao "
+                    + "WHERE id_grupo_movimentacao=" + id + " "
+                    + "AND situacao_pedido ILIKE '%" + criterio + "%' ";
+
+            System.out.println(" SQL: " + sql);
             ResultSet retorno = st.executeQuery(sql);
             while (retorno.next()) {
                 Movimentacao m = new Movimentacao(retorno);
@@ -288,6 +313,34 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 if (filtro.equals("")) {
                     tableData.add(data);
                 } else if (data[1].contains(filtro.toUpperCase())
+                        || data[4].contains(filtro.toUpperCase())) {
+                    tableData.add(data);
+                }
+            }
+
+        } else if (this.tipo.contains("pedido venda")) {
+            for (int i = 0; i < grupoMov.size(); i++) {
+                Object[] dados = grupoMov.get(i);
+                double valor;
+                if (Double.parseDouble(dados[1].toString()) < 0) {
+                    valor = Double.parseDouble(dados[1].toString()) * -1;
+                } else {
+                    valor = Double.parseDouble(dados[1].toString());
+                }
+
+                String[] data = {
+                    dados[0].toString(),
+                    Formatacao.ajustaDataDMA(dados[5].toString()),
+                    dados[7].toString().toUpperCase(),
+                    String.valueOf(new ClienteDAO().consultarIdComInativos(Integer.parseInt(dados[3].toString())).getNome()),
+                    String.valueOf(new ClienteDAO().consultarIdComInativos(Integer.parseInt(dados[3].toString())).getCpf()),
+                    dados[2].toString(),
+                    Formatacao.formatarDecimal2casasRS(valor)};
+
+                if (filtro.equals("")) {
+                    tableData.add(data);
+                } else if (data[3].contains(filtro.toUpperCase())
+                        || data[1].contains(filtro.toUpperCase())
                         || data[4].contains(filtro.toUpperCase())) {
                     tableData.add(data);
                 }
@@ -471,7 +524,6 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                     + "AND (movimentacao.situacao_pedido ILIKE '%" + criterio + "%' "
                     + "OR cliente.nome ILIKE '%" + criterio + "%' "
                     + "OR cliente.cpf ILIKE '%" + criterio + "%') "
-                    + "AND movimentacao.tipo='pedido venda' "
                     + "GROUP BY mov_pedido, mov_data, cliente_nome, cliente_cpf, movimentacao.tipo, situacao, cliente.id "
                     + "ORDER BY movimentacao.data DESC");
 
@@ -548,6 +600,43 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
         m = consultarIdGrupoMovimentacao(id, this.tipo).get(0);
         return m;
+    }
+
+    public Movimentacao consultarIdMov(int id) {
+        Movimentacao mov = new Movimentacao();
+
+        try {
+            Connection connection = ConexaoBD.getInstance().getConnection();
+            String sql = "SELECT * "
+                    + "FROM movimentacao "
+                    + "WHERE id = ?";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet retorno = statement.executeQuery();
+            System.out.println("SQL: " + statement.toString());
+            while (retorno.next()) {
+
+                mov.setId(retorno.getInt("id"));
+                mov.setTipo(retorno.getString("tipo"));
+                //mov.setData(retorno.getString("data"));
+                mov.setItem_id(retorno.getInt("item_id"));
+                mov.setCliente_id(retorno.getInt("cliente_id"));
+                mov.setValor(retorno.getDouble("valor"));
+                mov.setQtde(retorno.getDouble("qtde"));
+                mov.setPerdas(retorno.getDouble("perda"));
+                mov.setObservacao(retorno.getString("observacao"));
+                mov.setId_pedido(retorno.getInt("id_pedido"));
+                mov.setId_grupo_movimentacao(retorno.getInt("id_grupo_movimentacao"));
+                mov.setSituacao_pedido(retorno.getString("situacao_pedido"));
+
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar cadastro de Movimentacao " + e);
+        }
+        return mov;
+
     }
 
     static class CustomTableCellRenderer extends DefaultTableCellRenderer {

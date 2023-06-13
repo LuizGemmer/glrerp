@@ -45,16 +45,19 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
             this.setTitle("Pesquisa - Itens");
             //Popular a tabela
             new ItemDAO().popularTabela(jtb_pesquisa, "", this.grupoTipo);
-        } else if (this.pesquisa_item_cliente == 5 || this.pesquisa_item_cliente == 6) {
+        } else if (this.pesquisa_item_cliente == 5) {
             //Setar o nome dos botões e dos JLabels
             jLabel1.setText("Pedidos em Aberto Cadastrados");
             this.setTitle("Pesquisa - Pedidos");
             //Popular a tabela
-            if (this.pesquisa_item_cliente == 5) {
-                new movimentacaoDAO().popularTabelaPedidos(jtb_pesquisa, "Em Aberto", "");
-            } else {
-                new movimentacaoDAO().popularTabelaPedidos(jtb_pesquisa, "Produzido", "");
-            }
+            new movimentacaoDAO().popularTabelaPedidos(jtb_pesquisa, "Em Aberto", "");
+
+        } else if (this.pesquisa_item_cliente == 6) {
+            //Setar o nome dos botões e dos JLabels
+            jLabel1.setText("Pedidos Produzidos Cadastrados");
+            this.setTitle("Pesquisa - Pedidos");
+            //Popular a tabela
+            new movimentacaoDAO().popularTabelaPedidos(jtb_pesquisa, "Produzido", "");
         }
 
     }

@@ -321,7 +321,7 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
         this.movimentacao = (Movimentacao) dao;
         this.idGrupoMovimentacao = movimentacao.getId_grupo_movimentacao();
         this.tipoMovimentacao = movimentacao.getTipo();
-        String SQLtipo = "WHERE tipo='" + this.tipoMovimentacao + "' AND ";
+        String SQLtipo = "WHERE tipo='" + this.tipoMovimentacao + "' ";
         this.mov = new movimentacaoDAO().consultarIdGrupoMovimentacao(this.idGrupoMovimentacao, SQLtipo);
 
         jff_Data.setText(mov.get(0).getData().format(DateTimeFormatter.ofPattern("dd/MM/YYYY")));
