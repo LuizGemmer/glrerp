@@ -40,7 +40,8 @@ public class ItemDAO implements IDAOT<Item> {
                     + o.getConv2() + ", "
                     + "'" + o.getUnd_conv2() + "', "
                     + o.getValor() + ", "
-                    + o.getQtde_estoque_min() + ")";
+                    + o.getQtde_estoque_min() + ", "
+                    + o.getQtde_reserva_estoque() + ")";
 
             System.out.println("SQL: " + sql);
             int retorno = st.executeUpdate(sql);
@@ -71,7 +72,8 @@ public class ItemDAO implements IDAOT<Item> {
                     + "conv2=" + o.getConv2() + ", "
                     + "und_conv2='" + o.getUnd_conv2() + "', "
                     + "valor=" + o.getValor() + ", "
-                    + "qtde_estoque_min=" + o.getQtde_estoque_min() + " "
+                    + "qtde_estoque_min=" + o.getQtde_estoque_min() + ", "
+                    + "qtde_reserva_estoque=" + o.getQtde_reserva_estoque() + " "
                     + "WHERE id=" + o.getId();
 
             System.out.println("SQL: " + sql);
@@ -154,6 +156,7 @@ public class ItemDAO implements IDAOT<Item> {
                 item.setUnd_conv2(retorno.getString("und_conv2"));
                 item.setValor(retorno.getDouble("valor"));
                 item.setQtde_estoque_min(retorno.getDouble("qtde_estoque_min"));
+                item.setQtde_reserva_estoque(retorno.getDouble("qtde_reserva_estoque"));
 
                 itens.add(item);
             }
@@ -190,6 +193,7 @@ public class ItemDAO implements IDAOT<Item> {
                 item.setUnd_conv2(retorno.getString("und_conv2"));
                 item.setValor(retorno.getDouble("valor"));
                 item.setQtde_estoque_min(retorno.getDouble("qtde_estoque_min"));
+                item.setQtde_reserva_estoque(retorno.getDouble("qtde_reserva_estoque"));
 
                 itens.add(item);
             }
@@ -227,6 +231,8 @@ public class ItemDAO implements IDAOT<Item> {
                 item.setUnd_conv2(retorno.getString("und_conv2"));
                 item.setValor(retorno.getDouble("valor"));
                 item.setQtde_estoque_min(retorno.getDouble("qtde_estoque_min"));
+                item.setQtde_reserva_estoque(retorno.getDouble("qtde_reserva_estoque"));
+
             }
         } catch (Exception e) {
             System.out.println("Erro ao consultar cadastro de Item " + e);

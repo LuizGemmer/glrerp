@@ -7,22 +7,24 @@
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/apoio/Validacao.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Menu/raven/main/Main.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/apoio/Formatacao.java</file>
+            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/dao/EstruturaDAO.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/jif_Listagem_DAO.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Usuario/jff_Alterar_User.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Menu/raven/menu/Menu.java</file>
-            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Movimentacao/jff_pesquisar_item_cliente.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Loggin.java</file>
-            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Movimentacao/jif_Cadastro_movimentacao.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Usuario/jif_Cadastro_user.java</file>
+            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Movimentacao/jif_Cadastro_movimentacao.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Adicionais/jff_Selecionar_adicionais.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Item/jif_Cadastro_item.java</file>
+            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/dao/ClienteDAO.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Estrutura/jff_pesquisar.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Estrutura/jif_Cadastro_estrutura.java</file>
+            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/dao/Movimentacao_AdicionaisDAO.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/entidade/Movimentacao.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/jff_ITelaAlterarCadastro.java</file>
+            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Menu/raven/menu/MenuItem.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Adicionais/jff_Alterar_adicionais.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/dao/ItemDAO.java</file>
-            <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/view/Movimentacao/jff_Visualizar_movimentacao.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/dao/Movimentacao_UserDAO.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/dao/movimentacaoDAO.java</file>
             <file>file:/C:/Users/ruang/Documents/NetBeansProjects/git6/glrerp/glrerp/src/dao/AdicionaisDAO.java</file>

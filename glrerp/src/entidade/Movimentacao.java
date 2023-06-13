@@ -20,6 +20,7 @@ public class Movimentacao {
     private String observacao;
     private int id_pedido;
     private int id_grupo_movimentacao;
+    private String situacao_pedido;
 
     public Movimentacao() {
     }
@@ -37,6 +38,8 @@ public class Movimentacao {
             this.setObservacao(retorno.getString("observacao"));
             this.setId_pedido(retorno.getInt("id_pedido"));
             this.setId_grupo_movimentacao(retorno.getInt("id_grupo_movimentacao"));
+            this.setSituacao_pedido(retorno.getString("situacao_pedido"));
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -128,5 +131,13 @@ public class Movimentacao {
 
     public void setId_grupo_movimentacao(int id_grupo_movimentacao) {
         this.id_grupo_movimentacao = id_grupo_movimentacao;
+    }
+
+    public String getSituacao_pedido() {
+        return situacao_pedido;
+    }
+
+    public void setSituacao_pedido(String situacao_pedido) {
+        this.situacao_pedido = situacao_pedido;
     }
 }

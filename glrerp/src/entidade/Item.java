@@ -19,6 +19,15 @@ public class Item {
     private String und_conv2;
     private double valor;
     private double qtde_estoque_min;
+    private double qtde_reserva_estoque;
+
+    public double getQtde_reserva_estoque() {
+        return qtde_reserva_estoque;
+    }
+
+    public void setQtde_reserva_estoque(double qtde_reserva_estoque) {
+        this.qtde_reserva_estoque = qtde_reserva_estoque;
+    }
 
     public double getQtde_estoque_min() {
         return qtde_estoque_min;

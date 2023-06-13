@@ -56,7 +56,7 @@ public class Apoio_CadastroMovimentacao {
 
             ArrayList<Object[]> dadosValorInsumos = Validacao.AjustarEstoqueInsumosProdução(idItem, qtde, perda);
             double valorProduto = 0;
-                        
+
             for (int i = 0; i < dadosValorInsumos.size(); i++) {
 
                 Object[] dados = dadosValorInsumos.get(i);
@@ -77,6 +77,7 @@ public class Apoio_CadastroMovimentacao {
             mov.setObservacao(obs);
             mov.setId_pedido(idPedido);
             mov.setId_grupo_movimentacao(idGrupoMovimentacao);
+            mov.setSituacao_pedido("");
 
             movimentacaoDAO movDAO = new movimentacaoDAO();
             if (movDAO.salvar(mov) != null) {
@@ -84,7 +85,7 @@ public class Apoio_CadastroMovimentacao {
             }
 
             salvarOk = SalvarUserMovimentacao(user_id);
-            
+
             //Dar baixa do estoque nos insumos de uma produção
             ArrayList<Object[]> dadosAjusteEstoqueInsumos = Validacao.AjustarEstoqueInsumosProdução(idItem, qtde, perda);
             for (int i = 0; i < dadosAjusteEstoqueInsumos.size(); i++) {
@@ -105,6 +106,7 @@ public class Apoio_CadastroMovimentacao {
                 movInsumo.setObservacao("");
                 movInsumo.setId_pedido(idPedido);
                 movInsumo.setId_grupo_movimentacao(idGrupoMovimentacao);
+                movInsumo.setSituacao_pedido("");
                 new movimentacaoDAO().salvar(movInsumo);
 
                 if (new ItemDAO().atualizarEstoque(id_insumo, qtde_insumo) != null) {
@@ -140,7 +142,15 @@ public class Apoio_CadastroMovimentacao {
             int clienteId = Integer.parseInt(cliente_id.getText());
             String Column1 = jtb_itens.getValueAt(row, 1).toString();
             String[] parts = Column1.split(" -|- ");
-            int pedidoId = 0;
+            int pedidoId;
+            String situacaoPedido;
+            if (tipoMovimentacao.equals("pedido venda")) {
+                pedidoId = idGrupoMovimentacao;
+                situacaoPedido = "Em Aberto";
+            } else {
+                pedidoId = 0;
+                situacaoPedido = "";
+            }
 
             int idItem = Integer.parseInt(parts[0].toString());
             double qtde = Double.parseDouble(jtb_itens.getValueAt(row, 3).toString().replace(".", "").replace(",", "."));
@@ -173,6 +183,7 @@ public class Apoio_CadastroMovimentacao {
             mov.setObservacao(obs);
             mov.setId_pedido(pedidoId);
             mov.setId_grupo_movimentacao(idGrupoMovimentacao);
+            mov.setSituacao_pedido(situacaoPedido);
 
             movimentacaoDAO movDAO = new movimentacaoDAO();
             if (movDAO.salvar(mov) != null) {
@@ -182,6 +193,80 @@ public class Apoio_CadastroMovimentacao {
             salvarOk = SalvarUserMovimentacao(user_id);
             salvarOk = SalvarAdicionaisBD(row, jtb_itens);
 
+        }
+        return salvarOk;
+    }
+
+    public static boolean AtualizarPedido(JTable jtb_itens, int rowCount, LocalDateTime data, JTextField cliente_id, String tipoMovimentacao, int idGrupoMovimentacao, int user_id, String itemExluidoEdicaoPedido) {
+        boolean salvarOk = true;
+
+        for (int row = 0; row < rowCount; row++) {
+            int clienteId = Integer.parseInt(cliente_id.getText());
+            String Column1 = jtb_itens.getValueAt(row, 1).toString();
+            String[] parts = Column1.split(" -|- ");
+            int pedidoId = idGrupoMovimentacao;
+            String situacaoPedido = "Em Aberto";
+            int idItem = Integer.parseInt(parts[0].toString());
+            double qtde = Double.parseDouble(jtb_itens.getValueAt(row, 3).toString().replace(".", "").replace(",", "."));
+            String und = jtb_itens.getValueAt(row, 4).toString();
+            double valorUnitario = Double.parseDouble(jtb_itens.getValueAt(row, 5).toString().replace(".", "").replace(",", ".").replace("R$  ", ""));
+            String obs = jtb_itens.getValueAt(row, 2).toString();
+
+            Item item = new ItemDAO().consultarId(Integer.parseInt(parts[0]));
+            if (item.getUnidade_medida().equals(und)) {
+                qtde = qtde;
+            } else if (und.equals(item.getUnd_conv1())) {
+                qtde = item.getConv2() * qtde;
+            } else {
+                qtde = qtde / item.getConv2();
+            }
+
+            if (jtb_itens.getValueAt(row, 0).toString().equals("NOVO")) {
+                //Salvar itens no BD movimentacao
+
+            } else {
+                int movimentacaoId = Integer.parseInt(jtb_itens.getValueAt(row, 0).toString());
+                //Atualizar itens no BD movimentacao
+                Movimentacao mov = new Movimentacao();
+                mov.setTipo(tipoMovimentacao);
+                mov.setData(data);
+                mov.setItem_id(idItem);
+                mov.setCliente_id(clienteId);
+                mov.setValor(valorUnitario);
+                mov.setQtde(qtde);
+                mov.setPerdas(0);
+                mov.setObservacao(obs);
+                mov.setId_pedido(pedidoId);
+                mov.setId_grupo_movimentacao(idGrupoMovimentacao);
+                mov.setSituacao_pedido(situacaoPedido);
+                mov.setId(movimentacaoId);
+
+                movimentacaoDAO movDAO = new movimentacaoDAO();
+                if (movDAO.atualizar(mov) != null) {
+                    salvarOk = false;
+                }
+
+                salvarOk = AtualizarAdicionaisBD(row, jtb_itens, movimentacaoId);
+            }
+        }
+        salvarOk = ExcluirMovimentacao(itemExluidoEdicaoPedido);
+        return salvarOk;
+    }
+
+    public static boolean ExcluirMovimentacao(String itemExluidoEdicaoPedido) {
+        boolean salvarOk = true;
+        if (!itemExluidoEdicaoPedido.equals("")) {
+            String[] movimentacaoId = itemExluidoEdicaoPedido.split(",");
+            for (int i = 0; i < movimentacaoId.length; i++) {
+                Movimentacao_AdicionaisDAO movAdicDAO = new Movimentacao_AdicionaisDAO();
+                Movimentacao_UserDAO movUserDAO = new Movimentacao_UserDAO();
+                movimentacaoDAO mov = new movimentacaoDAO();
+                if (movAdicDAO.excluir(Integer.parseInt(movimentacaoId[i])) != null
+                        && movUserDAO.excluir(Integer.parseInt(movimentacaoId[i])) != null
+                        && mov.excluir(Integer.parseInt(movimentacaoId[i])) != null) {
+                    salvarOk = false;
+                }
+            }
         }
         return salvarOk;
     }
@@ -252,6 +337,37 @@ public class Apoio_CadastroMovimentacao {
         return salvarOk;
     }
 
+    public static boolean AtualizarAdicionaisBD(int row, JTable jtb_itens, int movimentacaoId) {
+        boolean salvarOk = true;
+        Movimentacao_AdicionaisDAO movAdicDAO = new Movimentacao_AdicionaisDAO();
+        if (movAdicDAO.excluir(movimentacaoId) != null) {
+            salvarOk = false;
+        }
+
+        if (!jtb_itens.getValueAt(row, 7).toString().equals("")) {
+            ArrayList<Movimentacao_Adicionais> movimentacao_adicionais = new ArrayList<>();
+            String columnAdicionais = String.valueOf(jtb_itens.getValueAt(row, 7));
+
+            movimentacao_adicionais = ConverterAdicionaisStringToMovimentacao_Adicionais(columnAdicionais);
+
+            //salvar adicionais na tabela movimentacao_adicionais
+            for (int i = 0; i < movimentacao_adicionais.size(); i++) {
+                Movimentacao_Adicionais movAdic = new Movimentacao_Adicionais();
+                movAdic.setMovimentacao_id(movimentacaoId);
+                movAdic.setAdicionais_id(movimentacao_adicionais.get(i).getAdicionais_id());
+                movAdic.setValor(movimentacao_adicionais.get(i).getValor());
+                movAdic.setQtde(movimentacao_adicionais.get(i).getQtde());
+                movAdic.setObservacao(movimentacao_adicionais.get(i).getObservacao());
+
+                if (movAdicDAO.salvar(movAdic) != null) {
+                    salvarOk = false;
+                }
+            }
+        }
+
+        return salvarOk;
+    }
+
     public static ArrayList<Movimentacao_Adicionais> ConverterAdicionaisStringToMovimentacao_Adicionais(String columnAdicionais) {
 
         ArrayList<Movimentacao_Adicionais> movimentacao_adicionais = new ArrayList<>();
@@ -288,7 +404,7 @@ public class Apoio_CadastroMovimentacao {
         };
         jtb_itens.setModel(model);
 
-        if ("compra".equals(tipoMovimentacao) || "venda".equals(tipoMovimentacao)) {
+        if ("compra".equals(tipoMovimentacao) || "venda".equals(tipoMovimentacao) || "pedido venda".equals(tipoMovimentacao)) {
             // Definição das colunas da tabela
             model.addColumn("Nº");
             model.addColumn("ID -|- Item");

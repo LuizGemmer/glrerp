@@ -492,6 +492,7 @@ public class jif_Cadastro_item extends javax.swing.JInternalFrame {
             item.setUnd_conv2(und_conv2);
             item.setValor(valorItem);
             item.setQtde_estoque_min(estoqueMinItem);
+            item.setQtde_reserva_estoque(0);
 
             //Chamar classe ItemDAO para salvar dados no Banco de dados
             ItemDAO itemDAO = new ItemDAO();

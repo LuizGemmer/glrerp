@@ -3,10 +3,11 @@ package dao;
 import apoio.ConexaoBD;
 import apoio.Formatacao;
 import apoio.IDAOT;
-import entidade.Item;
 import entidade.Movimentacao;
 import java.awt.Color;
 import java.awt.Component;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.Statement;
@@ -53,7 +54,8 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                 + "" + o.getPerdas() + ", "
                 + "'" + o.getObservacao() + "', "
                 + "" + o.getId_pedido() + ", "
-                + "" + o.getId_grupo_movimentacao() + ");";
+                + "" + o.getId_grupo_movimentacao() + ", "
+                + "'" + o.getSituacao_pedido() + "');";
 
         //Salvar movimentacao no banco de dados
         try {
@@ -87,7 +89,8 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
                     + "perda='" + o.getPerdas() + "', "
                     + "observacao='" + o.getObservacao() + "', "
                     + "id_pedido='" + o.getId_pedido() + "', "
-                    + "id_grupo_movimentacao=" + o.getId_grupo_movimentacao() + " "
+                    + "id_grupo_movimentacao=" + o.getId_grupo_movimentacao() + ", "
+                    + "situacao_pedido='" + o.getSituacao_pedido() + "' "
                     + "WHERE id='" + o.getId() + "'";
 
             int retorno = st.executeUpdate(sql);
@@ -103,16 +106,23 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
 
     @Override
     public String excluir(int id) {
-        // Adiciona uma nova movimentação, mas com os valores invertidos
-        Movimentacao m = this.consultarId(id);
-        m.setData(LocalDateTime.now());
-        m.setQtde(-m.getQtde());
-        m.setPerdas(-m.getPerdas());
-        m.setValor(-m.getValor());
-        m.setTipo(m.getTipo());
+        try {
+            Connection connection = ConexaoBD.getInstance().getConnection();
+            String sql = "DELETE FROM movimentacao "
+                    + "WHERE movimentacao_id = ?";
 
-        this.salvar(m);
-        return "";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            int retorno = statement.executeUpdate();
+            System.out.println("SQL: " + statement.toString());
+
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir Movimentacao " + e);
+            return e.toString();
+        }
     }
 
     public ArrayList<Movimentacao> consultarTodos(String tipo) {
@@ -188,8 +198,8 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
             String sql = ""
                     + "SELECT * "
                     + "FROM movimentacao "
-                    + "" + tipo + " "
-                    + "AND id_grupo_movimentacao=" + id + "";
+                    + "" + tipo + ""
+                    + " id_grupo_movimentacao=" + id + "";
 
             System.out.println("SQL: " + sql);
             ResultSet retorno = st.executeQuery(sql);
@@ -425,6 +435,109 @@ public class movimentacaoDAO implements IDAOT<Movimentacao> {
         column2.setCellRenderer(centerRenderer);
         column4.setCellRenderer(centerRenderer);
         column5.setCellRenderer(centerRenderer);
+
+    }
+
+    public void popularTabelaPedidos(JTable tabela, String situacaoPedido, String criterio) {
+        ResultSet resultadoQ;
+
+        // Dados da Tabela
+        ArrayList<Object[]> dadosTabela = new ArrayList<>();
+
+        // Cabecalho da tabela
+        Object[] cabecalho = new Object[7];
+        cabecalho[0] = "ID Pedido";
+        cabecalho[1] = "Data";
+        cabecalho[2] = "Cliente";
+        cabecalho[3] = "CPF / CNPJ";
+        cabecalho[4] = "Itens";
+        cabecalho[5] = "Valor Total";
+        cabecalho[6] = "Situação";
+
+        //Efetua a consulta na Tabela
+        try {
+            resultadoQ = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
+                    + "SELECT movimentacao.id_pedido AS mov_pedido, "
+                    + "movimentacao.data AS mov_data, "
+                    + "cliente.id, "
+                    + "cliente.nome AS cliente_nome, "
+                    + "cliente.cpf AS cliente_cpf, "
+                    + "COUNT(movimentacao.id) AS total_itens, "
+                    + "SUM(movimentacao.valor*movimentacao.qtde) AS total_valor, "
+                    + "movimentacao.situacao_pedido AS situacao "
+                    + "FROM movimentacao, cliente "
+                    + "WHERE movimentacao.cliente_id = cliente.id "
+                    + "AND movimentacao.situacao_pedido ILIKE '%" + situacaoPedido + "%' "
+                    + "AND (movimentacao.situacao_pedido ILIKE '%" + criterio + "%' "
+                    + "OR cliente.nome ILIKE '%" + criterio + "%' "
+                    + "OR cliente.cpf ILIKE '%" + criterio + "%') "
+                    + "AND movimentacao.tipo='pedido venda' "
+                    + "GROUP BY mov_pedido, mov_data, cliente_nome, cliente_cpf, movimentacao.tipo, situacao, cliente.id "
+                    + "ORDER BY movimentacao.data DESC");
+
+            while (resultadoQ.next()) {
+                String[] parts = resultadoQ.getString("mov_data").split(" ");
+                String[] partsHora = parts[1].split(":");
+                String data = Formatacao.ajustaDataDMA(parts[0].toString());
+                String hora = partsHora[0] + ":" + partsHora[1];
+
+                Object[] linha = new Object[7];
+                linha[0] = resultadoQ.getInt("mov_pedido");
+                linha[1] = (data + " " + hora);
+                linha[2] = resultadoQ.getString("cliente_nome");
+                linha[3] = resultadoQ.getString("cliente_cpf");
+                linha[4] = Formatacao.formatarDecimal4casas(resultadoQ.getDouble("total_itens"));
+                linha[5] = Formatacao.formatarDecimal2casasRS(resultadoQ.getDouble("total_valor"));
+                linha[6] = resultadoQ.getString("situacao");
+
+                dadosTabela.add(linha);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao popular tabela: " + e);
+        }
+
+        tabela.setModel(new DefaultTableModel(
+                dadosTabela.toArray(new Object[0][0]), cabecalho) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+                // if (column == 3){return true} else {return false}
+            }
+        });
+
+        // Altera o número de selecao de linhas da tabela
+        tabela.setSelectionMode(0);
+
+        // Personalização das cores das linhas da tabela
+        TableColumn tipoColumn = tabela.getColumnModel().getColumn(3);
+        tipoColumn.setCellRenderer(new CustomTableCellRenderer());
+
+        // Redimensiona as colunas de uma tabela
+        TableColumn column = null;
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        int[] columnWidths = {50, 10, 60, 40, 50, 30, 40, 60};
+        for (int i = 0; i < tabela.getColumnModel().getColumnCount(); i++) {
+            column = tabela.getColumnModel().getColumn(i);
+            column.setPreferredWidth(columnWidths[i]);
+        }
+
+        // Alinhar dados da coluna 1 no centro da celula da tabela
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        TableColumn column0 = tabela.getColumnModel().getColumn(0);
+        TableColumn column1 = tabela.getColumnModel().getColumn(1);
+        TableColumn column3 = tabela.getColumnModel().getColumn(3);
+        TableColumn column4 = tabela.getColumnModel().getColumn(4);
+        TableColumn column5 = tabela.getColumnModel().getColumn(5);
+        TableColumn column6 = tabela.getColumnModel().getColumn(6);
+
+        column0.setCellRenderer(centerRenderer);
+        column1.setCellRenderer(centerRenderer);
+        column3.setCellRenderer(centerRenderer);
+        column4.setCellRenderer(centerRenderer);
+        column5.setCellRenderer(centerRenderer);
+        column6.setCellRenderer(centerRenderer);
 
     }
 

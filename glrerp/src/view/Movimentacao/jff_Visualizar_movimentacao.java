@@ -9,16 +9,10 @@ import entidade.Item;
 import entidade.Movimentacao;
 import entidade.Movimentacao_Adicionais;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import view.jff_ITelaAlterarCadastro;
 import view.jif_Listagem_DAO;
 
@@ -327,7 +321,7 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
         this.movimentacao = (Movimentacao) dao;
         this.idGrupoMovimentacao = movimentacao.getId_grupo_movimentacao();
         this.tipoMovimentacao = movimentacao.getTipo();
-        String SQLtipo = "WHERE tipo='" + this.tipoMovimentacao + "' ";
+        String SQLtipo = "WHERE tipo='" + this.tipoMovimentacao + "' AND ";
         this.mov = new movimentacaoDAO().consultarIdGrupoMovimentacao(this.idGrupoMovimentacao, SQLtipo);
 
         jff_Data.setText(mov.get(0).getData().format(DateTimeFormatter.ofPattern("dd/MM/YYYY")));
@@ -366,7 +360,7 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
                 adicionais = dadosAdicionais[0].toString();
             }
 
-            if ("compra".equals(this.tipoMovimentacao) || "venda".equals(this.tipoMovimentacao)) {
+            if ("compra".equals(this.tipoMovimentacao) || "venda".equals(this.tipoMovimentacao) || "pedido venda".equals(this.tipoMovimentacao)) {
                 rowData = new Object[]{
                     this.linhasTabela,
                     idDescricaoItem,
@@ -442,7 +436,11 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
             this.setTitle("Nova Movimentação - VENDA");
             jlb_cliente_fornecedor.setText("*Cliente");
 
-        } else if ("producao".equals(this.tipoMovimentacao)) {
+        } else if ("pedido venda".equals(this.tipoMovimentacao)) {
+            this.setTitle("Novo Pedido - VENDA");
+            jlb_cliente_fornecedor.setText("*Cliente");
+
+        }else if ("producao".equals(this.tipoMovimentacao)) {
             this.setTitle("Nova Movimentação - PRODUÇÃO");
             jlb_cliente_fornecedor.setText("Pedido");
             jtf_cpf_cliente.setEnabled(false);
@@ -453,135 +451,4 @@ public class jff_Visualizar_movimentacao extends javax.swing.JFrame implements j
         }
     }
 
-    /*private void InserirTabela() {
-        //Inserir o modelo da tabela
-        model = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Tornar todas as células não editáveis
-            }
-        };
-        jtb_itens.setModel(model);
-        
-        if ("compra".equals(this.tipoMovimentacao) || "venda".equals(this.tipoMovimentacao)) {
-            // Definição das colunas da tabela
-            model.addColumn("Nº");
-            model.addColumn("ID -|- Item");
-            model.addColumn("Observação");
-            model.addColumn("Qtde");
-            model.addColumn("Und");
-            model.addColumn("Valor Unitário");
-            model.addColumn("Sub-Total");
-
-            // Centralizar conteúdo dascolunas
-            centralizarConteudoColuna(0);
-            centralizarConteudoColuna(3);
-            centralizarConteudoColuna(4);
-            centralizarConteudoColuna(5);
-
-            //ajusta o tamanho da fonte
-            int fontSize = 10; // Defina o tamanho da fonte desejado
-            TableColumn column0 = jtb_itens.getColumnModel().getColumn(0);
-            TableColumn column2 = jtb_itens.getColumnModel().getColumn(2);
-            TableColumn column4 = jtb_itens.getColumnModel().getColumn(4);
-            column0.setCellRenderer(new CustomRenderer2(fontSize));
-            column2.setCellRenderer(new CustomRenderer(fontSize));
-            column4.setCellRenderer(new CustomRenderer2(fontSize));
-            
-        } else {
-            // Definição das colunas da tabela
-            model.addColumn("Nº");
-            model.addColumn("ID -|- Item");
-            model.addColumn("Observação");
-            model.addColumn("Qtde");
-            model.addColumn("Und");
-            model.addColumn("Perda");
-            model.addColumn("ID Pedido");
-
-            // Centralizar conteúdo dascolunas
-            centralizarConteudoColuna(0);
-            centralizarConteudoColuna(3);
-            centralizarConteudoColuna(4);
-            centralizarConteudoColuna(5);
-            centralizarConteudoColuna(6);
-
-            //ajusta o tamanho da fonte
-            int fontSize = 10; // Defina o tamanho da fonte desejado
-            TableColumn column = jtb_itens.getColumnModel().getColumn(5);
-            column.setCellRenderer(new CustomRenderer2(fontSize));
-        }
-        // Ajustar tamanho das colunas
-        ajustarTamanhoColunas(this.tipoMovimentacao);
-    }
-    
-    private void ajustarTamanhoColunas(String tipoMovimentacao) {
-        // Definir o tamanho manual das colunas (menos da última)
-        if ("compra".equals(this.tipoMovimentacao) || "venda".equals(this.tipoMovimentacao)) {
-            int[] columnWidths = {5, 270, 200, 50, 10, 80};
-            for (int i = 0; i < columnWidths.length; i++) {
-                TableColumn column = jtb_itens.getColumnModel().getColumn(i);
-                column.setPreferredWidth(columnWidths[i]);
-            }
-        } else {
-            int[] columnWidths = {50, 300, 80, 80, 100, 100};
-            for (int i = 0; i < columnWidths.length; i++) {
-                TableColumn column = jtb_itens.getColumnModel().getColumn(i);
-                column.setPreferredWidth(columnWidths[i]);
-            }
-        }
-        // Configurar a última coluna para redimensionar automaticamente
-        jtb_itens.setAutoResizeMode(jtb_itens.AUTO_RESIZE_LAST_COLUMN);
-    }
-    
-    private void centralizarConteudoColuna(int columnIndex) {
-        // Criar um objeto DefaultTableCellRenderer para centralizar o conteúdo da coluna
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        // Aplicar o renderer à coluna específica da tabela
-        jtb_itens.getColumnModel().getColumn(columnIndex).setCellRenderer(renderer);
-        
-    }
-    
-    public class CustomRenderer extends DefaultTableCellRenderer {
-        
-        private int fontSize;
-        
-        public CustomRenderer(int fontSize) {
-            this.fontSize = fontSize;
-        }
-        
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            // Define o tamanho da fonte
-            Font font = cell.getFont();
-            font = font.deriveFont(Font.PLAIN, fontSize);
-            cell.setFont(font);
-            return cell;
-        }
-    }
-    
-    public class CustomRenderer2 extends DefaultTableCellRenderer {
-        
-        private int fontSize;
-        
-        public CustomRenderer2(int fontSize) {
-            this.fontSize = fontSize;
-            setHorizontalAlignment(SwingConstants.CENTER);
-        }
-        
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            // Define o tamanho da fonte
-            Font font = cell.getFont();
-            font = font.deriveFont(Font.PLAIN, fontSize);
-            cell.setFont(font);
-            return cell;
-        }
-    }
-     */
 }

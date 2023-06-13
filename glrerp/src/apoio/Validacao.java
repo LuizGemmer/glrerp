@@ -272,119 +272,121 @@ public class Validacao {
         ArrayList<Object[]> estoqueEstruturaTabela = new ArrayList<>();
         ArrayList<Object[]> consumoEstrutura = new ArrayList<>();
 
-        for (int row = 0; row < rowCount; row++) {
-            String Column1 = tabela.getValueAt(row, 1).toString();
-            String[] parts = Column1.split(" -|- ");
+        if (tipoMovimento.equals("venda") || tipoMovimento.equals("producao")) {
+            for (int row = 0; row < rowCount; row++) {
+                String Column1 = tabela.getValueAt(row, 1).toString();
+                String[] parts = Column1.split(" -|- ");
 
-            Object idItem = parts[0];
-            Object qtdeItem = Double.parseDouble(tabela.getValueAt(row, 3).toString().replace(",", "."));
-            Object undMedidaItem = tabela.getValueAt(row, 4);
-            Object perdaItem = Double.parseDouble(tabela.getValueAt(row, 5).toString().replace(",", ".").replace("R$  ", ""));
+                Object idItem = parts[0];
+                Object qtdeItem = Double.parseDouble(tabela.getValueAt(row, 3).toString().replace(",", "."));
+                Object undMedidaItem = tabela.getValueAt(row, 4);
+                Object perdaItem = Double.parseDouble(tabela.getValueAt(row, 5).toString().replace(",", ".").replace("R$  ", ""));
 
-            Object[] rowData = {idItem, qtdeItem, undMedidaItem, perdaItem};
-            columnData.add(rowData);
-        }
-
-        if (tipoMovimento.equals("producao")) {
-            estruturaItem = new EstruturaDAO().consultarItemID(id_item);
-            for (int j = 0; j < estruturaItem.size(); j++) {
-                id_insumo = estruturaItem.get(j).getInsumo_id();
-                insumoEstoque = new ItemDAO().consultarId(id_insumo);
-                qtdaEstoqueInsumo = insumoEstoque.getQtde_estoque();
-                Object[] objetoEstoque = new Object[]{id_insumo, qtdaEstoqueInsumo};
-                estoqueEstruturaTabela.add(objetoEstoque);
-
-                qtdeConsumoInsumo = (consumoItem + perda)
-                        * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
-                Object[] objetoConsumo = new Object[]{id_insumo, qtdeConsumoInsumo};
-                consumoEstrutura.add(objetoConsumo);
-            }
-        }
-
-        for (int i = 0; i < columnData.size(); i++) {
-            Object[] rowData = columnData.get(i);
-            Object valueId = rowData[0];
-            Object valueQtde = rowData[1];
-            Object valueUnd = rowData[2];
-            Object valuePerda = rowData[3];
-
-            if (tipoMovimento.equals("venda") && Integer.parseInt(valueId.toString()) == id_item) {
-                consumoItem = consumoItem + ConverterQtdeEstoque(id_item, Double.parseDouble(valueQtde.toString()), valueUnd.toString());
+                Object[] rowData = {idItem, qtdeItem, undMedidaItem, perdaItem};
+                columnData.add(rowData);
             }
 
             if (tipoMovimento.equals("producao")) {
-                estruturaItem = new EstruturaDAO().consultarItemID(Integer.parseInt(valueId.toString()));
-
+                estruturaItem = new EstruturaDAO().consultarItemID(id_item);
                 for (int j = 0; j < estruturaItem.size(); j++) {
-                    boolean id_insumo_encontrado_estoque = false;
-                    boolean id_insumo_encontrado_consumo = false;
-
-                    //VERIFICAR ESTOQUE E ARMAZENAR VALORES NUMA ARRAYLIST
                     id_insumo = estruturaItem.get(j).getInsumo_id();
+                    insumoEstoque = new ItemDAO().consultarId(id_insumo);
+                    qtdaEstoqueInsumo = insumoEstoque.getQtde_estoque();
+                    Object[] objetoEstoque = new Object[]{id_insumo, qtdaEstoqueInsumo};
+                    estoqueEstruturaTabela.add(objetoEstoque);
 
-                    //Testar se o insumo do item a ser adicionado ja está na lista de insumoEstoque
-                    for (int k = 0; k < estoqueEstruturaTabela.size(); k++) {
-                        Object[] estoqueTabela = estoqueEstruturaTabela.get(k);
-                        if (Integer.parseInt(estoqueTabela[0].toString()) == id_insumo) {
-                            id_insumo_encontrado_estoque = true;
+                    qtdeConsumoInsumo = (consumoItem + perda)
+                            * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
+                    Object[] objetoConsumo = new Object[]{id_insumo, qtdeConsumoInsumo};
+                    consumoEstrutura.add(objetoConsumo);
+                }
+            }
+
+            for (int i = 0; i < columnData.size(); i++) {
+                Object[] rowData = columnData.get(i);
+                Object valueId = rowData[0];
+                Object valueQtde = rowData[1];
+                Object valueUnd = rowData[2];
+                Object valuePerda = rowData[3];
+
+                if (tipoMovimento.equals("venda") && Integer.parseInt(valueId.toString()) == id_item) {
+                    consumoItem = consumoItem + ConverterQtdeEstoque(id_item, Double.parseDouble(valueQtde.toString()), valueUnd.toString());
+                }
+
+                if (tipoMovimento.equals("producao")) {
+                    estruturaItem = new EstruturaDAO().consultarItemID(Integer.parseInt(valueId.toString()));
+
+                    for (int j = 0; j < estruturaItem.size(); j++) {
+                        boolean id_insumo_encontrado_estoque = false;
+                        boolean id_insumo_encontrado_consumo = false;
+
+                        //VERIFICAR ESTOQUE E ARMAZENAR VALORES NUMA ARRAYLIST
+                        id_insumo = estruturaItem.get(j).getInsumo_id();
+
+                        //Testar se o insumo do item a ser adicionado ja está na lista de insumoEstoque
+                        for (int k = 0; k < estoqueEstruturaTabela.size(); k++) {
+                            Object[] estoqueTabela = estoqueEstruturaTabela.get(k);
+                            if (Integer.parseInt(estoqueTabela[0].toString()) == id_insumo) {
+                                id_insumo_encontrado_estoque = true;
+                            }
                         }
-                    }
 
-                    if (!id_insumo_encontrado_estoque) {
-                        insumoEstoque = new ItemDAO().consultarId(id_insumo);
-                        qtdaEstoqueInsumo = insumoEstoque.getQtde_estoque();
-                        Object[] objetoEstoque = new Object[]{id_insumo, qtdaEstoqueInsumo};
-                        estoqueEstruturaTabela.add(objetoEstoque);
-                    }
+                        if (!id_insumo_encontrado_estoque) {
+                            insumoEstoque = new ItemDAO().consultarId(id_insumo);
+                            qtdaEstoqueInsumo = insumoEstoque.getQtde_estoque();
+                            Object[] objetoEstoque = new Object[]{id_insumo, qtdaEstoqueInsumo};
+                            estoqueEstruturaTabela.add(objetoEstoque);
+                        }
 
-                    //VERIFICAR CONSUMO E ARMAZENAR VALORES NUMA ARRAYLIST
-                    //Testar se o insumo do item a ser adicionado ja está na lista de consumoEstrutura
-                    for (int k = 0; k < consumoEstrutura.size(); k++) {
-                        Object[] consumoTabela = consumoEstrutura.get(k);
+                        //VERIFICAR CONSUMO E ARMAZENAR VALORES NUMA ARRAYLIST
+                        //Testar se o insumo do item a ser adicionado ja está na lista de consumoEstrutura
+                        for (int k = 0; k < consumoEstrutura.size(); k++) {
+                            Object[] consumoTabela = consumoEstrutura.get(k);
 
-                        if (Integer.parseInt(consumoTabela[0].toString()) == id_insumo) {
-                            id_insumo_encontrado_consumo = true;
-                            qtdeConsumoInsumo = (ConverterQtdeEstoque(Integer.parseInt(valueId.toString()), Double.parseDouble(valueQtde.toString()), valueUnd.toString()) + Double.parseDouble(valuePerda.toString()))
+                            if (Integer.parseInt(consumoTabela[0].toString()) == id_insumo) {
+                                id_insumo_encontrado_consumo = true;
+                                qtdeConsumoInsumo = (ConverterQtdeEstoque(Integer.parseInt(valueId.toString()), Double.parseDouble(valueQtde.toString()), valueUnd.toString()) + Double.parseDouble(valuePerda.toString()))
+                                        * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
+                                double novoConsumo = Double.parseDouble(consumoTabela[1].toString()) + qtdeConsumoInsumo;
+                                consumoTabela[1] = novoConsumo;
+                            }
+                        }
+
+                        if (!id_insumo_encontrado_consumo) {
+                            qtdeConsumoInsumoAdicionado = (ConverterQtdeEstoque(Integer.parseInt(valueId.toString()), Double.parseDouble(valueQtde.toString()), valueUnd.toString()) + Double.parseDouble(valuePerda.toString()))
                                     * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
-                            double novoConsumo = Double.parseDouble(consumoTabela[1].toString()) + qtdeConsumoInsumo;
-                            consumoTabela[1] = novoConsumo;
+                            Object[] object = new Object[]{id_insumo, qtdeConsumoInsumoAdicionado};
+                            consumoEstrutura.add(object);
                         }
-                    }
 
-                    if (!id_insumo_encontrado_consumo) {
-                        qtdeConsumoInsumoAdicionado = (ConverterQtdeEstoque(Integer.parseInt(valueId.toString()), Double.parseDouble(valueQtde.toString()), valueUnd.toString()) + Double.parseDouble(valuePerda.toString()))
-                                * ConverterQtdeEstoque(id_insumo, estruturaItem.get(j).getQtde_insumo(), estruturaItem.get(j).getUnd_medida());
-                        Object[] object = new Object[]{id_insumo, qtdeConsumoInsumoAdicionado};
-                        consumoEstrutura.add(object);
                     }
-
                 }
             }
-        }
 
-        if (tipoMovimento.equals("venda")) {
-            if (Formatacao.ArredondarDecimal4casas(consumoItem) > Formatacao.ArredondarDecimal4casas(estoqueItem)) {
-                estoqueOk = false;
-            }
-            Object[] dado = {String.valueOf(estoqueOk), id_item, Formatacao.ArredondarDecimal4casas(consumoItem), Formatacao.ArredondarDecimal4casas(estoqueItem)};
-            dadosRetorno.add(dado);
-
-        } else if (tipoMovimento.equals("producao")) {
-
-            double qtdeEstoqueInsumo;
-            for (int i = 0; i < consumoEstrutura.size(); i++) {
-                Object[] objectConsumo = consumoEstrutura.get(i);
-                Object[] objectEstoque = estoqueEstruturaTabela.get(i);
-                qtdeConsumoInsumo = Formatacao.ArredondarDecimal4casas(Double.parseDouble(objectConsumo[1].toString()));
-                qtdeEstoqueInsumo = Formatacao.ArredondarDecimal4casas(Double.parseDouble(objectEstoque[1].toString()));
-
-                if (qtdeConsumoInsumo > qtdeEstoqueInsumo) {
+            if (tipoMovimento.equals("venda")) {
+                if (Formatacao.ArredondarDecimal4casas(consumoItem) > Formatacao.ArredondarDecimal4casas(estoqueItem)) {
                     estoqueOk = false;
-                } else {
-                    estoqueOk = true;
                 }
-                Object[] dado = {String.valueOf(estoqueOk), objectConsumo[0].toString(), qtdeConsumoInsumo, qtdeEstoqueInsumo};
+                Object[] dado = {String.valueOf(estoqueOk), id_item, Formatacao.ArredondarDecimal4casas(consumoItem), Formatacao.ArredondarDecimal4casas(estoqueItem)};
                 dadosRetorno.add(dado);
+
+            } else if (tipoMovimento.equals("producao")) {
+
+                double qtdeEstoqueInsumo;
+                for (int i = 0; i < consumoEstrutura.size(); i++) {
+                    Object[] objectConsumo = consumoEstrutura.get(i);
+                    Object[] objectEstoque = estoqueEstruturaTabela.get(i);
+                    qtdeConsumoInsumo = Formatacao.ArredondarDecimal4casas(Double.parseDouble(objectConsumo[1].toString()));
+                    qtdeEstoqueInsumo = Formatacao.ArredondarDecimal4casas(Double.parseDouble(objectEstoque[1].toString()));
+
+                    if (qtdeConsumoInsumo > qtdeEstoqueInsumo) {
+                        estoqueOk = false;
+                    } else {
+                        estoqueOk = true;
+                    }
+                    Object[] dado = {String.valueOf(estoqueOk), objectConsumo[0].toString(), qtdeConsumoInsumo, qtdeEstoqueInsumo};
+                    dadosRetorno.add(dado);
+                }
             }
         }
 

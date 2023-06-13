@@ -46,7 +46,23 @@ public class Movimentacao_UserDAO implements IDAOT<Movimentacao_User> {
 
     @Override
     public String excluir(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         try {
+            Connection connection = ConexaoBD.getInstance().getConnection();
+            String sql = "DELETE FROM movimentacao_usuario "
+                    + "WHERE movimentacao_id = ?";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            int retorno = statement.executeUpdate();
+            System.out.println("SQL: " + statement.toString());
+
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir Movimentacao " + e);
+            return e.toString();
+        }
     }
 
     @Override

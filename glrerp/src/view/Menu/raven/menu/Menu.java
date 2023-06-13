@@ -33,7 +33,7 @@ public class Menu extends JComponent {
         {"Grupo", "Visualizar / Editar", "Novo Grupo"},
         {"Decorativos", "Visualizar / Editar", "Novo Decorativo"},
         {"Estrutura", "Gerenciar Estrutura"},
-        //{"Pedido", "Visualizar / Editar", "Novo Pedido"},
+        {"Pedido", "Visualizar / Editar", "Novo Pedido Venda"},
         {"Compras", "Visualizar", "Nova Compra"},
         {"Produção", "Visualizar", "Nova Produção"},
         {"Vendas", "Visualizar", "Nova Venda"},        

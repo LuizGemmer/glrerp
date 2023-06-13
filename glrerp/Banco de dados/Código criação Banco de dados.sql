@@ -43,6 +43,7 @@ create table item (
 	und_conv2 varchar(45),
 	valor decimal (10,2) not null,
 	qtde_estoque_min double precision null,
+	qtde_reserva_estoque double precision not null,
 	primary key(id),
 	constraint fk_id_grupo foreign key (id_grupo) references grupo (id)
 );
@@ -72,6 +73,7 @@ id serial not null,
 	observacao varchar (500),
 	id_pedido int null,
 	id_grupo_movimentacao int not null,
+	situacao_pedido Varchar(150) null,
 	primary key(id),
 	constraint fk_item_id foreign key (item_id) references item (id),
 	constraint fk_cliente_id foreign key (cliente_id) references cliente (id)

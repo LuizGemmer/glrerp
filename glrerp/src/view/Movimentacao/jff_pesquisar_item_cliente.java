@@ -3,6 +3,7 @@ package view.Movimentacao;
 import dao.AdicionaisDAO;
 import dao.ClienteDAO;
 import dao.ItemDAO;
+import dao.movimentacaoDAO;
 import javax.swing.JOptionPane;
 import view.Adicionais.jff_Selecionar_adicionais;
 
@@ -13,7 +14,7 @@ import view.Adicionais.jff_Selecionar_adicionais;
 public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
 
     private int item_id; //Id de cliente ou item selecionado na tabela de pesquisa
-    private int pesquisa_item_cliente; //=2: Pesquisa de cliente. =1: Pesquisa de fornecedor. =3: Pesquisa de item. =4: Pesquisa de adicionais
+    private int pesquisa_item_cliente; //=2: Pesquisa de cliente. =1: Pesquisa de fornecedor. =3: Pesquisa de item. =4: Pesquisa de adicionais. =5: Pesquisar Pedidos em Aberto. =6: Pesquisar pedidos Produzidos
     private String menuSelecionado; //compra, venda ou producao
     private jif_Cadastro_movimentacao jif_cadastroMovimentacao;
     private jff_Selecionar_adicionais jff_Selecionar_adicionais;
@@ -44,6 +45,16 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
             this.setTitle("Pesquisa - Itens");
             //Popular a tabela
             new ItemDAO().popularTabela(jtb_pesquisa, "", this.grupoTipo);
+        } else if (this.pesquisa_item_cliente == 5 || this.pesquisa_item_cliente == 6) {
+            //Setar o nome dos botões e dos JLabels
+            jLabel1.setText("Pedidos em Aberto Cadastrados");
+            this.setTitle("Pesquisa - Pedidos");
+            //Popular a tabela
+            if (this.pesquisa_item_cliente == 5) {
+                new movimentacaoDAO().popularTabelaPedidos(jtb_pesquisa, "Em Aberto", "");
+            } else {
+                new movimentacaoDAO().popularTabelaPedidos(jtb_pesquisa, "Produzido", "");
+            }
         }
 
     }
@@ -219,6 +230,8 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
                 jif_cadastroMovimentacao.NomearItem(this.item_id);
             } else if (this.pesquisa_item_cliente == 4) { //ADICIONAIS
                 jff_Selecionar_adicionais.NomearAdicionais(this.item_id);
+            } else if (this.pesquisa_item_cliente == 5 || this.pesquisa_item_cliente == 6) { //PEDIDO
+                jif_cadastroMovimentacao.NomearPedido(this.item_id);
             }
             this.dispose();
         }
@@ -238,6 +251,9 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
         } else if (this.pesquisa_item_cliente == 4) {
             //Popular a tabela
             new AdicionaisDAO().popularTabela(jtb_pesquisa, jtf_filtro.getText());
+        } else if (this.pesquisa_item_cliente == 5) {
+            //Popular a tabela
+            new movimentacaoDAO().popularTabelaPedidos(jtb_pesquisa, "Em Aberto", jtf_filtro.getText());
         }
     }//GEN-LAST:event_jbt_filtrarActionPerformed
 

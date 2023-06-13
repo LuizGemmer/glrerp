@@ -113,12 +113,12 @@
                                               <Component id="jtf_nome_item" min="-2" pref="426" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Group type="102" attributes="0">
-                                                  <Component id="jlb_perda" max="32767" attributes="0"/>
+                                                  <Component id="jlb_perda" min="-2" pref="71" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="jtf_perda" min="-2" pref="100" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
                                                   <Component id="jbt_adicionais" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Component id="jtf_grupo_item" min="-2" pref="298" max="-2" attributes="0"/>

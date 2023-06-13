@@ -117,49 +117,57 @@ public class Main extends javax.swing.JFrame {
                     showForm(jif_cad_est);
                     jif_cad_est.setVisible(true);
 
-                } else if (index == 6 && subIndex == 1) { // --------------------------- VISUALIZAR COMPRAS
+                } else if (index == 6 && subIndex == 1) { // --------------------------- VISUALIZAR PEDIDO DE VENDA
+                    abrirListagemDAO(new movimentacaoDAO("pedido venda"), new jff_Visualizar_movimentacao("pedido venda", 0), "Pedidos de Venda");
+
+                } else if (index == 6 && subIndex == 2) { // --------------------------- CADASTRAR PEDIDO DE VENDA
+                    jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("pedido venda", user_id);
+                    showForm(cadastro_movimentacao);
+                    cadastro_movimentacao.setVisible(true);    
+                                                            
+                } else if (index == 7 && subIndex == 1) { // --------------------------- VISUALIZAR COMPRAS
                     abrirListagemDAO(new movimentacaoDAO("compra"), new jff_Visualizar_movimentacao("compra", 0), "Compras");
 
-                } else if (index == 6 && subIndex == 2) { // --------------------------- CADASTRAR COMPRAS
+                } else if (index == 7 && subIndex == 2) { // --------------------------- CADASTRAR COMPRAS
                     jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("compra", user_id);
                     showForm(cadastro_movimentacao);
                     cadastro_movimentacao.setVisible(true);
 
-                } else if (index == 7 && subIndex == 1) { // --------------------------- VISUALIZAR PRODUÇÃO
+                } else if (index == 8 && subIndex == 1) { // --------------------------- VISUALIZAR PRODUÇÃO
                     abrirListagemDAO(new movimentacaoDAO("producao"), new jff_Visualizar_movimentacao("producao", 0), "Produção");
 
-                } else if (index == 7 && subIndex == 2) { // --------------------------- CADASTRAR PRODUÇÃO
+                } else if (index == 8 && subIndex == 2) { // --------------------------- CADASTRAR PRODUÇÃO
                     jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("producao", user_id);
                     showForm(cadastro_movimentacao);
                     cadastro_movimentacao.setVisible(true);
 
-                } else if (index == 8 && subIndex == 1) { // --------------------------- VISUALIZAR VENDAS
+                } else if (index == 9 && subIndex == 1) { // --------------------------- VISUALIZAR VENDAS
                     abrirListagemDAO(new movimentacaoDAO("venda"), new jff_Visualizar_movimentacao("venda", 0), "Vendas");
 
-                } else if (index == 8 && subIndex == 2) { // --------------------------- CADASTRAR VENDAS
+                } else if (index == 9 && subIndex == 2) { // --------------------------- CADASTRAR VENDAS
                     jif_Cadastro_movimentacao cadastro_movimentacao = new jif_Cadastro_movimentacao("venda", user_id);
                     showForm(cadastro_movimentacao);
                     cadastro_movimentacao.setVisible(true);
 
-                } else if (index == 9 && subIndex == 1) { // --------------------------- VISUALIZAR ESTOQUE
+                } else if (index == 10 && subIndex == 1) { // --------------------------- VISUALIZAR ESTOQUE
                     jif_Listagem_DAO jifVis_item = new jif_Listagem_DAO(new ItemDAO(), new jff_Alterar_item(), true);
                     showForm(jifVis_item);
                     jifVis_item.setTitle("VISUALIZAR - ESTOQUE");
                     jifVis_item.setVisible(true);
 
-                } else if (index == 10 && subIndex == 1) { // --------------------------- VISUALIZAR RELATÓRIOS
+                } else if (index == 11 && subIndex == 1) { // --------------------------- VISUALIZAR RELATÓRIOS
                     jif_relatorio jif_rel = new jif_relatorio();
                     showForm(jif_rel);
                     jif_rel.setVisible(true);
 
-                } else if (index == 11 && subIndex == 1) { // --------------------------- VISUALIZAR USUARIO
+                } else if (index == 12 && subIndex == 1) { // --------------------------- VISUALIZAR USUARIO
                     jif_Listagem_DAO jif_listagem_user = new jif_Listagem_DAO(new userDAO(), new jff_Alterar_User());
 
                     jif_listagem_user.setTitle("VISUALIZAR - USUÁRIOS");
                     showForm(jif_listagem_user);
                     jif_listagem_user.setVisible(true);
 
-                } else if (index == 11 && subIndex == 2) { // --------------------------- CADASTRAR USUARIO
+                } else if (index == 12 && subIndex == 2) { // --------------------------- CADASTRAR USUARIO
                     jif_Cadastro_user jif_cad_user = new jif_Cadastro_user();
                     showForm(jif_cad_user);
                     jif_cad_user.setVisible(true);
