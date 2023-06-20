@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import view.Adicionais.jff_Selecionar_adicionais;
+import view.Adicionais.jff_Selecionar_Adicionais;
 
 /**
  *
@@ -907,13 +907,12 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtf_perdaKeyTyped
 
     private void jbt_adicionaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_adicionaisActionPerformed
-        jff_Selecionar_adicionais jff_sel_adicionais;
+        jff_Selecionar_Adicionais jff_sel_adicionais;
         if (this.possuiAdicional) {
-            jff_sel_adicionais = new jff_Selecionar_adicionais(this, this.id_item_selecionado, this.movimentacao_adicionais);
+            jff_sel_adicionais = new jff_Selecionar_Adicionais("", 0);
         } else {
-            jff_sel_adicionais = new jff_Selecionar_adicionais(this, this.id_item_selecionado);
+            jff_sel_adicionais = new jff_Selecionar_Adicionais("", 0);
         }
-        jff_sel_adicionais.setLocationRelativeTo(this);
         jff_sel_adicionais.setVisible(true);
     }//GEN-LAST:event_jbt_adicionaisActionPerformed
 

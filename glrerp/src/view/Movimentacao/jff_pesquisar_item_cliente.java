@@ -5,7 +5,7 @@ import dao.ClienteDAO;
 import dao.ItemDAO;
 import dao.movimentacaoDAO;
 import javax.swing.JOptionPane;
-import view.Adicionais.jff_Selecionar_adicionais;
+import view.Adicionais.jff_Selecionar_Adicionais;
 
 /**
  *
@@ -17,7 +17,7 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
     private int pesquisa_item_cliente; //=2: Pesquisa de cliente. =1: Pesquisa de fornecedor. =3: Pesquisa de item. =4: Pesquisa de adicionais. =5: Pesquisar Pedidos em Aberto. =6: Pesquisar pedidos Produzidos
     private String menuSelecionado; //compra, venda ou producao
     private jif_Cadastro_movimentacao jif_cadastroMovimentacao;
-    private jff_Selecionar_adicionais jff_Selecionar_adicionais;
+    private jff_Selecionar_Adicionais jff_Selecionar_adicionais;
     private String grupoTipo; //Vai vir a String da tela JIF_CADASTRO_MOVIMENTACAO. Se for nova compra retorna ('MATERIA-PRIMA', 'OUTRO', 'FERRAMENTA'). Se for Venda retorna ('PRODUTO ACABADO', 'OUTRO')
 
     public jff_pesquisar_item_cliente(jif_Cadastro_movimentacao tela, String menuSelecionado, int item_cliente, String grupoTipo) {
@@ -62,7 +62,7 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
 
     }
 
-    public jff_pesquisar_item_cliente(jff_Selecionar_adicionais tela, int item_cliente) {
+    public jff_pesquisar_item_cliente(jff_Selecionar_Adicionais tela, int item_cliente) {
         this.pesquisa_item_cliente = item_cliente;
         this.jff_Selecionar_adicionais = tela;
         initComponents();
@@ -232,7 +232,7 @@ public class jff_pesquisar_item_cliente extends javax.swing.JFrame {
             } else if (this.pesquisa_item_cliente == 3) {//ITEM
                 jif_cadastroMovimentacao.NomearItem(this.item_id);
             } else if (this.pesquisa_item_cliente == 4) { //ADICIONAIS
-                jff_Selecionar_adicionais.NomearAdicionais(this.item_id);
+                //jff_Selecionar_Adicionais.NomearAdicionais(this.item_id);
             } else if (this.pesquisa_item_cliente == 5 || this.pesquisa_item_cliente == 6) { //PEDIDO
                 jif_cadastroMovimentacao.NomearPedido(this.item_id);
             }

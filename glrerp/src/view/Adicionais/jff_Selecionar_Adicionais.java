@@ -1,4 +1,4 @@
-package view.Movimentacao;
+package view.Adicionais;
 
 import apoio.CombosDAO;
 import apoio.Formatacao;
@@ -26,13 +26,13 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import view.Loggin;
+import view.Movimentacao.jff_pesquisar_item_cliente;
 
 /**
  *
  * @author ruang
  */
-public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
+public class jff_Selecionar_Adicionais extends javax.swing.JInternalFrame {
 
     private int id_cliente_selecionado; //Variavel que armazena o id do cliente a ser feito a movimentação
     private int id_item_selecionado; //Variavel que armazena o id do item a ser cadastrado na movimentação.
@@ -62,7 +62,7 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     Color buttonRedColor = new Color(153, 0, 0);
     Color buttonGreenColor = new Color(0, 102, 0);
 
-    public jif_Cadastro_movimentacao(String tipoMovimentacao, int user_id) {
+    public jff_Selecionar_Adicionais(String tipoMovimentacao, int user_id) {
         this.tipoMovimentacao = tipoMovimentacao;
         this.user_id = user_id;
         initComponents();
@@ -667,13 +667,13 @@ public class jif_Cadastro_movimentacao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbt_nova_movimentacaoActionPerformed
 
     private void jbt_pesquisar_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_pesquisar_clienteActionPerformed
-        jff_pesquisar_item_cliente jff_pesquisar = new jff_pesquisar_item_cliente(this, this.tipoMovimentacao, this.pesquisar_cliente_item, this.grupoTipo);
+        jff_pesquisar_item_cliente jff_pesquisar = new jff_pesquisar_item_cliente(null, this.tipoMovimentacao, this.pesquisar_cliente_item, this.grupoTipo);
         jff_pesquisar.setVisible(true);
     }//GEN-LAST:event_jbt_pesquisar_clienteActionPerformed
 
     private void jbt_pesquisar_itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_pesquisar_itemActionPerformed
         this.pesquisar_cliente_item = 3;
-        jff_pesquisar_item_cliente jff_pesquisar = new jff_pesquisar_item_cliente(this, this.tipoMovimentacao, this.pesquisar_cliente_item, this.grupoTipo);
+        jff_pesquisar_item_cliente jff_pesquisar = new jff_pesquisar_item_cliente(null, this.tipoMovimentacao, this.pesquisar_cliente_item, this.grupoTipo);
         jff_pesquisar.setVisible(true);
     }//GEN-LAST:event_jbt_pesquisar_itemActionPerformed
 

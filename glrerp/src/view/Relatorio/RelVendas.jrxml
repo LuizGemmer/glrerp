@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Simple_Blue" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="85c9a1fa-362e-4bf4-8cd8-977ff54c9939">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Postgres"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="dataIni" class="java.lang.String"/>
+	<parameter name="dataFim" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT  
+	i.id,
+	i.descricao,
+	sum(m.qtde * m.valor) as total ,
+	sum(m.qtde * m.valor) / sum(m.qtde) as perItem
+FROM movimentacao as m
+right join item as i on m.item_id = i.id
+where 
+	m.tipo = 'venda' and
+	data 
+		between 
+			to_date($P{dataIni}, 'DD/MM/YYYY') and 
+			to_date($P{dataFim}, 'DD/MM/YYYY')
+group by i.id, i.descricao
+order by total desc]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="item"/>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descricao"/>
+		<property name="com.jaspersoft.studio.field.label" value="descricao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="item"/>
+	</field>
+	<field name="total" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total"/>
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
+	</field>
+	<field name="peritem" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="peritem"/>
+		<property name="com.jaspersoft.studio.field.label" value="peritem"/>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="a1afeeed-0815-47c3-9538-ba0f8843a4f1"/>
+				<staticText>
+					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="5d8228b9-f46b-4dc5-92ad-baba4c7cf9e6"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Vendas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="395" y="30" width="180" height="33" forecolor="#FFFFFF" uuid="cdf97f05-451a-4be7-9795-96a9cf8ca6ec"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Relatório de Vendas por item]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="46">
+			<textField>
+				<reportElement x="0" y="10" width="100" height="30" uuid="350a243e-8f38-4203-9a55-69bb38dd874a"/>
+				<textFieldExpression><![CDATA["De: " + $P{dataIni}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="10" width="100" height="30" uuid="e0c155fc-484a-432a-bf62-b992c06409bd"/>
+				<textFieldExpression><![CDATA["Até:  " + $P{dataFim}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="28">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="e9c3f74e-6646-491a-b02a-b71907ad634b"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="1" width="280" height="20" uuid="c348d40a-243f-4b9e-aac5-d1f881011483"/>
+				<text><![CDATA[Item]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="2" width="140" height="20" uuid="dfff1f28-2829-496c-b2b4-04b31f740c02"/>
+				<text><![CDATA[Venda Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="2" width="130" height="20" uuid="39135f25-767f-4cc5-86f6-48b19f8ce74e"/>
+				<text><![CDATA[Valor por Item]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="37">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="14a89290-f782-4d99-937c-81a4d3fb533b"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="2" width="280" height="30" uuid="95bb26c6-9eb6-47aa-b717-e726a7094923"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="2" width="150" height="30" uuid="7f7d501e-236a-4317-b11a-19f8d81974a8"/>
+				<textFieldExpression><![CDATA["R$ " + $F{peritem} ]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="0" width="130" height="30" uuid="628e8f68-597c-4bb9-880a-2f42fc053826"/>
+				<textFieldExpression><![CDATA["R$ " +  $F{peritem}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="275634ee-be1b-4e27-aeb8-2c22877ed3fa"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="dfbfe34d-e43c-4af2-bf32-7c8508b61fd0"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="8914ce47-302c-49c5-87a2-a1a439802160"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

@@ -1,17 +1,54 @@
 
 package view.Relatorio;
 
+import apoio.ConexaoBD;
+import apoio.Formatacao;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.text.MaskFormatter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author gabri
  */
 public class jif_relatorio extends javax.swing.JPanel {
+    HashMap<String, String> reports;
+    private String basePath = "/view/Relatorio/";
 
     /**
      * Creates new form jiif_relatorio
      */
     public jif_relatorio() {
+        this.reports = new HashMap();
+        reports.put("Compras por Item", basePath + "RelCompras.jrxml");
+        reports.put("Vendas por Item", basePath + "RelVendas.jrxml");
+        reports.put("Produção por Item", basePath + "RelProducao.jrxml");
+        reports.put("Lucro do Período", basePath + "RelLucro.jrxml");
+
+        
+        MaskFormatter dateMask1;
+        MaskFormatter dateMask2;
+        try {
+            dateMask1 = new MaskFormatter("##/##/####");
+            dateMask2 = new MaskFormatter("##/##/####");
+        } catch (Exception e) {
+            dateMask1 = null;
+            dateMask2 = null;
+        }
+                
         initComponents();
+        dateMask1.install(dataInicio);
+        dateMask2.install(dataFim);
     }
 
     /**
@@ -23,180 +60,108 @@ public class jif_relatorio extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtb_relatiorio = new javax.swing.JTable();
-        jbt_estrutura = new javax.swing.JButton();
-        jbt_item = new javax.swing.JButton();
-        jbt_grupo1 = new javax.swing.JButton();
-        jbt_estoque = new javax.swing.JButton();
-        jbt_cliente = new javax.swing.JButton();
-        jbt_fornecedor = new javax.swing.JButton();
-        jbt_usuario = new javax.swing.JButton();
+        reportSelector = new javax.swing.JComboBox<>();
+        reportRun = new javax.swing.JButton();
+        paneParameters = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        dataInicio = new javax.swing.JFormattedTextField();
+        jLabel2 = new javax.swing.JLabel();
+        dataFim = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(238, 238, 238));
         setForeground(new java.awt.Color(0, 0, 0));
+        setLayout(new java.awt.BorderLayout());
 
-        jtb_relatiorio.setBackground(new java.awt.Color(250, 250, 250));
-        jtb_relatiorio.setForeground(new java.awt.Color(51, 51, 51));
-        jtb_relatiorio.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jtb_relatiorio.setRowHeight(25);
-        jtb_relatiorio.setSelectionBackground(new java.awt.Color(13, 71, 161));
-        jtb_relatiorio.setSelectionForeground(new java.awt.Color(250, 250, 250));
-        jtb_relatiorio.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jtb_relatiorio.setShowHorizontalLines(true);
-        jScrollPane1.setViewportView(jtb_relatiorio);
-
-        jbt_estrutura.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_estrutura.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_estrutura.setText("ESTRUTURA");
-        jbt_estrutura.addActionListener(new java.awt.event.ActionListener() {
+        reportSelector.setBackground(new java.awt.Color(238, 238, 238));
+        reportSelector.setForeground(new java.awt.Color(0, 0, 0));
+        reportSelector.setModel(new javax.swing.DefaultComboBoxModel<Object>(this.reports.keySet().toArray()));
+        reportSelector.setMinimumSize(new java.awt.Dimension(300, 50));
+        reportSelector.setPreferredSize(new java.awt.Dimension(300, 50));
+        reportSelector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_estruturaActionPerformed(evt);
+                reportSelectorActionPerformed(evt);
             }
         });
+        add(reportSelector, java.awt.BorderLayout.PAGE_START);
 
-        jbt_item.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_item.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_item.setText("ITEM");
-        jbt_item.addActionListener(new java.awt.event.ActionListener() {
+        reportRun.setBackground(new java.awt.Color(13, 71, 161));
+        reportRun.setForeground(new java.awt.Color(255, 255, 255));
+        reportRun.setText("Gerar");
+        reportRun.setMaximumSize(new java.awt.Dimension(72, 50));
+        reportRun.setMinimumSize(new java.awt.Dimension(72, 50));
+        reportRun.setPreferredSize(new java.awt.Dimension(72, 50));
+        reportRun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_itemActionPerformed(evt);
+                reportRunActionPerformed(evt);
             }
         });
+        add(reportRun, java.awt.BorderLayout.PAGE_END);
 
-        jbt_grupo1.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_grupo1.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_grupo1.setText("GRUPO");
-        jbt_grupo1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_grupo1ActionPerformed(evt);
-            }
-        });
+        paneParameters.setBackground(new java.awt.Color(255, 255, 255));
 
-        jbt_estoque.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_estoque.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_estoque.setText("ESTOQUE");
-        jbt_estoque.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_estoqueActionPerformed(evt);
-            }
-        });
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 50));
+        jPanel1.setLayout(new java.awt.GridLayout());
 
-        jbt_cliente.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_cliente.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_cliente.setText("CLIENTE");
-        jbt_cliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_clienteActionPerformed(evt);
-            }
-        });
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("De");
+        jPanel1.add(jLabel1);
 
-        jbt_fornecedor.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_fornecedor.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_fornecedor.setText("FORNECEDOR");
+        dataInicio.setBackground(new java.awt.Color(238, 238, 238));
+        dataInicio.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(dataInicio);
 
-        jbt_usuario.setBackground(new java.awt.Color(13, 71, 161));
-        jbt_usuario.setForeground(new java.awt.Color(255, 255, 255));
-        jbt_usuario.setText("USUARIO");
-        jbt_usuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbt_usuarioActionPerformed(evt);
-            }
-        });
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Até");
+        jPanel1.add(jLabel2);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(131, 131, 131)
-                                .addComponent(jbt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbt_grupo1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbt_estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jbt_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbt_fornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbt_item, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbt_estrutura, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 903, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbt_fornecedor)
-                    .addComponent(jbt_item)
-                    .addComponent(jbt_estrutura)
-                    .addComponent(jbt_cliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbt_estoque)
-                    .addComponent(jbt_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbt_grupo1))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
-        );
+        dataFim.setBackground(new java.awt.Color(238, 238, 238));
+        jPanel1.add(dataFim);
+
+        paneParameters.add(jPanel1);
+
+        add(paneParameters, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbt_estruturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_estruturaActionPerformed
+    private void reportSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportSelectorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbt_estruturaActionPerformed
+    }//GEN-LAST:event_reportSelectorActionPerformed
 
-    private void jbt_itemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_itemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbt_itemActionPerformed
-
-    private void jbt_grupo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_grupo1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbt_grupo1ActionPerformed
-
-    private void jbt_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_estoqueActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbt_estoqueActionPerformed
-
-    private void jbt_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_clienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbt_clienteActionPerformed
-
-    private void jbt_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_usuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbt_usuarioActionPerformed
+    private void reportRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportRunActionPerformed
+        try {
+            String selectedReport = reports.get((String) reportSelector.getSelectedItem());
+            InputStream inputStream = getClass().getResourceAsStream(selectedReport);
+            JasperReport report = JasperCompileManager.compileReport(inputStream);
+            
+            Map params = new HashMap<>();
+            params.put("dataIni", dataInicio.getText());
+            params.put("dataFim", dataFim.getText());
+            
+            JasperPrint print = JasperFillManager.fillReport(
+                    report, 
+                    params, 
+                    ConexaoBD.getInstance().getConnection()
+            );
+            
+            JasperViewer.viewReport(print, false);
+        } catch (JRException ex) {
+            Logger.getLogger(jif_relatorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_reportRunActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jbt_cliente;
-    private javax.swing.JButton jbt_estoque;
-    private javax.swing.JButton jbt_estrutura;
-    private javax.swing.JButton jbt_fornecedor;
-    private javax.swing.JButton jbt_grupo1;
-    private javax.swing.JButton jbt_item;
-    private javax.swing.JButton jbt_usuario;
-    private javax.swing.JTable jtb_relatiorio;
+    private javax.swing.JFormattedTextField dataFim;
+    private javax.swing.JFormattedTextField dataInicio;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel paneParameters;
+    private javax.swing.JButton reportRun;
+    private javax.swing.JComboBox<Object> reportSelector;
     // End of variables declaration//GEN-END:variables
 }
