@@ -1,7 +1,6 @@
 package view.Usuario;
 
 import apoio.BCryptEncryption;
-import static apoio.BCryptEncryption.encryptPassword;
 import apoio.Validacao;
 import dao.userDAO;
 import entidade.User;

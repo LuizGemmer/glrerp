@@ -2,9 +2,7 @@
 package view.Relatorio;
 
 import apoio.ConexaoBD;
-import apoio.Formatacao;
 import java.io.InputStream;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
